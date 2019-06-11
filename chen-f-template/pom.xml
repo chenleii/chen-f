@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>chen-f</artifactId>
+        <version>0.0.1</version>
+    </parent>
+    <groupId>com.chen</groupId>
+    <artifactId>chen-f-template</artifactId>
+    <version>${project.parent.version}</version>
+    <packaging>jar</packaging>
+    <name>chen-f-template</name>
+    <description>chen-f 模板</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>chen-f-spring-boot-starter</artifactId>
+            <version>${project.parent.version}</version>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.chen</groupId>-->
+                    <!--<artifactId>chen-f-admin</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- mybatis-plus 生成代码使用的模板 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>chen-f-template</finalName>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                    <include>META-INF/*</include>
+                </includes>
+                <!-- 资源根目录排除各环境的配置，防止在生成目录中多余其它目录 -->
+                <excludes>
+                    <exclude>beta/**</exclude>
+                    <exclude>release/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources/${profiles.active}</directory>
+            </resource>
+
+            <resource>
+                <directory>${basedir}/src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <!--测试环境-->
+            <id>beta</id>
+            <properties>
+                <profiles.active>beta</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+
+            </dependencies>
+        </profile>
+
+        <profile>
+            <!--发布环境-->
+            <id>release</id>
+            <properties>
+                <profiles.active>release</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
