@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class DynamicDataSourceHolder {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceHolder.class);
 
-    private static final ThreadLocal<LinkedBlockingQueue<String>> THREAD_LOCAL_DATA_SOURCE_KEY = new ThreadLocal<LinkedBlockingQueue<String>>() {
+    private static final ThreadLocal<LinkedBlockingQueue<String>> THREAD_LOCAL_DATA_SOURCE_KEY = new InheritableThreadLocal<LinkedBlockingQueue<String>>() {
         @Override
         protected LinkedBlockingQueue<String> initialValue() {
             return new LinkedBlockingQueue<>();
