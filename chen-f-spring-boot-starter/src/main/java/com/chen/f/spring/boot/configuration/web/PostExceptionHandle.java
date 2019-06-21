@@ -5,7 +5,6 @@ import com.chen.f.core.api.response.error.basic.BasicErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author chen
  * @since 2019/1/10 12:03.
  */
-@ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class PostExceptionHandle extends AbstractExceptionHandle {
 

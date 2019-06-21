@@ -1,10 +1,9 @@
-package com.chen.f.spring.boot.configuration.web;
+package com.chen.f.spring.boot.configuration.springsecurity;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author chen
  * @since 2019/1/18 15:09.
  */
-@ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SpringSecurityExceptionHandle {
 

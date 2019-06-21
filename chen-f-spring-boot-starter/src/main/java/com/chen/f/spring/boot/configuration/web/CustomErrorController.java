@@ -32,7 +32,7 @@ import java.util.Map;
  * @author chen
  * @since 2019/1/10 14:07.
  */
-@Api(tags = "自定义错误接口")
+@Api(tags = "错误接口")
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomErrorController extends BasicErrorController {

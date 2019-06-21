@@ -1,6 +1,5 @@
 package com.chen.f.spring.boot.autoconfigure.web;
 
-import com.chen.f.spring.boot.configuration.web.AbstractExceptionHandle;
 import com.chen.f.spring.boot.configuration.web.CustomErrorController;
 import com.chen.f.spring.boot.configuration.web.PostExceptionHandle;
 import com.chen.f.spring.boot.configuration.web.PreExceptionHandle;
@@ -97,7 +96,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    @ConditionalOnMissingBean(value = AbstractExceptionHandle.class)
+    @ConditionalOnMissingBean(value = PreExceptionHandle.class)
     public PreExceptionHandle preExceptionHandle(ServerProperties serverProperties) {
         PreExceptionHandle preExceptionHandle = new PreExceptionHandle();
         preExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeStacktrace.ALWAYS);
@@ -105,7 +104,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    //@ConditionalOnMissingBean(value = AbstractExceptionHandle.class)
+    @ConditionalOnMissingBean(value = PostExceptionHandle.class)
     public PostExceptionHandle postExceptionHandle(ServerProperties serverProperties) {
         PostExceptionHandle postExceptionHandle = new PostExceptionHandle();
         postExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeStacktrace.ALWAYS);
