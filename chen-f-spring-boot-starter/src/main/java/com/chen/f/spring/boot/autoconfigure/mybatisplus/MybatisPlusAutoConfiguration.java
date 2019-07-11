@@ -21,12 +21,11 @@ import javax.sql.DataSource;
  * @since 2018/2/2 14:26.
  */
 @Configuration
-@ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class})
+@ConditionalOnClass({MybatisPlusAutoConfiguration.class, SqlSessionFactory.class, SqlSessionFactoryBean.class})
 @ConditionalOnSingleCandidate(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @AutoConfigureBefore(com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration.class)
 public class MybatisPlusAutoConfiguration {
-
 
 
     /**
