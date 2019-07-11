@@ -10,7 +10,6 @@
         <result column="USER_REMARK" property="remark"/>
         <result column="USER_STATUS" property="status"/>
         <result column="USER_LEVEL" property="level"/>
-        <result column="USER_VERSION" property="version"/>
         <result column="USER_DELETED" property="deleted"/>
         <result column="USER_LAST_LOGIN_DATE_TIME" property="lastLoginDateTime"/>
         <result column="USER_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
@@ -24,7 +23,6 @@
             <result column="ROLE_NAME" property="name"/>
             <result column="ROLE_REMARK" property="remark"/>
             <result column="ROLE_STATUS" property="status"/>
-            <result column="ROLE_VERSION" property="version"/>
             <result column="ROLE_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
             <result column="ROLE_CREATE_SYS_USER_ID" property="createSysUserId"/>
             <result column="ROLE_UPDATE_DATE_TIME" property="updateDateTime"/>
@@ -35,7 +33,6 @@
                 <result column="PERMISSION_NAME" property="name"/>
                 <result column="PERMISSION_REMARK" property="remark"/>
                 <result column="PERMISSION_STATUS" property="status"/>
-                <result column="PERMISSION_VERSION" property="version"/>
                 <result column="PERMISSION_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
                 <result column="PERMISSION_CREATE_SYS_USER_ID" property="createSysUserId"/>
                 <result column="PERMISSION_UPDATE_DATE_TIME" property="updateDateTime"/>
@@ -53,7 +50,6 @@
             USER.REMARK                     USER_REMARK,
             USER.STATUS                     USER_STATUS,
             USER.LEVEL                      USER_LEVEL,
-            USER.VERSION                    USER_VERSION,
             USER.DELETED                    USER_DELETED,
             USER.LAST_LOGIN_DATE_TIME       USER_LAST_LOGIN_DATE_TIME,
             USER.UPDATE_SYS_USER_ID         USER_UPDATE_SYS_USER_ID,
@@ -63,7 +59,6 @@
             ROLE.ID                         ROLE_ID,
             ROLE.NAME                       ROLE_NAME,
             ROLE.REMARK                     ROLE_REMARK,
-            ROLE.VERSION                    ROLE_VERSION,
             ROLE.STATUS                     ROLE_STATUS,
             ROLE.UPDATE_SYS_USER_ID         ROLE_UPDATE_SYS_USER_ID,
             ROLE.CREATE_SYS_USER_ID         ROLE_CREATE_SYS_USER_ID,
@@ -72,7 +67,6 @@
             PERMISSION.ID                   PERMISSION_ID,
             PERMISSION.NAME                 PERMISSION_NAME,
             PERMISSION.REMARK               PERMISSION_REMARK,
-            PERMISSION.VERSION              PERMISSION_VERSION,
             PERMISSION.STATUS               PERMISSION_STATUS,
             PERMISSION.UPDATE_SYS_USER_ID   PERMISSION_UPDATE_SYS_USER_ID,
             PERMISSION.CREATE_SYS_USER_ID   PERMISSION_CREATE_SYS_USER_ID,

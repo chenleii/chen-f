@@ -11,19 +11,23 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum ExecutionStatusEnum {
 
+    //未执行
+    NON("NON", "未执行"),
+    //执行中
+    EXECUTING("EXECUTING", "执行中"),
     //成功
     SUCCESS("SUCCESS", "成功"),
-    //异常
-    EXCEPTION("EXCEPTION", "异常"),
     //失败
     FAILURE("FAILURE", "失败"),
-    //未执行
-    NON_EXECUTION("NON_EXECUTION", "未执行"),
+    //异常
+    EXCEPTION("EXCEPTION", "异常"),
+    //执行拒绝
+    REJECTION("REJECTION", "执行拒绝"),
 
     ;
 
     /**
-     * 执行状态(SUCCESS:执行成功;EXCEPTION:执行异常;FAILURE:执行失败;NON_EXECUTION;未执行(被否决);)
+     * 执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)
      */
     @JsonValue
     @EnumValue

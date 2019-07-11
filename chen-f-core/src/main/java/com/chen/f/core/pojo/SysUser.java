@@ -57,10 +57,6 @@ public class SysUser extends Model<SysUser> {
     @TableField("LEVEL")
     private Integer level;
 
-    @ApiModelProperty(value = "乐观锁")
-    @TableField("VERSION")
-    private Integer version;
-
     @ApiModelProperty(value = "是否删除(1:已删除;0未删除;)")
     @TableField("DELETED")
     private Boolean deleted;

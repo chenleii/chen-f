@@ -10,7 +10,6 @@
         <result column="TYPE" property="type" />
         <result column="REMARK" property="remark" />
         <result column="STATUS" property="status" />
-        <result column="VERSION" property="version" />
         <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
         <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
         <result column="UPDATE_DATE_TIME" property="updateDateTime" />
@@ -19,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        CODE, NAME, VALUE, TYPE, REMARK, STATUS, VERSION, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        CODE, NAME, VALUE, TYPE, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
     </sql>
 
 </mapper>

@@ -58,7 +58,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setName(sysTimedTask.getName());
         sysTimedTaskLog.setCronExpression(sysTimedTask.getCronExpression());
         sysTimedTaskLog.setType(sysTimedTask.getType());
-        sysTimedTaskLog.setExecutionStatus(ExecutionStatusEnum.NON_EXECUTION);
+        sysTimedTaskLog.setExecutionStatus(ExecutionStatusEnum.REJECTION);
         sysTimedTaskLog.setRemark("任务被否决");
         sysTimedTaskLog.setExecutionStartDateTime(startLocalDateTime);
         sysTimedTaskLog.setExecutionEndDateTime(endLocalDateTime);

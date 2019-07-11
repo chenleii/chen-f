@@ -10,7 +10,6 @@
         <result column="REMARK" property="remark" />
         <result column="STATUS" property="status" />
         <result column="LEVEL" property="level" />
-        <result column="VERSION" property="version" />
         <result column="DELETED" property="deleted" />
         <result column="LAST_LOGIN_DATE_TIME" property="lastLoginDateTime" />
         <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
@@ -21,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, USERNAME, PASSWORD, REMARK, STATUS, LEVEL, VERSION, DELETED, LAST_LOGIN_DATE_TIME, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        ID, USERNAME, PASSWORD, REMARK, STATUS, `LEVEL`, DELETED, LAST_LOGIN_DATE_TIME, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
     </sql>
 
 </mapper>

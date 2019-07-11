@@ -48,10 +48,6 @@ public class SysRole extends Model<SysRole> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "乐观锁")
-    @TableField("VERSION")
-    private Integer version;
-
     @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;

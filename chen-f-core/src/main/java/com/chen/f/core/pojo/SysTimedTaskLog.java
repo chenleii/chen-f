@@ -53,7 +53,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
     @TableField("TYPE")
     private SysTimedTaskTypeEnum type;
 
-    @ApiModelProperty(value = "执行状态(SUCCESS:执行成功;EXCEPTION:执行异常;FAILURE:执行失败;NON_EXECUTION;未执行(被否决);)")
+    @ApiModelProperty(value = "执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)")
     @TableField("EXECUTION_STATUS")
     private ExecutionStatusEnum executionStatus;
 
