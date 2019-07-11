@@ -14,6 +14,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.wall.WallFilter;
 import com.chen.f.core.datasource.DynamicDataSource;
 import com.chen.f.core.datasource.aop.DynamicDataSourceSwitchAspect;
+import com.chen.f.spring.boot.autoconfigure.datasource.exception.DynamicDataSourceBeanCreationException;
 import com.chen.f.spring.boot.autoconfigure.datasource.properties.DynamicDataSourceProperties;
 import com.p6spy.engine.spy.P6DataSource;
 import org.slf4j.Logger;
@@ -119,8 +120,7 @@ public class DataSourceAutoConfiguration {
                 // 初始化数据源
                 druidDataSource.init();
             } catch (SQLException e) {
-                logger.error("druid数据源初始化失败", e);
-                throw new RuntimeException("druid数据源初始化失败", e);
+                throw new DynamicDataSourceBeanCreationException("druid data source init exception", e);
             }
             dynamicDataSource.addDataSource(druidDataSourceName, druidDataSource);
         }
