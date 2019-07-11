@@ -18,17 +18,14 @@ package com.chen.f.spring.boot.mybatis;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import java.sql.CallableStatement;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 /**
  * @since 3.4.5
  * @author Tomas Rohovsky
  */
+//@MappedTypes(LocalDate.class)
 public class LocalDateTypeHandler extends BaseTypeHandler<LocalDate> {
 
   @Override
