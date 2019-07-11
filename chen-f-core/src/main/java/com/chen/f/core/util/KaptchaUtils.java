@@ -49,10 +49,9 @@ public class KaptchaUtils {
 
     public static boolean generateCaptchaImageAndWriteOutputStream(final String captchaText, OutputStream outputStream) {
         BufferedImage image = producer.createImage(captchaText);
-        try {
-            return ImageIO.write(image, "PNG", outputStream);
+        try (OutputStream outputStream1 = outputStream){
+            return ImageIO.write(image, "PNG", outputStream1);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
