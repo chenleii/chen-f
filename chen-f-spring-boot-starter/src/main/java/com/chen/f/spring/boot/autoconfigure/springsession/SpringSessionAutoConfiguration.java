@@ -11,6 +11,8 @@ import org.springframework.session.web.http.CookieHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 
 /**
+ * 默认开启redis http session
+ *
  * @author chen
  * @since 2017/12/20 8:41.
  */

@@ -15,6 +15,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
+ * 默认的 Swagger2 配置
+ *
  * @author chen
  * @since 2017/12/19 13:05.
  */

@@ -16,6 +16,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
+ * 修改redis序列化方式
+ *
  * @author chen
  * @date 2018/10/20 16:27.
  */
