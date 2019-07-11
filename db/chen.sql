@@ -1,7 +1,6 @@
 /*
 
 */
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -36,7 +35,6 @@ CREATE TABLE `SYS_DICT` (
   `COLOR` varchar(10) NOT NULL DEFAULT '' COMMENT '颜色值(冗余字段用户前端展示,需要保证前端可用(success,processing,default,error,warning)(geekblue,blue,purple,success,red,volcano,orange,gold,lime,green,cyan)(#f50,#ff0)预设和色值',
   `TYPE` varchar(10) NOT NULL DEFAULT 'STRING' COMMENT '字典值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '状态(ENABLED:启用;DISABLE:禁用;)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
   `UPDATE_DATE_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -76,7 +74,6 @@ CREATE TABLE `SYS_PARAMETER` (
   `TYPE` varchar(10) NOT NULL DEFAULT 'SYSTEM' COMMENT '参数类型(SYSTEM:系统关键参数)',
   `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '状态(ENABLED:启用;DISABLE:禁用;)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
   `UPDATE_DATE_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -93,7 +90,6 @@ CREATE TABLE `SYS_PERMISSION` (
   `NAME` varchar(30) NOT NULL COMMENT '权限名称',
   `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '状态(ENABLED:启用;DISABLE:禁用;)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
   `UPDATE_DATE_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -122,7 +118,6 @@ CREATE TABLE `SYS_ROLE` (
   `NAME` varchar(30) NOT NULL COMMENT '角色名称',
   `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '状态(ENABLED:启用;DISABLE:禁用;)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
   `UPDATE_DATE_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -179,7 +174,6 @@ CREATE TABLE `SYS_TIMED_TASK` (
   `TYPE` varchar(10) NOT NULL DEFAULT 'SYSTEM' COMMENT '定时任务类型(SYSTEM:系统定时任务)',
   `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '状态(ENABLED:启用;DISABLE:禁用;)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
   `UPDATE_DATE_TIME` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -197,7 +191,7 @@ CREATE TABLE `SYS_TIMED_TASK_LOG` (
   `NAME` varchar(100) NOT NULL COMMENT '任务名称',
   `CRON_EXPRESSION` varchar(30) NOT NULL COMMENT 'corn表达式',
   `TYPE` varchar(10) NOT NULL DEFAULT 'SYSTEM' COMMENT '定时任务类型(SYSTEM:系统定时任务)',
-  `EXECUTION_STATUS` varchar(10) NOT NULL COMMENT '执行状态(SUCCESS:执行成功;EXCEPTION:执行异常;FAILURE:执行失败;NON_EXECUTION;未执行(被否决);)',
+  `EXECUTION_STATUS` varchar(10) NOT NULL COMMENT '执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)',
   `EXCEPTION_MESSAGE` varchar(256) NOT NULL DEFAULT '' COMMENT '异常信息',
   `EXECUTION_START_DATE_TIME` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '执行开始时间',
   `EXECUTION_END_DATE_TIME` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '执行结束时间',
@@ -219,8 +213,7 @@ CREATE TABLE `SYS_USER` (
   `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `STATUS` varchar(10) NOT NULL DEFAULT 'ENABLED' COMMENT '用户状态(ENABLED:启用;LOCKED:锁定;EXPIRED:过期;DISABLE:禁用;)',
   `LEVEL` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '级别(0:超级用户;1.数值越小级别越大,2.低级别用户不能修改比自己高级别的用户,3.新创建用户的级别默认比创建用户低一级别,4.高级别用户最高可以修改低级别用户为和自己同一级别)',
-  `VERSION` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `DELETED` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除(1:已删除;0未删除;)',
+  `DELETED` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除(1:已删除;0未删除;)',
   `LAST_LOGIN_DATE_TIME` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '最后登录时间',
   `UPDATE_SYS_USER_ID` varchar(64) NOT NULL DEFAULT '' COMMENT '更新系统用户id(''为初始化创建)',
   `CREATE_SYS_USER_ID` varchar(64) NOT NULL COMMENT '创建系统用户id(''为初始化创建)',
