@@ -1,14 +1,11 @@
 package com.chen.f.core.helper;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.chen.f.core.mapper.SysParameterMapper;
 import com.chen.f.core.pojo.SysParameter;
-import com.chen.f.core.pojo.enums.StatusEnum;
+import com.chen.f.core.service.ISysParameterService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,12 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SysParameterHelper {
     protected static final Logger logger = LoggerFactory.getLogger(SysParameterHelper.class);
 
-    private static Map<String, SysParameter> sysParameterMap;
+    /**
+     * 系统参数缓存
+     */
+    private static final Map<String, SysParameter> sysParameterMap = new ConcurrentHashMap<>();
 
-    private final SysParameterMapper sysParameterMapper;
+    private final ISysParameterService sysParameterService;
 
-    public SysParameterHelper(SysParameterMapper sysParameterMapper) {
-        this.sysParameterMapper = sysParameterMapper;
+    public SysParameterHelper(ISysParameterService sysParameterService) {
+        this.sysParameterService = sysParameterService;
     }
 
     /**
@@ -35,15 +35,14 @@ public class SysParameterHelper {
      */
     public void init() {
         logger.debug("系统参数初始化");
-        List<SysParameter> sysParameterList = sysParameterMapper.selectList(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getStatus, StatusEnum.ENABLED));
-
-        if (CollectionUtils.isNotEmpty(sysParameterList)) {
-            logger.debug("获取了 {} 条系统参数", sysParameterList.size());
-            sysParameterMap = new ConcurrentHashMap<>(sysParameterList.size());
-            sysParameterList.forEach((sysParameter -> sysParameterMap.put(sysParameter.getCode(), sysParameter)));
+        List<SysParameter> allEnabledSysParameterList = sysParameterService.getAllEnabledSysParameterList();
+        //清空缓存
+        sysParameterMap.clear();
+        if (CollectionUtils.isNotEmpty(allEnabledSysParameterList)) {
+            logger.debug("获取了 {} 条系统参数", allEnabledSysParameterList.size());
+            allEnabledSysParameterList.forEach((sysParameter -> sysParameterMap.put(sysParameter.getCode(), sysParameter)));
         } else {
             logger.debug("获取了 0 条系统参数");
-            sysParameterMap = Collections.emptyMap();
         }
         logger.debug("系统参数初始化结束");
     }

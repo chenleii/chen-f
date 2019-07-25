@@ -1,9 +1,6 @@
 package com.chen.f.core.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.chen.f.core.pojo.enums.SysUserStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -56,10 +53,6 @@ public class SysUser extends Model<SysUser> {
     @ApiModelProperty(value = "级别(0:超级用户;1.数值越小级别越大,2.低级别用户不能修改比自己高级别的用户,3.新创建用户的级别默认比创建用户低一级别,4.高级别用户最高可以修改低级别用户为和自己同一级别)")
     @TableField("LEVEL")
     private Integer level;
-
-    @ApiModelProperty(value = "是否删除(1:已删除;0未删除;)")
-    @TableField("DELETED")
-    private Boolean deleted;
 
     @ApiModelProperty(value = "最后登录时间")
     @TableField("LAST_LOGIN_DATE_TIME")

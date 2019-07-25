@@ -10,7 +10,6 @@
         <result column="USER_REMARK" property="remark"/>
         <result column="USER_STATUS" property="status"/>
         <result column="USER_LEVEL" property="level"/>
-        <result column="USER_DELETED" property="deleted"/>
         <result column="USER_LAST_LOGIN_DATE_TIME" property="lastLoginDateTime"/>
         <result column="USER_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
         <result column="USER_CREATE_SYS_USER_ID" property="createSysUserId"/>
@@ -50,7 +49,6 @@
             USER.REMARK                     USER_REMARK,
             USER.STATUS                     USER_STATUS,
             USER.LEVEL                      USER_LEVEL,
-            USER.DELETED                    USER_DELETED,
             USER.LAST_LOGIN_DATE_TIME       USER_LAST_LOGIN_DATE_TIME,
             USER.UPDATE_SYS_USER_ID         USER_UPDATE_SYS_USER_ID,
             USER.CREATE_SYS_USER_ID         USER_CREATE_SYS_USER_ID,
