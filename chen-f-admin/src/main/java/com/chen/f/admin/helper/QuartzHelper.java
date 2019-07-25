@@ -43,12 +43,11 @@ public class QuartzHelper {
     @PostConstruct
     public void init() {
         logger.debug("配置定时任务开始...");
-        List<SysTimedTask> sysTimedTaskList = sysTimedTaskMapper.selectList(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getStatus, StatusEnum.ENABLED));
+        List<SysTimedTask> enabledSysTimedTaskList = sysTimedTaskMapper.selectList(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getStatus, StatusEnum.ENABLED));
 
-        if (CollectionUtils.isNotEmpty(sysTimedTaskList)) {
-            logger.debug("查询出 {} 条定时任务", sysTimedTaskList.size());
-            sysTimedTaskList
-                    .forEach((sysTimedTask -> {
+        if (CollectionUtils.isNotEmpty(enabledSysTimedTaskList)) {
+            logger.debug("查询出 {} 条定时任务", enabledSysTimedTaskList.size());
+            enabledSysTimedTaskList.forEach((sysTimedTask -> {
                         try {
                             Class<?> jobClass = Class.forName(sysTimedTask.getClassName());
                             if (!Job.class.isAssignableFrom(jobClass)) {
