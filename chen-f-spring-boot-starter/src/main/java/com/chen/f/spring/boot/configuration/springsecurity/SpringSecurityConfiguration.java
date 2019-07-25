@@ -5,8 +5,8 @@ import com.chen.f.core.mapper.SysPermissionMapper;
 import com.chen.f.core.mapper.SysRoleMapper;
 import com.chen.f.core.mapper.SysUserMapper;
 import com.chen.f.core.mapper.SysUserRolePermissionMapper;
-import com.chen.f.admin.security.DefaultUserDetailsService;
-import com.chen.f.spring.boot.configuration.web.SpringSecurityExceptionHandle;
+import com.chen.f.spring.boot.configuration.springsecurity.exceptionhandle.SpringSecurityExceptionHandle;
+import com.chen.f.spring.boot.configuration.springsecurity.service.DefaultUserDetailsService;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,6 +18,7 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,11 +26,13 @@ import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 /**
+ * spring security配置
  *
  * @author chen
  * @date 2018/10/22 19:43.
  */
 @Configuration
+@ConditionalOnClass({WebSecurityConfigurerAdapter.class, GlobalMethodSecurityConfiguration.class})
 @AutoConfigureAfter({MybatisPlusAutoConfiguration.class, SessionAutoConfiguration.class})
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, proxyTargetClass = true)
 public class SpringSecurityConfiguration extends GlobalMethodSecurityConfiguration {

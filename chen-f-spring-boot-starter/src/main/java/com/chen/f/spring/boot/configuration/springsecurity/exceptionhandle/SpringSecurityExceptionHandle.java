@@ -1,4 +1,4 @@
-package com.chen.f.spring.boot.configuration.springsecurity;
+package com.chen.f.spring.boot.configuration.springsecurity.exceptionhandle;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

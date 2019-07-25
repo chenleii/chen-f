@@ -2,9 +2,9 @@ package com.chen.f.spring.boot.configuration.springsecurity;
 
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.admin.security.SpringSecurityHandle;
-import com.chen.f.admin.security.filter.CustomLoginAuthenticationFilter;
-import com.chen.f.admin.security.provider.CustomLoginAuthenticationProvider;
+import com.chen.f.spring.boot.configuration.springsecurity.filter.CustomLoginAuthenticationFilter;
+import com.chen.f.spring.boot.configuration.springsecurity.provider.CustomLoginAuthenticationProvider;
+import com.chen.f.spring.boot.configuration.springsecurity.webhandle.SpringSecurityHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -33,6 +33,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 /**
+ * web spring security配置
+ *
  * @author chen
  * @date 2018/10/22 12:04.
  */
@@ -42,13 +44,13 @@ import java.util.Arrays;
 @AutoConfigureAfter({MybatisPlusAutoConfiguration.class, SpringSecurityConfiguration.class,})
 @ConditionalOnBean({UserDetailsService.class, SessionRegistry.class})
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final SessionRegistry sessionRegistry;
 
     @Autowired
-    public WebSecurityConfiguration(UserDetailsService userDetailsService, SessionRegistry sessionRegistry) {
+    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService, SessionRegistry sessionRegistry) {
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
     }
@@ -66,7 +68,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable();
 
-        //获取单例的权限注册器
         http.authorizeRequests()
                 .antMatchers("/test/t11").permitAll()
                 .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
@@ -77,13 +78,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").authenticated()
                 .antMatchers("/login").not().authenticated()
 
+
                 .and()
-                //设置登陆页面及不需要授权设置
-                //.formLogin().authenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle)
-                //.loginProcessingUrl("/login").successHandler(SpringSecurityHandle::authenticationSuccessHandle).permitAll()
+
+                //设置登陆页面相关(不使用默认登陆过滤器)
+                .formLogin().authenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle)
+                .loginProcessingUrl("/login").successHandler(SpringSecurityHandle::authenticationSuccessHandle).permitAll()
                 //.failureForwardUrl("/error").failureHandler(SpringSecurityHandle::authenticationFailureHandle).permitAll()
-                //.and()
-                //设置登出页面及不需要授权
+                .and()
+                //设置登出相关
                 .logout().logoutUrl("/logout").logoutSuccessHandler(SpringSecurityHandle::logoutSuccessHandle).permitAll();
 
         //添加自定义登录验证

@@ -1,4 +1,4 @@
-package com.chen.f.admin.security.exception;
+package com.chen.f.spring.boot.configuration.springsecurity.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

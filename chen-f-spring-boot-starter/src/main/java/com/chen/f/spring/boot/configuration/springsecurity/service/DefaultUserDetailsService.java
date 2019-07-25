@@ -1,6 +1,7 @@
-package com.chen.f.admin.security;
+package com.chen.f.spring.boot.configuration.springsecurity.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.chen.f.admin.security.SecurityUser;
 import com.chen.f.core.mapper.SysPermissionMapper;
 import com.chen.f.core.mapper.SysRoleMapper;
 import com.chen.f.core.mapper.SysUserMapper;

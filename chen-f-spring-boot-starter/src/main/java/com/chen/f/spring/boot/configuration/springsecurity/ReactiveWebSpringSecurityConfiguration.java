@@ -1,6 +1,7 @@
 package com.chen.f.spring.boot.configuration.springsecurity;
 
 /**
+ * reactive web spring security 配置
  * @author chen
  * @date 2018/10/27 11:57.
  */
@@ -9,7 +10,7 @@ package com.chen.f.spring.boot.configuration.springsecurity;
 //@AutoConfigureAfter({WebSecurityConfiguration.class})
 //@EnableWebFluxSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, proxyTargetClass = true)
-public class ReactiveWebSecurityConfiguration {
+public class ReactiveWebSpringSecurityConfiguration {
 
 
     //@Autowired

@@ -1,6 +1,6 @@
-package com.chen.f.admin.security.filter;
+package com.chen.f.spring.boot.configuration.springsecurity.filter;
 
-import com.chen.f.admin.security.token.CustomLoginAuthenticationToken;
+import com.chen.f.spring.boot.configuration.springsecurity.token.CustomLoginAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

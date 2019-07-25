@@ -1,8 +1,8 @@
-package com.chen.f.admin.security.provider;
+package com.chen.f.spring.boot.configuration.springsecurity.provider;
 
 import com.chen.f.admin.security.CustomWebAuthenticationDetails;
-import com.chen.f.admin.security.exception.CaptchaException;
-import com.chen.f.admin.security.token.CustomLoginAuthenticationToken;
+import com.chen.f.spring.boot.configuration.springsecurity.exception.CaptchaException;
+import com.chen.f.spring.boot.configuration.springsecurity.token.CustomLoginAuthenticationToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;

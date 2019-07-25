@@ -1,9 +1,9 @@
 package com.chen.f.spring.boot.configuration;
 
 import com.chen.f.spring.boot.configuration.quartz.QuartzConfiguration;
-import com.chen.f.spring.boot.configuration.springsecurity.ReactiveWebSecurityConfiguration;
+import com.chen.f.spring.boot.configuration.springsecurity.ReactiveWebSpringSecurityConfiguration;
 import com.chen.f.spring.boot.configuration.springsecurity.SpringSecurityConfiguration;
-import com.chen.f.spring.boot.configuration.springsecurity.WebSecurityConfiguration;
+import com.chen.f.spring.boot.configuration.springsecurity.WebSpringSecurityConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -21,9 +21,9 @@ import java.lang.annotation.*;
 @Import({
         EnableChenFAdminConfiguration.class,
         EnableChenFAdminConfigurationImportSelector.class,
-        ReactiveWebSecurityConfiguration.class,
         SpringSecurityConfiguration.class,
-        WebSecurityConfiguration.class,
+        WebSpringSecurityConfiguration.class,
+        ReactiveWebSpringSecurityConfiguration.class,
         QuartzConfiguration.class,
 })
 @EnableChenFCore

@@ -1,4 +1,4 @@
-package com.chen.f.admin.security.token;
+package com.chen.f.spring.boot.configuration.springsecurity.token;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
