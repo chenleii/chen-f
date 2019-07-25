@@ -3,7 +3,7 @@ package com.chen.f.spring.boot.autoconfigure;
 import com.chen.f.core.helper.ApplicationContextHelper;
 import com.chen.f.core.helper.MybatisPlusHelper;
 import com.chen.f.core.helper.SysParameterHelper;
-import com.chen.f.core.mapper.SysParameterMapper;
+import com.chen.f.core.service.ISysParameterService;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -34,13 +34,12 @@ public class ChenFAutoConfiguration {
     }
 
     @Bean
-    //@ConditionalOnBean({SysParameterMapper.class})
-    public SysParameterHelper sysParameterHelper(SysParameterMapper sysParameterMapper) {
-        SysParameterHelper sysParameterHelper = new SysParameterHelper(sysParameterMapper);
+    //@ConditionalOnBean({ISysParameterService.class})
+    public SysParameterHelper sysParameterHelper(ISysParameterService sysParameterService) {
+        SysParameterHelper sysParameterHelper = new SysParameterHelper(sysParameterService);
         sysParameterHelper.init();
         return sysParameterHelper;
     }
-
 
 
 }

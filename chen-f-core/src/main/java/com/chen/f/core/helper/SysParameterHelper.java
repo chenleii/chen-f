@@ -35,7 +35,7 @@ public class SysParameterHelper {
      */
     public void init() {
         logger.debug("系统参数初始化");
-        List<SysParameter> allEnabledSysParameterList = sysParameterService.getAllEnabledSysParameterList();
+        List<SysParameter> allEnabledSysParameterList = sysParameterService.getEnabledSysParameterList();
         //清空缓存
         sysParameterMap.clear();
         if (CollectionUtils.isNotEmpty(allEnabledSysParameterList)) {
