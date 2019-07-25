@@ -1,4 +1,4 @@
-package com.chen.f.admin.quartz;
+package com.chen.f.spring.boot.configuration.quartz;
 
 import com.chen.f.core.mapper.SysTimedTaskLogMapper;
 import com.chen.f.core.mapper.SysTimedTaskMapper;

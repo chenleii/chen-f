@@ -1,12 +1,9 @@
 package com.chen.f.spring.boot.configuration.quartz;
 
-import com.chen.f.admin.quartz.TaskLogJobListener;
 import com.chen.f.core.mapper.SysTimedTaskLogMapper;
 import com.chen.f.core.mapper.SysTimedTaskMapper;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
-import com.chen.f.spring.boot.exception.ChenFConfigurationException;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -39,11 +36,8 @@ public class QuartzConfiguration {
     @Bean
     public SchedulerFactoryBeanCustomizer schedulerFactoryBeanCustomizer(SysTimedTaskLogMapper sysTimedTaskLogMapper, SysTimedTaskMapper sysTimedTaskMapper) {
         return (schedulerFactoryBean) -> {
-            try {
-                schedulerFactoryBean.getScheduler().getListenerManager().addJobListener(new TaskLogJobListener(sysTimedTaskLogMapper, sysTimedTaskMapper));
-            } catch (SchedulerException e) {
-                throw new ChenFConfigurationException("quartz scheduler job listener configuration exception", e);
-            }
+            schedulerFactoryBean.setGlobalJobListeners(new TaskLogJobListener(sysTimedTaskLogMapper, sysTimedTaskMapper));
+
         };
     }
 }
