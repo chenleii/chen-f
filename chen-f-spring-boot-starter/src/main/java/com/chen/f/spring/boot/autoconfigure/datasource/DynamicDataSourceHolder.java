@@ -1,4 +1,4 @@
-package com.chen.f.core.datasource;
+package com.chen.f.spring.boot.autoconfigure.datasource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

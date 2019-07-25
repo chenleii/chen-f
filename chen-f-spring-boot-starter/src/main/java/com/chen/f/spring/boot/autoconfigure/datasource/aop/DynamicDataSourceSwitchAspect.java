@@ -1,8 +1,8 @@
-package com.chen.f.core.datasource.aop;
+package com.chen.f.spring.boot.autoconfigure.datasource.aop;
 
-import com.chen.f.core.datasource.DynamicDataSourceHolder;
+import com.chen.f.spring.boot.autoconfigure.datasource.DynamicDataSourceHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
-import  com.chen.f.core.datasource.annotation.DataSource;
+import  com.chen.f.spring.boot.autoconfigure.datasource.annotation.DataSource;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -22,7 +22,7 @@ public class DynamicDataSourceSwitchAspect implements Ordered {
 
     private int order = Ordered.HIGHEST_PRECEDENCE;
 
-    @Around(value = "@within(com.chen.f.core.datasource.annotation.DataSource) || @annotation(com.chen.f.core.datasource.annotation.DataSource)")
+    @Around(value = "@within(com.chen.f.spring.boot.autoconfigure.datasource.annotation.DataSource) || @annotation(com.chen.f.spring.boot.autoconfigure.datasource.annotation.DataSource)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         DataSource classDataSource = proceedingJoinPoint.getTarget().getClass().getAnnotation(DataSource.class);
         DataSource methodDataSource = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(DataSource.class);

@@ -1,4 +1,4 @@
-package com.chen.f.core.datasource.annotation;
+package com.chen.f.spring.boot.autoconfigure.datasource.annotation;
 
 import java.lang.annotation.*;
 
