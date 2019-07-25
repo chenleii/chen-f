@@ -1,6 +1,5 @@
-
 spring:
   application:
-    name: chen
+    name: chen-f-template
   profiles:
     active: beta
