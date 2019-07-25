@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
@@ -25,17 +27,15 @@ import java.util.Objects;
 public interface SupperMapper<T> extends BaseMapper<T> {
 
     /**
-     * 取第一条数据
+     * 共享锁
      */
-    String LAST_SQL_SELECT_FIRST_RECORD = "LIMIT 1";
+    String LAST_SQL_LOCK_IN_SHARE_MODE = "LOCK IN SHARE MODE";
+
     /**
      * 排它锁
      */
     String LAST_SQL_FOR_UPDATE = "FOR UPDATE";
-    /**
-     * 共享锁
-     */
-    String LAST_SQL_LOCK_IN_SHARE_MODE = "LOCK IN SHARE MODE";
+
     /**
      * 默认批量大小
      */
@@ -54,22 +54,14 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
     /**
      * 查询第一条记录
-     * <p>
-     * lastSql会被覆盖
      *
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 第一条记录
      */
-    @SuppressWarnings("unchecked")
     default T selectFirstOne(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
-        if (queryWrapper == null) {
-            queryWrapper = Wrappers.<T>lambdaQuery();
-        }
-        AbstractWrapper abstractWrapper = (AbstractWrapper) queryWrapper;
-        abstractWrapper.last(LAST_SQL_SELECT_FIRST_RECORD);
-        List<T> list = selectList(abstractWrapper);
-        if (CollectionUtils.isNotEmpty(list)) {
-            return list.get(0);
+        IPage<T> iPage = selectPage( new Page<>(1, 1,false), queryWrapper);
+        if (CollectionUtils.isNotEmpty(iPage.getRecords())) {
+            return iPage.getRecords().get(0);
         }
         return null;
     }
