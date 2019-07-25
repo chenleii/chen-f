@@ -92,6 +92,7 @@
                 </includes>
                 <!-- 资源根目录排除各环境的配置，防止在生成目录中多余其它目录 -->
                 <excludes>
+                    <exclude>local/**</exclude>
                     <exclude>beta/**</exclude>
                     <exclude>release/**</exclude>
                 </excludes>
@@ -108,7 +109,6 @@
             </resource>
         </resources>
 
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -118,22 +118,28 @@
     </build>
 
     <profiles>
+        <!--本地环境-->
         <profile>
-            <!--测试环境-->
+            <id>local</id>
+            <properties>
+                <profiles.active>local</profiles.active>
+            </properties>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <!--测试环境-->
+        <profile>
             <id>beta</id>
             <properties>
                 <profiles.active>beta</profiles.active>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-
-            </dependencies>
         </profile>
 
+        <!--发布环境-->
         <profile>
-            <!--发布环境-->
             <id>release</id>
             <properties>
                 <profiles.active>release</profiles.active>
