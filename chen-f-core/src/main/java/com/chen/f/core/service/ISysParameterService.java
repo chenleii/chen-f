@@ -19,11 +19,11 @@ import java.util.List;
 public interface ISysParameterService extends IService<SysParameter> {
 
     /**
-     * 获取所有启用的系统参数列表
+     * 获取启用的系统参数列表
      *
-     * @return 所有启用的系统参数列表
+     * @return 启用的系统参数列表
      */
-    List<SysParameter> getAllEnabledSysParameterList();
+    List<SysParameter> getEnabledSysParameterList();
 
     /**
      * 获取分页的系统参数集合

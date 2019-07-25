@@ -61,11 +61,11 @@ public class SysApiController {
     }
 
 
-    @ApiOperation(value = "获取所有启用的系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统Api", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysApi> getAllEnabledSysApiList() {
+    public List<SysApi> getEnabledSysApiList() {
         return sysApiService.getEnabledSysApiList();
     }
 

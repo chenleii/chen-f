@@ -74,7 +74,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public List<SysDict> getAllEnabledSysDictList() {
+    public List<SysDict> getEnabledSysDictList() {
         return sysDictMapper.selectList(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getStatus, StatusEnum.ENABLED));
     }
 

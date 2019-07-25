@@ -55,11 +55,11 @@ public class SysPermissionController {
     }
 
 
-    @ApiOperation(value = "获取所有启用的系统权限", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysPermission> getAllEnabledSysPermissionList() {
+    public List<SysPermission> getEnabledSysPermissionList() {
         return sysPermissionService.getEnabledSysPermissionList();
     }
 

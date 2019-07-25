@@ -71,12 +71,12 @@ public class SysDictController {
         return sysDictService.getSysDictPage(pageIndex, pageNumber, code, key, name, value, remark, color, sysDictTypeEnum, statusEnum);
     }
 
-    @ApiOperation(value = "获取所有启用的系统字典", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysDict> getAllEnabledSysDictList() {
-        return sysDictService.getAllEnabledSysDictList();
+    public List<SysDict> getEnabledSysDictList() {
+        return sysDictService.getEnabledSysDictList();
     }
 
     @ApiOperation(value = "获取系统字典集合", notes = "", produces = "application/json")

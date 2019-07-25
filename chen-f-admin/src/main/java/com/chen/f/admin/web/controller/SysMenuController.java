@@ -40,14 +40,14 @@ public class SysMenuController {
     @ApiImplicitParams({})
     @GetMapping("/all")
     public List<SysMenu> getAllSysMenuList() {
-        return sysMenuService.getSysMenuList();
+        return sysMenuService.getAllSysMenuList();
     }
 
-    @ApiOperation(value = "获取所有启用的系统菜单", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysMenu> getAllEnabledSysMenuList() {
+    public List<SysMenu> getEnabledSysMenuList() {
         return sysMenuService.getEnabledSysMenuList();
     }
 

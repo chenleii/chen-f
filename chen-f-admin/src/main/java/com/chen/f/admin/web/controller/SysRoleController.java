@@ -55,11 +55,11 @@ public class SysRoleController {
     }
 
 
-    @ApiOperation(value = "获取所有启用的系统角色", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysRole> getAllEnabledSysRoleList() {
+    public List<SysRole> getEnabledSysRoleList() {
         return sysRoleService.getEnabledSysRoleList();
     }
 

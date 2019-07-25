@@ -61,12 +61,12 @@ public class SysParameterController {
     }
 
 
-    @ApiOperation(value = "获取所有启用的系统参数", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
-    public List<SysParameter> getAllEnabledSysParameterList() {
-        return sysParameterService.getAllEnabledSysParameterList();
+    public List<SysParameter> getEnabledSysParameterList() {
+        return sysParameterService.getEnabledSysParameterList();
     }
 
     @ApiOperation(value = "获取系统参数", notes = "", produces = "application/json")

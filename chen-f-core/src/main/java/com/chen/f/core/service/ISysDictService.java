@@ -36,11 +36,11 @@ public interface ISysDictService extends IService<SysDict> {
                                   String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum);
 
     /**
-     * 获取所有启用的系统字典列表
+     * 获取启用的系统字典列表
      *
-     * @return 所有启用的系统字典列表
+     * @return 启用的系统字典列表
      */
-    List<SysDict> getAllEnabledSysDictList();
+    List<SysDict> getEnabledSysDictList();
 
     /**
      * 获取系统字典集合

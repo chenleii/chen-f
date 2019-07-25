@@ -18,11 +18,11 @@ import java.util.List;
 public interface ISysMenuService extends IService<SysMenu> {
 
     /**
-     * 获取系统菜单
+     * 获取所有系统菜单
      *
      * @return 所有系统菜单
      */
-    List<SysMenu> getSysMenuList();
+    List<SysMenu> getAllSysMenuList();
 
     /**
      * 获取启用的系统菜单列表

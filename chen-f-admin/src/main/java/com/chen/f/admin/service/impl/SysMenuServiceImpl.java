@@ -41,7 +41,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysUserMapper sysUserMapper;
 
     @Override
-    public List<SysMenu> getSysMenuList() {
+    public List<SysMenu> getAllSysMenuList() {
         return sysMenuMapper.selectAll();
     }
 

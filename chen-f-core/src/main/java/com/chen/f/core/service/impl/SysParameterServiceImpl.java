@@ -43,7 +43,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     private SysUserMapper sysUserMapper;
 
     @Override
-    public List<SysParameter> getAllEnabledSysParameterList() {
+    public List<SysParameter> getEnabledSysParameterList() {
         return sysParameterMapper.selectList(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getStatus, StatusEnum.ENABLED));
     }
 
