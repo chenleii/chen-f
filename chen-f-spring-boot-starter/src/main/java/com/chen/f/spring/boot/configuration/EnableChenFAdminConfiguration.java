@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.chen.f.admin.helper.QuartzHelper;
 import com.chen.f.admin.helper.SysUserRolePermissionHelper;
 import com.chen.f.core.mapper.*;
-import com.chen.f.core.mybatisplus.SupperMapper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -32,7 +31,7 @@ public class EnableChenFAdminConfiguration {
         logger.debug("add chen-f-admin mapper scanner [{}]", chenFAdminMapperScannerBasePackage);
         MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
         scannerConfigurer.setBasePackage(chenFAdminMapperScannerBasePackage);
-        scannerConfigurer.setMarkerInterface(SupperMapper.class);
+        //scannerConfigurer.setMarkerInterface(SupperMapper.class);
         //scannerConfigurer.setAnnotationClass(Mapper.class);
         return scannerConfigurer;
     }

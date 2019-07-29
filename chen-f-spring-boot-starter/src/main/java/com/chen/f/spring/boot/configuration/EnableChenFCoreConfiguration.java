@@ -2,7 +2,6 @@ package com.chen.f.spring.boot.configuration;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
-import com.chen.f.core.mybatisplus.SupperMapper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -27,7 +26,7 @@ public class EnableChenFCoreConfiguration {
         logger.debug("add chen-f-core mapper scanner [{}]", chenFCoreMapperScannerBasePackage);
         MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
         scannerConfigurer.setBasePackage(chenFCoreMapperScannerBasePackage);
-        scannerConfigurer.setMarkerInterface(SupperMapper.class);
+        //scannerConfigurer.setMarkerInterface(SupperMapper.class);
         //scannerConfigurer.setAnnotationClass(Mapper.class);
         return scannerConfigurer;
     }
