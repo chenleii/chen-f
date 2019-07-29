@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.chen.f.spring.boot.configuration.springsecurity.filter.CustomLoginAuthenticationFilter;
 import com.chen.f.spring.boot.configuration.springsecurity.provider.CustomLoginAuthenticationProvider;
 import com.chen.f.spring.boot.configuration.springsecurity.webhandle.SpringSecurityHandle;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -31,6 +34,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * web spring security配置
@@ -49,10 +53,13 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     private final UserDetailsService userDetailsService;
     private final SessionRegistry sessionRegistry;
 
+    private List<HttpSecurityCustomizer> httpSecurityCustomizerList;
+
     @Autowired
-    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService, SessionRegistry sessionRegistry) {
+    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService, SessionRegistry sessionRegistry, ObjectProvider<List<HttpSecurityCustomizer>> httpSecurityCustomizerObjectProvider) {
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
+        this.httpSecurityCustomizerList = httpSecurityCustomizerObjectProvider.getIfAvailable();
     }
 
     @Override
@@ -69,29 +76,25 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
-                .antMatchers("/test/t11").permitAll()
                 .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
-                //除了登陆url其它url都需要认证
-                .antMatchers("/**").authenticated()
+
                 .antMatchers("/login").not().authenticated()
-
-
+                //其它url都需要认证
+                .antMatchers("/**").authenticated()
                 .and()
 
                 //设置登陆页面相关(不使用默认登陆过滤器)
-                .formLogin().authenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle)
-                .loginProcessingUrl("/login").successHandler(SpringSecurityHandle::authenticationSuccessHandle).permitAll()
+                //.formLogin().authenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle)
+                //.loginProcessingUrl("/login").successHandler(SpringSecurityHandle::authenticationSuccessHandle).permitAll()
                 //.failureForwardUrl("/error").failureHandler(SpringSecurityHandle::authenticationFailureHandle).permitAll()
-                .and()
+                //.and()
                 //设置登出相关
                 .logout().logoutUrl("/logout").logoutSuccessHandler(SpringSecurityHandle::logoutSuccessHandle).permitAll();
 
         //添加自定义登录验证
         CustomLoginAuthenticationFilter customLoginAuthenticationFilter = new CustomLoginAuthenticationFilter();
-        customLoginAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", "POST"));
+        customLoginAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
         customLoginAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
         customLoginAuthenticationFilter.setAuthenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle);
         customLoginAuthenticationFilter.setAuthenticationSuccessHandler(SpringSecurityHandle::authenticationSuccessHandle);
@@ -109,6 +112,13 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .rememberMeParameter("rememberMe");
 
         http.sessionManagement().maximumSessions(2).maxSessionsPreventsLogin(true).sessionRegistry(this.sessionRegistry);
+
+
+        if (CollectionUtils.isNotEmpty(httpSecurityCustomizerList)) {
+            for (HttpSecurityCustomizer httpSecurityCustomizer : httpSecurityCustomizerList) {
+                httpSecurityCustomizer.customize(http);
+            }
+        }
     }
 
     /**
