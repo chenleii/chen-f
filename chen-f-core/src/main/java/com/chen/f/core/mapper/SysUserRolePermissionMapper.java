@@ -1,6 +1,5 @@
 package com.chen.f.core.mapper;
 
-import com.chen.f.core.mybatisplus.SupperMapper;
 import com.chen.f.core.pojo.SysUserRolePermission;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
  * @author chen
  * @date 2018/10/25 20:40.
  */
-public interface SysUserRolePermissionMapper extends SupperMapper<SysUserRolePermission> {
+public interface SysUserRolePermissionMapper {
 
     /**
      * 根据用户名查找用户角色权限信息
