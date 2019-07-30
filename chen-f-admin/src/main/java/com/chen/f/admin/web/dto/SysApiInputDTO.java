@@ -1,8 +1,8 @@
 package com.chen.f.admin.web.dto;
 
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysApiHttpMethodEnum;
-import com.chen.f.core.pojo.enums.SysApiTypeEnum;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
+import com.chen.f.common.pojo.enums.SysApiTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

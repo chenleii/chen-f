@@ -1,7 +1,7 @@
 package com.chen.f.spring.boot.configuration.quartz;
 
-import com.chen.f.core.mapper.SysTimedTaskLogMapper;
-import com.chen.f.core.mapper.SysTimedTaskMapper;
+import com.chen.f.common.mapper.SysTimedTaskLogMapper;
+import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
 import org.quartz.Scheduler;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

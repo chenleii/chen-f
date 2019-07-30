@@ -1,6 +1,6 @@
 package com.chen.f.admin.security;
 
-import com.chen.f.core.pojo.SysUserRolePermission;
+import com.chen.f.common.pojo.SysUserRolePermission;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

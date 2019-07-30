@@ -1,13 +1,12 @@
 package com.chen.f.admin.web.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.security.Securitys;
 import com.chen.f.admin.web.dto.SysParameterInputDTO;
-import com.chen.f.core.pojo.SysParameter;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysParameterTypeEnum;
-import com.chen.f.core.service.ISysParameterService;
+import com.chen.f.common.pojo.SysParameter;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
+import com.chen.f.common.service.ISysParameterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

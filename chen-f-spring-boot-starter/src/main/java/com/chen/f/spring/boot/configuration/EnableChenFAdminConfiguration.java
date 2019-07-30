@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.chen.f.admin.helper.QuartzHelper;
 import com.chen.f.admin.helper.SysUserRolePermissionHelper;
-import com.chen.f.core.mapper.*;
+import com.chen.f.common.mapper.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;

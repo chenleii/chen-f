@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.f.common.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysUser">
+        <id column="ID" property="id" />
+        <result column="USERNAME" property="username" />
+        <result column="PASSWORD" property="password" />
+        <result column="REMARK" property="remark" />
+        <result column="STATUS" property="status" />
+        <result column="LEVEL" property="level" />
+        <result column="LAST_LOGIN_DATE_TIME" property="lastLoginDateTime" />
+        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
+        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
+        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
+        <result column="CREATE_DATE_TIME" property="createDateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, USERNAME, PASSWORD, REMARK, STATUS, `LEVEL`, LAST_LOGIN_DATE_TIME, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+    </sql>
+
+</mapper>

@@ -1,9 +1,9 @@
 package com.chen.f.admin.security;
 
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysUserRolePermission;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.security.SecurityErrorResponse;
-import com.chen.f.core.pojo.SysPermission;
-import com.chen.f.core.pojo.SysUserRolePermission;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.dto;
 
-import com.chen.f.core.pojo.SysRole;
-import com.chen.f.core.pojo.SysUser;
+import com.chen.f.common.pojo.SysRole;
+import com.chen.f.common.pojo.SysUser;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;

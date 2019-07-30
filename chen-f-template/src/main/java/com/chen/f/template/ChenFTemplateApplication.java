@@ -1,7 +1,7 @@
 package com.chen.f.template;
 
 import com.chen.f.spring.boot.configuration.EnableChenFAdmin;
-import com.chen.f.spring.boot.configuration.EnableChenFCore;
+import com.chen.f.spring.boot.configuration.EnableChenFCommon;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 
 //@EnableConfigurationProperties
 @PropertySource("classpath:jdbc.properties")
-@EnableChenFCore
+@EnableChenFCommon
 @EnableChenFAdmin
 @SpringBootApplication
 public class ChenFTemplateApplication extends SpringBootServletInitializer {

@@ -1,12 +1,12 @@
 package com.chen.f.admin.web.controller;
 
-import com.chen.f.core.mapper.SysUserMapper;
-import com.chen.f.core.mapper.SysUserRolePermissionMapper;
-import com.chen.f.core.pojo.SysUser;
-import com.chen.f.core.pojo.SysUserRolePermission;
+import com.chen.f.admin.helper.QuartzHelper;
+import com.chen.f.common.mapper.SysUserMapper;
+import com.chen.f.common.mapper.SysUserRolePermissionMapper;
+import com.chen.f.common.pojo.SysUser;
+import com.chen.f.common.pojo.SysUserRolePermission;
 import com.chen.f.core.api.exception.ApiException;
 import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.admin.helper.QuartzHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;

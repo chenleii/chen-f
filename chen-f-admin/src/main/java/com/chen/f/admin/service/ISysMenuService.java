@@ -1,9 +1,9 @@
 package com.chen.f.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chen.f.core.pojo.SysMenu;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysMenuTypeEnum;
+import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
 
 import java.util.List;
 

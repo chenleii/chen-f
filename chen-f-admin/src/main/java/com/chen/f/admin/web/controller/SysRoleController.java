@@ -1,13 +1,15 @@
 package com.chen.f.admin.web.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.security.Securitys;
 import com.chen.f.admin.service.ISysRoleService;
-import com.chen.f.admin.web.dto.*;
-import com.chen.f.core.pojo.SysPermission;
-import com.chen.f.core.pojo.SysRole;
-import com.chen.f.core.pojo.enums.StatusEnum;
+import com.chen.f.admin.web.dto.SysApisInputDTO;
+import com.chen.f.admin.web.dto.SysMenusInputDTO;
+import com.chen.f.admin.web.dto.SysPermissionsInputDTO;
+import com.chen.f.admin.web.dto.SysRoleInputDTO;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysRole;
+import com.chen.f.common.pojo.enums.StatusEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

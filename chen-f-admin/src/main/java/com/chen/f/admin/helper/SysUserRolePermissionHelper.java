@@ -2,8 +2,8 @@ package com.chen.f.admin.helper;
 
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.chen.f.core.mapper.*;
-import com.chen.f.core.pojo.SysUser;
+import com.chen.f.common.mapper.*;
+import com.chen.f.common.pojo.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;

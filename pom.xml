@@ -17,6 +17,7 @@
 
     <modules>
         <module>chen-f-core</module>
+        <module>chen-f-common</module>
         <module>chen-f-admin</module>
         <module>chen-f-spring-boot-starter</module>
         <module>chen-f-template</module>

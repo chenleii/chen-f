@@ -1,8 +1,7 @@
 package com.chen.f.admin.web.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysParameterTypeEnum;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -1,22 +1,21 @@
 package com.chen.f.admin.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.admin.service.ISysPermissionService;
+import com.chen.f.common.mapper.SysPermissionApiMapper;
+import com.chen.f.common.mapper.SysPermissionMapper;
+import com.chen.f.common.mapper.SysRolePermissionMapper;
+import com.chen.f.common.mapper.SysUserMapper;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysPermissionApi;
+import com.chen.f.common.pojo.SysUser;
+import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.core.mapper.SysPermissionApiMapper;
-import com.chen.f.core.mapper.SysPermissionMapper;
-import com.chen.f.core.mapper.SysRolePermissionMapper;
-import com.chen.f.core.mapper.SysUserMapper;
-import com.chen.f.core.pojo.SysPermission;
-import com.chen.f.core.pojo.SysPermissionApi;
-import com.chen.f.core.pojo.SysUser;
-import com.chen.f.core.pojo.enums.StatusEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

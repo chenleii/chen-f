@@ -2,8 +2,8 @@ package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.security.Securitys;
 import com.chen.f.admin.service.ISysMenuService;
-import com.chen.f.core.pojo.SysMenu;
-import com.chen.f.core.pojo.SysUserRolePermission;
+import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.SysUserRolePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.f.common.mapper.SysTimedTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysTimedTask">
+        <id column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="CLASS_NAME" property="className" />
+        <result column="CRON_EXPRESSION" property="cronExpression" />
+        <result column="DATA" property="data" />
+        <result column="TYPE" property="type" />
+        <result column="REMARK" property="remark" />
+        <result column="STATUS" property="status" />
+        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
+        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
+        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
+        <result column="CREATE_DATE_TIME" property="createDateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        CODE, NAME, CLASS_NAME, CRON_EXPRESSION, DATA, TYPE, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+    </sql>
+
+</mapper>

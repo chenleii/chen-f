@@ -2,9 +2,9 @@ package com.chen.f.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chen.f.core.pojo.SysTimedTask;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysTimedTaskTypeEnum;
+import com.chen.f.common.pojo.SysTimedTask;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 
 import java.util.List;
 

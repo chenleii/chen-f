@@ -1,10 +1,10 @@
 package com.chen.f.spring.boot.configuration.quartz;
 
-import com.chen.f.core.mapper.SysTimedTaskLogMapper;
-import com.chen.f.core.mapper.SysTimedTaskMapper;
-import com.chen.f.core.pojo.SysTimedTask;
-import com.chen.f.core.pojo.SysTimedTaskLog;
-import com.chen.f.core.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.mapper.SysTimedTaskLogMapper;
+import com.chen.f.common.mapper.SysTimedTaskMapper;
+import com.chen.f.common.pojo.SysTimedTask;
+import com.chen.f.common.pojo.SysTimedTaskLog;
+import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

@@ -1,12 +1,11 @@
 package com.chen.f.admin.web.controller;
 
-
 import com.chen.f.admin.security.Securitys;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.admin.web.dto.SysMenuInputDTO;
-import com.chen.f.core.pojo.SysMenu;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysMenuTypeEnum;
+import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

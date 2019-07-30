@@ -1,15 +1,14 @@
 package com.chen.f.admin.web.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.security.Securitys;
 import com.chen.f.admin.web.dto.SysDictInputDTO;
-import com.chen.f.core.pojo.SysDict;
-import com.chen.f.core.pojo.enums.StatusEnum;
-import com.chen.f.core.pojo.enums.SysDictTypeEnum;
-import com.chen.f.core.service.ISysDictService;
-import com.chen.f.core.web.dto.AlainSelectOutputDTO;
-import com.chen.f.core.web.dto.AlainTagOutputDTO;
+import com.chen.f.common.pojo.SysDict;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysDictTypeEnum;
+import com.chen.f.common.service.ISysDictService;
+import com.chen.f.common.web.dto.AlainSelectOutputDTO;
+import com.chen.f.common.web.dto.AlainTagOutputDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

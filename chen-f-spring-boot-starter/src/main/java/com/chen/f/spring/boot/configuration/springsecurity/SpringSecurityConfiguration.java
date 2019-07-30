@@ -1,10 +1,10 @@
 package com.chen.f.spring.boot.configuration.springsecurity;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.core.mapper.*;
-import com.chen.f.core.pojo.SysApiRolePermission;
-import com.chen.f.core.pojo.SysPermission;
-import com.chen.f.core.pojo.SysRole;
+import com.chen.f.common.mapper.*;
+import com.chen.f.common.pojo.SysApiRolePermission;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysRole;
 import com.chen.f.spring.boot.configuration.springsecurity.exceptionhandle.SpringSecurityExceptionHandle;
 import com.chen.f.spring.boot.configuration.springsecurity.service.DefaultUserDetailsService;
 import org.apache.commons.collections4.CollectionUtils;

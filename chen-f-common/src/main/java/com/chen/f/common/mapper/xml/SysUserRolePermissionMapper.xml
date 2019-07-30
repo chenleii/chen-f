@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.f.common.mapper.SysUserRolePermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysUserRolePermission">
+        <id column="USER_ID" property="id"/>
+        <result column="USER_USERNAME" property="username"/>
+        <result column="USER_PASSWORD" property="password"/>
+        <result column="USER_REMARK" property="remark"/>
+        <result column="USER_STATUS" property="status"/>
+        <result column="USER_LEVEL" property="level"/>
+        <result column="USER_LAST_LOGIN_DATE_TIME" property="lastLoginDateTime"/>
+        <result column="USER_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
+        <result column="USER_CREATE_SYS_USER_ID" property="createSysUserId"/>
+        <result column="USER_UPDATE_DATE_TIME" property="updateDateTime"/>
+        <result column="USER_CREATE_DATE_TIME" property="createDateTime"/>
+        <collection property="sysRolePermissionList"
+                    ofType="com.chen.f.common.pojo.SysUserRolePermission$SysRolePermission"
+                    javaType="java.util.ArrayList">
+            <id column="ROLE_ID" property="id"/>
+            <result column="ROLE_NAME" property="name"/>
+            <result column="ROLE_REMARK" property="remark"/>
+            <result column="ROLE_STATUS" property="status"/>
+            <result column="ROLE_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
+            <result column="ROLE_CREATE_SYS_USER_ID" property="createSysUserId"/>
+            <result column="ROLE_UPDATE_DATE_TIME" property="updateDateTime"/>
+            <result column="ROLE_CREATE_DATE_TIME" property="createDateTime"/>
+            <collection property="sysPermissionList" ofType="com.chen.f.common.pojo.SysPermission"
+                        javaType="java.util.ArrayList">
+                <id column="PERMISSION_ID" property="id"/>
+                <result column="PERMISSION_NAME" property="name"/>
+                <result column="PERMISSION_REMARK" property="remark"/>
+                <result column="PERMISSION_STATUS" property="status"/>
+                <result column="PERMISSION_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
+                <result column="PERMISSION_CREATE_SYS_USER_ID" property="createSysUserId"/>
+                <result column="PERMISSION_UPDATE_DATE_TIME" property="updateDateTime"/>
+                <result column="PERMISSION_CREATE_DATE_TIME" property="createDateTime"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!--根据用户名查找用户角色权限信息-->
+    <select id="selectSysUserRolePermissionByUsername" resultMap="BaseResultMap">
+        SELECT
+            USER.ID                         USER_ID,
+            USER.USERNAME                   USER_USERNAME,
+            USER.PASSWORD                   USER_PASSWORD,
+            USER.REMARK                     USER_REMARK,
+            USER.STATUS                     USER_STATUS,
+            USER.LEVEL                      USER_LEVEL,
+            USER.LAST_LOGIN_DATE_TIME       USER_LAST_LOGIN_DATE_TIME,
+            USER.UPDATE_SYS_USER_ID         USER_UPDATE_SYS_USER_ID,
+            USER.CREATE_SYS_USER_ID         USER_CREATE_SYS_USER_ID,
+            USER.UPDATE_DATE_TIME           USER_UPDATE_DATE_TIME,
+            USER.CREATE_DATE_TIME           USER_CREATE_DATE_TIME,
+            ROLE.ID                         ROLE_ID,
+            ROLE.NAME                       ROLE_NAME,
+            ROLE.REMARK                     ROLE_REMARK,
+            ROLE.STATUS                     ROLE_STATUS,
+            ROLE.UPDATE_SYS_USER_ID         ROLE_UPDATE_SYS_USER_ID,
+            ROLE.CREATE_SYS_USER_ID         ROLE_CREATE_SYS_USER_ID,
+            ROLE.UPDATE_DATE_TIME           ROLE_UPDATE_DATE_TIME,
+            ROLE.CREATE_DATE_TIME           ROLE_CREATE_DATE_TIME,
+            PERMISSION.ID                   PERMISSION_ID,
+            PERMISSION.NAME                 PERMISSION_NAME,
+            PERMISSION.REMARK               PERMISSION_REMARK,
+            PERMISSION.STATUS               PERMISSION_STATUS,
+            PERMISSION.UPDATE_SYS_USER_ID   PERMISSION_UPDATE_SYS_USER_ID,
+            PERMISSION.CREATE_SYS_USER_ID   PERMISSION_CREATE_SYS_USER_ID,
+            PERMISSION.UPDATE_DATE_TIME     PERMISSION_UPDATE_DATE_TIME,
+            PERMISSION.CREATE_DATE_TIME     PERMISSION_CREATE_DATE_TIME
+        FROM
+            SYS_USER USER
+            LEFT JOIN SYS_USER_ROLE USER_ROLE ON USER.ID = USER_ROLE.SYS_USER_ID
+            LEFT JOIN SYS_ROLE ROLE ON USER_ROLE.SYS_ROLE_ID = ROLE.ID
+            LEFT JOIN SYS_ROLE_PERMISSION ROLE_PERMISSION ON ROLE.ID = ROLE_PERMISSION.SYS_ROLE_ID
+            LEFT JOIN SYS_PERMISSION PERMISSION ON ROLE_PERMISSION.SYS_PERMISSION_ID = PERMISSION.ID
+        WHERE
+            USER.USERNAME = #{username,jdbcType=VARCHAR}
+            AND (ROLE.ID IS NULL OR ROLE.STATUS = 'ENABLED')
+            AND (PERMISSION.ID IS NULL OR PERMISSION.STATUS = 'ENABLED')
+    </select>
+
+
+</mapper>

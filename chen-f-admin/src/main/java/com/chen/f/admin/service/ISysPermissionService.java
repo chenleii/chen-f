@@ -2,8 +2,8 @@ package com.chen.f.admin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chen.f.core.pojo.SysPermission;
-import com.chen.f.core.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.enums.StatusEnum;
 
 import java.util.List;
 

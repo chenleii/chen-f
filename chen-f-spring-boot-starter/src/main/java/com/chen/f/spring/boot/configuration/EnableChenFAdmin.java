@@ -26,6 +26,6 @@ import java.lang.annotation.*;
         ReactiveWebSpringSecurityConfiguration.class,
         QuartzConfiguration.class,
 })
-@EnableChenFCore
+@EnableChenFCommon
 public @interface EnableChenFAdmin {
 }
