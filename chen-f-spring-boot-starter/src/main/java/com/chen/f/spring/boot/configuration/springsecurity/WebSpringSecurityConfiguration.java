@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,6 +26,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -79,7 +81,7 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
 
-                .antMatchers("/login").not().authenticated()
+                .antMatchers("/login", "/logout").not().authenticated()
                 //其它url都需要认证
                 .antMatchers("/**").authenticated()
                 .and()
@@ -113,6 +115,13 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
 
         http.sessionManagement().maximumSessions(2).maxSessionsPreventsLogin(true).sessionRegistry(this.sessionRegistry);
 
+        http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+            @Override
+            public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                //object.setSecurityMetadataSource(null);
+                return object;
+            }
+        });
 
         if (CollectionUtils.isNotEmpty(httpSecurityCustomizerList)) {
             for (HttpSecurityCustomizer httpSecurityCustomizer : httpSecurityCustomizerList) {
