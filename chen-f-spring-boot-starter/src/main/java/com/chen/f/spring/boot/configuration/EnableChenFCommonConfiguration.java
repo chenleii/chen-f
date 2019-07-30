@@ -23,7 +23,7 @@ public class EnableChenFCommonConfiguration {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurerCore() {
         String chenFCoreMapperScannerBasePackage = "com.chen.f.common.mapper";
-        logger.debug("add chen-f-core mapper scanner [{}]", chenFCoreMapperScannerBasePackage);
+        logger.debug("add chen-f-common mapper scanner [{}]", chenFCoreMapperScannerBasePackage);
         MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
         scannerConfigurer.setBasePackage(chenFCoreMapperScannerBasePackage);
         //scannerConfigurer.setMarkerInterface(SupperMapper.class);
@@ -39,7 +39,7 @@ public class EnableChenFCommonConfiguration {
             public void customize(MybatisPlusProperties properties) {
 
                 String chenFCoreTypeHandlersPackage = "com.chen.f.spring.boot.mybatis";
-                logger.debug("add chen-f-core type handlers package [{}]", chenFCoreTypeHandlersPackage);
+                logger.debug("add chen-f-common type handlers package [{}]", chenFCoreTypeHandlersPackage);
                 if (StringUtils.isNotBlank(properties.getTypeHandlersPackage())) {
                     properties.setTypeHandlersPackage(properties.getTypeHandlersPackage() + "," + chenFCoreTypeHandlersPackage);
                 } else {
@@ -47,11 +47,11 @@ public class EnableChenFCommonConfiguration {
                 }
 
                 String[] chenFCoreMapperLocations = new String[]{"classpath*:com/chen/f/common/mapper/xml/*"};
-                logger.debug("add chen-f-core mapper locations [{}]", (Object[]) chenFCoreMapperLocations);
+                logger.debug("add chen-f-common mapper locations [{}]", (Object[]) chenFCoreMapperLocations);
                 properties.setMapperLocations(ArrayUtils.addAll(properties.getMapperLocations(), chenFCoreMapperLocations));
 
                 String chenFCoreTypeEnumsPackage = "com.chen.f.common.pojo.enums";
-                logger.debug("add chen-f-core type enums package [{}]", chenFCoreTypeEnumsPackage);
+                logger.debug("add chen-f-common type enums package [{}]", chenFCoreTypeEnumsPackage);
                 if (StringUtils.isNotBlank(properties.getTypeEnumsPackage())) {
                     properties.setTypeEnumsPackage(properties.getTypeEnumsPackage() + "," + chenFCoreTypeEnumsPackage);
                 } else {
