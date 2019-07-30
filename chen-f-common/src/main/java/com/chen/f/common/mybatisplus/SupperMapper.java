@@ -220,8 +220,9 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         if (CollectionUtils.isNotEmpty(batchResultList)) {
             return batchResultList.stream()
                     .filter(Objects::nonNull)
-                    .filter((batchResult -> Objects.nonNull(batchResult.getUpdateCounts())))
-                    .flatMapToInt((batchResult) -> Arrays.stream(batchResult.getUpdateCounts()))
+                    .map(BatchResult::getUpdateCounts)
+                    .filter(Objects::nonNull)
+                    .flatMapToInt(Arrays::stream)
                     .sum();
         }
         return 0;
