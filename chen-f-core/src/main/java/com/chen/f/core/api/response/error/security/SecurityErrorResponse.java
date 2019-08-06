@@ -115,14 +115,14 @@ public class SecurityErrorResponse extends AbstractErrorResponse {
      * 没有权限
      */
     public static SecurityErrorResponse notPermission(String... permissions) {
-        return new SecurityErrorResponse("not_permission", String.format("没有权限[%s]", (Object[]) permissions));
+        return new SecurityErrorResponse("not_permission", String.format("没有权限[%s]", String.join(",",permissions)));
     }
 
     /**
      * 没有权限
      */
     public static SecurityErrorResponse notPermission(Collection<String> permissionCollection) {
-        return new SecurityErrorResponse("not_permission", String.format("没有权限[%s]", permissionCollection));
+        return new SecurityErrorResponse("not_permission", String.format("没有权限[%s]", String.join(",",permissionCollection)));
     }
 
     /**
@@ -136,14 +136,14 @@ public class SecurityErrorResponse extends AbstractErrorResponse {
      * 没有角色
      */
     public static SecurityErrorResponse notRole(String... roles) {
-        return new SecurityErrorResponse("not_role", String.format("没有角色[%s]", (Object[]) roles));
+        return new SecurityErrorResponse("not_role", String.format("没有角色[%s]", String.join(",", roles)));
     }
 
     /**
      * 没有角色
      */
     public static SecurityErrorResponse notRole(Collection<String> roleCollection) {
-        return new SecurityErrorResponse("not_role", String.format("没有角色[%s]", roleCollection));
+        return new SecurityErrorResponse("not_role", String.format("没有角色[%s]", String.join(",", roleCollection)));
     }
 
     /**
