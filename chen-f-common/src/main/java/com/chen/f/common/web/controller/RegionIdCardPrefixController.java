@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "地区身份证号前缀接口")
 @RestController
-@RequestMapping("/chen/core/region/idCardPrefix")
+@RequestMapping("/chen/common/region/idCardPrefix")
 public class RegionIdCardPrefixController {
 
 }

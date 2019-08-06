@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "系统参数接口")
 @RestController
-@RequestMapping("/chen/core/sys/parameter")
+@RequestMapping("/chen/common/sys/parameter")
 public class SysParameterController {
 
 }

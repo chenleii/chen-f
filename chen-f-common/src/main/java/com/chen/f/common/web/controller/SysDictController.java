@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "系统字典接口")
 @RestController
-@RequestMapping("/chen/core/sys/dict")
+@RequestMapping("/chen/common/sys/dict")
 public class SysDictController {
     protected static final Logger logger = LoggerFactory.getLogger(SysDictController.class);
 

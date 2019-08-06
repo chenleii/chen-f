@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "国家接口")
 @RestController
-@RequestMapping("/chen/core/country")
+@RequestMapping("/chen/common/country")
 public class CountryController {
 
 }
