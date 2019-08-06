@@ -83,8 +83,7 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
 
     @Bean
     @ConditionalOnMissingBean
-    //@ConditionalOnBean({SysUserRolePermissionMapper.class,SysUserMapper.class,SysRoleMapper.class,SysPermissionMapper.class})
-    @ConditionalOnClass({SysUserRolePermissionMapper.class})
+    @ConditionalOnClass({SysUserRolePermissionMapper.class,SysUserMapper.class,SysRoleMapper.class,SysPermissionMapper.class})
     public UserDetailsService userDetailsService(SysUserRolePermissionMapper sysUserRolePermissionMapper,
                                                  SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper, SysPermissionMapper sysPermissionMapper) {
         return new DefaultUserDetailsService(sysUserRolePermissionMapper,

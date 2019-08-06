@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 public class ChenFAutoConfiguration {
 
     @Bean
-    //@ConditionalOnBean({ApplicationContext.class})
     public ApplicationContextHelper applicationContextHelper(ApplicationContext applicationContext, BeanFactory beanFactory) {
         ApplicationContextHelper applicationContextHelper = new ApplicationContextHelper();
         applicationContextHelper.setApplicationContext(applicationContext);
@@ -34,7 +33,6 @@ public class ChenFAutoConfiguration {
     }
 
     @Bean
-    //@ConditionalOnBean({ISysParameterService.class})
     public SysParameterHelper sysParameterHelper(ISysParameterService sysParameterService) {
         SysParameterHelper sysParameterHelper = new SysParameterHelper(sysParameterService);
         sysParameterHelper.init();

@@ -58,7 +58,6 @@ public class EnableChenFAdminConfiguration {
     }
 
     @Bean
-    //@ConditionalOnBean({SchedulerFactoryBean.class, SysTimedTaskMapper.class})
     @ConditionalOnClass({QuartzHelper.class, SchedulerFactoryBean.class, SysTimedTaskMapper.class})
     public QuartzHelper quartzHelper(SchedulerFactoryBean schedulerFactoryBean, SysTimedTaskMapper sysTimedTaskMapper) {
         QuartzHelper quartzHelper = new QuartzHelper(schedulerFactoryBean, sysTimedTaskMapper);
