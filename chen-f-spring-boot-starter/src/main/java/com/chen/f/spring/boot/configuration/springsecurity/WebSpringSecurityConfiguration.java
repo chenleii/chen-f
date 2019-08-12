@@ -9,7 +9,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +47,7 @@ import java.util.List;
 @ConditionalOnClass(WebSecurityConfigurerAdapter.class)
 @ConditionalOnMissingBean(WebSecurityConfigurerAdapter.class)
 @AutoConfigureAfter({MybatisPlusAutoConfiguration.class, SpringSecurityConfiguration.class,})
-@ConditionalOnBean({UserDetailsService.class, SessionRegistry.class})
+//@ConditionalOnBean({UserDetailsService.class, SessionRegistry.class})
 @EnableWebSecurity
 public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
