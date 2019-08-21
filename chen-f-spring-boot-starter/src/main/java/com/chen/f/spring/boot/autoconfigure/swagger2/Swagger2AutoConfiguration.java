@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @since 2017/12/19 13:05.
  */
 @Configuration
-@Profile("beta")
+@Profile({"local", "beta"})
 @ConditionalOnClass({EnableSwagger2.class})
 @EnableSwagger2
 public class Swagger2AutoConfiguration {
