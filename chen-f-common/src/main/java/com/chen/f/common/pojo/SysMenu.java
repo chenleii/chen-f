@@ -62,7 +62,7 @@ public class SysMenu extends Model<SysMenu> {
     private String remark;
 
     @ApiModelProperty(value = "显示顺序")
-    @TableField("ORDER")
+    @TableField("`ORDER`")
     private Integer order;
 
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
