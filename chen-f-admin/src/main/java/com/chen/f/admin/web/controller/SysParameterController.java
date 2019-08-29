@@ -74,7 +74,7 @@ public class SysParameterController {
     })
     @GetMapping("/{code}")
     public SysParameter getSysParameter(@PathVariable("code") String code) {
-        return sysParameterService.getSysParameter(code);
+        return sysParameterService.getSysParameterByCode(code);
     }
 
     @ApiOperation(value = "创建系统参数", notes = "", produces = "application/json")
