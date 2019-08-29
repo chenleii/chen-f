@@ -62,7 +62,7 @@ public class SysTimedTaskController {
     })
     @GetMapping(path = "/{code}")
     public SysTimedTask sysTimedTask(@PathVariable(name = "code") String code) {
-        return sysTimedTaskService.getSysTimedTask(code);
+        return sysTimedTaskService.getSysTimedTaskByCode(code);
     }
 
     @ApiOperation(value = "添加定时任务", notes = "", produces = "application/json")
@@ -185,7 +185,7 @@ public class SysTimedTaskController {
     @PostMapping("/{code}/execution")
     @ResponseBody
     public R executionSysTimedTask(@PathVariable(name = "code") String code) {
-        sysTimedTaskService.executionSysTimedTask(code);
+        sysTimedTaskService.executionSysTimedTaskByCode(code);
         return R.msg("success");
     }
 

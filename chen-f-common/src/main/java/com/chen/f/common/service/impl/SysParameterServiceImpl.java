@@ -73,9 +73,15 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public SysParameter getSysParameter(String code) {
+    public SysParameter getSysParameter(String sysParameterId) {
+        ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
+        return sysParameterMapper.selectById(sysParameterId);
+    }
+
+    @Override
+    public SysParameter getSysParameterByCode(String code) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
-        return sysParameterMapper.selectById(code);
+        return sysParameterMapper.selectOne(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
     }
 
     @Override
@@ -122,7 +128,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter =sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectById(code);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("修改系统参数");
@@ -155,7 +161,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter =sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectById(code);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("启用系统参数");
@@ -177,7 +183,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter =sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectById(code);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("禁用系统参数");

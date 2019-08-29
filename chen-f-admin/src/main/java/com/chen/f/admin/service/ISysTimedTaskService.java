@@ -43,73 +43,88 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
     List<SysTimedTask> getEnabledSysTimedTaskList();
 
     /**
-     * 获取定时任务
+     * 获取系统定时任务
      *
-     * @param code 任务标识
-     * @return 定时任务
+     * @param sysTimedTaskId 系统任务ID
+     * @return 系统定时任务
      */
-    SysTimedTask getSysTimedTask(String code);
+    SysTimedTask getSysTimedTask(String sysTimedTaskId);
 
     /**
-     * 添加定时任务
+     * 获取系统定时任务
      *
-     * @param code                 任务标识
-     * @param name                 任务名称
-     * @param jobClassName         任务classname
+     * @param code 系统任务标识
+     * @return 系统定时任务
+     */
+    SysTimedTask getSysTimedTaskByCode(String code);
+
+    /**
+     * 添加系统定时任务
+     *
+     * @param code                 系统任务标识
+     * @param name                 系统任务名称
+     * @param jobClassName         系统任务classname
      * @param cronExpression       cron表达式
      * @param data                 数据(json字符串)
-     * @param sysTimedTaskTypeEnum 任务类型
-     * @param remark               任务备注
-     * @param statusEnum           任务状态
+     * @param sysTimedTaskTypeEnum 系统任务类型
+     * @param remark               系统任务备注
+     * @param statusEnum           系统任务状态
      * @param operatedSysUserId    操作的系统用户id
      */
     void createSysTimedTask(String code, String name, String jobClassName, String cronExpression, String data,
                             SysTimedTaskTypeEnum sysTimedTaskTypeEnum, String remark, StatusEnum statusEnum, String operatedSysUserId);
 
     /**
-     * 修改定时任务
+     * 修改系统定时任务
      *
-     * @param code                 任务标识
-     * @param name                 任务名称
-     * @param jobClassName         任务classname
+     * @param code                 系统任务标识
+     * @param name                 系统任务名称
+     * @param jobClassName         系统任务classname
      * @param cronExpression       cron表达式
      * @param data                 数据(json字符串)
-     * @param sysTimedTaskTypeEnum 任务类型
-     * @param remark               任务备注
-     * @param statusEnum           任务状态
+     * @param sysTimedTaskTypeEnum 系统任务类型
+     * @param remark               系统任务备注
+     * @param statusEnum           系统任务状态
      * @param operatedSysUserId    操作的系统用户id
      */
     void updateSysTimedTask(String code, String name, String jobClassName, String cronExpression, String data,
                             SysTimedTaskTypeEnum sysTimedTaskTypeEnum, String remark, StatusEnum statusEnum, String operatedSysUserId);
 
     /**
-     * 删除定时任务
+     * 删除系统定时任务
      *
-     * @param code 定时任务标识
+     * @param code 系统定时任务标识
      */
     void deleteSysTimedTask(String code);
 
     /**
-     * 启用定时任务
+     * 启用系统定时任务
      *
-     * @param code              定时任务标识
+     * @param code              系统定时任务标识
      * @param operatedSysUserId 操作的系统用户id
      */
     void enabledSysTimedTask(String code, String operatedSysUserId);
 
     /**
-     * 禁用定时任务
+     * 禁用系统定时任务
      *
-     * @param code              定时任务标识
+     * @param code              系统定时任务标识
      * @param operatedSysUserId 操作的系统用户id
      */
     void disableSysTimedTask(String code, String operatedSysUserId);
 
     /**
-     * 立即执行一次任务
+     * 立即执行一次系统定时任务
      *
-     * @param code 定时任务标识
+     * @param sysTimedTaskId 系统定时任务ID
      */
-    void executionSysTimedTask(String code);
+    void executionSysTimedTask(String sysTimedTaskId);
+
+    /**
+     * 立即执行一次系统定时任务
+     *
+     * @param code 系统定时任务标识
+     */
+    void executionSysTimedTaskByCode(String code);
 
 }

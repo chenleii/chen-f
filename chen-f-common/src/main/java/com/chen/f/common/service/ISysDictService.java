@@ -23,14 +23,14 @@ public interface ISysDictService extends IService<SysDict> {
      *
      * @param pageIndex       页数
      * @param pageNumber      页大小
-     * @param code            字典标识
-     * @param key             字典key
-     * @param name            字典名称
-     * @param value           字典值
-     * @param remark          字典描述
-     * @param color           字典颜色
-     * @param sysDictTypeEnum 字典类型
-     * @param statusEnum      字典状态
+     * @param code            系统字典标识
+     * @param key             系统字典key
+     * @param name            系统字典名称
+     * @param value           系统字典值
+     * @param remark          系统字典描述
+     * @param color           系统字典颜色
+     * @param sysDictTypeEnum 系统字典类型
+     * @param statusEnum      系统字典状态
      * @return 分页的系统字典集合
      */
     IPage<SysDict> getSysDictPage(long pageIndex, long pageNumber,
@@ -43,10 +43,20 @@ public interface ISysDictService extends IService<SysDict> {
      */
     List<SysDict> getEnabledSysDictList();
 
+
+    /**
+     * 获取系统字典对象
+     *
+     * @param sysDictId 系统字典ID
+     * @return 系统字典对象
+     */
+    SysDict getSysDict(String sysDictId);
+
+
     /**
      * 获取系统字典集合
      *
-     * @param code 字典标识
+     * @param code 系统字典标识
      * @return 系统字典集合
      */
     List<SysDict> getSysDictList(String code);
@@ -54,8 +64,8 @@ public interface ISysDictService extends IService<SysDict> {
     /**
      * 获取系统字典对象
      *
-     * @param code 字典标识
-     * @param key  字典key
+     * @param code 系统字典标识
+     * @param key  系统字典key
      * @return 系统字典对象
      */
     SysDict getSysDict(String code, String key);
@@ -63,14 +73,14 @@ public interface ISysDictService extends IService<SysDict> {
     /**
      * 创建系统字典
      *
-     * @param code              字典标识
-     * @param key               字典key
-     * @param name              字典名称
-     * @param value             字典值
-     * @param remark            字典描述
-     * @param color             字典颜色
-     * @param type              字典类型
-     * @param status            字典状态
+     * @param code              系统字典标识
+     * @param key               系统字典key
+     * @param name              系统字典名称
+     * @param value             系统字典值
+     * @param remark            系统字典描述
+     * @param color             系统字典颜色
+     * @param type              系统字典类型
+     * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void createSysDict(String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
@@ -79,14 +89,14 @@ public interface ISysDictService extends IService<SysDict> {
     /**
      * 修改系统字典
      *
-     * @param code              字典标识
-     * @param key               字典key
-     * @param name              字典名称
-     * @param value             字典值
-     * @param remark            字典描述
-     * @param color             字典颜色
-     * @param type              字典类型
-     * @param status            字典状态
+     * @param code              系统字典标识
+     * @param key               系统字典key
+     * @param name              系统字典名称
+     * @param value             系统字典值
+     * @param remark            系统字典描述
+     * @param color             系统字典颜色
+     * @param type              系统字典类型
+     * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void updateSysDict(String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
@@ -95,23 +105,23 @@ public interface ISysDictService extends IService<SysDict> {
     /**
      * 删除系统字典
      *
-     * @param code 字典标识
+     * @param code 系统字典标识
      */
     void deleteSysDict(String code);
 
     /**
      * 删除系统字典
      *
-     * @param code 字典标识
-     * @param key  字典key
+     * @param code 系统字典标识
+     * @param key  系统字典key
      */
     void deleteSysDict(String code, String key);
 
     /**
      * 启用系统字典
      *
-     * @param code 字典标识
-     * @param key  字典key
+     * @param code              系统字典标识
+     * @param key               系统字典key
      * @param operatedSysUserId 操作的系统用户id
      */
     void enabledSysDict(String code, String key, String operatedSysUserId);
@@ -119,8 +129,8 @@ public interface ISysDictService extends IService<SysDict> {
     /**
      * 禁用系统字典
      *
-     * @param code 字典标识
-     * @param key  字典key
+     * @param code              系统字典标识
+     * @param key               系统字典key
      * @param operatedSysUserId 操作的系统用户id
      */
     void disableSysDict(String code, String key, String operatedSysUserId);

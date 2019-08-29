@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysParameter">
+        <id column="ID" property="id" />
         <id column="CODE" property="code" />
         <result column="NAME" property="name" />
         <result column="VALUE" property="value" />
@@ -18,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        CODE, NAME, VALUE, TYPE, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        ID, CODE, NAME, VALUE, TYPE, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
     </sql>
 
 </mapper>

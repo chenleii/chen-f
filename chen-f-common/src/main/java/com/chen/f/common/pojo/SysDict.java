@@ -33,8 +33,12 @@ public class SysDict extends Model<SysDict> {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    private String id;
+
     @ApiModelProperty(value = "字典标识")
-    @TableId(value = "CODE", type = IdType.ID_WORKER_STR)
+    @TableId(value = "CODE")
     private String code;
 
     @ApiModelProperty(value = "字典key")
@@ -84,7 +88,7 @@ public class SysDict extends Model<SysDict> {
 
     @Override
     protected Serializable pkVal() {
-        return this.code;
+        return this.id;
     }
 
 }

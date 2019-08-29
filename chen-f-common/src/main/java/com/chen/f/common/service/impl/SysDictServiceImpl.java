@@ -79,29 +79,35 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
+    public SysDict getSysDict(String sysDictId) {
+        ApiAssert.isNotBlank(sysDictId, ErrorResponse.create("系统字典ID不能为空"));
+        return sysDictMapper.selectById(sysDictId);
+    }
+
+    @Override
     public List<SysDict> getSysDictList(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         return sysDictMapper.selectList(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code));
     }
 
     @Override
     public SysDict getSysDict(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         return sysDictMapper.selectOne(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
     }
 
     @Override
     public void createSysDict(String code, String key, String name, String value, String remark,
                               String color, SysDictTypeEnum type, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("字典名称不能为空"));
-        ApiAssert.isNotBlank(value, ErrorResponse.create("字典值不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
+        ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典值不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("字典备注不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("字典颜色不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("字典类型不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("字典状态不能为空"));
+        ApiAssert.isNotNull(type, ErrorResponse.create("系统字典类型不能为空"));
+        ApiAssert.isNotNull(status, ErrorResponse.create("系统字典状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的用户id不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -128,14 +134,14 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public void updateSysDict(String code, String key, String name, String value, String remark,
                               String color, SysDictTypeEnum type, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("字典名称不能为空"));
-        ApiAssert.isNotBlank(value, ErrorResponse.create("字典值不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
+        ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典值不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("字典备注不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("字典颜色不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("字典类型不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("字典状态不能为空"));
+        ApiAssert.isNotNull(type, ErrorResponse.create("系统字典类型不能为空"));
+        ApiAssert.isNotNull(status, ErrorResponse.create("系统字典状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的用户id不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -163,23 +169,23 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void deleteSysDict(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         int i = sysDictMapper.delete(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统字典失败"));
     }
 
     @Override
     public void deleteSysDict(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         int i = sysDictMapper.delete(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统字典失败"));
     }
 
     @Override
     public void enabledSysDict(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的用户id不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -202,8 +208,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void disableSysDict(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("字典标识不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("字典key不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的用户id不能为空"));
 
         logger.debug("检查操作的系统用户");

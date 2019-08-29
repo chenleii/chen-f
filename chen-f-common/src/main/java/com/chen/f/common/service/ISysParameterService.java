@@ -30,12 +30,12 @@ public interface ISysParameterService extends IService<SysParameter> {
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
-     * @param code       参数标识
-     * @param name       参数名称
-     * @param value      参数值
-     * @param type       参数类型
-     * @param remark     参数描述
-     * @param statusEnum 参数状态
+     * @param code       系统参数标识
+     * @param name       系统参数名称
+     * @param value      系统参数值
+     * @param type       系统参数类型
+     * @param remark     系统参数描述
+     * @param statusEnum 系统参数状态
      * @return 分页的系统参数集合
      */
     IPage<SysParameter> getSysParameterPage(long pageIndex, long pageNumber,
@@ -44,20 +44,28 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 获取系统参数对象
      *
-     * @param code 参数标识
+     * @param sysParameterId 系统参数ID
      * @return 系统参数对象
      */
-    SysParameter getSysParameter(String code);
+    SysParameter getSysParameter(String sysParameterId);
+
+    /**
+     * 获取系统参数对象
+     *
+     * @param code 系统参数标识
+     * @return 系统参数对象
+     */
+    SysParameter getSysParameterByCode(String code);
 
     /**
      * 创建系统参数
      *
-     * @param code              参数标识
-     * @param name              参数名称
-     * @param value             参数值
-     * @param type              参数类型
-     * @param remark            参数描述
-     * @param status            参数状态
+     * @param code              系统参数标识
+     * @param name              系统参数名称
+     * @param value             系统参数值
+     * @param type              系统参数类型
+     * @param remark            系统参数描述
+     * @param status            系统参数状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void createSysParameter(String code, String name, String value, SysParameterTypeEnum type, String remark,
@@ -66,12 +74,12 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 修改系统参数
      *
-     * @param code              参数标识
-     * @param name              参数名称
-     * @param value             参数值
-     * @param type              参数类型
-     * @param remark            参数描述
-     * @param status            参数状态
+     * @param code              系统参数标识
+     * @param name              系统参数名称
+     * @param value             系统参数值
+     * @param type              系统参数类型
+     * @param remark            系统参数描述
+     * @param status            系统参数状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void updateSysParameter(String code, String name, String value, SysParameterTypeEnum type, String remark,
@@ -80,7 +88,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 删除系统参数
      *
-     * @param code 参数标识
+     * @param code 系统参数标识
      */
     void deleteSysParameter(String code);
 
@@ -88,7 +96,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 启用系统参数
      *
-     * @param code              参数标识
+     * @param code              系统参数标识
      * @param operatedSysUserId 操作的系统用户id
      */
     void enabledSysParameter(String code,  String operatedSysUserId);
@@ -96,7 +104,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 禁用系统参数
      *
-     * @param code              参数标识
+     * @param code              系统参数标识
      * @param operatedSysUserId 操作的系统用户id
      */
     void disableSysParameter(String code, String operatedSysUserId);

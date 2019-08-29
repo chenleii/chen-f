@@ -32,8 +32,13 @@ import java.time.LocalDateTime;
 public class SysParameter extends Model<SysParameter> {
 
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    private String id;
+
     @ApiModelProperty(value = "参数标识")
-    @TableId(value = "CODE", type = IdType.ID_WORKER_STR)
+    @TableId(value = "CODE")
     private String code;
 
     @ApiModelProperty(value = "参数名称")
