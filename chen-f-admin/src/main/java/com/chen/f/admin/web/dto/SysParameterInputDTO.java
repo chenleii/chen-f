@@ -18,6 +18,9 @@ import lombok.experimental.Accessors;
 @ApiModel(value="SysParameter对象", description="系统参数表")
 public class SysParameterInputDTO {
 
+    @ApiModelProperty(value = "主键ID")
+    private String id;
+
     @ApiModelProperty(value = "参数标识")
     private String code;
 

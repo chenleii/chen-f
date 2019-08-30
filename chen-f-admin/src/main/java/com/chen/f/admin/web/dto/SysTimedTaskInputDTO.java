@@ -19,6 +19,9 @@ import lombok.experimental.Accessors;
 public class SysTimedTaskInputDTO {
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
+    private String id;
+
     @ApiModelProperty(value = "任务标识")
     private String code;
 

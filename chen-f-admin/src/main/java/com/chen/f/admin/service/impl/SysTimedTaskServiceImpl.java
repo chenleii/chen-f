@@ -140,7 +140,8 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @SuppressWarnings("unchecked")
-    public void updateSysTimedTask(String code, String name, String jobClassName, String cronExpression, String data, SysTimedTaskTypeEnum sysTimedTaskTypeEnum, String remark, StatusEnum statusEnum, String operatedSysUserId) {
+    public void updateSysTimedTask(String sysTimedTaskId, String code, String name, String jobClassName, String cronExpression, String data, SysTimedTaskTypeEnum sysTimedTaskTypeEnum, String remark, StatusEnum statusEnum, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统定时任务名称不能为空"));
         ApiAssert.isNotBlank(jobClassName, ErrorResponse.create("系统定时任务任务类名称不能为空"));
@@ -148,8 +149,9 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         ApiAssert.isNotNull(sysTimedTaskTypeEnum, ErrorResponse.create("系统定时任务类型不能为空"));
         ApiAssert.isNotNull(statusEnum, ErrorResponse.create("系统定时任务状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+
         logger.debug("获取系统定时任务信息");
-        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
         Class<?> jobClass;
         try {
@@ -171,7 +173,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             throw new ApiException(ErrorResponse.create("添加系统定时任务失败"), e);
         }
         if (statusEnum == StatusEnum.DISABLE) {
-            this.disableSysTimedTask(code, operatedSysUserId);
+            this.disableSysTimedTaskByCode(code, operatedSysUserId);
         }
         logger.debug("修改系统定时任务数据库记录");
         sysTimedTask.setCode(code);
@@ -188,8 +190,26 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     }
 
     @Override
+    public void deleteSysTimedTask(String sysTimedTaskId) {
+        ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
+        logger.debug("检查系统定时任务是否存在");
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
+        ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统系统定时任务不存在"));
+        logger.debug("删除系统定时任务");
+        try {
+            quartzHelper.deleteJob(sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode());
+        } catch (SchedulerException e) {
+            logger.warn("删除(禁用)系统定时任务失败", e);
+            throw new ApiException(ErrorResponse.create("删除定时任务失败"), e);
+        }
+        logger.debug("删除系统定时任务数据库记录");
+        int i = sysTimedTaskMapper.deleteById(sysTimedTaskId);
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除定时任务失败"));
+    }
+
+    @Override
     @Transactional(rollbackFor = Throwable.class)
-    public void deleteSysTimedTask(String code) {
+    public void deleteSysTimedTaskByCode(String code) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
         logger.debug("检查系统定时任务是否存在");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
@@ -202,16 +222,52 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             throw new ApiException(ErrorResponse.create("删除定时任务失败"), e);
         }
         logger.debug("删除系统定时任务数据库记录");
-        int i = sysTimedTaskMapper.deleteById(code);
+        int i = sysTimedTaskMapper.delete(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除定时任务失败"));
+    }
+
+    @Override
+    public void enabledSysTimedTask(String sysTimedTaskId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        logger.debug("获取系统定时任务信息");
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
+        ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
+        Class<?> jobClass;
+        try {
+            jobClass = Class.forName(sysTimedTask.getClassName());
+        } catch (ClassNotFoundException e) {
+            logger.warn("没有找到系统定时任务class");
+            throw new ApiException(ErrorResponse.create(String.format("没有找到系统定时任务类%s", sysTimedTask.getClassName())), e);
+        }
+        logger.debug("检查jobClass是否是Job.class的子类");
+        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承job类", jobClass)));
+        Map dataMap = null;
+        if (StringUtils.isNotBlank(sysTimedTask.getData())) {
+            dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
+        }
+        logger.debug("添加启用的系统定时任务");
+        try {
+            quartzHelper.addJob(sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(),
+                    (Class<? extends Job>) jobClass, sysTimedTask.getCronExpression(), dataMap);
+        } catch (SchedulerException e) {
+            logger.warn("添加(启用)系统定时任务失败", e);
+            throw new ApiException(ErrorResponse.create("启用系统定时任务失败"), e);
+        }
+        logger.debug("修改系统定时任务数据库记录为启用");
+        sysTimedTask.setUpdateSysUserId(operatedSysUserId);
+        sysTimedTask.setUpdateDateTime(LocalDateTime.now());
+        sysTimedTask.setStatus(StatusEnum.ENABLED);
+        int i = sysTimedTaskMapper.updateById(sysTimedTask);
+        ApiAssert.isGreaterThatZero(i, ErrorResponse.create("启用系统定时任务失败"));
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @SuppressWarnings("unchecked")
-    public void enabledSysTimedTask(String code, String operatedSysUserId) {
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+    public void enabledSysTimedTaskByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
@@ -237,7 +293,6 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             throw new ApiException(ErrorResponse.create("启用系统定时任务失败"), e);
         }
         logger.debug("修改系统定时任务数据库记录为启用");
-        sysTimedTask.setCode(code);
         sysTimedTask.setUpdateSysUserId(operatedSysUserId);
         sysTimedTask.setUpdateDateTime(LocalDateTime.now());
         sysTimedTask.setStatus(StatusEnum.ENABLED);
@@ -246,10 +301,32 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public void disableSysTimedTask(String code, String operatedSysUserId) {
+    public void disableSysTimedTask(String sysTimedTaskId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        logger.debug("获取系统定时任务信息");
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
+        ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
+        logger.debug("删除禁用的数据库记录");
+        try {
+            quartzHelper.deleteJob(sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode());
+        } catch (SchedulerException e) {
+            logger.warn("删除(禁用)系统定时任务失败", e);
+            throw new ApiException(ErrorResponse.create("禁用定时任务失败"), e);
+        }
+        logger.debug("修改系统定时任务数据库记录为禁用");
+        sysTimedTask.setUpdateSysUserId(operatedSysUserId);
+        sysTimedTask.setUpdateDateTime(LocalDateTime.now());
+        sysTimedTask.setStatus(StatusEnum.DISABLE);
+        int i = sysTimedTaskMapper.updateById(sysTimedTask);
+        ApiAssert.isGreaterThatZero(i, ErrorResponse.create("禁用系统定时任务失败"));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void disableSysTimedTaskByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
