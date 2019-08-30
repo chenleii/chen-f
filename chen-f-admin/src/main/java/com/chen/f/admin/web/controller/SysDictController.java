@@ -192,9 +192,10 @@ public class SysDictController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "color", required = false) String color,
             @RequestParam(name = "type") SysDictTypeEnum type,
+            @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysRoleId = Securitys.getSysUserId();
-        sysDictService.createSysDict(code, key, name, value, remark, color, type, status, operatedSysRoleId);
+        sysDictService.createSysDict(code, key, name, value, remark, color, type, order, status, operatedSysRoleId);
     }
 
     @ApiOperation(value = "创建系统字典", notes = "", produces = "application/json")
@@ -205,7 +206,7 @@ public class SysDictController {
     public void createSysDict(@RequestBody() SysDictInputDTO sysDictInputDTO) {
         String operatedSysUserId = Securitys.getSysUserId();
         sysDictService.createSysDict(sysDictInputDTO.getCode(), sysDictInputDTO.getKey(), sysDictInputDTO.getName(), sysDictInputDTO.getValue(),
-                sysDictInputDTO.getRemark(), sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getStatus(), operatedSysUserId);
+                sysDictInputDTO.getRemark(), sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getOrder(), sysDictInputDTO.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统字典", notes = "", produces = "application/json")
@@ -228,9 +229,10 @@ public class SysDictController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "color", required = false) String color,
             @RequestParam(name = "type") SysDictTypeEnum type,
+            @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = Securitys.getSysUserId();
-        sysDictService.updateSysDict(code, key, name, value, remark, color, type, status, operatedSysUserId);
+        sysDictService.updateSysDict(code, key, name, value, remark, color, type, order, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统字典", notes = "", produces = "application/json")
@@ -246,7 +248,7 @@ public class SysDictController {
             @RequestBody() SysDictInputDTO sysDictInputDTO) {
         String operatedSysUserId = Securitys.getSysUserId();
         sysDictService.updateSysDict(code, key, sysDictInputDTO.getName(), sysDictInputDTO.getValue(), sysDictInputDTO.getRemark(),
-                sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getStatus(), operatedSysUserId);
+                sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getOrder(), sysDictInputDTO.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统字典", notes = "", produces = "application/json")

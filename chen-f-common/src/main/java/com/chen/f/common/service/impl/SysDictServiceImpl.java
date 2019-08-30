@@ -99,7 +99,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void createSysDict(String code, String key, String name, String value, String remark,
-                              String color, SysDictTypeEnum type, StatusEnum status, String operatedSysUserId) {
+                              String color, SysDictTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
@@ -133,7 +133,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void updateSysDict(String code, String key, String name, String value, String remark,
-                              String color, SysDictTypeEnum type, StatusEnum status, String operatedSysUserId) {
+                              String color, SysDictTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典key不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));

@@ -72,23 +72,22 @@ public interface ISysDictService extends IService<SysDict> {
 
     /**
      * 创建系统字典
-     *
-     * @param code              系统字典标识
+     *  @param code              系统字典标识
      * @param key               系统字典key
      * @param name              系统字典名称
      * @param value             系统字典值
      * @param remark            系统字典描述
      * @param color             系统字典颜色
      * @param type              系统字典类型
+     * @param order             系统字典顺序
      * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void createSysDict(String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
-                       StatusEnum status, String operatedSysUserId);
+                       Integer order, StatusEnum status, String operatedSysUserId);
 
     /**
      * 修改系统字典
-     *
      * @param code              系统字典标识
      * @param key               系统字典key
      * @param name              系统字典名称
@@ -96,11 +95,12 @@ public interface ISysDictService extends IService<SysDict> {
      * @param remark            系统字典描述
      * @param color             系统字典颜色
      * @param type              系统字典类型
+     * @param order             系统字典顺序
      * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户id
      */
     void updateSysDict(String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
-                       StatusEnum status, String operatedSysUserId);
+                       Integer order, StatusEnum status, String operatedSysUserId);
 
     /**
      * 删除系统字典

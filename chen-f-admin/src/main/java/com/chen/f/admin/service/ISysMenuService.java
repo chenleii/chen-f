@@ -43,13 +43,13 @@ public interface ISysMenuService extends IService<SysMenu> {
      * 创建系统菜单
      *
      * @param parentId          系统菜单父级id
-     * @param name              菜单名称
-     * @param url               菜单url
-     * @param icon              菜单图表
-     * @param type              菜单类型
-     * @param remark            菜单描述
-     * @param order             菜单顺序
-     * @param status            菜单状态
+     * @param name              系统菜单名称
+     * @param url               系统菜单url
+     * @param icon              系统菜单图标
+     * @param type              系统菜单类型
+     * @param remark            系统菜单描述
+     * @param order             系统菜单顺序
+     * @param status            系统菜单状态
      * @param operatedSysUserId 操作用户id
      */
     void createSysMenu(String parentId, String name, String url, String icon, SysMenuTypeEnum type, String remark, Integer order,
@@ -60,13 +60,13 @@ public interface ISysMenuService extends IService<SysMenu> {
      *
      * @param sysMenuId         系统菜单id
      * @param parentId          父级系统菜单id
-     * @param name              菜单名称
-     * @param url               菜单url
-     * @param icon              菜单图表
-     * @param type              菜单类型
-     * @param remark            菜单描述
-     * @param order             菜单顺序
-     * @param status            菜单状态
+     * @param name              系统菜单名称
+     * @param url               系统菜单url
+     * @param icon              系统菜单图标
+     * @param type              系统菜单类型
+     * @param remark            系统菜单描述
+     * @param order             系统菜单顺序
+     * @param status            系统菜单状态
      * @param operatedSysUserId 操作用户id
      */
     void updateSysMenu(String sysMenuId, String parentId, String name, String url, String icon, SysMenuTypeEnum type, String remark, Integer order,
@@ -75,7 +75,7 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 删除系统菜单
      *
-     * @param sysMenuId 系统菜单
+     * @param sysMenuId 系统菜单id
      */
     void deleteSysMenu(String sysMenuId);
 

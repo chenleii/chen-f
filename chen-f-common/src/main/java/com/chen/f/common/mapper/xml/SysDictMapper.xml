@@ -12,6 +12,7 @@
         <result column="REMARK" property="remark" />
         <result column="COLOR" property="color" />
         <result column="TYPE" property="type" />
+        <result column="ORDER" property="order" />
         <result column="STATUS" property="status" />
         <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
         <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
@@ -21,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, CODE, `KEY`, NAME, VALUE, REMARK, COLOR, TYPE, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        ID, CODE, `KEY`, NAME, VALUE, REMARK, COLOR, TYPE, `ORDER`, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
     </sql>
 
 </mapper>

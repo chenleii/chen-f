@@ -65,6 +65,10 @@ public class SysDict extends Model<SysDict> {
     @TableField("TYPE")
     private SysDictTypeEnum type;
 
+    @ApiModelProperty(value = "显示顺序")
+    @TableField("`ORDER`")
+    private Integer order;
+
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     @TableField("STATUS")
     private StatusEnum status;

@@ -40,6 +40,9 @@ public class SysDictInputDTO {
     @ApiModelProperty(value = "字典值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)")
     private SysDictTypeEnum type;
 
+    @ApiModelProperty(value = "显示顺序")
+    private Integer order;
+
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     private StatusEnum status;
 
