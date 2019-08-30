@@ -101,6 +101,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
         logger.debug("插入系统参数");
         SysParameter sysParameter = new SysParameter();
+        sysParameter.setId(code);
         sysParameter.setCode(code);
         sysParameter.setName(name);
         sysParameter.setValue(value);
@@ -114,7 +115,8 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public void updateSysParameter(String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
+    public void updateSysParameter(String sysParameterId, String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统参数名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统参数值不能为空"));
@@ -128,10 +130,11 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter = sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectById(sysParameterId);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("修改系统参数");
+        sysParameter.setId(sysParameterId);
         sysParameter.setCode(code);
         sysParameter.setName(name);
         sysParameter.setValue(value);
@@ -145,15 +148,22 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public void deleteSysParameter(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
-        int i = sysParameterMapper.deleteById(code);
+    public void deleteSysParameter(String sysParameterId) {
+        ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
+        int i = sysParameterMapper.deleteById(sysParameterId);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统参数失败"));
     }
 
     @Override
-    public void enabledSysParameter(String code, String operatedSysUserId) {
+    public void deleteSysParameterByCode(String code) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        int i = sysParameterMapper.delete(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统参数失败"));
+    }
+
+    @Override
+    public void enabledSysParameter(String sysParameterId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -161,11 +171,10 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter = sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectById(sysParameterId);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("启用系统参数");
-        sysParameter.setCode(code);
         sysParameter.setStatus(StatusEnum.ENABLED);
         sysParameter.setUpdateSysUserId(operatedSysUserId);
         sysParameter.setUpdateDateTime(LocalDateTime.now());
@@ -174,7 +183,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public void disableSysParameter(String code, String operatedSysUserId) {
+    public void enabledSysParameterByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
 
@@ -183,11 +192,52 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统参数是否存在");
-        SysParameter sysParameter = sysParameterMapper.selectById(code);
+        SysParameter sysParameter = sysParameterMapper.selectOne(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
+        ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
+
+        logger.debug("启用系统参数");
+        sysParameter.setStatus(StatusEnum.ENABLED);
+        sysParameter.setUpdateSysUserId(operatedSysUserId);
+        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        int i = sysParameterMapper.updateById(sysParameter);
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统参数失败"));
+    }
+
+    @Override
+    public void disableSysParameter(String sysParameterId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+
+        logger.debug("检查操作的系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
+        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+
+        logger.debug("检查系统参数是否存在");
+        SysParameter sysParameter = sysParameterMapper.selectById(sysParameterId);
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("禁用系统参数");
-        sysParameter.setCode(code);
+        sysParameter.setStatus(StatusEnum.DISABLE);
+        sysParameter.setUpdateSysUserId(operatedSysUserId);
+        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        int i = sysParameterMapper.updateById(sysParameter);
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统参数失败"));
+    }
+
+    @Override
+    public void disableSysParameterByCode(String code, String operatedSysUserId) {
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+
+        logger.debug("检查操作的系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
+        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+
+        logger.debug("检查系统参数是否存在");
+        SysParameter sysParameter = sysParameterMapper.selectOne(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
+        ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
+
+        logger.debug("禁用系统参数");
         sysParameter.setStatus(StatusEnum.DISABLE);
         sysParameter.setUpdateSysUserId(operatedSysUserId);
         sysParameter.setUpdateDateTime(LocalDateTime.now());

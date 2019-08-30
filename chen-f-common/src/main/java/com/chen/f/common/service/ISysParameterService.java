@@ -74,6 +74,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 修改系统参数
      *
+     * @param sysParameterId    系统参数id
      * @param code              系统参数标识
      * @param name              系统参数名称
      * @param value             系统参数值
@@ -82,16 +83,30 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param status            系统参数状态
      * @param operatedSysUserId 操作的系统用户id
      */
-    void updateSysParameter(String code, String name, String value, SysParameterTypeEnum type, String remark,
+    void updateSysParameter(String sysParameterId, String code, String name, String value, SysParameterTypeEnum type, String remark,
                             StatusEnum status, String operatedSysUserId);
+
+    /**
+     * 删除系统参数
+     *
+     * @param sysParameterId 系统参数id
+     */
+    void deleteSysParameter(String sysParameterId);
 
     /**
      * 删除系统参数
      *
      * @param code 系统参数标识
      */
-    void deleteSysParameter(String code);
+    void deleteSysParameterByCode(String code);
 
+    /**
+     * 启用系统参数
+     *
+     * @param sysParameterId    系统参数id
+     * @param operatedSysUserId 操作的系统用户id
+     */
+    void enabledSysParameter(String sysParameterId, String operatedSysUserId);
 
     /**
      * 启用系统参数
@@ -99,7 +114,15 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param code              系统参数标识
      * @param operatedSysUserId 操作的系统用户id
      */
-    void enabledSysParameter(String code,  String operatedSysUserId);
+    void enabledSysParameterByCode(String code, String operatedSysUserId);
+
+    /**
+     * 禁用系统参数
+     *
+     * @param sysParameterId    系统参数id
+     * @param operatedSysUserId 操作的系统用户id
+     */
+    void disableSysParameter(String sysParameterId, String operatedSysUserId);
 
     /**
      * 禁用系统参数
@@ -107,5 +130,5 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param code              系统参数标识
      * @param operatedSysUserId 操作的系统用户id
      */
-    void disableSysParameter(String code, String operatedSysUserId);
+    void disableSysParameterByCode(String code, String operatedSysUserId);
 }
