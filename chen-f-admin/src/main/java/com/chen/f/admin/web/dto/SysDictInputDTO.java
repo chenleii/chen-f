@@ -19,6 +19,9 @@ import lombok.experimental.Accessors;
 @ApiModel(value="SysDictDTO", description="系统字典DTO")
 public class SysDictInputDTO {
 
+    @ApiModelProperty(value = "主键ID")
+    private String id;
+
     @ApiModelProperty(value = "字典标识")
     private String code;
 

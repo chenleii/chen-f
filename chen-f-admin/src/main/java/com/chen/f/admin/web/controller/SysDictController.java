@@ -7,23 +7,17 @@ import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysDictTypeEnum;
 import com.chen.f.common.service.ISysDictService;
-import com.chen.f.common.web.dto.AlainSelectOutputDTO;
-import com.chen.f.common.web.dto.AlainTagOutputDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -73,16 +67,27 @@ public class SysDictController {
     @ApiOperation(value = "获取启用的系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
-    @GetMapping("/all/enabled")
+    @GetMapping("/enabled")
     public List<SysDict> getEnabledSysDictList() {
         return sysDictService.getEnabledSysDictList();
+    }
+
+
+    @ApiOperation(value = "获取系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping(path = "/{sysDictId}")
+    public SysDict getSysDict(
+            @PathVariable(name = "sysDictId") String sysDictId) {
+        return sysDictService.getSysDict(sysDictId);
     }
 
     @ApiOperation(value = "获取系统字典集合", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}")
+    @GetMapping(path = "/{code:.*}/byCode")
     public List<SysDict> getSysDictList(@PathVariable(name = "code") String code) {
         return sysDictService.getSysDictList(code);
     }
@@ -92,85 +97,12 @@ public class SysDictController {
             @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "字典KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}/{key}")
+    @GetMapping(path = "/{code:.*}/{key}/byCodeAndKey")
     public SysDict getSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
         return sysDictService.getSysDict(code, key);
     }
-
-    @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping(path = "/alain/tag/{code:.*}")
-    public Map<Object, AlainTagOutputDTO> getSysDictByAlainTag(@PathVariable(name = "code") String code) {
-        List<SysDict> sysDictList = sysDictService.getSysDictList(code);
-        if (CollectionUtils.isNotEmpty(sysDictList)) {
-            return sysDictList.stream()
-                    .collect(Collectors.toMap((sysDict) -> {
-                        if (sysDict.getType() == SysDictTypeEnum.STRING) {
-                            return sysDict.getKey();
-                        } else if (sysDict.getType() == SysDictTypeEnum.BYTE) {
-                            return Byte.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.SHORT) {
-                            return Short.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.INTEGER) {
-                            return Integer.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.LONG) {
-                            return Long.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.FLOAT) {
-                            return Float.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.DOUBLE) {
-                            return Double.valueOf(sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.BOOLEAN) {
-                            return Boolean.valueOf(sysDict.getKey());
-                        } else {
-                            return sysDict.getKey();
-                        }
-                    }, (sysDict) -> new AlainTagOutputDTO(sysDict.getValue(), sysDict.getColor())));
-
-        }
-        return Collections.emptyMap();
-    }
-
-
-    @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping(path = "/alain/select/{code:.*}")
-    public List<AlainSelectOutputDTO> getSysDictByAlainSelect(@PathVariable(name = "code") String code) {
-        List<SysDict> sysDictList = sysDictService.getSysDictList(code);
-        if (CollectionUtils.isNotEmpty(sysDictList)) {
-            return sysDictList.stream()
-                    .map((sysDict -> {
-                        if (sysDict.getType() == SysDictTypeEnum.STRING) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), sysDict.getKey());
-                        } else if (sysDict.getType() == SysDictTypeEnum.BYTE) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Byte.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.SHORT) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Short.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.INTEGER) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Integer.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.LONG) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Long.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.FLOAT) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Float.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.DOUBLE) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Double.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == SysDictTypeEnum.BOOLEAN) {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), Boolean.valueOf(sysDict.getKey()));
-                        } else {
-                            return new AlainSelectOutputDTO(sysDict.getValue(), sysDict.getKey());
-                        }
-                    }))
-                    .collect(Collectors.toList());
-
-        }
-        return Collections.emptyList();
-    }
-
 
     @ApiOperation(value = "创建系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
@@ -211,19 +143,22 @@ public class SysDictController {
 
     @ApiOperation(value = "修改系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "value", value = "值", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "color", value = "颜色", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = SysDictTypeEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "order", value = "显示顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
-    @PutMapping("/{code:.*}/{key}")
+    @PutMapping("/{sysDictId}")
     public void updateSysDict(
-            @PathVariable(name = "code") String code,
-            @PathVariable(name = "key") String key,
+            @PathVariable(name = "sysDictId") String sysDictId,
+            @RequestParam(name = "code") String code,
+            @RequestParam(name = "key") String key,
             @RequestParam(name = "name") String name,
             @RequestParam(name = "value") String value,
             @RequestParam(name = "remark", required = false) String remark,
@@ -232,33 +167,41 @@ public class SysDictController {
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = Securitys.getSysUserId();
-        sysDictService.updateSysDict(code, key, name, value, remark, color, type, order, status, operatedSysUserId);
+        sysDictService.updateSysDict(sysDictId, code, key, name, value, remark, color, type, order, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysDictInputDTO", value = "系统字典DTO", required = true, dataTypeClass = SysDictInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{code:.*}/{key}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysDictId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysDict(
-            @PathVariable(name = "code") String code,
-            @PathVariable(name = "key") String key,
+            @PathVariable(name = "sysDictId") String sysDictId,
             @RequestBody() SysDictInputDTO sysDictInputDTO) {
         String operatedSysUserId = Securitys.getSysUserId();
-        sysDictService.updateSysDict(code, key, sysDictInputDTO.getName(), sysDictInputDTO.getValue(), sysDictInputDTO.getRemark(),
+        sysDictService.updateSysDict(sysDictId, sysDictInputDTO.getCode(), sysDictInputDTO.getKey(), sysDictInputDTO.getName(), sysDictInputDTO.getValue(), sysDictInputDTO.getRemark(),
                 sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getOrder(), sysDictInputDTO.getStatus(), operatedSysUserId);
+    }
+
+    @ApiOperation(value = "删除系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @DeleteMapping("/{sysDictId}")
+    public void deleteSysDict(
+            @PathVariable(name = "sysDictId") String sysDictId) {
+        sysDictService.deleteSysDict(sysDictId);
     }
 
     @ApiOperation(value = "删除系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code:.*}")
-    public void deleteSysDict(
+    @DeleteMapping("/{code:.*}/byCode")
+    public void deleteSysDictByCode(
             @PathVariable(name = "code") String code) {
-        sysDictService.deleteSysDict(code);
+        sysDictService.deleteSysDictByCode(code);
     }
 
     @ApiOperation(value = "删除系统字典", notes = "", produces = "application/json")
@@ -266,11 +209,11 @@ public class SysDictController {
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code:.*}/{key}")
+    @DeleteMapping("/{code:.*}/{key}/byCodeAndKey")
     public void deleteSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
-        sysDictService.deleteSysDict(code, key);
+        sysDictService.deleteSysDictByCodeAndKey(code, key);
     }
 
     @ApiOperation(value = "启用系统字典", notes = "", produces = "application/json")
@@ -278,12 +221,34 @@ public class SysDictController {
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code:.*}/{key}/enable")
+    @PostMapping("/{code:.*}/{key}/enable/byCodeAndKey")
     public void enabledSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
         String operatedSysUserId = Securitys.getSysUserId();
-        sysDictService.enabledSysDict(code, key, operatedSysUserId);
+        sysDictService.enabledSysDictByCodeAndKey(code, key, operatedSysUserId);
+    }
+
+    @ApiOperation(value = "启用系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @PostMapping("/{sysDictId}/enable")
+    public void enabledSysDict(
+            @PathVariable(name = "sysDictId") String sysDictId) {
+        String operatedSysUserId = Securitys.getSysUserId();
+        sysDictService.enabledSysDict(sysDictId, operatedSysUserId);
+    }
+
+    @ApiOperation(value = "禁用系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @PostMapping("/{sysDictId}/disable")
+    public void disableSysDict(
+            @PathVariable(name = "sysDictId") String sysDictId) {
+        String operatedSysUserId = Securitys.getSysUserId();
+        sysDictService.disableSysDict(sysDictId, operatedSysUserId);
     }
 
     @ApiOperation(value = "禁用系统字典", notes = "", produces = "application/json")
@@ -291,12 +256,12 @@ public class SysDictController {
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code:.*}/{key}/disable")
+    @PostMapping("/{code:.*}/{key}/disable/byCodeAndKey")
     public void disableSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
         String operatedSysUserId = Securitys.getSysUserId();
-        sysDictService.disableSysDict(code, key, operatedSysUserId);
+        sysDictService.disableSysDictByCodeAndKey(code, key, operatedSysUserId);
     }
 }
 

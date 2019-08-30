@@ -45,9 +45,32 @@ public class SysDictController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code}")
-    public List<com.chen.f.common.pojo.SysDict> getSysDict(@PathVariable(name = "code") String code) {
+    @GetMapping(path = "/{code}/byCode")
+    public List<SysDict> getSysDictList(@PathVariable(name = "code") String code) {
         return sysDictService.getSysDictList(code);
+    }
+
+
+    @ApiOperation(value = "获取系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping(path = "/{sysDictId}")
+    public SysDict getSysDict(
+            @PathVariable(name = "sysDictId") String sysDictId) {
+        return sysDictService.getSysDict(sysDictId);
+    }
+
+    @ApiOperation(value = "获取系统字典", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "key", value = "字典KEY", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping(path = "/{code:.*}/{key}/byCodeAndKey")
+    public SysDict getSysDict(
+            @PathVariable(name = "code") String code,
+            @PathVariable(name = "key") String key) {
+        return sysDictService.getSysDict(code, key);
     }
 
     @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
@@ -55,7 +78,7 @@ public class SysDictController {
             @ApiImplicitParam(name = "code", value = "字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/alain/tag/{code:.*}")
-    public Map<Object, com.chen.f.common.web.dto.AlainTagOutputDTO> getSysDictByAlainTag(@PathVariable(name = "code") String code) {
+    public Map<Object, AlainTagOutputDTO> getSysDictByAlainTag(@PathVariable(name = "code") String code) {
         List<com.chen.f.common.pojo.SysDict> sysDictList = sysDictService.getSysDictList(code);
         if (CollectionUtils.isNotEmpty(sysDictList)) {
             return sysDictList.stream()
