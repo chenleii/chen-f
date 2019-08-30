@@ -31,8 +31,12 @@ public class SysRolePermission extends Model<SysRolePermission> {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    private String id;
+
     @ApiModelProperty(value = "系统角色id")
-    @TableId(value = "SYS_ROLE_ID", type = IdType.ID_WORKER_STR)
+    @TableId(value = "SYS_ROLE_ID")
     private String sysRoleId;
 
     @ApiModelProperty(value = "系统权限id")

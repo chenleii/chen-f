@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysRolePermission">
+        <id column="ID" property="id" />
         <id column="SYS_ROLE_ID" property="sysRoleId" />
         <result column="SYS_PERMISSION_ID" property="sysPermissionId" />
         <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
@@ -12,7 +13,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        SYS_ROLE_ID, SYS_PERMISSION_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
+        ID, SYS_ROLE_ID, SYS_PERMISSION_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
     </sql>
 
 </mapper>

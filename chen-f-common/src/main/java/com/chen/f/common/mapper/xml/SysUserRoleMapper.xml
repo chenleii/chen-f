@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysUserRole">
+        <id column="ID" property="id" />
         <id column="SYS_USER_ID" property="sysUserId" />
         <result column="SYS_ROLE_ID" property="sysRoleId" />
         <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
@@ -12,7 +13,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        SYS_USER_ID, SYS_ROLE_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
+        ID, SYS_USER_ID, SYS_ROLE_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
     </sql>
 
 </mapper>
