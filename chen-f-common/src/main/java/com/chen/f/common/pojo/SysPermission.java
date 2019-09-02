@@ -32,7 +32,7 @@ public class SysPermission extends Model<SysPermission> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "权限编号")
+    @ApiModelProperty(value = "主键ID")
     @TableId(value = "ID", type = IdType.ID_WORKER_STR)
     private String id;
 

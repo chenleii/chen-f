@@ -33,7 +33,7 @@ public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "主键ID")
     @TableId(value = "ID", type = IdType.ID_WORKER_STR)
     private String id;
 

@@ -33,7 +33,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "ID")
+    @ApiModelProperty(value = "主键ID")
     @TableId(value = "ID", type = IdType.ID_WORKER_STR)
     private String id;
 

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统api表
+ * 系统API表
  * </p>
  *
  * @author chen
@@ -38,7 +38,7 @@ public class SysApi extends Model<SysApi> {
     @TableId(value = "ID", type = IdType.ID_WORKER_STR)
     private String id;
 
-    @ApiModelProperty(value = "api名称")
+    @ApiModelProperty(value = "API名称")
     @TableField("NAME")
     private String name;
 

@@ -11,6 +11,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <p>
+ * 系统API角色权限关联
+ * </p>
+ *
  * @author chen
  * @since 2019/7/25 17:19.
  */

@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <p>
  * 系统用户角色权限
+ * </p>
  *
  * @author chen
  * @date 2018/10/25 20:34.

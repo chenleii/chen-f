@@ -35,7 +35,7 @@ public class SysPermissionApi extends Model<SysPermissionApi> {
     @TableId(value = "SYS_PERMISSION_ID", type = IdType.ID_WORKER_STR)
     private String sysPermissionId;
 
-    @ApiModelProperty(value = "系统APIid")
+    @ApiModelProperty(value = "系统API ID")
     @TableField("SYS_API_ID")
     private String sysApiId;
 
