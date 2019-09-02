@@ -1,16 +1,17 @@
 package com.chen.f.common.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -29,13 +30,13 @@ public class Region extends Model<Region> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "主键ID")
     @TableId(value = "ID", type = IdType.ID_WORKER_STR)
-    private Integer id;
+    private String id;
 
-    @ApiModelProperty(value = "父级id")
+    @ApiModelProperty(value = "父级主键ID")
     @TableField("PARENT_ID")
-    private Integer parentId;
+    private String parentId;
 
     @ApiModelProperty(value = "地区等级(0:国家;1:省;2:市;3:区/县;)")
     @TableField("LEVEL")

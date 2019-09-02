@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap"  type="com.chen.f.common.pojo.Country">
+        <id column="ID" property="id" />
         <id column="LETTER_CODE2" property="letterCode2" />
         <result column="LETTER_CODE3" property="letterCode3" />
         <result column="NAME" property="name" />
@@ -14,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        LETTER_CODE2, LETTER_CODE3, NAME, CHINESE_NAME, NUMERIC_CODE, AREA_CODE
+        ID, LETTER_CODE2, LETTER_CODE3, NAME, CHINESE_NAME, NUMERIC_CODE, AREA_CODE
     </sql>
 
 </mapper>

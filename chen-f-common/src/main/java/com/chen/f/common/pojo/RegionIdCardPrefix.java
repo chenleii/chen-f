@@ -25,13 +25,17 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("REGION_ID_CARD_PREFIX")
-@ApiModel(value="RegionIdCardPrefix对象", description="地区身份证号前缀")
+@ApiModel(value = "RegionIdCardPrefix对象", description = "地区身份证号前缀")
 public class RegionIdCardPrefix extends Model<RegionIdCardPrefix> {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    private String id;
+
     @ApiModelProperty(value = "身份证号前缀")
-    @TableId(value = "PREFIX", type = IdType.ID_WORKER_STR)
+    @TableId(value = "PREFIX")
     private String prefix;
 
     @ApiModelProperty(value = "全称")

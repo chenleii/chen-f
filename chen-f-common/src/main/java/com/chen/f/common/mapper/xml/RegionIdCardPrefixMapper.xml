@@ -4,6 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.RegionIdCardPrefix">
+        <id column="ID" property="id" />
         <id column="PREFIX" property="prefix" />
         <result column="PARENT_PREFIX" property="parentPrefix" />
         <result column="PROVINCE" property="province" />
@@ -14,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        PREFIX, PARENT_PREFIX, PROVINCE, CITY, NAME, FULL_NAME
+        ID, PREFIX, PARENT_PREFIX, PROVINCE, CITY, NAME, FULL_NAME
     </sql>
 
 </mapper>

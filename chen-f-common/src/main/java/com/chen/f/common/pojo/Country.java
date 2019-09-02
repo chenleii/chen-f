@@ -30,8 +30,12 @@ public class Country extends Model<Country> {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    private String id;
+
     @ApiModelProperty(value = "二位字母代码")
-    @TableId(value = "LETTER_CODE2", type = IdType.ID_WORKER_STR)
+    @TableId(value = "LETTER_CODE2")
     private String letterCode2;
 
     @ApiModelProperty(value = "三位字母代码")
