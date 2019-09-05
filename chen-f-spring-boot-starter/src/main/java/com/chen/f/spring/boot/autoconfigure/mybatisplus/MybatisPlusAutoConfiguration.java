@@ -2,7 +2,6 @@ package com.chen.f.spring.boot.autoconfigure.mybatisplus;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.chen.f.spring.boot.autoconfigure.datasource.DataSourceAutoConfiguration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
@@ -32,14 +30,14 @@ public class MybatisPlusAutoConfiguration {
      * 性能分析插件
      * 设置 beta 环境开启
      */
-    @Profile({"beta"})
-    @Bean
-    public PerformanceInterceptor performanceInterceptor() {
-        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
-        performanceInterceptor.setFormat(true);
-        performanceInterceptor.setWriteInLog(true);
-        return performanceInterceptor;
-    }
+    //@Profile({"beta"})
+    //@Bean
+    //public PerformanceInterceptor performanceInterceptor() {
+    //    PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
+    //    performanceInterceptor.setFormat(true);
+    //    performanceInterceptor.setWriteInLog(true);
+    //    return performanceInterceptor;
+    //}
 
     /**
      * 逻辑删除
