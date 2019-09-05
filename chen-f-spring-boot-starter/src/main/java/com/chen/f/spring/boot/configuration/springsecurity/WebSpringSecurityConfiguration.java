@@ -2,8 +2,8 @@ package com.chen.f.spring.boot.configuration.springsecurity;
 
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.spring.boot.configuration.springsecurity.filter.CustomLoginAuthenticationFilter;
-import com.chen.f.spring.boot.configuration.springsecurity.provider.CustomLoginAuthenticationProvider;
+import com.chen.f.spring.boot.configuration.springsecurity.filter.LoginAuthenticationFilter;
+import com.chen.f.spring.boot.configuration.springsecurity.provider.LoginAuthenticationProvider;
 import com.chen.f.spring.boot.configuration.springsecurity.webhandle.SpringSecurityHandle;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -94,13 +94,13 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .logout().logoutUrl("/logout").logoutSuccessHandler(SpringSecurityHandle::logoutSuccessHandle).permitAll();
 
         //添加自定义登录验证
-        CustomLoginAuthenticationFilter customLoginAuthenticationFilter = new CustomLoginAuthenticationFilter();
-        customLoginAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
-        customLoginAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
-        customLoginAuthenticationFilter.setAuthenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle);
-        customLoginAuthenticationFilter.setAuthenticationSuccessHandler(SpringSecurityHandle::authenticationSuccessHandle);
-        customLoginAuthenticationFilter.setAuthenticationFailureHandler(SpringSecurityHandle::authenticationFailureHandle);
-        http.addFilterAt(customLoginAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter();
+        loginAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
+        loginAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
+        loginAuthenticationFilter.setAuthenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle);
+        loginAuthenticationFilter.setAuthenticationSuccessHandler(SpringSecurityHandle::authenticationSuccessHandle);
+        loginAuthenticationFilter.setAuthenticationFailureHandler(SpringSecurityHandle::authenticationFailureHandle);
+        http.addFilterAt(loginAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         //配置未认证（未登录）,认证失败（用户没有权限访问）处理
         http.exceptionHandling()
@@ -163,8 +163,8 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     }
 
     @Bean
-    public CustomLoginAuthenticationProvider loginAuthenticationProvider() {
-        CustomLoginAuthenticationProvider chenLoginAuthenticationProvider = new CustomLoginAuthenticationProvider();
+    public LoginAuthenticationProvider loginAuthenticationProvider() {
+        LoginAuthenticationProvider chenLoginAuthenticationProvider = new LoginAuthenticationProvider();
         chenLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
         chenLoginAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         chenLoginAuthenticationProvider.setHideUserNotFoundExceptions(true);

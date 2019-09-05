@@ -11,14 +11,14 @@ import java.util.Collection;
  * @author chen
  * @since 2018/1/16 9:28.
  */
-public class CustomLoginAuthenticationToken extends UsernamePasswordAuthenticationToken {
+public class LoginAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
 
-    public CustomLoginAuthenticationToken(Object principal, Object credentials) {
+    public LoginAuthenticationToken(Object principal, Object credentials) {
         super(principal, credentials);
     }
 
-    public CustomLoginAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+    public LoginAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(principal, credentials, authorities);
     }
 }

@@ -2,7 +2,7 @@ package com.chen.f.spring.boot.configuration.springsecurity.provider;
 
 import com.chen.f.admin.security.CustomWebAuthenticationDetails;
 import com.chen.f.spring.boot.configuration.springsecurity.exception.CaptchaException;
-import com.chen.f.spring.boot.configuration.springsecurity.token.CustomLoginAuthenticationToken;
+import com.chen.f.spring.boot.configuration.springsecurity.token.LoginAuthenticationToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
  * @author chen
  * @since 2018/1/16 9:31.
  */
-public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider {
+public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 
     /**
      * 创建完整的身份认证对象
@@ -30,7 +30,7 @@ public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider
     protected Authentication createSuccessAuthentication(Object principal,
                                                          Authentication authentication, UserDetails user) {
 
-        CustomLoginAuthenticationToken result = new CustomLoginAuthenticationToken(
+        LoginAuthenticationToken result = new LoginAuthenticationToken(
                 principal, authentication.getCredentials(),
                 user.getAuthorities());
         result.setDetails(authentication.getDetails());
@@ -45,7 +45,7 @@ public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider
      * @throws AuthenticationException 如果认证失败
      */
     private void additionalAuthenticationChecks(UserDetails userDetails,
-                                                CustomLoginAuthenticationToken authentication) throws AuthenticationException {
+                                                LoginAuthenticationToken authentication) throws AuthenticationException {
 
         // 验证 验证码
         Object details = authentication.getDetails();
@@ -75,7 +75,7 @@ public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (CustomLoginAuthenticationToken.class.isAssignableFrom(authentication));
+        return (LoginAuthenticationToken.class.isAssignableFrom(authentication));
     }
 
 }

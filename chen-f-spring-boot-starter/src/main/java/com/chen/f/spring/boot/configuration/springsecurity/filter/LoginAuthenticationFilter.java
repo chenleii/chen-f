@@ -1,6 +1,6 @@
 package com.chen.f.spring.boot.configuration.springsecurity.filter;
 
-import com.chen.f.spring.boot.configuration.springsecurity.token.CustomLoginAuthenticationToken;
+import com.chen.f.spring.boot.configuration.springsecurity.token.LoginAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @author chen
  * @since 2018/1/15 13:17.
  */
-public class CustomLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public static final String CHEN_USERNAME_KEY = "username";
     public static final String CHEN_PASSWORD_KEY = "password";
 
@@ -24,7 +24,7 @@ public class CustomLoginAuthenticationFilter extends UsernamePasswordAuthenticat
     private String passwordParameter = CHEN_PASSWORD_KEY;
     private boolean postOnly = true;
 
-    public CustomLoginAuthenticationFilter() {
+    public LoginAuthenticationFilter() {
 
     }
 
@@ -85,7 +85,7 @@ public class CustomLoginAuthenticationFilter extends UsernamePasswordAuthenticat
 
         username = username.trim();
 
-        CustomLoginAuthenticationToken authRequest = new CustomLoginAuthenticationToken(
+        LoginAuthenticationToken authRequest = new LoginAuthenticationToken(
                 username, password);
         super.setDetails(request, authRequest);
 
