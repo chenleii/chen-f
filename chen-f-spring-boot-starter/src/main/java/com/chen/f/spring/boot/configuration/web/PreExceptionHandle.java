@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,6 +28,7 @@ import java.util.List;
  * @since 2018/11/3 0:17.
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@ControllerAdvice
 public class PreExceptionHandle extends AbstractExceptionHandle {
 
 
