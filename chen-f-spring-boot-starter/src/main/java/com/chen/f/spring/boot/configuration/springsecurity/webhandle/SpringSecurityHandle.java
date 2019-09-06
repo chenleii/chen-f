@@ -1,6 +1,6 @@
 package com.chen.f.spring.boot.configuration.springsecurity.webhandle;
 
-import com.chen.f.admin.security.CustomWebAuthenticationDetails;
+import com.chen.f.admin.security.LoginWebAuthenticationDetails;
 import com.chen.f.core.api.response.error.security.SecurityErrorResponse;
 import com.chen.f.core.api.response.success.R;
 import com.chen.f.core.util.ServletUtils;
@@ -13,6 +13,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.session.SessionInformationExpiredEvent;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -119,7 +120,34 @@ public class SpringSecurityHandle {
      * @param request request
      * @return 用户token细节
      */
-    public static CustomWebAuthenticationDetails buildDetailsHandle(HttpServletRequest request) {
-        return new CustomWebAuthenticationDetails(request);
+    public static LoginWebAuthenticationDetails buildDetailsHandle(HttpServletRequest request) {
+        return new LoginWebAuthenticationDetails(request);
+    }
+
+
+    /**
+     * 无效的session处理
+     *
+     * @param request request
+     * @param response response
+     * @throws IOException IOException
+     * @throws ServletException ServletException
+     */
+    public static void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        authenticationEntryPointHandle(request, response, null);
+    }
+
+
+    /**
+     * 过期的session处理
+     *
+     * @param event event
+     * @throws IOException IOException
+     * @throws ServletException ServletException
+     */
+    public static void onExpiredSessionDetected(SessionInformationExpiredEvent event)
+            throws IOException, ServletException{
+        authenticationEntryPointHandle(event.getRequest(), event.getResponse(), null);
     }
 }

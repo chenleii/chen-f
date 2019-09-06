@@ -112,7 +112,11 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .alwaysRemember(true).tokenValiditySeconds(86400)
                 .rememberMeParameter("rememberMe");
 
-        http.sessionManagement().maximumSessions(2).maxSessionsPreventsLogin(true).sessionRegistry(this.sessionRegistry);
+        http.sessionManagement()
+                .invalidSessionStrategy(SpringSecurityHandle::onInvalidSessionDetected)
+                .maximumSessions(2).maxSessionsPreventsLogin(true)
+                .sessionRegistry(this.sessionRegistry)
+                .expiredSessionStrategy(SpringSecurityHandle::onExpiredSessionDetected);
 
         http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
             @Override
