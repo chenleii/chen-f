@@ -1,6 +1,6 @@
 package com.chen.f.spring.boot.configuration.springsecurity.provider;
 
-import com.chen.f.admin.security.CustomWebAuthenticationDetails;
+import com.chen.f.admin.security.LoginWebAuthenticationDetails;
 import com.chen.f.spring.boot.configuration.springsecurity.exception.CaptchaException;
 import com.chen.f.spring.boot.configuration.springsecurity.token.LoginAuthenticationToken;
 import org.apache.commons.lang3.StringUtils;
@@ -49,10 +49,10 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 
         // 验证 验证码
         Object details = authentication.getDetails();
-        Assert.isInstanceOf(CustomWebAuthenticationDetails.class, details, messages.getMessage(
+        Assert.isInstanceOf(LoginWebAuthenticationDetails.class, details, messages.getMessage(
                 "CustomLoginAuthenticationProvider.onlySupports",
                 "Only CustomLoginAuthenticationToken.getDetails() == CustomWebAuthenticationDetails is supported"));
-        CustomWebAuthenticationDetails chenWebAuthenticationDetails = (CustomWebAuthenticationDetails) details;
+        LoginWebAuthenticationDetails chenWebAuthenticationDetails = (LoginWebAuthenticationDetails) details;
         String captcha = chenWebAuthenticationDetails.getCaptcha();
         String originalCaptcha = chenWebAuthenticationDetails.getOriginalCaptcha();
         Long originalCaptchaExpireTime = chenWebAuthenticationDetails.getOriginalCaptchaExpireTime();
