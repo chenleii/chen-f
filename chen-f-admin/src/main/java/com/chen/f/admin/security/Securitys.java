@@ -76,16 +76,16 @@ public class Securitys {
     }
 
     /**
-     * 获取认证对象的详细信息{@link CustomWebAuthenticationDetails}
-     * 默认使用了{@link CustomWebAuthenticationDetails}
+     * 获取认证对象的详细信息{@link LoginWebAuthenticationDetails}
+     * 默认使用了{@link LoginWebAuthenticationDetails}
      *
      * @return CustomWebAuthenticationDetails实例
      */
-    public static CustomWebAuthenticationDetails getAuthenticationDetails() {
+    public static LoginWebAuthenticationDetails getAuthenticationDetails() {
         Authentication authentication = getAuthentication();
         Object details = authentication.getDetails();
-        ApiAssert.isInstanceOf(CustomWebAuthenticationDetails.class, details, SecurityErrorResponse.detailsError());
-        return (CustomWebAuthenticationDetails) details;
+        ApiAssert.isInstanceOf(LoginWebAuthenticationDetails.class, details, SecurityErrorResponse.detailsError());
+        return (LoginWebAuthenticationDetails) details;
 
     }
 

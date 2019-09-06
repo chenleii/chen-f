@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
  * @author chen  Email:1@1.com
  * Time:2018/4/12 18:31
  */
-public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
+public class LoginWebAuthenticationDetails extends WebAuthenticationDetails {
 
     private static final String DEFAULT_CAPTCHA_KEY = "captcha";
     private static final String DEFAULT_ORIGINAL_CAPTCHA_KEY = "originalCaptcha";
@@ -69,7 +69,7 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
      *
      * @param request that the authentication request was received from
      */
-    public CustomWebAuthenticationDetails(HttpServletRequest request) {
+    public LoginWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
         HttpSession session = request.getSession(false);
         if (session != null) {
