@@ -1,6 +1,7 @@
 package com.chen.f.spring.boot.autoconfigure;
 
 import com.chen.f.common.helper.ApplicationContextHelper;
+import com.chen.f.common.helper.CacheHelper;
 import com.chen.f.common.helper.MybatisPlusHelper;
 import com.chen.f.common.helper.SysParameterHelper;
 import com.chen.f.common.service.ISysParameterService;
@@ -8,6 +9,7 @@ import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfigura
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +39,11 @@ public class ChenFAutoConfiguration {
         SysParameterHelper sysParameterHelper = new SysParameterHelper(sysParameterService);
         sysParameterHelper.init();
         return sysParameterHelper;
+    }
+
+    @Bean
+    public CacheHelper cacheHelper(CacheManager cacheManager) {
+        return new CacheHelper(cacheManager);
     }
 
 
