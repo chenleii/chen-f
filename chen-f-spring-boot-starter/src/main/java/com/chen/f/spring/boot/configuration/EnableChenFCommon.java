@@ -1,5 +1,6 @@
 package com.chen.f.spring.boot.configuration;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -17,5 +18,6 @@ import java.lang.annotation.*;
         EnableChenFCommonConfiguration.class,
         EnableChenFCommonConfigurationImportSelector.class,
 })
+@EnableCaching
 public @interface EnableChenFCommon {
 }
