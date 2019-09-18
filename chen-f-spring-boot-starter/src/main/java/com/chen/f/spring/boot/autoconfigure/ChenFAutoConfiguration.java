@@ -1,9 +1,6 @@
 package com.chen.f.spring.boot.autoconfigure;
 
-import com.chen.f.common.helper.ApplicationContextHelper;
-import com.chen.f.common.helper.CacheHelper;
-import com.chen.f.common.helper.MybatisPlusHelper;
-import com.chen.f.common.helper.SysParameterHelper;
+import com.chen.f.common.helper.*;
 import com.chen.f.common.service.ISysParameterService;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
 import org.springframework.beans.factory.BeanFactory;
@@ -13,6 +10,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.validation.Validator;
 
 /**
  * @author chen
@@ -44,6 +43,11 @@ public class ChenFAutoConfiguration {
     @Bean
     public CacheHelper cacheHelper(CacheManager cacheManager) {
         return new CacheHelper(cacheManager);
+    }
+
+    @Bean
+    public ValidatorHelper validatorHelper(Validator validator) {
+        return new ValidatorHelper(validator);
     }
 
 
