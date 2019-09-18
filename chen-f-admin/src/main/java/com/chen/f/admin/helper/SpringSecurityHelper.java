@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.session.SessionRepository;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class SpringSecurityHelper {
     protected static final Logger logger = LoggerFactory.getLogger(SpringSecurityHelper.class);
 
     private static SessionRegistry sessionRegistry;
+
+    private static SecurityContextRepository securityContextRepository;
+    private static SessionRepository sessionRepository;
+
 
     public SpringSecurityHelper(SessionRegistry sessionRegistry) {
         SpringSecurityHelper.sessionRegistry = sessionRegistry;
