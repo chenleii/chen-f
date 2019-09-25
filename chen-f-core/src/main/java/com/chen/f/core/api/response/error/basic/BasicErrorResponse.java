@@ -3,7 +3,9 @@ package com.chen.f.core.api.response.error.basic;
 import com.chen.f.core.api.response.error.AbstractErrorResponse;
 import org.springframework.validation.FieldError;
 
+import javax.validation.ConstraintViolation;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 基本错误响应
@@ -55,6 +57,12 @@ public class BasicErrorResponse extends AbstractErrorResponse {
      */
     public static BasicErrorResponse parameterVerificationError(List<FieldError> error) {
         return new BasicErrorResponse("parameter_verification_error", "参数验证错误", error);
+    }
+    /**
+     * 参数验证错误
+     */
+    public static BasicErrorResponse parameterVerificationError(Set<ConstraintViolation<?>> constraintViolationSet) {
+        return new BasicErrorResponse("parameter_verification_error", "参数验证错误", constraintViolationSet);
     }
 
     /**

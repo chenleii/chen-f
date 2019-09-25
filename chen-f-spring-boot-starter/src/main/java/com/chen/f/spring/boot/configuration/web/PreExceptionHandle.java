@@ -7,6 +7,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +20,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 前置的异常处理
@@ -50,7 +54,8 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     }
 
     /**
-     * {@code @Valid} 参数验证失败
+     * 参数验证失败
+     * {@link javax.validation.Valid} {@link org.springframework.validation.annotation.Validated}
      *
      * @param request   request
      * @param response  response
@@ -60,12 +65,52 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
+
     public ErrorResponse methodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response,
                                                          MethodArgumentNotValidException exception) {
-        logger.warn("方法参数无效异常", exception);
+        logger.warn("方法参数验证错误异常", exception);
         BindingResult bindingResult = exception.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         return wrap(BasicErrorResponse.parameterVerificationError(fieldErrors), exception);
+    }
+
+    /**
+     * 参数验证失败
+     * {@link javax.validation.Valid} {@link org.springframework.validation.annotation.Validated}
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    @ResponseBody
+    public ErrorResponse bindException(HttpServletRequest request, HttpServletResponse response,
+                                       BindException exception) {
+        logger.warn("方法参数验证错误异常", exception);
+        BindingResult bindingResult = exception.getBindingResult();
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        return wrap(BasicErrorResponse.parameterVerificationError(fieldErrors), exception);
+    }
+
+    /**
+     * 参数验证失败
+     * {@link org.springframework.validation.annotation.Validated}
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseBody
+    public ErrorResponse constraintViolationException(HttpServletRequest request, HttpServletResponse response,
+                                                      ConstraintViolationException exception) {
+        logger.warn("方法参数验证错误异常", exception);
+        Set<ConstraintViolation<?>> constraintViolationSet = exception.getConstraintViolations();
+        return wrap(BasicErrorResponse.parameterVerificationError(constraintViolationSet), exception);
     }
 
     /**
