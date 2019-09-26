@@ -44,6 +44,10 @@ public class SysPermission extends Model<SysPermission> {
     @TableField("REMARK")
     private String remark;
 
+    @ApiModelProperty(value = "类型(MENU:菜单;API:API接口;ELEMENT:页面元素可见性;OPERATION:操作;")
+    @TableField("TYPE")
+    private StatusEnum type;
+
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     @TableField("STATUS")
     private StatusEnum status;
