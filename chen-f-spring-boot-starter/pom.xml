@@ -63,7 +63,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid-spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
@@ -75,7 +74,6 @@
         <dependency>
             <groupId>p6spy</groupId>
             <artifactId>p6spy</artifactId>
-            <version>${p6spy.version}</version>
             <optional>true</optional>
         </dependency>
 
