@@ -25,13 +25,15 @@
 
     <properties>
         <java.version>1.8</java.version>
-		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <chen-f.version>0.0.1</chen-f.version>
+        <chen-f.version>${project.version}</chen-f.version>
+
         <spring-boot.version>${project.parent.version}</spring-boot.version>
+        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
 
         <druid-spring-boot-starter.version>1.1.16</druid-spring-boot-starter.version>
 
@@ -70,7 +72,6 @@
 
 
     <dependencyManagement>
-
         <dependencies>
             <dependency>
                 <groupId>com.alibaba</groupId>

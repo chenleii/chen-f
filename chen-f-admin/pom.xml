@@ -7,9 +7,7 @@
         <artifactId>chen-f</artifactId>
         <version>0.0.1</version>
     </parent>
-    <groupId>com.chen</groupId>
     <artifactId>chen-f-admin</artifactId>
-    <version>${project.parent.version}</version>
     <name>chen-f-admin</name>
     <description>chen-f 管理端模块</description>
 
@@ -21,12 +19,12 @@
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-core</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${chen-f.version}</version>
         </dependency>
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-common</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${chen-f.version}</version>
         </dependency>
 
         <dependency>

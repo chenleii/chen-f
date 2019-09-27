@@ -7,9 +7,7 @@
         <artifactId>chen-f</artifactId>
         <version>0.0.1</version>
     </parent>
-    <groupId>com.chen</groupId>
     <artifactId>chen-f-template</artifactId>
-    <version>${project.parent.version}</version>
     <packaging>jar</packaging>
     <name>chen-f-template</name>
     <description>chen-f 模板</description>
@@ -22,7 +20,7 @@
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-spring-boot-starter</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${chen-f.version}</version>
             <!--<exclusions>-->
             <!--<exclusion>-->
             <!--<groupId>com.chen</groupId>-->
