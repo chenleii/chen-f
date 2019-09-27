@@ -243,6 +243,7 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!--打包时发布源码-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
