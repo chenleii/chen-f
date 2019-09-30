@@ -30,9 +30,9 @@ public class RedisAutoConfiguration {
 
 
     @Primary
-    @Bean("redisTemplate1")
+    @Bean
     @ConditionalOnBean(RedisConnectionFactory.class)
-    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<?, ?> redisTemplate1(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, ?> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
@@ -43,9 +43,9 @@ public class RedisAutoConfiguration {
     }
 
     @Primary
-    @Bean("stringRedisTemplate1")
+    @Bean
     @ConditionalOnBean(RedisConnectionFactory.class)
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public StringRedisTemplate stringRedisTemplate1(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
         stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
         stringRedisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
@@ -53,9 +53,9 @@ public class RedisAutoConfiguration {
     }
 
     @Primary
-    @Bean("reactiveRedisTemplate1")
+    @Bean
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveRedisTemplate<?, ?> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
+    public ReactiveRedisTemplate<?, ?> reactiveRedisTemplate1(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
         return new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, RedisSerializationContext.newSerializationContext()
                 .hashKey(new GenericJackson2JsonRedisSerializer())
                 .hashValue(new GenericJackson2JsonRedisSerializer())
@@ -66,9 +66,9 @@ public class RedisAutoConfiguration {
     }
 
     @Primary
-    @Bean("reactiveStringRedisTemplate1")
+    @Bean
     @ConditionalOnBean(ReactiveRedisConnectionFactory.class)
-    public ReactiveStringRedisTemplate reactiveRedisTemplateString(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
+    public ReactiveStringRedisTemplate reactiveStringRedisTemplate1(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
         return new ReactiveStringRedisTemplate(reactiveRedisConnectionFactory, RedisSerializationContext.string());
     }
 }
