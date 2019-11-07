@@ -131,6 +131,8 @@ spring:
         poolPreparedStatements: true
         maxPoolPreparedStatementPerConnectionSize: 50
         connectionPropertise:
+        #这么配置是默认的过滤器
+        #filters: stat,wall,slf4j,config,
 
     sharding:
       default-data-source-name: master
