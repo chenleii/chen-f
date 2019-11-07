@@ -34,16 +34,17 @@
 
         <spring-boot.version>${project.parent.version}</spring-boot.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
-
+        
+        <p6spy.version>3.8.0</p6spy.version>
+        
         <druid-spring-boot-starter.version>1.1.16</druid-spring-boot-starter.version>
+
+        <sharding-jdbc-spring-boot-starter.version>4.0.0-RC3-SNAPSHOT</sharding-jdbc-spring-boot-starter.version>
 
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <mybatis-plus-boot-starter.version>${mybatis-plus.version}</mybatis-plus-boot-starter.version>
 
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
-
-        <p6spy.version>3.8.0</p6spy.version>
-
 
         <poi.version>3.17</poi.version>
         <httpclient.version>4.5.7</httpclient.version>
@@ -76,15 +77,22 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
             <dependency>
-                <groupId>p6spy</groupId>
-                <artifactId>p6spy</artifactId>
-                <version>${p6spy.version}</version>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-spring-boot-starter.version}</version>
             </dependency>
+
             <!-- mybatis-plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>

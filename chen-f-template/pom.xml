@@ -21,12 +21,12 @@
             <groupId>com.chen</groupId>
             <artifactId>chen-f-spring-boot-starter</artifactId>
             <version>${chen-f.version}</version>
-            <!--<exclusions>-->
-            <!--<exclusion>-->
-            <!--<groupId>com.chen</groupId>-->
-            <!--<artifactId>chen-f-admin</artifactId>-->
-            <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <!--<exclusion>-->
+                <!--    <groupId>com.chen</groupId>-->
+                <!--    <artifactId>chen-f-admin</artifactId>-->
+                <!--</exclusion>-->
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -34,6 +34,50 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <!--<scope>provided</scope>-->
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--去除HikariCP,集成druid-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -101,52 +145,52 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <layout>DIR</layout>-->
-<!--                    <includeSystemScope>true</includeSystemScope>-->
-<!--                    <includes>-->
-<!--                        <include>-->
-<!--                            <groupId>${project.groupId}</groupId>-->
-<!--                            <artifactId>${project.artifactId}</artifactId>-->
-<!--                        </include>-->
-<!--                    </includes>-->
-<!--                </configuration>-->
+                <!--<configuration>-->
+                <!--    <layout>DIR</layout>-->
+                <!--    <includeSystemScope>true</includeSystemScope>-->
+                <!--    <includes>-->
+                <!--        <include>-->
+                <!--            <groupId>${project.groupId}</groupId>-->
+                <!--            <artifactId>${project.artifactId}</artifactId>-->
+                <!--        </include>-->
+                <!--    </includes>-->
+                <!--</configuration>-->
             </plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-dependency-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>copy-dependencies</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy-dependencies</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            &lt;!&ndash;将依赖复制到/lib路径&ndash;&gt;-->
-<!--                            <type>jar</type>-->
-<!--                            <includeTypes>jar</includeTypes>-->
-<!--                            <includeScope>runtime</includeScope>-->
-<!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--<plugin>-->
+            <!--    <groupId>org.apache.maven.plugins</groupId>-->
+            <!--    <artifactId>maven-dependency-plugin</artifactId>-->
+            <!--    <executions>-->
+            <!--        <execution>-->
+            <!--            <id>copy-dependencies</id>-->
+            <!--            <phase>package</phase>-->
+            <!--            <goals>-->
+            <!--                <goal>copy-dependencies</goal>-->
+            <!--            </goals>-->
+            <!--            <configuration>-->
+            <!--                &lt;!&ndash;将依赖复制到/lib路径&ndash;&gt;-->
+            <!--                <type>jar</type>-->
+            <!--                <includeTypes>jar</includeTypes>-->
+            <!--                <includeScope>runtime</includeScope>-->
+            <!--                <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+            <!--            </configuration>-->
+            <!--        </execution>-->
+            <!--    </executions>-->
+            <!--</plugin>-->
 
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    &lt;!&ndash;MANIFEST.MF文件添加 CLASSPATH&ndash;&gt;-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <addClasspath>true</addClasspath>-->
-<!--                            <classpathPrefix>lib/</classpathPrefix>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--<plugin>-->
+            <!--    <groupId>org.apache.maven.plugins</groupId>-->
+            <!--    <artifactId>maven-jar-plugin</artifactId>-->
+            <!--    <configuration>-->
+            <!--        &lt;!&ndash;MANIFEST.MF文件添加 CLASSPATH&ndash;&gt;-->
+            <!--        <archive>-->
+            <!--            <manifest>-->
+            <!--                <addClasspath>true</addClasspath>-->
+            <!--                <classpathPrefix>lib/</classpathPrefix>-->
+            <!--            </manifest>-->
+            <!--        </archive>-->
+            <!--    </configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
