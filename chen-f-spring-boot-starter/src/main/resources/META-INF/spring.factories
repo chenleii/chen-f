@@ -1,6 +1,5 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.chen.f.spring.boot.autoconfigure.datasource.DataSourceAutoConfiguration,\
 com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration,\
 com.chen.f.spring.boot.autoconfigure.redis.RedisAutoConfiguration,\
 com.chen.f.spring.boot.autoconfigure.springsession.SpringSessionAutoConfiguration,\

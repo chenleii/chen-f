@@ -21,8 +21,8 @@ import org.junit.Test;
  * @date 2017/12/18
  */
 public class GeneratorCode {
-    private static final String parentPackageName = "com.chen.f.core";
-    private static final String[] tableNames = new String[]{"sys_api","sys_role_api","sys_permission_api"};
+    private static final String parentPackageName = "com.chen.f.admin";
+    private static final String[] tableNames = new String[]{};
 
     @Test
     public void generateCode() {

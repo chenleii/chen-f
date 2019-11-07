@@ -3,14 +3,14 @@ package com.chen.f.spring.boot.configuration;
 
 import com.chen.f.admin.service.impl.*;
 import com.chen.f.admin.web.controller.*;
-import org.springframework.context.annotation.ImportSelector;
+import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
  * @author chen
  * @since 2019/1/14 22:55.
  */
-public class EnableChenFAdminConfigurationImportSelector implements ImportSelector {
+public class EnableChenFAdminConfigurationImportSelector implements DeferredImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         return new String[]{

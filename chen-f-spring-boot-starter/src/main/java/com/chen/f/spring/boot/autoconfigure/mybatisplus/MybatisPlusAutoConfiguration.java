@@ -2,17 +2,12 @@ package com.chen.f.spring.boot.autoconfigure.mybatisplus;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.chen.f.spring.boot.autoconfigure.datasource.DataSourceAutoConfiguration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 /**
  * @author chen
@@ -20,16 +15,14 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ConditionalOnClass({MybatisPlusAutoConfiguration.class, SqlSessionFactory.class, SqlSessionFactoryBean.class})
-@ConditionalOnSingleCandidate(DataSource.class)
-@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @AutoConfigureBefore(com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration.class)
 public class MybatisPlusAutoConfiguration {
 
 
-    /**
-     * 性能分析插件
-     * 设置 beta 环境开启
-     */
+    ///**
+    // * 性能分析插件
+    // * 设置 beta 环境开启
+    // */
     //@Profile({"beta"})
     //@Bean
     //public PerformanceInterceptor performanceInterceptor() {
@@ -39,9 +32,9 @@ public class MybatisPlusAutoConfiguration {
     //    return performanceInterceptor;
     //}
 
-    /**
-     * 逻辑删除
-     */
+    ///**
+    // * 逻辑删除
+    // */
     //@Bean
     //public ISqlInjector sqlInjector() {
     //    return new LogicSqlInjector();

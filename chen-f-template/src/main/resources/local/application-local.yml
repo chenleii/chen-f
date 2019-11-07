@@ -108,3 +108,33 @@ spring:
       org.quartz.jobStore.acquireTriggersWithinLock: false
       org.quartz.scheduler.batchTriggerAcquisitionMaxCount: 50
 
+  shardingsphere:
+    enabled: true
+    datasource:
+      names: master
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/chen?characterEncoding=utf8&useSSL=false
+        username: root
+        password: 123456
+        initialSize: 5
+        maxActive: 10
+        minIdle: 3
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 50
+        connectionPropertise:
+
+    sharding:
+      default-data-source-name: master
+
+    props:
+      sql:
+        show: true
