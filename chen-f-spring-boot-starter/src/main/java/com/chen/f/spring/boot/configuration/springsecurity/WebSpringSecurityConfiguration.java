@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -196,13 +195,5 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.png", "/**/*.jpg", "/**/*.xlsx", "/**/*.gif");
-    }
-
-
-    @Bean
-    public ReloadableResourceBundleMessageSource configure() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath*:org/springframework/security/messages_zh_CN");
-        return messageSource;
     }
 }
