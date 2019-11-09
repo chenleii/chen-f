@@ -1,11 +1,14 @@
 package com.chen.f.spring.boot.configuration.springsecurity;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.common.mapper.*;
+import com.chen.f.common.mapper.SysApiRolePermissionMapper;
+import com.chen.f.common.mapper.SysPermissionMapper;
+import com.chen.f.common.mapper.SysRoleMapper;
+import com.chen.f.common.mapper.SysUserMapper;
+import com.chen.f.common.mapper.SysUserRolePermissionMapper;
 import com.chen.f.common.pojo.SysApiRolePermission;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
-import com.chen.f.spring.boot.configuration.springsecurity.exceptionhandle.SpringSecurityExceptionHandle;
 import com.chen.f.spring.boot.configuration.springsecurity.service.DefaultUserDetailsService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -95,11 +98,6 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @ConditionalOnClass({SessionRegistry.class})
     public SessionRegistry sessionRegistry(FindByIndexNameSessionRepository<?> findByIndexNameSessionRepository) {
         return new SpringSessionBackedSessionRegistry<>(findByIndexNameSessionRepository);
-    }
-
-    @Bean
-    public SpringSecurityExceptionHandle springSecurityExceptionHandle() {
-        return new SpringSecurityExceptionHandle();
     }
 
 

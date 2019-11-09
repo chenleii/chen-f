@@ -19,6 +19,7 @@ import java.lang.annotation.*;
         EnableChenFCommonConfigurationImportSelector.class,
 })
 @EnableChenFI18n
+@EnableChenFErrorHandle
 @EnableCaching
 public @interface EnableChenFCommon {
 }

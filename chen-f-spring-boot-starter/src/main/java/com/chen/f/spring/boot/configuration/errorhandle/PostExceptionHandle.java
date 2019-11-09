@@ -1,4 +1,4 @@
-package com.chen.f.spring.boot.configuration.web;
+package com.chen.f.spring.boot.configuration.errorhandle;
 
 import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.api.response.error.basic.BasicErrorResponse;
