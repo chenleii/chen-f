@@ -1,6 +1,10 @@
 package com.chen.f.spring.boot.autoconfigure;
 
-import com.chen.f.common.helper.*;
+import com.chen.f.common.helper.ApplicationContextHelper;
+import com.chen.f.common.helper.CacheHelper;
+import com.chen.f.common.helper.MybatisPlusHelper;
+import com.chen.f.common.helper.SysParameterHelper;
+import com.chen.f.common.helper.ValidatorHelper;
 import com.chen.f.common.service.ISysParameterService;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
 import org.springframework.beans.factory.BeanFactory;

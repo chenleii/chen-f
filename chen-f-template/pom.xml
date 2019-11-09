@@ -119,8 +119,8 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
-                    <include>*.*</include>
                     <include>META-INF/*</include>
+                    <include>i18n/*</include>
                 </includes>
                 <!-- 资源根目录排除各环境的配置，防止在生成目录中多余其它目录 -->
                 <excludes>
