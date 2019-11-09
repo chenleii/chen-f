@@ -1,5 +1,6 @@
 package com.chen.f.spring.boot.configuration;
 
+import com.chen.f.spring.boot.configuration.errorhandle.EnableChenFErrorHandle;
 import com.chen.f.spring.boot.configuration.i18n.EnableChenFI18n;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Import;

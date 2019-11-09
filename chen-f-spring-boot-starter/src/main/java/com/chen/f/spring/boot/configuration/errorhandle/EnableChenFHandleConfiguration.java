@@ -1,9 +1,5 @@
-package com.chen.f.spring.boot.configuration;
+package com.chen.f.spring.boot.configuration.errorhandle;
 
-import com.chen.f.spring.boot.configuration.errorhandle.SpringSecurityExceptionHandle;
-import com.chen.f.spring.boot.configuration.errorhandle.ChenFErrorController;
-import com.chen.f.spring.boot.configuration.errorhandle.PostExceptionHandle;
-import com.chen.f.spring.boot.configuration.errorhandle.PreExceptionHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

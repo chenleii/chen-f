@@ -1,4 +1,4 @@
-package com.chen.f.spring.boot.configuration;
+package com.chen.f.spring.boot.configuration.errorhandle;
 
 import org.springframework.context.annotation.Import;
 
