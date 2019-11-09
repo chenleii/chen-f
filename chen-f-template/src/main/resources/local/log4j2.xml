@@ -90,8 +90,8 @@
         </Logger>
 
         <!--过滤掉框架的日志-->
-        <Logger name="org.springframework" level="WARN" additivity="true"/>
-        <Logger name="org.mybatis" level="WARN" additivity="true"/>
+        <!--<Logger name="org.springframework" level="WARN" additivity="true"/>-->
+        <!--<Logger name="org.mybatis" level="WARN" additivity="true"/>-->
         <Logger name="org.quartz" level="WARN" additivity="true"/>
         <Logger name="io.lettuce" level="WARN" additivity="true"/>
     </Loggers>
