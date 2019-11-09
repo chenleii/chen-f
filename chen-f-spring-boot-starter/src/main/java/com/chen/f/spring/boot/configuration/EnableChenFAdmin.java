@@ -1,12 +1,16 @@
 package com.chen.f.spring.boot.configuration;
 
-import com.chen.f.spring.boot.configuration.quartz.QuartzConfiguration;
+import com.chen.f.spring.boot.configuration.quartz.EnableChenFQuartz;
 import com.chen.f.spring.boot.configuration.springsecurity.ReactiveWebSpringSecurityConfiguration;
 import com.chen.f.spring.boot.configuration.springsecurity.SpringSecurityConfiguration;
 import com.chen.f.spring.boot.configuration.springsecurity.WebSpringSecurityConfiguration;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 用于开启后台管理配置
@@ -24,8 +28,8 @@ import java.lang.annotation.*;
         SpringSecurityConfiguration.class,
         WebSpringSecurityConfiguration.class,
         ReactiveWebSpringSecurityConfiguration.class,
-        QuartzConfiguration.class,
 })
 @EnableChenFCommon
+@EnableChenFQuartz
 public @interface EnableChenFAdmin {
 }
