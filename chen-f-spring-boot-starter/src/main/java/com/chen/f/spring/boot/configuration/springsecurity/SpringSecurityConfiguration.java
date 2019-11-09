@@ -1,10 +1,14 @@
 package com.chen.f.spring.boot.configuration.springsecurity;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import com.chen.f.admin.helper.SpringSecurityHelper;
+import com.chen.f.admin.helper.SysUserRolePermissionHelper;
 import com.chen.f.common.mapper.SysApiRolePermissionMapper;
 import com.chen.f.common.mapper.SysPermissionMapper;
 import com.chen.f.common.mapper.SysRoleMapper;
+import com.chen.f.common.mapper.SysRolePermissionMapper;
 import com.chen.f.common.mapper.SysUserMapper;
+import com.chen.f.common.mapper.SysUserRoleMapper;
 import com.chen.f.common.mapper.SysUserRolePermissionMapper;
 import com.chen.f.common.pojo.SysApiRolePermission;
 import com.chen.f.common.pojo.SysPermission;
@@ -31,6 +35,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
@@ -98,6 +103,29 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @ConditionalOnClass({SessionRegistry.class})
     public SessionRegistry sessionRegistry(FindByIndexNameSessionRepository<?> findByIndexNameSessionRepository) {
         return new SpringSessionBackedSessionRegistry<>(findByIndexNameSessionRepository);
+    }
+
+    @Bean
+    @ConditionalOnClass({SessionRegistry.class})
+    public SpringSecurityHelper springSecurityHelper(SessionRegistry sessionRegistry) {
+        return new SpringSecurityHelper(sessionRegistry);
+    }
+
+    @Bean
+    @ConditionalOnClass({
+            SysUserRolePermissionHelper.class,
+            PasswordEncoder.class,
+            SysUserMapper.class,
+            SysRoleMapper.class,
+            SysPermissionMapper.class,
+            SysUserRoleMapper.class,
+            SysRolePermissionMapper.class,
+            SysUserRolePermissionMapper.class,
+    })
+    public SysUserRolePermissionHelper sysUserRolePermissionHelper(PasswordEncoder passwordEncoder,
+                                                                   SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper, SysPermissionMapper sysPermissionMapper,
+                                                                   SysUserRoleMapper sysUserRoleMapper, SysRolePermissionMapper sysRolePermissionMapper, SysUserRolePermissionMapper sysUserRolePermissionMapper) {
+        return new SysUserRolePermissionHelper(passwordEncoder, sysUserMapper, sysRoleMapper, sysPermissionMapper, sysUserRoleMapper, sysRolePermissionMapper, sysUserRolePermissionMapper);
     }
 
 
