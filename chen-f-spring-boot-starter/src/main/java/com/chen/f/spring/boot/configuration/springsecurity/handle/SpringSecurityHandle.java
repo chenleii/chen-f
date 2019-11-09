@@ -1,4 +1,4 @@
-package com.chen.f.spring.boot.configuration.springsecurity.webhandle;
+package com.chen.f.spring.boot.configuration.springsecurity.handle;
 
 import com.chen.f.admin.security.LoginWebAuthenticationDetails;
 import com.chen.f.core.api.response.error.security.SecurityErrorResponse;

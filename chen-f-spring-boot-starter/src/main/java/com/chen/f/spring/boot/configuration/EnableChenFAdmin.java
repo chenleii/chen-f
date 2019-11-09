@@ -1,6 +1,7 @@
 package com.chen.f.spring.boot.configuration;
 
 import com.chen.f.spring.boot.configuration.quartz.EnableChenFQuartz;
+import com.chen.f.spring.boot.configuration.springsecurity.EnableChenFSpringSecurity;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -25,5 +26,6 @@ import java.lang.annotation.Target;
 })
 @EnableChenFCommon
 @EnableChenFQuartz
+@EnableChenFSpringSecurity
 public @interface EnableChenFAdmin {
 }

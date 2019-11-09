@@ -4,7 +4,7 @@ package com.chen.f.spring.boot.configuration.springsecurity;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.chen.f.spring.boot.configuration.springsecurity.filter.LoginAuthenticationFilter;
 import com.chen.f.spring.boot.configuration.springsecurity.provider.LoginAuthenticationProvider;
-import com.chen.f.spring.boot.configuration.springsecurity.webhandle.SpringSecurityHandle;
+import com.chen.f.spring.boot.configuration.springsecurity.handle.SpringSecurityHandle;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
