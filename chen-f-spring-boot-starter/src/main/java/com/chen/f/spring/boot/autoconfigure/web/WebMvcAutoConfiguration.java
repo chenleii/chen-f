@@ -1,6 +1,6 @@
 package com.chen.f.spring.boot.autoconfigure.web;
 
-import com.chen.f.spring.boot.configuration.web.CustomErrorController;
+import com.chen.f.spring.boot.configuration.web.ChenFErrorController;
 import com.chen.f.spring.boot.configuration.web.PostExceptionHandle;
 import com.chen.f.spring.boot.configuration.web.PreExceptionHandle;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -28,7 +28,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -44,7 +43,6 @@ import java.util.List;
  * @author chen
  * @since 2018/11/3 23:33.
  */
-@EnableWebMvc
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnClass({Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class})
@@ -91,8 +89,8 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     @Bean
     @ConditionalOnMissingBean(value = ErrorController.class, search = SearchStrategy.CURRENT)
-    public CustomErrorController errorController(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
-        return new CustomErrorController(errorAttributes, serverProperties.getError(), errorViewResolvers);
+    public ChenFErrorController errorController(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
+        return new ChenFErrorController(errorAttributes, serverProperties.getError(), errorViewResolvers);
     }
 
     @Bean

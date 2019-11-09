@@ -35,14 +35,14 @@ import java.util.Map;
 @Api(tags = "错误接口")
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
-public class CustomErrorController extends BasicErrorController {
+public class ChenFErrorController extends BasicErrorController {
     private ErrorAttributes errorAttributes;
 
-    public CustomErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
+    public ChenFErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
         this(errorAttributes, errorProperties, Collections.emptyList());
     }
 
-    public CustomErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
+    public ChenFErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, errorProperties, errorViewResolvers);
         this.errorAttributes = errorAttributes;
     }
