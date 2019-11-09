@@ -1,5 +1,6 @@
 package com.chen.f.spring.boot.configuration.quartz;
 
+import com.chen.f.admin.helper.QuartzHelper;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.spring.boot.autoconfigure.mybatisplus.MybatisPlusAutoConfiguration;
@@ -39,5 +40,13 @@ public class QuartzConfiguration {
             schedulerFactoryBean.setGlobalJobListeners(new TaskLogJobListener(sysTimedTaskLogMapper, sysTimedTaskMapper));
 
         };
+    }
+
+    @Bean
+    @ConditionalOnClass({QuartzHelper.class, SchedulerFactoryBean.class, SysTimedTaskMapper.class})
+    public QuartzHelper quartzHelper(SchedulerFactoryBean schedulerFactoryBean, SysTimedTaskMapper sysTimedTaskMapper) {
+        QuartzHelper quartzHelper = new QuartzHelper(schedulerFactoryBean, sysTimedTaskMapper);
+        quartzHelper.init();
+        return quartzHelper;
     }
 }
