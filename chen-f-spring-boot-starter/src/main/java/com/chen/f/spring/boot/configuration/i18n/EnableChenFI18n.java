@@ -1,4 +1,4 @@
-package com.chen.f.spring.boot.configuration;
+package com.chen.f.spring.boot.configuration.i18n;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;

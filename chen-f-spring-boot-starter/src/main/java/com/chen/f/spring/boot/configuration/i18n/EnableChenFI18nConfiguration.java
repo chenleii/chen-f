@@ -1,7 +1,6 @@
-package com.chen.f.spring.boot.configuration;
+package com.chen.f.spring.boot.configuration.i18n;
 
 import com.chen.f.common.helper.I18nHelper;
-import com.chen.f.spring.boot.configuration.i18n.I18nFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
