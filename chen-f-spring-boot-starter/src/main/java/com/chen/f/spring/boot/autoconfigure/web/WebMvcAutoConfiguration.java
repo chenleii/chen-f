@@ -1,5 +1,6 @@
 package com.chen.f.spring.boot.autoconfigure.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -13,7 +14,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Servlet;
@@ -33,22 +33,13 @@ import java.util.List;
 @AutoConfigureBefore({org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.class,
         JacksonAutoConfiguration.class})
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
-
+    
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder.json();
         jackson2ObjectMapperBuilderCustomizer().customize(jackson2ObjectMapperBuilder);
-        converters.add(new MappingJackson2HttpMessageConverter(jackson2ObjectMapperBuilder.build()));
+        ObjectMapper objectMapper = jackson2ObjectMapperBuilder.build();
+        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
     }
 
     @Bean
