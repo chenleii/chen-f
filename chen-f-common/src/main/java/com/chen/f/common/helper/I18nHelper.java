@@ -41,11 +41,15 @@ public class I18nHelper {
         return messageSource.getMessage(code, objects, LocaleContextHolder.getLocale());
     }
 
+    public static String getMessage(String code, String defaultMessage, Object... objects) {
+        return messageSource.getMessage(code, objects, defaultMessage, LocaleContextHolder.getLocale());
+    }
+
     public static String getMessage(String code, Locale locale, Object... objects) {
         return messageSource.getMessage(code, objects, locale);
     }
 
-    public static String getMessage(String code, Locale locale, String defaultMessage, Object... objects) {
+    public static String getMessage(String code, String defaultMessage, Locale locale, Object... objects) {
         return messageSource.getMessage(code, objects, defaultMessage, locale);
     }
 
