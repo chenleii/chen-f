@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DelegatingMessageSource;
 
 import java.time.ZoneId;
 import java.util.Locale;
@@ -21,7 +22,12 @@ public class I18nHelper {
     private static MessageSource messageSource;
 
     public I18nHelper(MessageSource messageSource) {
-        I18nHelper.messageSource = messageSource;
+        if (messageSource != null) {
+            I18nHelper.messageSource = messageSource;
+        }else {
+            //default empty
+            I18nHelper.messageSource = new DelegatingMessageSource();
+        }
     }
 
     public static Locale getLocale() {
