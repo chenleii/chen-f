@@ -25,6 +25,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -125,6 +126,16 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 return object;
             }
         });
+
+        http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<DefaultWebSecurityExpressionHandler>() {
+            @Override
+            public <O extends DefaultWebSecurityExpressionHandler> O postProcess(O object) {
+                //角色继承
+                //object.setRoleHierarchy(null);
+                return object;
+            }
+        });
+
 
         if (CollectionUtils.isNotEmpty(httpSecurityCustomizerList)) {
             for (HttpSecurityCustomizer httpSecurityCustomizer : httpSecurityCustomizerList) {
