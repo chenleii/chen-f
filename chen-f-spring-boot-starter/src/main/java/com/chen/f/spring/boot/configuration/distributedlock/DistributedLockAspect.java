@@ -29,7 +29,6 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
  * @since 2020/2/26 11:13.
  */
 @Aspect
-//
 @Order(HIGHEST_PRECEDENCE + 1)
 public class DistributedLockAspect {
 
