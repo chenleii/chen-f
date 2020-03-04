@@ -1,4 +1,4 @@
-package com.chen.f.core.api.response.error;
+package com.chen.f.common.api.response.error;
 
 /**
  * 错误响应
@@ -12,11 +12,6 @@ public interface ErrorResponse {
      * 默认的错误状态码
      */
     String DEFAULT_ERROR_CODE = "error";
-
-    /**
-     * 服务器异常
-     */
-    ErrorResponse SERVER_EXCEPTION = create("server_exception", "服务器异常");
 
 
     /**
@@ -38,6 +33,17 @@ public interface ErrorResponse {
      */
     static ErrorResponse create(String errorCode, String errorMsg) {
         return create(errorCode, errorMsg, null);
+    }
+
+    /**
+     * 创建错误响应
+     *
+     * @param errorMsg 错误信息
+     * @param error    错误内容
+     * @return 错误响应
+     */
+    static ErrorResponse create(String errorMsg, Object error) {
+        return create(DEFAULT_ERROR_CODE, errorMsg, error);
     }
 
     /**
@@ -66,7 +72,8 @@ public interface ErrorResponse {
             }
         };
     }
-
+    
+    
     /**
      * 错误状态码
      *

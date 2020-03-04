@@ -7,7 +7,7 @@ import com.chen.f.admin.web.dto.SysTimedTaskInputDTO;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
-import com.chen.f.core.api.response.success.R;
+import com.chen.f.common.api.response.success.R;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

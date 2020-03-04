@@ -1,8 +1,8 @@
 package com.chen.f.spring.boot.configuration.errorhandle;
 
-import com.chen.f.core.api.response.error.basic.BasicErrorResponse;
-import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.core.api.response.error.StackTraceErrorResponse;
+import com.chen.f.common.api.response.error.basic.BasicErrorResponses;
+import com.chen.f.common.api.response.error.ErrorResponse;
+import com.chen.f.common.api.response.error.StackTraceErrorResponseWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -71,14 +71,14 @@ public class ChenFErrorController extends BasicErrorController {
     @RequestMapping
     public ResponseEntity<ErrorResponse> error1(HttpServletRequest request) throws Throwable {
         //默认是服务器异常
-        ErrorResponse errorResponse = BasicErrorResponse.serverException();
+        ErrorResponse errorResponse = BasicErrorResponses.serverException();
         HttpStatus status = super.getStatus(request);
         WebRequest webRequest = new ServletWebRequest(request);
         //针对404做处理
         //如果使用全局异常处理,只会有404会转发到这里
         if (HttpStatus.NOT_FOUND.equals(status)) {
             Object path = webRequest.getAttribute("javax.servlet.error.request_uri", RequestAttributes.SCOPE_REQUEST);
-            errorResponse = BasicErrorResponse.notFoundApi(String.valueOf(path));
+            errorResponse = BasicErrorResponses.notFoundApi(String.valueOf(path));
         }
 
         if (super.isIncludeStackTrace(request, MediaType.ALL)) {
@@ -91,7 +91,7 @@ public class ChenFErrorController extends BasicErrorController {
                 while (error instanceof ServletException && error.getCause() != null) {
                     error = error.getCause();
                 }
-                errorResponse = new StackTraceErrorResponse(errorResponse, error);
+                errorResponse = new StackTraceErrorResponseWrapper(errorResponse, error);
             }
         }
 

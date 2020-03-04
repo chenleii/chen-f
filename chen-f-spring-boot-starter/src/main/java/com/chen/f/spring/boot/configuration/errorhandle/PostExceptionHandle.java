@@ -1,7 +1,7 @@
 package com.chen.f.spring.boot.configuration.errorhandle;
 
-import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.core.api.response.error.basic.BasicErrorResponse;
+import com.chen.f.common.api.response.error.ErrorResponse;
+import com.chen.f.common.api.response.error.basic.BasicErrorResponses;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -37,6 +37,6 @@ public class PostExceptionHandle extends AbstractExceptionHandle {
     @ResponseBody
     public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response, Exception exception) {
         logger.error("出现未拦截的异常", exception);
-        return wrap(BasicErrorResponse.serverException(), exception);
+        return wrap(BasicErrorResponses.serverException(), exception);
     }
 }

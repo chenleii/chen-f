@@ -1,4 +1,4 @@
-package com.chen.f.core.api.response.success;
+package com.chen.f.common.api.response.success;
 
 
 import java.util.HashMap;
@@ -21,24 +21,26 @@ public class R extends HashMap<String, Object> {
     }
 
     public static class Builder {
-        private final R r = new R();
+        private final Map<String, Object> map = new HashMap<>();
 
         public R build() {
+            R r = new R();
+            r.putAll(map);
             return r;
         }
 
         public Builder put(String key, Object value) {
-            r.put(key, value);
+            map.put(key, value);
             return this;
         }
 
         public Builder putAll(Map<String, Object> map) {
-            r.putAll(map);
+            map.putAll(map);
             return this;
         }
 
         public Builder clear() {
-            r.clear();
+            map.clear();
             return this;
         }
 

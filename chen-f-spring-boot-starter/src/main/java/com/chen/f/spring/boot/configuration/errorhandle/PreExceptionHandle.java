@@ -1,11 +1,12 @@
 package com.chen.f.spring.boot.configuration.errorhandle;
 
-import com.chen.f.core.api.exception.ApiException;
-import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.core.api.response.error.basic.BasicErrorResponse;
+import com.chen.f.common.api.exception.ApiException;
+import com.chen.f.common.api.response.error.ErrorResponse;
+import com.chen.f.common.api.response.error.basic.BasicErrorResponses;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -44,13 +45,13 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
      * @param apiException exception
      * @return 错误响应
      */
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    //@ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ApiException.class)
     @ResponseBody
-    public ErrorResponse apiException(HttpServletRequest request, HttpServletResponse response,
-                                      ApiException apiException) {
+    public ResponseEntity<ErrorResponse> apiException(HttpServletRequest request, HttpServletResponse response,
+                                       ApiException apiException) {
         logger.warn("apiException", apiException);
-        return wrap(apiException.getErrorResponse(), apiException);
+        return ResponseEntity.status(apiException.getHttpStatusCode()).body(wrap(apiException.getErrorResponse(), apiException));
     }
 
     /**
@@ -71,7 +72,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
         logger.warn("方法参数验证错误异常", exception);
         BindingResult bindingResult = exception.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        return wrap(BasicErrorResponse.parameterVerificationError(fieldErrors), exception);
+        return wrap(BasicErrorResponses.parameterVerificationError(fieldErrors), exception);
     }
 
     /**
@@ -91,7 +92,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
         logger.warn("方法参数验证错误异常", exception);
         BindingResult bindingResult = exception.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        return wrap(BasicErrorResponse.parameterVerificationError(fieldErrors), exception);
+        return wrap(BasicErrorResponses.parameterVerificationError(fieldErrors), exception);
     }
 
     /**
@@ -110,7 +111,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
                                                       ConstraintViolationException exception) {
         logger.warn("方法参数验证错误异常", exception);
         Set<ConstraintViolation<?>> constraintViolationSet = exception.getConstraintViolations();
-        return wrap(BasicErrorResponse.parameterVerificationError(constraintViolationSet), exception);
+        return wrap(BasicErrorResponses.parameterVerificationError(constraintViolationSet), exception);
     }
 
     /**
@@ -127,7 +128,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
                                    MissingServletRequestParameterException exception) {
         logger.warn("缺少请求参数", exception);
-        return wrap(BasicErrorResponse.parameterMissingError(exception.getParameterName()), exception);
+        return wrap(BasicErrorResponses.parameterMissingError(exception.getParameterName()), exception);
     }
 
     /**
@@ -144,7 +145,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
                                    HttpMessageConversionException exception) {
         logger.warn("消息转换异常", exception);
-        return wrap(BasicErrorResponse.parameterFormatError(), exception);
+        return wrap(BasicErrorResponses.parameterFormatError(), exception);
     }
 
     /**
@@ -161,7 +162,7 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     public ErrorResponse noHandlerFoundException(HttpServletRequest request, HttpServletResponse response,
                                                  NoHandlerFoundException exception) {
         logger.warn("资源不存在异常", exception);
-        return wrap(BasicErrorResponse.notFoundApi(request.getRequestURI()), exception);
+        return wrap(BasicErrorResponses.notFoundApi(request.getRequestURI()), exception);
     }
 
 

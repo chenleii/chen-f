@@ -2,8 +2,8 @@ package com.chen.f.admin.security;
 
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysUserRolePermission;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.security.SecurityErrorResponse;
+import com.chen.f.common.api.ApiAssert;
+import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -39,7 +39,7 @@ public class Securitys {
      * @return 认证对象
      */
     public static Authentication getFullyAuthenticatedAuthentication() {
-        ApiAssert.isTrue(isFullyAuthenticated(), SecurityErrorResponse.accountNotFullyAuthenticated());
+        ApiAssert.isTrue(isFullyAuthenticated(), SecurityErrorResponses.accountNotFullyAuthenticated());
         return getAuthentication();
     }
 
@@ -52,7 +52,7 @@ public class Securitys {
     public static SecurityUser getAuthenticationSecurityUser() {
         Authentication authentication = getFullyAuthenticatedAuthentication();
         Object principal = authentication.getPrincipal();
-        ApiAssert.isInstanceOf(SecurityUser.class, principal, SecurityErrorResponse.principalError());
+        ApiAssert.isInstanceOf(SecurityUser.class, principal, SecurityErrorResponses.principalError());
         return (SecurityUser) principal;
     }
 
@@ -84,7 +84,7 @@ public class Securitys {
     public static LoginWebAuthenticationDetails getAuthenticationDetails() {
         Authentication authentication = getAuthentication();
         Object details = authentication.getDetails();
-        ApiAssert.isInstanceOf(LoginWebAuthenticationDetails.class, details, SecurityErrorResponse.detailsError());
+        ApiAssert.isInstanceOf(LoginWebAuthenticationDetails.class, details, SecurityErrorResponses.detailsError());
         return (LoginWebAuthenticationDetails) details;
 
     }
@@ -139,7 +139,7 @@ public class Securitys {
      * 如果没有完全的身份认证抛出异常
      */
     public static void checkFullyAuthenticated() {
-        ApiAssert.isTrue(isFullyAuthenticated(), SecurityErrorResponse.accountNotFullyAuthenticated());
+        ApiAssert.isTrue(isFullyAuthenticated(), SecurityErrorResponses.accountNotFullyAuthenticated());
     }
 
 
@@ -194,7 +194,7 @@ public class Securitys {
      * @param permission 权限名
      */
     public static void checkPermission(String permission) {
-        ApiAssert.isTrue(hasPermission(permission), SecurityErrorResponse.notPermission(permission));
+        ApiAssert.isTrue(hasPermission(permission), SecurityErrorResponses.notPermission(permission));
     }
 
     /**
@@ -204,7 +204,7 @@ public class Securitys {
      * @param permissionCollection 权限集合
      */
     public static void checkPermission(Collection<String> permissionCollection) {
-        ApiAssert.isTrue(hasPermission(permissionCollection), SecurityErrorResponse.notPermission(permissionCollection));
+        ApiAssert.isTrue(hasPermission(permissionCollection), SecurityErrorResponses.notPermission(permissionCollection));
     }
 
     /**
@@ -214,7 +214,7 @@ public class Securitys {
      * @param permissions 权限名数组
      */
     public static void checkPermission(String... permissions) {
-        ApiAssert.isTrue(hasPermission(permissions), SecurityErrorResponse.notPermission(permissions));
+        ApiAssert.isTrue(hasPermission(permissions), SecurityErrorResponses.notPermission(permissions));
     }
 
     /**
@@ -264,7 +264,7 @@ public class Securitys {
      * @param role 角色名
      */
     public static void checkRole(String role) {
-        ApiAssert.isTrue(hasRole(role), SecurityErrorResponse.notRole(role));
+        ApiAssert.isTrue(hasRole(role), SecurityErrorResponses.notRole(role));
     }
 
     /**
@@ -274,7 +274,7 @@ public class Securitys {
      * @param roleCollection 角色名集合
      */
     public static void checkRole(Collection<String> roleCollection) {
-        ApiAssert.isTrue(hasRole(roleCollection), SecurityErrorResponse.notRole(roleCollection));
+        ApiAssert.isTrue(hasRole(roleCollection), SecurityErrorResponses.notRole(roleCollection));
     }
 
     /**
@@ -284,7 +284,7 @@ public class Securitys {
      * @param roles 角色名数组
      */
     public static void checkRole(String... roles) {
-        ApiAssert.isTrue(hasRole(roles), SecurityErrorResponse.notRole(roles));
+        ApiAssert.isTrue(hasRole(roles), SecurityErrorResponses.notRole(roles));
     }
 
     /**
@@ -311,7 +311,7 @@ public class Securitys {
      * 如果不是超级管理员抛出异常
      */
     public static void checkSuperAdministrator() {
-        ApiAssert.isTrue(isSuperAdministrator(), SecurityErrorResponse.notSuperAdministrator());
+        ApiAssert.isTrue(isSuperAdministrator(), SecurityErrorResponses.notSuperAdministrator());
     }
 
 

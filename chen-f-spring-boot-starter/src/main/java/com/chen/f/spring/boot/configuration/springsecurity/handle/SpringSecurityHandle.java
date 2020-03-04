@@ -1,8 +1,8 @@
 package com.chen.f.spring.boot.configuration.springsecurity.handle;
 
 import com.chen.f.admin.security.LoginWebAuthenticationDetails;
-import com.chen.f.core.api.response.error.security.SecurityErrorResponse;
-import com.chen.f.core.api.response.success.R;
+import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.common.api.response.success.R;
 import com.chen.f.core.util.ServletUtils;
 import com.chen.f.spring.boot.configuration.springsecurity.exception.CaptchaException;
 import org.springframework.security.access.AccessDeniedException;
@@ -39,7 +39,7 @@ public class SpringSecurityHandle {
      */
     public static void accessDeniedHandle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        ServletUtils.responseJson(response, SecurityErrorResponse.accessDenied());
+        ServletUtils.responseJson(response, SecurityErrorResponses.accessDenied());
     }
 
     /**
@@ -53,7 +53,7 @@ public class SpringSecurityHandle {
      */
     public static void authenticationEntryPointHandle(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        ServletUtils.responseJson(response, SecurityErrorResponse.notLogin());
+        ServletUtils.responseJson(response, SecurityErrorResponses.notLogin());
     }
 
     /**
@@ -68,19 +68,19 @@ public class SpringSecurityHandle {
     public static void authenticationFailureHandle(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         if (authenticationException instanceof CaptchaException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.captchaError(authenticationException.getMessage()));
+            ServletUtils.responseJson(response, SecurityErrorResponses.captchaError());
         } else if (authenticationException instanceof BadCredentialsException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.usernameOrPasswordError());
+            ServletUtils.responseJson(response, SecurityErrorResponses.usernameOrPasswordError());
         } else if (authenticationException instanceof UsernameNotFoundException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.usernameOrPasswordError());
+            ServletUtils.responseJson(response, SecurityErrorResponses.usernameOrPasswordError());
         } else if (authenticationException instanceof DisabledException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.accountDisable());
+            ServletUtils.responseJson(response, SecurityErrorResponses.accountDisable());
         } else if (authenticationException instanceof LockedException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.accountLocked());
+            ServletUtils.responseJson(response, SecurityErrorResponses.accountLocked());
         } else if (authenticationException instanceof AccountExpiredException) {
-            ServletUtils.responseJson(response, SecurityErrorResponse.accountExpired());
+            ServletUtils.responseJson(response, SecurityErrorResponses.accountExpired());
         } else {
-            ServletUtils.responseJson(response, SecurityErrorResponse.loginFail());
+            ServletUtils.responseJson(response, SecurityErrorResponses.loginFail());
         }
 
     }

@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.helper.QuartzHelper;
+import com.chen.f.common.api.exception.ApiException;
+import com.chen.f.common.api.response.error.ErrorResponse;
+import com.chen.f.common.distributedlock.DistributedLock;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.mapper.SysUserRolePermissionMapper;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.SysUserRolePermission;
-import com.chen.f.core.api.exception.ApiException;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -81,6 +82,15 @@ public class TestController {
     @GetMapping("/t3")
     @ResponseBody
     public Mono<?> t3(HttpServletRequest request) throws Exception {
+        throw new Exception("sss");
+    }
+    
+    
+    @ApiOperation(value = "测试接口4", response = SysUser.class)
+    @GetMapping("/t4")
+    @ResponseBody
+    @DistributedLock(lockKey = "#request.getMethod()")
+    public Mono<?> tt(HttpServletRequest request) throws Exception {
         throw new Exception("sss");
     }
 

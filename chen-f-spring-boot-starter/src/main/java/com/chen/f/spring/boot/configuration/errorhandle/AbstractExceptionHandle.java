@@ -1,7 +1,7 @@
 package com.chen.f.spring.boot.configuration.errorhandle;
 
-import com.chen.f.core.api.response.error.ErrorResponse;
-import com.chen.f.core.api.response.error.StackTraceErrorResponse;
+import com.chen.f.common.api.response.error.ErrorResponse;
+import com.chen.f.common.api.response.error.StackTraceErrorResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +40,7 @@ public abstract class AbstractExceptionHandle {
      */
     protected ErrorResponse wrap(ErrorResponse errorResponse, Exception exception) {
         if (isEnableStackTrace()) {
-            return new StackTraceErrorResponse(errorResponse, exception);
+            return new StackTraceErrorResponseWrapper(errorResponse, exception);
         }
         return errorResponse;
     }

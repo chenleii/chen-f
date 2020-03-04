@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DelegatingMessageSource;
+import org.springframework.util.Assert;
 
 import java.time.ZoneId;
 import java.util.Locale;
@@ -21,13 +22,13 @@ public class I18nHelper {
 
     private static MessageSource messageSource;
 
+    static {
+        I18nHelper.messageSource = new DelegatingMessageSource();
+    }
+
     public I18nHelper(MessageSource messageSource) {
-        if (messageSource != null) {
-            I18nHelper.messageSource = messageSource;
-        }else {
-            //default empty
-            I18nHelper.messageSource = new DelegatingMessageSource();
-        }
+        Assert.notNull(messageSource,"messageSource can not be empty");
+        I18nHelper.messageSource = messageSource;
     }
 
     public static Locale getLocale() {

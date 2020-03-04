@@ -1,7 +1,7 @@
-package com.chen.f.core.api;
+package com.chen.f.common.api;
 
-import com.chen.f.core.api.exception.ApiException;
-import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.common.api.exception.ApiException;
+import com.chen.f.common.api.response.error.ErrorResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
