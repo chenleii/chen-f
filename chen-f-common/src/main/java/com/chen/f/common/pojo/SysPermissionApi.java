@@ -32,7 +32,7 @@ public class SysPermissionApi extends Model<SysPermissionApi> {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "系统权限id")
-    @TableId(value = "SYS_PERMISSION_ID", type = IdType.ID_WORKER_STR)
+    @TableId(value = "SYS_PERMISSION_ID", type = IdType.ASSIGN_ID)
     private String sysPermissionId;
 
     @ApiModelProperty(value = "系统API ID")

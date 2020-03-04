@@ -32,7 +32,7 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键ID")
-    @TableId(value = "ID", type = IdType.ID_WORKER_STR)
+    @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "系统角色id")
