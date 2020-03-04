@@ -21,7 +21,7 @@ import org.junit.Test;
  * @date 2017/12/18
  */
 public class GeneratorCode {
-    private static final String parentPackageName = "com.chen.f.admin";
+    private static final String parentPackageName = "com.chen.f.common";
     private static final String[] tableNames = new String[]{};
 
     @Test
@@ -74,7 +74,7 @@ public class GeneratorCode {
                 .setBaseResultMap(true)
                 .setBaseColumnList(true)
                 .setDateType(DateType.TIME_PACK)
-                .setIdType(IdType.ID_WORKER_STR);
+                .setIdType(IdType.ASSIGN_ID);
 
         new AutoGenerator()
                 .setGlobalConfig(globalConfig)
