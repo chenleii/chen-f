@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysRoleService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
@@ -94,7 +94,7 @@ public class SysRoleController {
     public void createSysRole(@RequestParam("name") String name,
                               @RequestParam("remark") String remark,
                               @RequestParam("status") StatusEnum status) {
-        String operatedSysRoleId = Securitys.getSysUserId();
+        String operatedSysRoleId = SecurityHelper.getSysUserId();
         sysRoleService.createSysRole(name, remark, status, operatedSysRoleId);
     }
 
@@ -104,7 +104,7 @@ public class SysRoleController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysRole(@RequestBody() SysRoleInputDTO sysRoleInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.createSysRole(sysRoleInputDTO.getName(), sysRoleInputDTO.getRemark(), sysRoleInputDTO.getStatus(), operatedSysUserId);
     }
 
@@ -120,7 +120,7 @@ public class SysRoleController {
                               @RequestParam("name") String name,
                               @RequestParam("remark") String remark,
                               @RequestParam("status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.updateSysRole(sysRoleId, name, remark, status, operatedSysUserId);
     }
 
@@ -132,7 +132,7 @@ public class SysRoleController {
     @PutMapping(path = "/{sysRoleId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysRole(@PathVariable("sysRoleId") String sysRoleId,
                               @RequestBody() SysRoleInputDTO sysRoleInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.updateSysRole(sysRoleId, sysRoleInputDTO.getName(), sysRoleInputDTO.getRemark(), sysRoleInputDTO.getStatus(), operatedSysUserId);
     }
 
@@ -144,7 +144,7 @@ public class SysRoleController {
     @PutMapping(path = "/{sysRoleId}/setSysPermission", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysPermissionOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                           @RequestBody() SysPermissionsInputDTO sysPermissionsInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.setSysPermissionOfSysRole(sysRoleId, sysPermissionsInputDTO.getSysPermissionList(), operatedSysUserId);
     }
 
@@ -156,7 +156,7 @@ public class SysRoleController {
     @PutMapping(path = "/{sysRoleId}/setSysMenu", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysMenuOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                     @RequestBody() SysMenusInputDTO sysMenusInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.setSysMenuOfSysRole(sysRoleId, sysMenusInputDTO.getSysMenuList(), operatedSysUserId);
     }
 
@@ -168,7 +168,7 @@ public class SysRoleController {
     @PutMapping(path = "/{sysRoleId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                    @RequestBody() SysApisInputDTO sysApisInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.setSysApiOfSysRole(sysRoleId, sysApisInputDTO.getSysApiList(), operatedSysUserId);
     }
 
@@ -187,7 +187,7 @@ public class SysRoleController {
     })
     @PostMapping("/{sysRoleId}/enable")
     public void enabledSysRole(@PathVariable("sysRoleId") String sysRoleId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.enabledSysRole(sysRoleId, operatedSysUserId);
     }
 
@@ -197,7 +197,7 @@ public class SysRoleController {
     })
     @PostMapping("/{sysRoleId}/disable")
     public void disableSysRole(@PathVariable("sysRoleId") String sysRoleId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysRoleService.disableSysRole(sysRoleId, operatedSysUserId);
     }
 

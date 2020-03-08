@@ -1,6 +1,6 @@
 package com.chen.f.admin.web.controller;
 
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.admin.web.dto.SysMenuInputDTO;
 import com.chen.f.common.pojo.SysMenu;
@@ -81,7 +81,7 @@ public class SysMenuController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysRoleId = Securitys.getSysUserId();
+        String operatedSysRoleId = SecurityHelper.getSysUserId();
         sysMenuService.createSysMenu(parentId, name, url, icon, type, remark, order, status, operatedSysRoleId);
     }
 
@@ -91,7 +91,7 @@ public class SysMenuController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysMenu(@RequestBody() SysMenuInputDTO sysMenuInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysMenuService.createSysMenu(sysMenuInputDTO.getParentId(), sysMenuInputDTO.getName(), sysMenuInputDTO.getUrl(), sysMenuInputDTO.getIcon(), sysMenuInputDTO.getType(),
                 sysMenuInputDTO.getRemark(), sysMenuInputDTO.getOrder(), sysMenuInputDTO.getStatus(), operatedSysUserId);
     }
@@ -118,7 +118,7 @@ public class SysMenuController {
                               @RequestParam(name = "remark", required = false) String remark,
                               @RequestParam(name = "order", required = false) Integer order,
                               @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysMenuService.updateSysMenu(sysMenuId, parentId, name, url, icon, type, remark, order, status, operatedSysUserId);
     }
 
@@ -130,7 +130,7 @@ public class SysMenuController {
     @PutMapping(path = "/{sysMenuId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysMenu(@PathVariable("sysMenuId") String sysMenuId,
                               @RequestBody() SysMenuInputDTO sysMenuInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysMenuService.updateSysMenu(sysMenuId, sysMenuInputDTO.getParentId(), sysMenuInputDTO.getName(), sysMenuInputDTO.getUrl(), sysMenuInputDTO.getIcon(),
                 sysMenuInputDTO.getType(), sysMenuInputDTO.getRemark(), sysMenuInputDTO.getOrder(), sysMenuInputDTO.getStatus(), operatedSysUserId);
     }
@@ -150,7 +150,7 @@ public class SysMenuController {
     })
     @PostMapping("/{sysMenuId}/enable")
     public void enabledSysMenu(@PathVariable("sysMenuId") String sysMenuId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysMenuService.enabledSysMenu(sysMenuId, operatedSysUserId);
     }
 
@@ -160,7 +160,7 @@ public class SysMenuController {
     })
     @PostMapping("/{sysMenuId}/disable")
     public void disableSysMenu(@PathVariable("sysMenuId") String sysMenuId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysMenuService.disableSysMenu(sysMenuId, operatedSysUserId);
     }
 }

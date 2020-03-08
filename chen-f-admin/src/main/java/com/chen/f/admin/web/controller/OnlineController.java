@@ -1,6 +1,6 @@
 package com.chen.f.admin.web.controller;
 
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysUserRolePermission;
@@ -33,8 +33,8 @@ public class OnlineController {
     @ApiImplicitParams({})
     @GetMapping("/sysUserRolePermission")
     public SysUserRolePermission getSysUserRolePermission() {
-        Securitys.checkFullyAuthenticated();
-        return Securitys.getAuthenticationSecurityUserOriginal();
+        SecurityHelper.checkFullyAuthenticated();
+        return SecurityHelper.getAuthenticationSecurityUserOriginal();
     }
 
 
@@ -42,8 +42,8 @@ public class OnlineController {
     @ApiImplicitParams({})
     @GetMapping("/menu")
     public List<SysMenu> getOnlineSysUserMenu() {
-        Securitys.checkFullyAuthenticated();
-        String sysUserId = Securitys.getSysUserId();
+        SecurityHelper.checkFullyAuthenticated();
+        String sysUserId = SecurityHelper.getSysUserId();
         // TODO: 2019/3/20  
         return null;
     }

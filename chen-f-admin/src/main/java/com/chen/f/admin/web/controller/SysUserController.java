@@ -2,7 +2,7 @@ package com.chen.f.admin.web.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysRoleService;
 import com.chen.f.admin.service.ISysUserService;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
@@ -102,7 +102,7 @@ public class SysUserController {
                               @RequestParam("remark") String remark,
                               @RequestParam("status") SysUserStatusEnum status,
                               @RequestParam("level") Integer level) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.createSysUser(username, password, remark, status, level, operatedSysUserId);
     }
 
@@ -112,7 +112,7 @@ public class SysUserController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysUser(@RequestBody() SysUserInputDTO sysUserInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.createSysUser(sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getRemark(),
                 sysUserInputDTO.getStatus(), sysUserInputDTO.getLevel(), operatedSysUserId);
     }
@@ -133,7 +133,7 @@ public class SysUserController {
                               @RequestParam("remark") String remark,
                               @RequestParam("status") SysUserStatusEnum status,
                               @RequestParam("level") Integer level) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.updateSysUser(sysUserId, username, password, remark, status, level, operatedSysUserId);
     }
 
@@ -145,7 +145,7 @@ public class SysUserController {
     @PutMapping(path = "/{sysUserId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,
                               @RequestBody() SysUserInputDTO sysUserInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.updateSysUser(sysUserId, sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getRemark(),
                 sysUserInputDTO.getStatus(), sysUserInputDTO.getLevel(), operatedSysUserId);
     }
@@ -158,7 +158,7 @@ public class SysUserController {
     @PutMapping(path = "/{sysUserId}/setSysRole", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysRoleOfSysUser(@PathVariable("sysUserId") String sysUserId,
                                     @RequestBody() SysRolesInputDTO sysRolesInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.setSysRoleOfSysUser(sysUserId, sysRolesInputDTO.getSysRoleList(), operatedSysUserId);
     }
 
@@ -169,7 +169,7 @@ public class SysUserController {
     })
     @DeleteMapping("/{sysUserId}")
     public void deleteSysUser(@PathVariable("sysUserId") String sysUserId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.deleteSysUser(sysUserId, operatedSysUserId);
     }
 
@@ -179,7 +179,7 @@ public class SysUserController {
     })
     @PostMapping("/{sysUserId}/enable")
     public void enabledSysUser(@PathVariable("sysUserId") String sysUserId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.enabledSysUser(sysUserId, operatedSysUserId);
     }
 
@@ -189,7 +189,7 @@ public class SysUserController {
     })
     @PostMapping("/{sysUserId}/disable")
     public void disableSysUser(@PathVariable("sysUserId") String sysUserId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.disableSysUser(sysUserId, operatedSysUserId);
     }
 
@@ -199,7 +199,7 @@ public class SysUserController {
     })
     @PostMapping("/{sysUserId}/lock")
     public void lockSysUser(@PathVariable("sysUserId") String sysUserId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.lockSysUser(sysUserId, operatedSysUserId);
     }
 
@@ -209,7 +209,7 @@ public class SysUserController {
     })
     @PostMapping("/{sysUserId}/expire")
     public void expireSysUser(@PathVariable("sysUserId") String sysUserId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.expireSysUser(sysUserId, operatedSysUserId);
     }
 

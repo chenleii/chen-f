@@ -1,14 +1,13 @@
 package com.chen.f.template;
 
-import com.chen.f.spring.boot.configuration.EnableChenFAdmin;
-import com.chen.f.spring.boot.configuration.EnableChenFCommon;
-import com.chen.f.spring.boot.configuration.distributedlock.EnableDistributedLock;
+import com.chen.f.admin.configuration.EnableChenFAdmin;
+import com.chen.f.common.configuration.EnableChenFCommon;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@EnableDistributedLock
+
 @EnableChenFCommon
 @EnableChenFAdmin
 @SpringBootApplication

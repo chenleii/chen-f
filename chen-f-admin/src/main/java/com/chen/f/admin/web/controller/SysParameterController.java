@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.web.dto.SysParameterInputDTO;
 import com.chen.f.common.pojo.SysParameter;
 import com.chen.f.common.pojo.enums.StatusEnum;
@@ -103,7 +103,7 @@ public class SysParameterController {
             @RequestParam(name = "type") SysParameterTypeEnum type,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysRoleId = Securitys.getSysUserId();
+        String operatedSysRoleId = SecurityHelper.getSysUserId();
         sysParameterService.createSysParameter(code, name, value, type, remark, status, operatedSysRoleId);
     }
 
@@ -113,7 +113,7 @@ public class SysParameterController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysParameter(@RequestBody() SysParameterInputDTO sysParameterInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.createSysParameter(sysParameterInputDTO.getCode(), sysParameterInputDTO.getName(), sysParameterInputDTO.getValue(),
                 sysParameterInputDTO.getType(), sysParameterInputDTO.getRemark(), sysParameterInputDTO.getStatus(), operatedSysUserId);
     }
@@ -137,7 +137,7 @@ public class SysParameterController {
             @RequestParam(name = "type") SysParameterTypeEnum type,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.updateSysParameter(sysParameterId, code, name, value, type, remark, status, operatedSysUserId);
     }
 
@@ -149,7 +149,7 @@ public class SysParameterController {
     @PutMapping(path = "/{sysParameterId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysParameter(@PathVariable("sysParameterId") String sysParameterId,
                                    @RequestBody() SysParameterInputDTO sysParameterInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.updateSysParameter(sysParameterId, sysParameterInputDTO.getCode(), sysParameterInputDTO.getName(), sysParameterInputDTO.getValue(),
                 sysParameterInputDTO.getType(), sysParameterInputDTO.getRemark(), sysParameterInputDTO.getStatus(), operatedSysUserId);
     }
@@ -178,7 +178,7 @@ public class SysParameterController {
     })
     @PostMapping("/{sysParameterId}/enable")
     public void enabledSysParameter(@PathVariable("sysParameterId") String sysParameterId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.enabledSysParameter(sysParameterId, operatedSysUserId);
     }
 
@@ -188,7 +188,7 @@ public class SysParameterController {
     })
     @PostMapping("/{code}/enable/byCode")
     public void enabledSysParameterByCode(@PathVariable("code") String code) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.enabledSysParameterByCode(code, operatedSysUserId);
     }
 
@@ -198,7 +198,7 @@ public class SysParameterController {
     })
     @PostMapping("/{sysParameterId}/disable")
     public void disableSysParameter(@PathVariable("sysParameterId") String sysParameterId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.disableSysParameter(sysParameterId, operatedSysUserId);
     }
 
@@ -208,7 +208,7 @@ public class SysParameterController {
     })
     @PostMapping("/{code}/disable/byCode")
     public void disableSysParameterByCode(@PathVariable("code") String code) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.disableSysParameterByCode(code, operatedSysUserId);
     }
 }

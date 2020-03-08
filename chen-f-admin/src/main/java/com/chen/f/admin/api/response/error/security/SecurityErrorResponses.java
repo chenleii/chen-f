@@ -2,7 +2,7 @@ package com.chen.f.admin.api.response.error.security;
 
 import com.chen.f.common.api.response.error.ErrorResponse;
 import com.chen.f.common.api.response.error.i18n.I18nErrorResponses;
-import com.chen.f.common.helper.I18nHelper;
+import com.chen.f.common.configuration.helper.I18nHelper;
 
 import java.util.Collection;
 

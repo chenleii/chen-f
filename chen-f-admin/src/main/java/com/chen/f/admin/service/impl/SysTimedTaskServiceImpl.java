@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.admin.helper.QuartzHelper;
+import com.chen.f.admin.configuration.helper.QuartzHelper;
 import com.chen.f.admin.service.ISysTimedTaskService;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;

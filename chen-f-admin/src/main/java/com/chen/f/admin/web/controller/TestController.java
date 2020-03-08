@@ -1,9 +1,9 @@
 package com.chen.f.admin.web.controller;
 
-import com.chen.f.admin.helper.QuartzHelper;
+import com.chen.f.admin.configuration.helper.QuartzHelper;
 import com.chen.f.common.api.exception.ApiException;
 import com.chen.f.common.api.response.error.ErrorResponse;
-import com.chen.f.common.distributedlock.DistributedLock;
+import com.chen.f.common.configuration.distributedlock.DistributedLock;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.mapper.SysUserRolePermissionMapper;
 import com.chen.f.common.pojo.SysUser;
@@ -78,7 +78,7 @@ public class TestController {
     }
 
     @ApiOperation(value = "测试接口3", response = SysUser.class)
-    @PreAuthorize("hasRole('role管理员') and !T(com.chen.f.admin.security.Securitys).isSuperAdministrator()")
+    @PreAuthorize("hasRole('role管理员') and !T(com.chen.f.admin.configuration.helper.SecurityHelper).isSuperAdministrator()")
     @GetMapping("/t3")
     @ResponseBody
     public Mono<?> t3(HttpServletRequest request) throws Exception {

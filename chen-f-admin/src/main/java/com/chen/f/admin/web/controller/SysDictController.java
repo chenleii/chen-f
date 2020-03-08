@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.web.dto.SysDictInputDTO;
 import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.enums.StatusEnum;
@@ -126,7 +126,7 @@ public class SysDictController {
             @RequestParam(name = "type") SysDictTypeEnum type,
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysRoleId = Securitys.getSysUserId();
+        String operatedSysRoleId = SecurityHelper.getSysUserId();
         sysDictService.createSysDict(code, key, name, value, remark, color, type, order, status, operatedSysRoleId);
     }
 
@@ -136,7 +136,7 @@ public class SysDictController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysDict(@RequestBody() SysDictInputDTO sysDictInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.createSysDict(sysDictInputDTO.getCode(), sysDictInputDTO.getKey(), sysDictInputDTO.getName(), sysDictInputDTO.getValue(),
                 sysDictInputDTO.getRemark(), sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getOrder(), sysDictInputDTO.getStatus(), operatedSysUserId);
     }
@@ -166,7 +166,7 @@ public class SysDictController {
             @RequestParam(name = "type") SysDictTypeEnum type,
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.updateSysDict(sysDictId, code, key, name, value, remark, color, type, order, status, operatedSysUserId);
     }
 
@@ -179,7 +179,7 @@ public class SysDictController {
     public void updateSysDict(
             @PathVariable(name = "sysDictId") String sysDictId,
             @RequestBody() SysDictInputDTO sysDictInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.updateSysDict(sysDictId, sysDictInputDTO.getCode(), sysDictInputDTO.getKey(), sysDictInputDTO.getName(), sysDictInputDTO.getValue(), sysDictInputDTO.getRemark(),
                 sysDictInputDTO.getColor(), sysDictInputDTO.getType(), sysDictInputDTO.getOrder(), sysDictInputDTO.getStatus(), operatedSysUserId);
     }
@@ -225,7 +225,7 @@ public class SysDictController {
     public void enabledSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.enabledSysDictByCodeAndKey(code, key, operatedSysUserId);
     }
 
@@ -236,7 +236,7 @@ public class SysDictController {
     @PostMapping("/{sysDictId}/enable")
     public void enabledSysDict(
             @PathVariable(name = "sysDictId") String sysDictId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.enabledSysDict(sysDictId, operatedSysUserId);
     }
 
@@ -247,7 +247,7 @@ public class SysDictController {
     @PostMapping("/{sysDictId}/disable")
     public void disableSysDict(
             @PathVariable(name = "sysDictId") String sysDictId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.disableSysDict(sysDictId, operatedSysUserId);
     }
 
@@ -260,7 +260,7 @@ public class SysDictController {
     public void disableSysDict(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictService.disableSysDictByCodeAndKey(code, key, operatedSysUserId);
     }
 }

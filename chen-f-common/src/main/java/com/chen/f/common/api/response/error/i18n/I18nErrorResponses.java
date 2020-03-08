@@ -1,7 +1,7 @@
 package com.chen.f.common.api.response.error.i18n;
 
 import com.chen.f.common.api.response.error.ErrorResponse;
-import com.chen.f.common.helper.I18nHelper;
+import com.chen.f.common.configuration.helper.I18nHelper;
 
 /**
  * 国际化的错误响应

@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysTimedTaskService;
 import com.chen.f.admin.web.dto.SysTimedTaskInputDTO;
 import com.chen.f.common.pojo.SysTimedTask;
@@ -94,7 +94,7 @@ public class SysTimedTaskController {
                              @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum sysTimedTaskTypeEnum,
                              @RequestParam(name = "remark", required = false) String remark,
                              @RequestParam(name = "status", required = false) StatusEnum statusEnum) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.createSysTimedTask(code, name, jobClassName, cronExpression, data, sysTimedTaskTypeEnum, remark, statusEnum, sysUserId);
         return R.msg("success");
     }
@@ -105,7 +105,7 @@ public class SysTimedTaskController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysTimedTask(@RequestBody() SysTimedTaskInputDTO sysTimedTaskInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.createSysTimedTask(sysTimedTaskInputDTO.getCode(), sysTimedTaskInputDTO.getName(), sysTimedTaskInputDTO.getClassName(), sysTimedTaskInputDTO.getCronExpression(),
                 sysTimedTaskInputDTO.getData(), sysTimedTaskInputDTO.getType(), sysTimedTaskInputDTO.getRemark(), sysTimedTaskInputDTO.getStatus(), operatedSysUserId);
     }
@@ -135,7 +135,7 @@ public class SysTimedTaskController {
             @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum sysTimedTaskTypeEnum,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status", required = false) StatusEnum statusEnum) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.updateSysTimedTask(sysTimedTaskId, code, name, jobClassName, cronExpression, data, sysTimedTaskTypeEnum, remark, statusEnum, sysUserId);
         return R.msg("success");
     }
@@ -148,7 +148,7 @@ public class SysTimedTaskController {
     @PutMapping(path = "/{sysTimedTaskId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysTimedTask(@PathVariable("sysTimedTaskId") String sysTimedTaskId,
                                    @RequestBody() SysTimedTaskInputDTO sysTimedTaskInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.updateSysTimedTask(sysTimedTaskId, sysTimedTaskInputDTO.getCode(), sysTimedTaskInputDTO.getName(), sysTimedTaskInputDTO.getClassName(), sysTimedTaskInputDTO.getCronExpression(),
                 sysTimedTaskInputDTO.getData(), sysTimedTaskInputDTO.getType(), sysTimedTaskInputDTO.getRemark(), sysTimedTaskInputDTO.getStatus(), operatedSysUserId);
     }
@@ -182,7 +182,7 @@ public class SysTimedTaskController {
     @PostMapping("/{sysTimedTaskId}/enable")
     @ResponseBody
     public R enabledSysTimedTask(@PathVariable(name = "sysTimedTaskId") String sysTimedTaskId) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.enabledSysTimedTask(sysTimedTaskId, sysUserId);
         return R.msg("success");
     }
@@ -194,7 +194,7 @@ public class SysTimedTaskController {
     @PostMapping("/{code}/enable/byCode")
     @ResponseBody
     public R enabledSysTimedTaskByCode(@PathVariable(name = "code") String code) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.enabledSysTimedTaskByCode(code, sysUserId);
         return R.msg("success");
     }
@@ -206,7 +206,7 @@ public class SysTimedTaskController {
     @PostMapping("/{sysTimedTaskId}/disable")
     @ResponseBody
     public R disableSysTimedTask(@PathVariable(name = "sysTimedTaskId") String sysTimedTaskId) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.disableSysTimedTask(sysTimedTaskId, sysUserId);
         return R.msg("success");
     }
@@ -218,7 +218,7 @@ public class SysTimedTaskController {
     @PostMapping("/{code}/disable/byCode")
     @ResponseBody
     public R disableSysTimedTaskByCode(@PathVariable(name = "code") String code) {
-        String sysUserId = Securitys.getSysUserId();
+        String sysUserId = SecurityHelper.getSysUserId();
         sysTimedTaskService.disableSysTimedTaskByCode(code, sysUserId);
         return R.msg("success");
     }

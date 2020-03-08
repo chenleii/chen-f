@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysApiService;
 import com.chen.f.admin.web.dto.SysApiInputDTO;
 import com.chen.f.common.pojo.SysApi;
@@ -95,7 +95,7 @@ public class SysApiController {
             @RequestParam(name = "type") SysApiTypeEnum type,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysRoleId = Securitys.getSysUserId();
+        String operatedSysRoleId = SecurityHelper.getSysUserId();
         sysApiService.createSysApi(name, url, httpMethod, type, remark, status, operatedSysRoleId);
     }
 
@@ -105,7 +105,7 @@ public class SysApiController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysApi(@RequestBody() SysApiInputDTO sysApiInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysApiService.createSysApi(sysApiInputDTO.getName(), sysApiInputDTO.getUrl(), sysApiInputDTO.getHttpMethod(), sysApiInputDTO.getType(),
                 sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
     }
@@ -128,7 +128,7 @@ public class SysApiController {
                              @RequestParam(name = "type") SysApiTypeEnum type,
                              @RequestParam(name = "remark", required = false) String remark,
                              @RequestParam(name = "status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysApiService.updateSysApi(sysApiId, name, url, httpMethod, type, remark, status, operatedSysUserId);
     }
 
@@ -140,7 +140,7 @@ public class SysApiController {
     @PutMapping(path = "/{sysApiId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysApi(@PathVariable("sysApiId") String sysApiId,
                              @RequestBody() SysApiInputDTO sysApiInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysApiService.updateSysApi(sysApiId, sysApiInputDTO.getName(), sysApiInputDTO.getUrl(), sysApiInputDTO.getHttpMethod(),
                 sysApiInputDTO.getType(), sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
     }
@@ -160,7 +160,7 @@ public class SysApiController {
     })
     @PostMapping("/{sysApiId}/enable")
     public void enabledSysApi(@PathVariable("sysApiId") String sysApiId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysApiService.enabledSysApi(sysApiId, operatedSysUserId);
     }
 
@@ -170,7 +170,7 @@ public class SysApiController {
     })
     @PostMapping("/{sysApiId}/disable")
     public void disableSysApi(@PathVariable("sysApiId") String sysApiId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysApiService.disableSysApi(sysApiId, operatedSysUserId);
     }
 }

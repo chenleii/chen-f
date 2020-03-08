@@ -1,7 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.security.Securitys;
+import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysPermissionService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysPermissionInputDTO;
@@ -82,7 +82,7 @@ public class SysPermissionController {
     public void createSysPermission(@RequestParam("name") String name,
                                     @RequestParam("remark") String remark,
                                     @RequestParam("status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.createSysPermission(name, remark, status, operatedSysUserId);
     }
 
@@ -92,7 +92,7 @@ public class SysPermissionController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysPermission(@RequestBody() SysPermissionInputDTO sysPermissionInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.createSysPermission(sysPermissionInputDTO.getName(), sysPermissionInputDTO.getRemark(), sysPermissionInputDTO.getStatus(), operatedSysUserId);
     }
 
@@ -108,7 +108,7 @@ public class SysPermissionController {
                                     @RequestParam("name") String name,
                                     @RequestParam("remark") String remark,
                                     @RequestParam("status") StatusEnum status) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.updateSysPermission(sysPermissionId, name, remark, status, operatedSysUserId);
     }
 
@@ -121,7 +121,7 @@ public class SysPermissionController {
     @PutMapping(path = "/{sysPermissionId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysPermission(@PathVariable("sysPermissionId") String sysPermissionId,
                                     @RequestBody() SysPermissionInputDTO sysPermissionInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.updateSysPermission(sysPermissionId, sysPermissionInputDTO.getName(), sysPermissionInputDTO.getRemark(), sysPermissionInputDTO.getStatus(), operatedSysUserId);
     }
 
@@ -133,7 +133,7 @@ public class SysPermissionController {
     @PutMapping(path = "/{sysPermissionId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysPermissionId") String sysPermissionId,
                                    @RequestBody() SysApisInputDTO sysApisInputDTO) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.setSysApiOfSysPermission(sysPermissionId, sysApisInputDTO.getSysApiList(), operatedSysUserId);
     }
 
@@ -152,7 +152,7 @@ public class SysPermissionController {
     })
     @PostMapping("/{sysPermissionId}/enable")
     public void enabledSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.enabledSysPermission(sysPermissionId, operatedSysUserId);
     }
 
@@ -162,7 +162,7 @@ public class SysPermissionController {
     })
     @PostMapping("/{sysPermissionId}/disable")
     public void disableSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
-        String operatedSysUserId = Securitys.getSysUserId();
+        String operatedSysUserId = SecurityHelper.getSysUserId();
         sysPermissionService.disableSysPermission(sysPermissionId, operatedSysUserId);
     }
 
