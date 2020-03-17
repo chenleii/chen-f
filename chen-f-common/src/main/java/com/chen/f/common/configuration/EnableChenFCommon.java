@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
         EnableChenFCommonRedisConfiguration.class,
         EnableChenFCommonSpringSessionConfiguration.class,
         EnableChenFCommonSwagger2Configuration.class,
+        EnableChenFCommonWebMvcConfiguration.class,
 
         EnableChenFCommonConfiguration.class,
         EnableChenFCommonConfigurationImportSelector.class,
