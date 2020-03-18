@@ -1,8 +1,12 @@
 package com.chen.f.core.util;
 
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -20,7 +24,7 @@ public class SftpUtils {
     /**
      * 创建SFTP通道
      * <p>
-     * 使用完后必须调用{@link #destroyChannelSftp(ChannelSftp)}方法销毁
+     * 使用完后必须调用{@link #destroyChannelSftp(com.jcraft.jsch.ChannelSftp)}方法销毁
      *
      * @param host     ip
      * @param port     端口
@@ -28,37 +32,93 @@ public class SftpUtils {
      * @param password 密码
      * @return SFTP通道
      */
-    public static ChannelSftp createChannelSftp(String host, int port, String username, String password) throws IOException {
+    public static ChannelSftp createChannelSftpByPassword(String host, int port, String username, String password) throws JSchException {
         Channel channel = null;
-        try {
-            JSch jSch = new JSch();
-            Session session = jSch.getSession(username, host, port);
-            session.setPassword(password);
-            Properties sshConfig = new Properties();
-            sshConfig.put("StrictHostKeyChecking", "no");
-            session.setConfig(sshConfig);
-            session.connect();
-            channel = session.openChannel("sftp");
-            channel.connect();
-        } catch (JSchException e) {
-            throw new IOException(e);
-        }
+
+        JSch jSch = new JSch();
+        Session session = jSch.getSession(username, host, port);
+        session.setPassword(password);
+        Properties sshConfig = new Properties();
+        sshConfig.put("StrictHostKeyChecking", "no");
+        session.setConfig(sshConfig);
+        session.connect();
+        channel = session.openChannel("sftp");
+        channel.connect();
+
         return ((ChannelSftp) channel);
     }
+
+    /**
+     * 创建SFTP通道
+     * <p>
+     * 使用完后必须调用{@link #destroyChannelSftp(com.jcraft.jsch.ChannelSftp)}方法销毁
+     *
+     * @param host       ip
+     * @param port       端口
+     * @param username   用户名
+     * @param name       密钥名称
+     * @param prvkey     私钥
+     * @param pubkey     公钥
+     * @param passphrase 私钥密码
+     * @return SFTP通道
+     */
+    public static ChannelSftp createChannelSftpByKey(String host, int port, String username, String name, byte[] prvkey, byte[] pubkey, byte[] passphrase) throws JSchException {
+        Channel channel = null;
+
+        JSch jSch = new JSch();
+        jSch.addIdentity(name, prvkey, pubkey, passphrase);
+        Session session = jSch.getSession(username, host, port);
+        Properties sshConfig = new Properties();
+        sshConfig.put("StrictHostKeyChecking", "no");
+        session.setConfig(sshConfig);
+        session.connect();
+        channel = session.openChannel("sftp");
+        channel.connect();
+
+        return ((ChannelSftp) channel);
+    }
+
+    /**
+     * 创建SFTP通道
+     * <p>
+     * 使用完后必须调用{@link #destroyChannelSftp(com.jcraft.jsch.ChannelSftp)}方法销毁
+     *
+     * @param host       ip
+     * @param port       端口
+     * @param username   用户名
+     * @param prvkey     私钥
+     * @param passphrase 私钥密码
+     * @return SFTP通道
+     */
+    public static ChannelSftp createChannelSftpByKey(String host, int port, String username, byte[] prvkey, byte[] passphrase) throws JSchException {
+        return createChannelSftpByKey(host, port, username, username, prvkey, null, passphrase);
+    }
+
+    /**
+     * 创建SFTP通道
+     * <p>
+     * 使用完后必须调用{@link #destroyChannelSftp(com.jcraft.jsch.ChannelSftp)}方法销毁
+     *
+     * @param host       ip
+     * @param port       端口
+     * @param username   用户名
+     * @param prvkey     私钥
+     * @return SFTP通道
+     */
+    public static ChannelSftp createChannelSftpByKey(String host, int port, String username, byte[] prvkey) throws JSchException {
+        return createChannelSftpByKey(host, port, username, username, prvkey, null, null);
+    }
+
 
     /**
      * 销毁SFTP通道
      *
      * @param channelSftp SFTP通道
      */
-    public static void destroyChannelSftp(ChannelSftp channelSftp) throws IOException {
+    public static void destroyChannelSftp(ChannelSftp channelSftp) throws JSchException {
         if (channelSftp != null) {
             channelSftp.disconnect();
-            try {
-                channelSftp.getSession().disconnect();
-            } catch (JSchException e) {
-                throw new IOException(e);
-            }
+            channelSftp.getSession().disconnect();
         }
     }
 
@@ -70,19 +130,13 @@ public class SftpUtils {
      * @param fileName    文件名称
      * @param inputStream 文件流
      */
-    public static void uploadFile(ChannelSftp channelSftp, String path, String fileName, InputStream inputStream) throws IOException {
+    public static void uploadFile(ChannelSftp channelSftp, String path, String fileName, InputStream inputStream) throws JSchException, SftpException {
         try {
             channelSftp.mkdir(path);
         } catch (SftpException e) {
             //忽略该异常(大多数时候是因为文件夹已存在,而判断文件夹是否存在逻辑比较复杂,这样比较省事)
         }
-
-        try {
-            channelSftp.put(inputStream, fileName);
-        } catch (SftpException e) {
-            throw new IOException(e);
-        }
-
+        channelSftp.put(inputStream, path + (path.endsWith("/") ? "" : "/") + fileName);
     }
 
 
@@ -93,12 +147,9 @@ public class SftpUtils {
      * @param path        路径
      * @param fileName    文件名称
      */
-    public static void deleteFile(ChannelSftp channelSftp, String path, String fileName) throws IOException {
-        try {
-            channelSftp.rm(path + (path.endsWith("/") ? "" : "/") + fileName);
-        } catch (SftpException e) {
-            throw new IOException(e);
-        }
+    public static void deleteFile(ChannelSftp channelSftp, String path, String fileName) throws JSchException, SftpException {
+        channelSftp.rm(path + (path.endsWith("/") ? "" : "/") + fileName);
+
     }
 
     /**
@@ -109,12 +160,8 @@ public class SftpUtils {
      * @param fileName     文件名称
      * @param outputStream 文件流
      */
-    public static void getFile(ChannelSftp channelSftp, String path, String fileName, OutputStream outputStream) throws IOException {
-        try {
-            channelSftp.get(path + (path.endsWith("/") ? "" : "/") + fileName, outputStream);
-        } catch (SftpException e) {
-            throw new IOException(e);
-        }
+    public static void getFile(ChannelSftp channelSftp, String path, String fileName, OutputStream outputStream) throws JSchException, SftpException {
+        channelSftp.get(path + (path.endsWith("/") ? "" : "/") + fileName, outputStream);
     }
 
     /**
@@ -125,12 +172,8 @@ public class SftpUtils {
      * @param fileName    文件名称
      * @return 文件流
      */
-    public static InputStream getFile(ChannelSftp channelSftp, String path, String fileName) throws IOException {
-        try {
-            return channelSftp.get(path + (path.endsWith("/") ? "" : "/") + fileName);
-        } catch (SftpException e) {
-            throw new IOException(e);
-        }
+    public static InputStream getFile(ChannelSftp channelSftp, String path, String fileName) throws JSchException, SftpException {
+        return channelSftp.get(path + (path.endsWith("/") ? "" : "/") + fileName);
     }
 
 }
