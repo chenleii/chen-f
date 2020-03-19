@@ -26,7 +26,7 @@ public class StackTraceErrorResponseWrapper implements ErrorResponse {
             stackTrace.flush();
             this.stackTrace = stackTrace.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            //忽略
         }
     }
 

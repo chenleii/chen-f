@@ -27,7 +27,7 @@ public class I18nHelper {
     }
 
     public I18nHelper(MessageSource messageSource) {
-        Assert.notNull(messageSource,"messageSource can not be empty");
+        Assert.notNull(messageSource, "messageSource can not be empty");
         I18nHelper.messageSource = messageSource;
     }
 
@@ -44,20 +44,36 @@ public class I18nHelper {
     }
 
 
-    public static String getMessage(String code, Object... objects) {
-        return messageSource.getMessage(code, objects, LocaleContextHolder.getLocale());
+    public static String getMessage(String code) {
+        return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }
 
-    public static String getMessage(String code, String defaultMessage, Object... objects) {
-        return messageSource.getMessage(code, objects, defaultMessage, LocaleContextHolder.getLocale());
+    public static String getMessage(String code, Locale locale) {
+        return messageSource.getMessage(code, null, locale);
     }
 
-    public static String getMessage(String code, Locale locale, Object... objects) {
-        return messageSource.getMessage(code, objects, locale);
+    public static String getMessage(String code, String defaultMessage) {
+        return messageSource.getMessage(code, null, defaultMessage, LocaleContextHolder.getLocale());
     }
 
-    public static String getMessage(String code, String defaultMessage, Locale locale, Object... objects) {
-        return messageSource.getMessage(code, objects, defaultMessage, locale);
+    public static String getMessage(String code, String defaultMessage, Locale locale) {
+        return messageSource.getMessage(code, null, defaultMessage, locale);
+    }
+
+    public static String getMessage(String code, Object[] args) {
+        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    public static String getMessage(String code, Object[] args, String defaultMessage) {
+        return messageSource.getMessage(code, args, defaultMessage, LocaleContextHolder.getLocale());
+    }
+
+    public static String getMessage(String code, Object[] args, Locale locale) {
+        return messageSource.getMessage(code, args, locale);
+    }
+
+    public static String getMessage(String code, Object[] args, String defaultMessage, Locale locale) {
+        return messageSource.getMessage(code, args, defaultMessage, locale);
     }
 
 

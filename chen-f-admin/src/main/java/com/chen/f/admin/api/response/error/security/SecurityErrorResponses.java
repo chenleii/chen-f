@@ -1,7 +1,6 @@
 package com.chen.f.admin.api.response.error.security;
 
 import com.chen.f.common.api.response.error.ErrorResponse;
-import com.chen.f.common.api.response.error.i18n.I18nErrorResponses;
 import com.chen.f.common.configuration.helper.I18nHelper;
 
 import java.util.Collection;
@@ -20,32 +19,32 @@ public interface SecurityErrorResponses extends ErrorResponse {
      * 没有登录
      */
     static ErrorResponse notLogin() {
-        return I18nErrorResponses.createI18nErrorResponse("not_login", SecurityErrorResponses.class.getName() + ".notLogin",
-                "没有登录");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notLogin", "没有登录");
+        return ErrorResponse.create("not_login", message);
     }
 
     /**
      * 拒绝访问
      */
     static ErrorResponse accessDenied() {
-        return I18nErrorResponses.createI18nErrorResponse("access_denied", SecurityErrorResponses.class.getName() + ".accessDenied",
-                "拒绝访问");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accessDenied", "拒绝访问");
+        return ErrorResponse.create("access_denied", message);
     }
 
     /**
      * 登录失败
      */
     static ErrorResponse loginFail() {
-        return I18nErrorResponses.createI18nErrorResponse("login_fail", SecurityErrorResponses.class.getName() + ".loginFail",
-                "登录失败");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".loginFail", "登录失败");
+        return ErrorResponse.create("login_fail", message);
     }
 
     /**
      * 验证码错误
      */
     static ErrorResponse captchaError() {
-        return I18nErrorResponses.createI18nErrorResponse("captcha_error", SecurityErrorResponses.class.getName() + ".captchaError",
-                "验证码错误或已过期");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".captchaError", "验证码错误或已过期");
+        return ErrorResponse.create("captcha_error", message);
     }
 
     /**
@@ -61,112 +60,112 @@ public interface SecurityErrorResponses extends ErrorResponse {
      * 账户已锁定
      */
     static ErrorResponse accountLocked() {
-        return I18nErrorResponses.createI18nErrorResponse("account_locked", SecurityErrorResponses.class.getName() + ".accountLocked",
-                "账户已锁定");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountLocked", "账户已锁定");
+        return ErrorResponse.create("account_locked", message);
     }
 
     /**
      * 账户已过期
      */
     static ErrorResponse accountExpired() {
-        return I18nErrorResponses.createI18nErrorResponse("account_expired", SecurityErrorResponses.class.getName() + ".accountExpired",
-                "账户已过期");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountExpired", "账户已过期");
+        return ErrorResponse.create("account_expired", message);
     }
 
     /**
      * 账户已禁用
      */
     static ErrorResponse accountDisable() {
-        return I18nErrorResponses.createI18nErrorResponse("account_disable", SecurityErrorResponses.class.getName() + ".accountDisable",
-                "账户已禁用");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountDisable", "账户已禁用");
+        return ErrorResponse.create("account_disable", message);
     }
 
     /**
      * 账户不存在
      */
     static ErrorResponse accountNotFount() {
-        return I18nErrorResponses.createI18nErrorResponse("account_not_fount", SecurityErrorResponses.class.getName() + ".accountNotFount",
-                "账户不存在");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountNotFount", "账户不存在");
+        return ErrorResponse.create("account_not_fount", message);
     }
 
     /**
      * 账户没有完全认证
      */
     static ErrorResponse accountNotFullyAuthenticated() {
-        return I18nErrorResponses.createI18nErrorResponse("account_not_fully_authenticated", SecurityErrorResponses.class.getName() + ".accountNotFullyAuthenticated",
-                "账户没有完全认证");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountNotFullyAuthenticated", "账户没有完全认证");
+        return ErrorResponse.create("account_not_fully_authenticated", message);
     }
 
     /**
      * principal错误(使用了其他UserDetailsService获取用户对象)
      */
     static ErrorResponse principalError() {
-        return I18nErrorResponses.createI18nErrorResponse("principal_error", SecurityErrorResponses.class.getName() + ".principalError",
-                "principal错误");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".principalError", "principal错误");
+        return ErrorResponse.create("principal_error", message);
     }
 
     /**
      * details错误(使用了其他WebAuthenticationDetails包装请求)
      */
     static ErrorResponse detailsError() {
-        return I18nErrorResponses.createI18nErrorResponse("details_error", SecurityErrorResponses.class.getName() + ".detailsError",
-                "details错误");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".detailsError", "details错误");
+        return ErrorResponse.create("details_error", message);
     }
 
     /**
      * 没有权限
      */
     static ErrorResponse notPermission(String permission) {
-        return I18nErrorResponses.createI18nErrorResponse("not_permission", SecurityErrorResponses.class.getName() + ".notPermission",
-                "没有权限[{0}]", new Object[]{permission});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notPermission", new Object[]{permission}, "没有权限[{0}]");
+        return ErrorResponse.create("not_permission", message);
     }
 
     /**
      * 没有权限
      */
     static ErrorResponse notPermission(String... permissions) {
-        return I18nErrorResponses.createI18nErrorResponse("not_permission", SecurityErrorResponses.class.getName() + ".notPermission",
-                "没有权限[{0}]", new Object[]{String.join(",", permissions)});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notPermission", new Object[]{String.join(",", permissions)}, "没有权限[{0}]");
+        return ErrorResponse.create("not_permission", message);
     }
 
     /**
      * 没有权限
      */
     static ErrorResponse notPermission(Collection<String> permissionCollection) {
-        return I18nErrorResponses.createI18nErrorResponse("not_permission", SecurityErrorResponses.class.getName() + ".notPermission",
-                "没有权限[{0}]", new Object[]{String.join(",", permissionCollection)});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notPermission", new Object[]{String.join(",", permissionCollection)}, "没有权限[{0}]");
+        return ErrorResponse.create("not_permission", message);
     }
 
     /**
      * 没有角色
      */
     static ErrorResponse notRole(String role) {
-        return I18nErrorResponses.createI18nErrorResponse("not_role", SecurityErrorResponses.class.getName() + ".notRole",
-                "没有角色[{0}]", new Object[]{role});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notRole", new Object[]{role}, "没有角色[{0}]");
+        return ErrorResponse.create("not_role", message);
     }
 
     /**
      * 没有角色
      */
     static ErrorResponse notRole(String... roles) {
-        return I18nErrorResponses.createI18nErrorResponse("not_role", SecurityErrorResponses.class.getName() + ".notRole",
-                "没有角色[{0}]", new Object[]{String.join(",", roles)});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notRole", new Object[]{String.join(",", roles)}, "没有角色[{0}]");
+        return ErrorResponse.create("not_role", message);
     }
 
     /**
      * 没有角色
      */
     static ErrorResponse notRole(Collection<String> roleCollection) {
-        return I18nErrorResponses.createI18nErrorResponse("not_role", SecurityErrorResponses.class.getName() + ".notRole",
-                "没有角色[{0}]", new Object[]{String.join(",", roleCollection)});
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notRole", new Object[]{String.join(",", roleCollection)}, "没有角色[{0}]");
+        return ErrorResponse.create("not_role", message);
     }
 
     /**
      * 不是超级管理员
      */
     static ErrorResponse notSuperAdministrator() {
-        return I18nErrorResponses.createI18nErrorResponse("not_super_administrator", SecurityErrorResponses.class.getName() + ".notSuperAdministrator",
-                "不是超级管理员");
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".notSuperAdministrator", "不是超级管理员");
+        return ErrorResponse.create("not_super_administrator", message);
     }
 
 }
