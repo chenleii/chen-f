@@ -3,7 +3,6 @@ package com.chen.f.core.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 /**
  * @author chen
@@ -26,14 +25,6 @@ public class IdUtils {
     public static String getId(String prefix) {
         return prefix + getId();
     }
-
-    public static void main(String[] args) {
-
-        System.out.println(getId("sss"));
-        Stream.iterate(1, (i) -> i++)
-                .forEach((i) -> {
-                    System.out.println(getId("ccc"));
-                });
-    }
+    
 
 }
