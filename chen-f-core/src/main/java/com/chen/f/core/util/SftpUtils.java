@@ -99,10 +99,10 @@ public class SftpUtils {
      * <p>
      * 使用完后必须调用{@link #destroyChannelSftp(com.jcraft.jsch.ChannelSftp)}方法销毁
      *
-     * @param host       ip
-     * @param port       端口
-     * @param username   用户名
-     * @param prvkey     私钥
+     * @param host     ip
+     * @param port     端口
+     * @param username 用户名
+     * @param prvkey   私钥
      * @return SFTP通道
      */
     public static ChannelSftp createChannelSftpByKey(String host, int port, String username, byte[] prvkey) throws JSchException {
@@ -120,6 +120,17 @@ public class SftpUtils {
             channelSftp.disconnect();
             channelSftp.getSession().disconnect();
         }
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param channelSftp SFTP通道
+     * @param src         资源地址
+     * @param inputStream 文件流
+     */
+    public static void uploadFile(ChannelSftp channelSftp,  String src, InputStream inputStream) throws JSchException, SftpException {
+        channelSftp.put(inputStream, src);
     }
 
     /**
@@ -144,12 +155,43 @@ public class SftpUtils {
      * 删除文件
      *
      * @param channelSftp SFTP通道
+     * @param src         资源地址
+     */
+    public static void deleteFile(ChannelSftp channelSftp, String src) throws JSchException, SftpException {
+        channelSftp.rm(src);
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param channelSftp SFTP通道
      * @param path        路径
      * @param fileName    文件名称
      */
     public static void deleteFile(ChannelSftp channelSftp, String path, String fileName) throws JSchException, SftpException {
         channelSftp.rm(path + (path.endsWith("/") ? "" : "/") + fileName);
+    }
 
+    /**
+     * 获取文件
+     *
+     * @param channelSftp  SFTP通道
+     * @param src          资源地址
+     * @param outputStream 文件流
+     */
+    public static void getFile(ChannelSftp channelSftp, String src, OutputStream outputStream) throws JSchException, SftpException {
+        channelSftp.get(src, outputStream);
+    }
+
+    /**
+     * 获取文件
+     *
+     * @param channelSftp SFTP通道
+     * @param src         资源地址
+     * @return 文件流
+     */
+    public static InputStream getFile(ChannelSftp channelSftp, String src) throws JSchException, SftpException {
+        return channelSftp.get(src);
     }
 
     /**
@@ -177,3 +219,4 @@ public class SftpUtils {
     }
 
 }
+
