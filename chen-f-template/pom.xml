@@ -133,21 +133,28 @@
     <build>
         <finalName>chen-f-template</finalName>
         <resources>
+            <!--排除所有-->
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+            <!--包含公共资源-->
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
-                    <include>META-INF/*</include>
-                    <include>i18n/*</include>
+                    <include>META-INF/**</include>
+                    <include>i18n/**</include>
+                    <include>config/**</include>
                 </includes>
-                <!-- 资源根目录排除各环境的配置，防止在生成目录中多余其它目录 -->
-                <excludes>
-                    <exclude>local/**</exclude>
-                    <exclude>beta/**</exclude>
-                    <exclude>release/**</exclude>
-                </excludes>
             </resource>
+            <!--包含当前活动的配置-->
             <resource>
                 <directory>${basedir}/src/main/resources/${profiles.active}</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
             </resource>
 
             <resource>
