@@ -1,6 +1,5 @@
 package com.chen.f.admin.web.controller;
 
-import com.chen.f.admin.configuration.helper.QuartzHelper;
 import com.chen.f.common.api.exception.ApiException;
 import com.chen.f.common.api.response.error.ErrorResponse;
 import com.chen.f.common.configuration.distributedlock.DistributedLock;
@@ -36,9 +35,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/test")
 public class TestController {
-
-    @Autowired
-    private QuartzHelper quartzHelper;
+    
     @Autowired
     private SessionRegistry sessionRegistry;
 
