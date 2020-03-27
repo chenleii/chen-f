@@ -16,6 +16,7 @@ public class EnableChenFAdminConfigurationImportSelector implements DeferredImpo
         return new String[]{
                 SysApiServiceImpl.class.getName(),
                 SysMenuServiceImpl.class.getName(),
+                SysOrganizationServiceImpl.class.getName(),
                 SysPermissionServiceImpl.class.getName(),
                 SysRoleServiceImpl.class.getName(),
                 SysTimedTaskLogServiceImpl.class.getName(),
@@ -27,6 +28,7 @@ public class EnableChenFAdminConfigurationImportSelector implements DeferredImpo
                 SysApiController.class.getName(),
                 SysDictController.class.getName(),
                 SysMenuController.class.getName(),
+                SysOrganizationController.class.getName(),
                 SysParameterController.class.getName(),
                 SysPermissionController.class.getName(),
                 SysRoleController.class.getName(),
