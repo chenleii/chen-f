@@ -2,6 +2,7 @@ package com.chen.f.admin.configuration.quartz;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.chen.f.admin.configuration.helper.QuartzHelper;
+import com.chen.f.admin.service.ISysTimedTaskService;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import org.quartz.Scheduler;
@@ -43,9 +44,9 @@ public class QuartzConfiguration {
     }
 
     @Bean
-    @ConditionalOnClass({QuartzHelper.class, SchedulerFactoryBean.class, SysTimedTaskMapper.class})
-    public QuartzHelper quartzHelper(SchedulerFactoryBean schedulerFactoryBean, SysTimedTaskMapper sysTimedTaskMapper) {
-        QuartzHelper quartzHelper = new QuartzHelper(schedulerFactoryBean, sysTimedTaskMapper);
+    @ConditionalOnClass({QuartzHelper.class, SchedulerFactoryBean.class, ISysTimedTaskService.class})
+    public QuartzHelper quartzHelper(SchedulerFactoryBean schedulerFactoryBean, ISysTimedTaskService sysTimedTaskService) {
+        QuartzHelper quartzHelper = new QuartzHelper(schedulerFactoryBean, sysTimedTaskService);
         quartzHelper.init();
         return quartzHelper;
     }
