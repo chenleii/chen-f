@@ -20,13 +20,13 @@ public class SysMenuInputDTO {
     @ApiModelProperty(value = "主键ID")
     private String id;
 
-    @ApiModelProperty(value = "父级的id(引用本表id字段,空字符为顶级菜单)")
+    @ApiModelProperty(value = "父级的id(引用本表id字段,空白字符串为顶级菜单)")
     private String parentId;
 
     @ApiModelProperty(value = "菜单名称")
     private String name;
 
-    @ApiModelProperty(value = "菜单url")
+    @ApiModelProperty(value = "菜单URL")
     private String url;
 
     @ApiModelProperty(value = "图标")

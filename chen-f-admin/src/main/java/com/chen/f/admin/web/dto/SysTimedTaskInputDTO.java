@@ -31,10 +31,10 @@ public class SysTimedTaskInputDTO {
     @ApiModelProperty(value = "类名")
     private String className;
 
-    @ApiModelProperty(value = "corn表达式")
+    @ApiModelProperty(value = "CORN表达式")
     private String cronExpression;
 
-    @ApiModelProperty(value = "任务数据(json格式)")
+    @ApiModelProperty(value = "任务数据(JSON格式)")
     private String data;
 
     @ApiModelProperty(value = "定时任务类型(SYSTEM:系统定时任务)")

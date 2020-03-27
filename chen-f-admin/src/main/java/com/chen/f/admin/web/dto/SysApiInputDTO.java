@@ -16,22 +16,22 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="SysApiDTO", description="系统apiDTO")
+@ApiModel(value="SysApiDTO", description="系统接口DTO")
 public class SysApiInputDTO {
 
     @ApiModelProperty(value = "主键ID")
     private String id;
 
-    @ApiModelProperty(value = "api名称")
+    @ApiModelProperty(value = "接口名称")
     private String name;
 
-    @ApiModelProperty(value = "API路径")
+    @ApiModelProperty(value = "接口URL")
     private String url;
 
     @ApiModelProperty(value = "HTTP请求方法(GET;HEAD;POST;PUT;PATCH;DELETE;OPTIONS;TRACE;ANY;)")
     private SysApiHttpMethodEnum httpMethod;
 
-    @ApiModelProperty(value = "系统API类型(SYSTEM:系统api;)")
+    @ApiModelProperty(value = "系统接口类型(SYSTEM:系统接口;)")
     private SysApiTypeEnum type;
 
     @ApiModelProperty(value = "备注")

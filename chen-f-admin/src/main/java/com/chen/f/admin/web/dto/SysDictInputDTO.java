@@ -25,7 +25,7 @@ public class SysDictInputDTO {
     @ApiModelProperty(value = "字典标识")
     private String code;
 
-    @ApiModelProperty(value = "字典key")
+    @ApiModelProperty(value = "字典KEY")
     private String key;
 
     @ApiModelProperty(value = "字典名称")

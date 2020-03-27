@@ -34,7 +34,7 @@ public class Region extends Model<Region> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "父级主键ID")
+    @ApiModelProperty(value = "父级ID(引用本表ID字段,空白字符串为顶级)")
     @TableField("PARENT_ID")
     private String parentId;
 

@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_API")
-@ApiModel(value="SysApi对象", description="系统api表")
+@ApiModel(value="SysApi对象", description="系统接口表")
 public class SysApi extends Model<SysApi> {
 
     private static final long serialVersionUID = 1L;
@@ -38,11 +38,11 @@ public class SysApi extends Model<SysApi> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "API名称")
+    @ApiModelProperty(value = "接口名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "API路径")
+    @ApiModelProperty(value = "接口URL")
     @TableField("URL")
     private String url;
 
@@ -50,7 +50,7 @@ public class SysApi extends Model<SysApi> {
     @TableField("HTTP_METHOD")
     private SysApiHttpMethodEnum httpMethod;
 
-    @ApiModelProperty(value = "系统API类型(SYSTEM:系统api;)")
+    @ApiModelProperty(value = "接口类型(SYSTEM:系统接口;)")
     @TableField("TYPE")
     private SysApiTypeEnum type;
 
@@ -62,11 +62,11 @@ public class SysApi extends Model<SysApi> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

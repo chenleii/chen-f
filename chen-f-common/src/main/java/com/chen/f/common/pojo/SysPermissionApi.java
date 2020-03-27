@@ -26,20 +26,24 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_PERMISSION_API")
-@ApiModel(value="SysPermissionApi对象", description="系统权限API表")
+@ApiModel(value="SysPermissionApi对象", description="系统权限接口表")
 public class SysPermissionApi extends Model<SysPermissionApi> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "系统权限id")
-    @TableId(value = "SYS_PERMISSION_ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "主键ID")
+    @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    private String id;
+    
+    @ApiModelProperty(value = "系统权限ID")
+    @TableId(value = "SYS_PERMISSION_ID")
     private String sysPermissionId;
 
-    @ApiModelProperty(value = "系统API ID")
+    @ApiModelProperty(value = "系统接口ID")
     @TableField("SYS_API_ID")
     private String sysApiId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

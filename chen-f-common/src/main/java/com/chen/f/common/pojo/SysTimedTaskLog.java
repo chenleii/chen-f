@@ -45,7 +45,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "corn表达式")
+    @ApiModelProperty(value = "CORN表达式")
     @TableField("CRON_EXPRESSION")
     private String cronExpression;
 

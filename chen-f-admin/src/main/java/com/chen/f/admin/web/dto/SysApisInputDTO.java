@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "设置的系统API", description = "设置的系统APIdto")
+@ApiModel(value = "设置的系统接口", description = "设置的系统接口DTO")
 public class SysApisInputDTO {
 
     @ApiModelProperty(value = "sysApiList")

@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_ROLE_API")
-@ApiModel(value="SysRoleApi对象", description="系统角色API表")
+@ApiModel(value="SysRoleApi对象", description="系统角色接口表")
 public class SysRoleApi extends Model<SysRoleApi> {
 
     private static final long serialVersionUID = 1L;
@@ -35,15 +35,15 @@ public class SysRoleApi extends Model<SysRoleApi> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "系统角色id")
+    @ApiModelProperty(value = "系统角色ID")
     @TableId(value = "SYS_ROLE_ID")
     private String sysRoleId;
 
-    @ApiModelProperty(value = "系统APIid")
+    @ApiModelProperty(value = "系统接口ID")
     @TableField("SYS_API_ID")
     private String sysApiId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

@@ -35,15 +35,15 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "系统角色id")
+    @ApiModelProperty(value = "系统角色ID")
     @TableId(value = "SYS_ROLE_ID")
     private String sysRoleId;
 
-    @ApiModelProperty(value = "系统菜单id")
+    @ApiModelProperty(value = "系统菜单ID")
     @TableField("SYS_MENU_ID")
     private String sysMenuId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

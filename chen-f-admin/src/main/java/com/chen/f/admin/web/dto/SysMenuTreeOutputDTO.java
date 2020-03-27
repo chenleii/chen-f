@@ -24,13 +24,13 @@ public class SysMenuTreeOutputDTO {
     @ApiModelProperty(value = "主键ID")
     private String id;
 
-    @ApiModelProperty(value = "父级的id(引用本表id字段,空字符为顶级菜单)")
+    @ApiModelProperty(value = "父级的ID(引用本表ID字段,空白字符串为顶级菜单)")
     private String parentId;
 
     @ApiModelProperty(value = "菜单名称")
     private String name;
 
-    @ApiModelProperty(value = "菜单url")
+    @ApiModelProperty(value = "菜单URL")
     private String url;
 
     @ApiModelProperty(value = "图标")
@@ -48,10 +48,10 @@ public class SysMenuTreeOutputDTO {
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     private String createSysUserId;
 
     @ApiModelProperty(value = "更新时间")

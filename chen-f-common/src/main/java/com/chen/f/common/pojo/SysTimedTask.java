@@ -49,11 +49,11 @@ public class SysTimedTask extends Model<SysTimedTask> {
     @TableField("CLASS_NAME")
     private String className;
 
-    @ApiModelProperty(value = "corn表达式")
+    @ApiModelProperty(value = "CORN表达式")
     @TableField("CRON_EXPRESSION")
     private String cronExpression;
 
-    @ApiModelProperty(value = "任务数据(json格式)")
+    @ApiModelProperty(value = "任务数据(JSON格式)")
     @TableField("DATA")
     private String data;
 
@@ -69,11 +69,11 @@ public class SysTimedTask extends Model<SysTimedTask> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

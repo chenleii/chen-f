@@ -35,15 +35,15 @@ public class SysRolePermission extends Model<SysRolePermission> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "系统角色id")
+    @ApiModelProperty(value = "系统角色ID")
     @TableId(value = "SYS_ROLE_ID")
     private String sysRoleId;
 
-    @ApiModelProperty(value = "系统权限id")
+    @ApiModelProperty(value = "系统权限ID")
     @TableField("SYS_PERMISSION_ID")
     private String sysPermissionId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

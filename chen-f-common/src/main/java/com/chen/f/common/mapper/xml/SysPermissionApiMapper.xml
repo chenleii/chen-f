@@ -4,15 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysPermissionApi">
-        <id column="SYS_PERMISSION_ID" property="sysPermissionId" />
-        <result column="SYS_API_ID" property="sysApiId" />
-        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <id column="ID" property="id"/>
+        <result column="SYS_PERMISSION_ID" property="sysPermissionId"/>
+        <result column="SYS_API_ID" property="sysApiId"/>
+        <result column="CREATE_SYS_USER_ID" property="createSysUserId"/>
+        <result column="CREATE_DATE_TIME" property="createDateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        SYS_PERMISSION_ID, SYS_API_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
+        ID, SYS_PERMISSION_ID, SYS_API_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
     </sql>
 
 </mapper>

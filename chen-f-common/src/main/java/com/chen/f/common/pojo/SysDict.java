@@ -41,7 +41,7 @@ public class SysDict extends Model<SysDict> {
     @TableId(value = "CODE")
     private String code;
 
-    @ApiModelProperty(value = "字典key")
+    @ApiModelProperty(value = "字典KEY")
     @TableField("`KEY`")
     private String key;
 
@@ -73,11 +73,11 @@ public class SysDict extends Model<SysDict> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

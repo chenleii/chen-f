@@ -37,7 +37,7 @@ public class SysMenu extends Model<SysMenu> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "父级的id(引用本表id字段,空字符为顶级菜单)")
+    @ApiModelProperty(value = "父级的ID(引用本表ID字段,空白字符串为顶级菜单)")
     @TableField("PARENT_ID")
     private String parentId;
 
@@ -45,7 +45,7 @@ public class SysMenu extends Model<SysMenu> {
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "菜单url")
+    @ApiModelProperty(value = "菜单URL")
     @TableField("URL")
     private String url;
 
@@ -69,11 +69,11 @@ public class SysMenu extends Model<SysMenu> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

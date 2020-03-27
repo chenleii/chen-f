@@ -19,7 +19,7 @@ public class SysUserInputDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "主键ID")
     private String id;
 
     @ApiModelProperty(value = "用户名")

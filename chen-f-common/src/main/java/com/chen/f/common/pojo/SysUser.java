@@ -61,17 +61,17 @@ public class SysUser extends Model<SysUser> {
     @TableField("LAST_LOGIN_DATE_TIME")
     private LocalDateTime lastLoginDateTime;
 
-    @ApiModelProperty(value = "更新系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户id('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 
     @ApiModelProperty(value = "更新时间")
     @TableField("UPDATE_DATE_TIME")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDateTime;
 
     @ApiModelProperty(value = "创建时间")
