@@ -37,7 +37,7 @@
         
         <p6spy.version>3.8.0</p6spy.version>
 
-        <druid.version>1.1.21</druid.version>
+        <druid.version>1.1.20</druid.version>
         <druid-spring-boot-starter.version>${druid.version}</druid-spring-boot-starter.version>
 
         <sharding-jdbc-spring-boot-starter.version>4.0.1</sharding-jdbc-spring-boot-starter.version>
