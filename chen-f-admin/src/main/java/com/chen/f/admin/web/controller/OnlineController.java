@@ -1,6 +1,7 @@
 package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.helper.SecurityHelper;
+import com.chen.f.admin.configuration.security.service.SecurityUser;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysUserRolePermission;
@@ -32,9 +33,9 @@ public class OnlineController {
     @ApiOperation(value = "获取在线用户", notes = "", produces = "application/json", response = SysUserRolePermission.class)
     @ApiImplicitParams({})
     @GetMapping("/sysUserRolePermission")
-    public SysUserRolePermission getSysUserRolePermission() {
+    public SecurityUser getSysUserRolePermission() {
         SecurityHelper.checkFullyAuthenticated();
-        return SecurityHelper.getAuthenticationSecurityUserOriginal();
+        return SecurityHelper.getAuthenticationSecurityUser();
     }
 
 

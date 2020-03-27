@@ -1,11 +1,11 @@
 package com.chen.f.admin.configuration.helper;
 
+import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
 import com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDetails;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
-import com.chen.f.common.pojo.SysPermission;
-import com.chen.f.common.pojo.SysUserRolePermission;
 import com.chen.f.common.api.ApiAssert;
-import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysRole;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -59,22 +59,12 @@ public class SecurityHelper {
     }
 
     /**
-     * 获取认证对象中的{@link SysUserRolePermission}
-     * 默认的{@link org.springframework.security.core.userdetails.UserDetailsService}获取的是这个对象
-     *
-     * @return SecurityUser实例原始内容
-     */
-    public static SysUserRolePermission getAuthenticationSecurityUserOriginal() {
-        return getAuthenticationSecurityUser().getOriginal();
-    }
-
-    /**
      * 获取当前登录系统用户id
      *
      * @return 系统用户id
      */
     public static String getSysUserId() {
-        return getAuthenticationSecurityUserOriginal().getId();
+        return getAuthenticationSecurityUser().getSysUser().getId();
     }
 
     /**
@@ -174,18 +164,14 @@ public class SecurityHelper {
      */
     public static boolean hasPermission(String... permissions) {
         SecurityUser securityUser = getAuthenticationSecurityUser();
-        SysUserRolePermission original = securityUser.getOriginal();
-        List<SysUserRolePermission.SysRolePermission> sysRolePermissionList = original.getSysRolePermissionList();
-        if (CollectionUtils.isEmpty(sysRolePermissionList)) {
+        List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
+        if (CollectionUtils.isEmpty(sysUserPermissionList)) {
             return false;
         }
-        return sysRolePermissionList.stream()
-                .filter(Objects::nonNull)
-                .filter(sysRolePermission -> CollectionUtils.isNotEmpty(sysRolePermission.getSysPermissionList()))
-                .flatMap(sysRolePermission -> sysRolePermission.getSysPermissionList().stream())
+        return sysUserPermissionList.stream()
                 .filter(Objects::nonNull)
                 .map(SysPermission::getName)
-                .allMatch(sysPermissionString -> StringUtils.equalsAny(sysPermissionString, permissions));
+                .allMatch(name -> StringUtils.equalsAny(name, permissions));
 
     }
 
@@ -248,15 +234,14 @@ public class SecurityHelper {
      */
     public static boolean hasRole(String... roles) {
         SecurityUser securityUser = getAuthenticationSecurityUser();
-        SysUserRolePermission original = securityUser.getOriginal();
-        List<SysUserRolePermission.SysRolePermission> sysRolePermissionList = original.getSysRolePermissionList();
-        if (CollectionUtils.isEmpty(sysRolePermissionList)) {
+        List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
+        if (CollectionUtils.isEmpty(sysUserRoleList)) {
             return false;
         }
-        return sysRolePermissionList.stream()
+        return sysUserRoleList.stream()
                 .filter(Objects::nonNull)
-                .map(SysUserRolePermission.SysRolePermission::getName)
-                .allMatch(sysPermissionString -> StringUtils.equalsAny(sysPermissionString, roles));
+                .map(SysRole::getName)
+                .allMatch(name -> StringUtils.equalsAny(name, roles));
     }
 
     /**
@@ -296,7 +281,7 @@ public class SecurityHelper {
      */
     public static int getSysUserLevel() {
         SecurityUser securityUser = getAuthenticationSecurityUser();
-        return securityUser.getOriginal().getLevel();
+        return securityUser.getSysUser().getLevel();
     }
 
     /**
