@@ -4,24 +4,82 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysMenu">
-        <id column="ID" property="id" />
-        <result column="PARENT_ID" property="parentId" />
-        <result column="NAME" property="name" />
-        <result column="URL" property="url" />
-        <result column="ICON" property="icon" />
-        <result column="TYPE" property="type" />
-        <result column="REMARK" property="remark" />
-        <result column="ORDER" property="order" />
-        <result column="STATUS" property="status" />
-        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
-        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
-        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <id column="ID" property="id"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="NAME" property="name"/>
+        <result column="URL" property="url"/>
+        <result column="ICON" property="icon"/>
+        <result column="TYPE" property="type"/>
+        <result column="REMARK" property="remark"/>
+        <result column="ORDER" property="order"/>
+        <result column="STATUS" property="status"/>
+        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId"/>
+        <result column="CREATE_SYS_USER_ID" property="createSysUserId"/>
+        <result column="UPDATE_DATE_TIME" property="updateDateTime"/>
+        <result column="CREATE_DATE_TIME" property="createDateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         ID, PARENT_ID, NAME, URL, ICON, TYPE, REMARK, `ORDER`, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
     </sql>
+
+    <!--根据ID列表查询当前记录和当前记录的所有下级记录-->
+    <select id="selectSubordinateByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        SYS_MENU
+        WHERE
+        ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        SYS_MENU.ID, SYS_MENU.PARENT_ID, SYS_MENU.NAME,
+        SYS_MENU.URL, SYS_MENU.ICON, SYS_MENU.TYPE, SYS_MENU.REMARK,
+        SYS_MENU.`ORDER`, SYS_MENU.STATUS, SYS_MENU.UPDATE_SYS_USER_ID,
+        SYS_MENU.CREATE_SYS_USER_ID, SYS_MENU.UPDATE_DATE_TIME, SYS_MENU.CREATE_DATE_TIME
+        FROM
+        SYS_MENU
+        INNER JOIN cte ON cte.ID = SYS_MENU.PARENT_ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
+
+    <!--根据ID列表查询当前记录和当前记录的所有上级记录-->
+    <select id="selectSuperiorByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        SYS_MENU
+        WHERE
+        ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        SYS_MENU.ID, SYS_MENU.PARENT_ID, SYS_MENU.NAME,
+        SYS_MENU.URL, SYS_MENU.ICON, SYS_MENU.TYPE, SYS_MENU.REMARK,
+        SYS_MENU.`ORDER`, SYS_MENU.STATUS, SYS_MENU.UPDATE_SYS_USER_ID,
+        SYS_MENU.CREATE_SYS_USER_ID, SYS_MENU.UPDATE_DATE_TIME, SYS_MENU.CREATE_DATE_TIME
+        FROM
+        SYS_MENU
+        INNER JOIN cte ON cte.PARENT_ID = SYS_MENU.ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
 
 </mapper>

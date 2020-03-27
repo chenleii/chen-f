@@ -19,5 +19,56 @@
     <sql id="Base_Column_List">
         ID, PARENT_ID, LEVEL, NAME, CITY_CODE, POSTAL_CODE, SHORT_NAME, FULL_NAME, ENGLISH_NAME
     </sql>
+    
+    
+    <!--根据ID列表查询当前记录和当前记录的所有下级记录-->
+    <select id="selectSubordinateByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM REGION
+        WHERE
+        ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        REGION.ID, REGION.PARENT_ID, REGION.LEVEL, REGION.NAME, REGION.CITY_CODE, 
+        REGION.POSTAL_CODE, REGION.SHORT_NAME, REGION.FULL_NAME, REGION.ENGLISH_NAME
+        FROM REGION
+        INNER JOIN cte ON cte.ID = REGION.PARENT_ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
+
+    <!--根据ID列表查询当前记录和当前记录的所有上级记录-->
+    <select id="selectSuperiorByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM REGION
+        WHERE
+        ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        REGION.ID, REGION.PARENT_ID, REGION.LEVEL, REGION.NAME, REGION.CITY_CODE,
+        REGION.POSTAL_CODE, REGION.SHORT_NAME, REGION.FULL_NAME, REGION.ENGLISH_NAME
+        FROM REGION
+        INNER JOIN cte ON cte.PARENT_ID = REGION.ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
 
 </mapper>
