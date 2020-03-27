@@ -1,10 +1,5 @@
 server:
   port: 8080
-  http2:
-    enabled: true
-  servlet:
-    session:
-      timeout: 30m
 
   error:
     path: /error
@@ -17,34 +12,25 @@ logging:
 spring:
   main:
     banner-mode: console
-  #    allow-bean-definition-overriding: true
-
-  devtools:
-    restart:
-      enabled: true
-
-  webflux:
-    date-format: yyyyMMddhhmmss
 
   mvc:
     date-format: yyyyMMddhhmmss
     #抛出404异常,默认不抛出404异常,会转发到/error
     throw-exception-if-no-handler-found: false
     locale: zh_CN
+
   resources:
     #是否使用默认资源映射
     add-mappings: true
-    
+
   messages:
     basename: org/springframework/security/messages,i18n/messages
-    
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    joda-date-time-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
 
   redis:
     database: 0
@@ -59,9 +45,9 @@ spring:
         # 连接池中的最大空闲连接
         max-idle: 8
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: -2s
+        max-wait: 5s
         # 连接池中的最小空闲连接
-        min-idle: 0
+        min-idle: 1
 
   session:
     store-type: redis
@@ -107,7 +93,7 @@ spring:
       #调度实例失效的检查时间间隔
       org.quartz.jobStore.clusterCheckinInterval: 200000
       org.quartz.jobStore.dontSetAutoCommitFalse: false
-      org.quartz.jobStore.selectWithLockSQL: SELECT * FROM {0}LOCKS WHERE LOCK_NAME = ? FOR UPDATE
+      org.quartz.jobStore.selectWithLockSQL: SELECT * FROM {0} LOCKS WHERE LOCK_NAME = ? FOR UPDATE
       org.quartz.jobStore.txIsolationLevelSerializable: false
       org.quartz.jobStore.acquireTriggersWithinLock: false
       org.quartz.scheduler.batchTriggerAcquisitionMaxCount: 50
