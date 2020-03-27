@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.f.common.mapper.SysOrganizationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysOrganization">
+        <id column="ID" property="id" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="NAME" property="name" />
+        <result column="FULL_NAME" property="fullName" />
+        <result column="TYPE" property="type" />
+        <result column="REMARK" property="remark" />
+        <result column="STATUS" property="status" />
+        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
+        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
+        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
+        <result column="CREATE_DATE_TIME" property="createDateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PARENT_ID, NAME, FULL_NAME, TYPE, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+    </sql>
+    
+
+    <!--根据ID列表查询当前记录和当前记录的所有下级记录-->
+    <select id="selectSubordinateByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        SYS_ORGANIZATION
+        WHERE
+        ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        SYS_ORGANIZATION.ID, SYS_ORGANIZATION.PARENT_ID, SYS_ORGANIZATION.NAME, SYS_ORGANIZATION.FULL_NAME,
+        SYS_ORGANIZATION.TYPE, SYS_ORGANIZATION.REMARK, SYS_ORGANIZATION.STATUS, SYS_ORGANIZATION.UPDATE_SYS_USER_ID,
+        SYS_ORGANIZATION.CREATE_SYS_USER_ID, SYS_ORGANIZATION.UPDATE_DATE_TIME, SYS_ORGANIZATION.CREATE_DATE_TIME
+        FROM
+        SYS_ORGANIZATION
+        INNER JOIN cte ON cte.ID = SYS_ORGANIZATION.PARENT_ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
+
+    <!--根据ID列表查询当前记录和当前记录的所有上级记录-->
+    <select id="selectSuperiorByIdList" resultMap="BaseResultMap">
+        WITH recursive cte (
+        <include refid="Base_Column_List"/>
+        ) AS (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        SYS_ORGANIZATION
+        WHERE
+        ID IN 
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        UNION ALL
+        SELECT
+        SYS_ORGANIZATION.ID, SYS_ORGANIZATION.PARENT_ID, SYS_ORGANIZATION.NAME, SYS_ORGANIZATION.FULL_NAME,
+        SYS_ORGANIZATION.TYPE, SYS_ORGANIZATION.REMARK, SYS_ORGANIZATION.STATUS, SYS_ORGANIZATION.UPDATE_SYS_USER_ID,
+        SYS_ORGANIZATION.CREATE_SYS_USER_ID, SYS_ORGANIZATION.UPDATE_DATE_TIME, SYS_ORGANIZATION.CREATE_DATE_TIME
+        FROM
+        SYS_ORGANIZATION
+        INNER JOIN cte ON cte.PARENT_ID = SYS_ORGANIZATION.ID
+        )
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cte;
+    </select>
+</mapper>
