@@ -40,17 +40,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>*.*</include>
-                    <include>META-INF/*</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
-
 
 </project>

@@ -96,7 +96,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/java</directory>
+                <directory>${project.basedir}/src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
