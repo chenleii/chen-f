@@ -2,4 +2,5 @@ spring:
   application:
     name: chen-f-template
   profiles:
-    active: beta
+    include: common
+    active: release

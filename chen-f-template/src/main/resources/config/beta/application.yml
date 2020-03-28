@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: chen-f-template
+  profiles:
+    include: common
+    active: beta
