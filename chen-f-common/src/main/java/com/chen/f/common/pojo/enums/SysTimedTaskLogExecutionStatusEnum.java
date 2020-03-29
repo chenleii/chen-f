@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统定时任务日志异常状态枚举
+ *
  * @author chen
  * @since 2018/11/10 0:29.
  */
-public enum ExecutionStatusEnum {
+public enum SysTimedTaskLogExecutionStatusEnum {
 
     //未执行
     NON("NON", "未执行"),
@@ -35,15 +37,15 @@ public enum ExecutionStatusEnum {
 
     public final String description;
 
-    ExecutionStatusEnum(String status, String description) {
+    SysTimedTaskLogExecutionStatusEnum(String status, String description) {
         this.status = status;
         this.description = description;
     }
 
     @JsonCreator
-    public static ExecutionStatusEnum of(String status) {
-        ExecutionStatusEnum[] values = ExecutionStatusEnum.values();
-        for (ExecutionStatusEnum value : values) {
+    public static SysTimedTaskLogExecutionStatusEnum of(String status) {
+        SysTimedTaskLogExecutionStatusEnum[] values = SysTimedTaskLogExecutionStatusEnum.values();
+        for (SysTimedTaskLogExecutionStatusEnum value : values) {
             if (StringUtils.equalsIgnoreCase(value.status, status)) {
                 return value;
             }
@@ -53,4 +55,5 @@ public enum ExecutionStatusEnum {
 
     public String getStatus() {
         return status;
-    }}
+    }
+}

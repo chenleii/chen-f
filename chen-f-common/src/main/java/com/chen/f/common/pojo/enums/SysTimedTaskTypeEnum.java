@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统定时任务类型枚举
+ *
  * @author chen
  * @since 2018/11/7 16:33.
  */
@@ -41,4 +43,5 @@ public enum SysTimedTaskTypeEnum {
 
     public String getType() {
         return type;
-    }}
+    }
+}

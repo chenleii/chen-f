@@ -6,19 +6,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 系统参数类型枚举
+ * 系统组织类型枚举
  *
  * @author chen
- * @since 2018/11/7 16:33.
+ * @since 2020/3/29 15:59.
  */
-public enum SysParameterTypeEnum {
-    //系统参数
-    SYSTEM("SYSTEM", "系统参数"),
+public enum SysOrganizationTypeEnum {
+    //普通组织
+    ORDINARY_ORGANIZATION("ORDINARY", "普通组织"),
+    //公司
+    COMPANY("COMPANY", "公司"),
+    //部门
+    DEPARTMENT("DEPARTMENT", "部门"),
 
     ;
 
     /**
-     * 参数类型(SYSTEM:系统参数)
+     * 系统组织类型(ORDINARY:普通组织;COMPANY:公司;DEPARTMENT:部门;)
      */
     @JsonValue
     @EnumValue
@@ -26,15 +30,15 @@ public enum SysParameterTypeEnum {
 
     public final String description;
 
-    SysParameterTypeEnum(String type, String description) {
+    SysOrganizationTypeEnum(String type, String description) {
         this.type = type;
         this.description = description;
     }
 
     @JsonCreator
-    public static SysParameterTypeEnum of(String type) {
-        SysParameterTypeEnum[] values = SysParameterTypeEnum.values();
-        for (SysParameterTypeEnum value : values) {
+    public static SysOrganizationTypeEnum of(String type) {
+        SysOrganizationTypeEnum[] values = SysOrganizationTypeEnum.values();
+        for (SysOrganizationTypeEnum value : values) {
             if (StringUtils.equalsIgnoreCase(value.type, type)) {
                 return value;
             }

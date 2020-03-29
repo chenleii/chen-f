@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 系统API HTTP请求方法枚举
+ * 系统接口HTTP请求方法枚举
  *
  * @author chen
  * @since 2019/3/5 14:15.
@@ -60,4 +60,5 @@ public enum SysApiHttpMethodEnum {
 
     public String getHttpMethod() {
         return httpMethod;
-    }}
+    }
+}

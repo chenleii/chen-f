@@ -6,20 +6,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 系统api类型
+ * 系统接口类型枚举
  *
  * @author chen
  * @since 2019/3/5 14:19.
  */
 public enum SysApiTypeEnum {
-    //系统api
-    SYSTEM("SYSTEM", "系统api"),
-
+    //系统接口
+    SYSTEM("SYSTEM", "系统接口"),
 
     ;
 
     /**
-     * 系统API类型(SYSTEM:系统api;)
+     * 系统API类型(SYSTEM:系统接口;)
      */
     @JsonValue
     @EnumValue
@@ -45,4 +44,5 @@ public enum SysApiTypeEnum {
 
     public String getType() {
         return type;
-    }}
+    }
+}

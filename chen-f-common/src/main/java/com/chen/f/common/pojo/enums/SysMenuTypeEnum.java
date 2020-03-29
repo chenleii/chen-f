@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统菜单类型枚举
+ *
  * @author chen
  * @since 2018/12/2 15:17.
  */
@@ -48,4 +50,5 @@ public enum SysMenuTypeEnum {
 
     public String getStatus() {
         return status;
-    }}
+    }
+}

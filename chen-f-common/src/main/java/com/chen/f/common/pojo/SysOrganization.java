@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysOrganizationTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -49,7 +51,7 @@ public class SysOrganization extends Model<SysOrganization> {
 
     @ApiModelProperty(value = "类型")
     @TableField("TYPE")
-    private String type;
+    private SysOrganizationTypeEnum type;
 
     @ApiModelProperty(value = "备注")
     @TableField("REMARK")
@@ -57,7 +59,7 @@ public class SysOrganization extends Model<SysOrganization> {
 
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     @TableField("STATUS")
-    private String status;
+    private StatusEnum status;
 
     @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")

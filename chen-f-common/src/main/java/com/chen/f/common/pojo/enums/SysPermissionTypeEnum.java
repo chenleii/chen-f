@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统权限类型枚举
+ *
  * @author chen
  * @since 2019/9/19 11:37.
  */

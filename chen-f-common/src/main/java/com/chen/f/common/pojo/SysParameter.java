@@ -49,7 +49,7 @@ public class SysParameter extends Model<SysParameter> {
     @TableField("VALUE")
     private String value;
 
-    @ApiModelProperty(value = "参数类型(SYSTEM:系统关键参数)")
+    @ApiModelProperty(value = "参数类型(SYSTEM:系统参数)")
     @TableField("TYPE")
     private SysParameterTypeEnum type;
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 用户状态枚举
+ * 系统用户状态枚举
  *
  * @author chen
  * @date 2018/10/25 21:02.
@@ -58,4 +58,5 @@ public enum SysUserStatusEnum {
 
     public String getStatus() {
         return status;
-    }}
+    }
+}

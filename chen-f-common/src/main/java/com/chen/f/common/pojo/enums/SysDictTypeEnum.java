@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统字典类型枚举
+ *
  * @author chen
  * @since 2019/1/11 16:08.
  */
@@ -57,4 +59,5 @@ public enum SysDictTypeEnum {
 
     public String getType() {
         return type;
-    }}
+    }
+}

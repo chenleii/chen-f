@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -55,7 +55,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
 
     @ApiModelProperty(value = "执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)")
     @TableField("EXECUTION_STATUS")
-    private ExecutionStatusEnum executionStatus;
+    private SysTimedTaskLogExecutionStatusEnum executionStatus;
 
     @ApiModelProperty(value = "异常信息")
     @TableField("EXCEPTION_MESSAGE")

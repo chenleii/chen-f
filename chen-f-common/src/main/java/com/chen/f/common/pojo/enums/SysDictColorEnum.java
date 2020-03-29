@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 系统字典颜色枚举
+ *
  * @author chen
  * @since 2019/1/11 16:08.
  */
@@ -21,7 +23,6 @@ public enum SysDictColorEnum {
     ERROR("error", "error"),
     //warning
     WARNING("warning", "warning"),
-
 
 
     //geekblue
@@ -76,4 +77,5 @@ public enum SysDictColorEnum {
 
     public String getColor() {
         return color;
-    }}
+    }
+}
