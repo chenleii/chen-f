@@ -43,16 +43,16 @@ public class SysUserController {
 
     @ApiOperation(value = "获取分页的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "username", value = "用户名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "用户描述", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "用户状态", required = false, dataTypeClass = SysUserStatusEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "level", value = "用户级别", required = false, dataTypeClass = Integer.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysUser> getSysUserPage(@RequestParam("pageIndex") long pageIndex,
-                                         @RequestParam("pageNumber") long pageNumber,
+    public IPage<SysUser> getSysUserPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                         @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
                                          @RequestParam(name = "username", required = false) String username,
                                          @RequestParam(name = "remark", required = false) String remark,
                                          @RequestParam(name = "status", required = false) SysUserStatusEnum sysUserStatusEnum,

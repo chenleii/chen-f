@@ -28,7 +28,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param level          用户级别
      * @return 分页的系统用户集合
      */
-    IPage<SysUser> getSysUserPage(long pageIndex, long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level);
+    IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level);
 
     /**
      * 获取系统用户

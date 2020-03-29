@@ -38,15 +38,15 @@ public class SysPermissionController {
 
     @ApiOperation(value = "获取分页的系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysPermission> getSysPermissionPage(@RequestParam("pageIndex") long pageIndex,
-                                                     @RequestParam("pageNumber") long pageNumber,
+    public IPage<SysPermission> getSysPermissionPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                                     @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
                                                      @RequestParam(name = "name", required = false) String name,
                                                      @RequestParam(name = "remark", required = false) String remark,
                                                      @RequestParam(name = "status", required = false) StatusEnum status) {

@@ -38,7 +38,7 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param statusEnum 系统参数状态
      * @return 分页的系统参数集合
      */
-    IPage<SysParameter> getSysParameterPage(long pageIndex, long pageNumber,
+    IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
                                             String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum statusEnum);
 
     /**

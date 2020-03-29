@@ -36,8 +36,8 @@ public class SysTimedTaskLogController {
 
     @ApiOperation(value = "获取定时任务记录列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = false, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "query"),
@@ -45,8 +45,8 @@ public class SysTimedTaskLogController {
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = false, dataTypeClass = String.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(@RequestParam("pageIndex") long pageIndex,
-                                                         @RequestParam("pageNumber") long pageNumbe,
+    public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                                         @RequestParam(name = "pageNumber", defaultValue = "10") long pageNumbe,
                                                          @RequestParam(name = "code", required = false) String code,
                                                          @RequestParam(name = "name", required = false) String name,
                                                          @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum type,

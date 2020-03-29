@@ -48,7 +48,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public IPage<SysParameter> getSysParameterPage(long pageIndex, long pageNumber,
+    public IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
                                                    String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysParameter> lambdaQueryWrapper = Wrappers.<SysParameter>lambdaQuery();
         if (StringUtils.isNotBlank(code)) {

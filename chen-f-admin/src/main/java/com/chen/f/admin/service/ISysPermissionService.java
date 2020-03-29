@@ -26,7 +26,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param status     系统权限状态
      * @return 分页的系统权限集合
      */
-    IPage<SysPermission> getSysPermissionPage(long pageIndex, long pageNumber, String name, String remark, StatusEnum status);
+    IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status);
 
     /**
      * 获取启用的系统权限列表

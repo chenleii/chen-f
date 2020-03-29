@@ -38,8 +38,8 @@ public class SysParameterController {
 
     @ApiOperation(value = "获取分页的系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "code", value = "系统参数标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统参数名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "value", value = "系统参数值", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -48,8 +48,8 @@ public class SysParameterController {
             @ApiImplicitParam(name = "status", value = "系统参数状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysParameter> getSysParameterPage(@RequestParam("pageIndex") long pageIndex,
-                                                   @RequestParam("pageNumber") long pageNumber,
+    public IPage<SysParameter> getSysParameterPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                                   @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
                                                    @RequestParam(name = "code", required = false) String code,
                                                    @RequestParam(name = "name", required = false) String name,
                                                    @RequestParam(name = "value", required = false) String value,

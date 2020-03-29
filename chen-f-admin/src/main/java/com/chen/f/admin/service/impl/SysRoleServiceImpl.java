@@ -51,7 +51,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private SysRoleApiMapper sysRoleApiMapper;
 
     @Override
-    public IPage<SysRole> getSysRolePage(long pageIndex, long pageNumber, String name, String remark, StatusEnum status) {
+    public IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysRole> queryWrapper = Wrappers.<SysRole>lambdaQuery();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(SysRole::getName, name);

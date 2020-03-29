@@ -32,7 +32,7 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
      * @param status     系统定时任务状态
      * @return 分页的系统定时任务集合
      */
-    IPage<SysTimedTask> getSysTimedTaskPage(long pageIndex, long pageNumber,
+    IPage<SysTimedTask> getSysTimedTaskPage(Long pageIndex, Long pageNumber,
                                             String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status);
 
     /**

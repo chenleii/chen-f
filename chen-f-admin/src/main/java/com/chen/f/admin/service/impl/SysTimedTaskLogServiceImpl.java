@@ -36,7 +36,7 @@ public class SysTimedTaskLogServiceImpl extends ServiceImpl<SysTimedTaskLogMappe
     private SysTimedTaskLogMapper sysTimedTaskLogMapper;
 
     @Override
-    public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(long pageIndex, long pageNumber,
+    public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,
                                                          String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskLogExecutionStatusEnum executionStatus, String remark) {
         LambdaQueryWrapper<SysTimedTaskLog> queryWrapper = Wrappers.<SysTimedTaskLog>lambdaQuery();
         if (StringUtils.isNotBlank(code)) {

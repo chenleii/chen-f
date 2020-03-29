@@ -33,7 +33,7 @@ public interface ISysDictService extends IService<SysDict> {
      * @param statusEnum      系统字典状态
      * @return 分页的系统字典集合
      */
-    IPage<SysDict> getSysDictPage(long pageIndex, long pageNumber,
+    IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber,
                                   String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum);
 
     /**

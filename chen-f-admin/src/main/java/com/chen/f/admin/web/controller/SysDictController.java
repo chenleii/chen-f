@@ -38,8 +38,8 @@ public class SysDictController {
 
     @ApiOperation(value = "获取分页的系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "code", value = "字典标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "key", value = "字典key", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "字典名称", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -50,8 +50,8 @@ public class SysDictController {
             @ApiImplicitParam(name = "status", value = "字典状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysDict> getSysDictPage(@RequestParam("pageIndex") long pageIndex,
-                                         @RequestParam("pageNumber") long pageNumber,
+    public IPage<SysDict> getSysDictPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                         @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
                                          @RequestParam(name = "code", required = false) String code,
                                          @RequestParam(name = "key", required = false) String key,
                                          @RequestParam(name = "name", required = false) String name,

@@ -48,7 +48,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysUserRoleMapper sysUserRoleMapper;
 
     @Override
-    public IPage<SysUser> getSysUserPage(long pageIndex, long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level) {
+    public IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(username)) {
             wrapper.like(SysUser::getUsername, username);

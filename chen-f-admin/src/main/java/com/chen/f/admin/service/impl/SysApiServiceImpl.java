@@ -51,7 +51,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
 
 
     @Override
-    public IPage<SysApi> getSysApiPage(long pageIndex, long pageNumber,
+    public IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber,
                                        String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysApi> lambdaQueryWrapper = Wrappers.<SysApi>lambdaQuery();
         if (StringUtils.isNotBlank(name)) {

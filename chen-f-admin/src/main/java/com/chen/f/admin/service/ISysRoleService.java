@@ -28,7 +28,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param status     系统角色状态
      * @return 分页的系统角色集合
      */
-    IPage<SysRole> getSysRolePage(long pageIndex, long pageNumber, String name, String remark, StatusEnum status);
+    IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status);
 
     /**
      * 获取启用的系统角色列表

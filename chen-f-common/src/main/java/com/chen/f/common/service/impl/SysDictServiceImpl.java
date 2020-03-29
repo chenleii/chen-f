@@ -44,7 +44,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
 
     @Override
-    public IPage<SysDict> getSysDictPage(long pageIndex, long pageNumber, String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum) {
+    public IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber, String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(code)) {
             wrapper.like(SysDict::getCode, code);

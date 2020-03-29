@@ -50,7 +50,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     private SysPermissionApiMapper sysPermissionApiMapper;
 
     @Override
-    public IPage<SysPermission> getSysPermissionPage(long pageIndex, long pageNumber, String name, String remark, StatusEnum status) {
+    public IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers.<SysPermission>lambdaQuery();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(SysPermission::getName, name);

@@ -29,7 +29,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
      * @param remark          备注
      * @return 分页的系统定时任务记录集合
      */
-    IPage<SysTimedTaskLog> getSysTimedTaskLogPage(long pageIndex, long pageNumber,
+    IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,
                                                   String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskLogExecutionStatusEnum executionStatus, String remark);
 
 

@@ -46,7 +46,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     private SysTimedTaskMapper sysTimedTaskMapper;
 
     @Override
-    public IPage<SysTimedTask> getSysTimedTaskPage(long pageIndex, long pageNumber,
+    public IPage<SysTimedTask> getSysTimedTaskPage(Long pageIndex, Long pageNumber,
                                                    String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysTimedTask> queryWrapper = Wrappers.<SysTimedTask>lambdaQuery();
         if (StringUtils.isNotBlank(code)) {

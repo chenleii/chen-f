@@ -39,8 +39,8 @@ public class SysApiController {
 
     @ApiOperation(value = "获取分页的系统API", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "name", value = "名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "url", value = "URL", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "httpMethod", value = "HTTP请求方法", required = false, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "query"),
@@ -49,8 +49,8 @@ public class SysApiController {
             @ApiImplicitParam(name = "status", value = "状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
-    public IPage<SysApi> getSysApiPage(@RequestParam("pageIndex") long pageIndex,
-                                       @RequestParam("pageNumber") long pageNumber,
+    public IPage<SysApi> getSysApiPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
+                                       @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
                                        @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "url", required = false) String url,
                                        @RequestParam(name = "httpMethod", required = false) SysApiHttpMethodEnum httpMethod,

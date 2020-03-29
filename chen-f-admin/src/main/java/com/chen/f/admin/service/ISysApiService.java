@@ -31,7 +31,7 @@ public interface ISysApiService extends IService<SysApi> {
      * @param status     系统API状态
      * @return 分页的系统API集合
      */
-    IPage<SysApi> getSysApiPage(long pageIndex, long pageNumber, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type,
+    IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type,
                                 String remark, StatusEnum status);
 
     /**
