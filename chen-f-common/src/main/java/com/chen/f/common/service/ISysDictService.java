@@ -24,7 +24,7 @@ public interface ISysDictService extends IService<SysDict> {
      * @param pageIndex       页数
      * @param pageNumber      页大小
      * @param code            系统字典标识
-     * @param key             系统字典标识
+     * @param key             系统字典KEY
      * @param name            系统字典名称
      * @param value           系统字典值
      * @param remark          系统字典描述
@@ -65,7 +65,7 @@ public interface ISysDictService extends IService<SysDict> {
      * 获取系统字典对象
      *
      * @param code 系统字典标识
-     * @param key  系统字典标识
+     * @param key  系统字典KEY
      * @return 系统字典对象
      */
     SysDict getSysDict(String code, String key);
@@ -74,7 +74,7 @@ public interface ISysDictService extends IService<SysDict> {
      * 创建系统字典
      *
      * @param code              系统字典标识
-     * @param key               系统字典标识
+     * @param key               系统字典KEY
      * @param name              系统字典名称
      * @param value             系统字典值
      * @param remark            系统字典描述
@@ -92,7 +92,7 @@ public interface ISysDictService extends IService<SysDict> {
      *
      * @param sysDictId         系统字典ID
      * @param code              系统字典标识
-     * @param key               系统字典标识
+     * @param key               系统字典KEY
      * @param name              系统字典名称
      * @param value             系统字典值
      * @param remark            系统字典描述
@@ -123,7 +123,7 @@ public interface ISysDictService extends IService<SysDict> {
      * 删除系统字典
      *
      * @param code 系统字典标识
-     * @param key  系统字典标识
+     * @param key  系统字典KEY
      */
     void deleteSysDictByCodeAndKey(String code, String key);
 
@@ -139,7 +139,7 @@ public interface ISysDictService extends IService<SysDict> {
      * 启用系统字典
      *
      * @param code              系统字典标识
-     * @param key               系统字典标识
+     * @param key               系统字典KEY
      * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysDictByCodeAndKey(String code, String key, String operatedSysUserId);
@@ -156,7 +156,7 @@ public interface ISysDictService extends IService<SysDict> {
      * 禁用系统字典
      *
      * @param code              系统字典标识
-     * @param key               系统字典标识
+     * @param key               系统字典KEY
      * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysDictByCodeAndKey(String code, String key, String operatedSysUserId);
