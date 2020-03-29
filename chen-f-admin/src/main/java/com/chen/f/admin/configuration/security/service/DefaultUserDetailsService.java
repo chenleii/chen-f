@@ -110,7 +110,11 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
         final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery()
                 .eq(SysOrganizationUser::getSysUserId, sysUser.getId()));
         if (CollectionUtils.isNotEmpty(sysOrganizationUserList)) {
-            final List<SysOrganization> sysOrganizationList = sysOrganizationMapper.selectSuperiorByIdList(sysOrganizationUserList.stream().map(SysOrganizationUser::getSysOrganizationId).collect(Collectors.toList()));
+            final List<String> sysOrganizationIdList = sysOrganizationUserList.stream()
+                    .map(SysOrganizationUser::getSysOrganizationId)
+                    .collect(Collectors.toList());
+            final List<SysOrganization> sysOrganizationList = sysOrganizationMapper.selectSuperiorByIdList(sysOrganizationIdList,
+                    Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getStatus, StatusEnum.ENABLED));
             if (CollectionUtils.isNotEmpty(sysOrganizationList)) {
                 //添加系统用户的组织列表
                 sysUserOrganizationList.addAll(sysOrganizationList);
