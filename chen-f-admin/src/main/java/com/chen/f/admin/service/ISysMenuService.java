@@ -95,4 +95,21 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param operatedSysUserId 操作的用户id
      */
     void disableSysMenu(String sysMenuId, String operatedSysUserId);
+
+
+    /**
+     * 根据系统角色ID列表获取系统菜单列表
+     *
+     * @param sysRoleIdList 系统角色ID列表
+     * @return 系统菜单列表
+     */
+    List<SysMenu> getSysMenuListBySysRoleIdList(List<String> sysRoleIdList);
+
+    /**
+     * 根据系统权限ID列表获取系统菜单列表
+     *
+     * @param sysPermissionIdList 系统权限ID列表
+     * @return 系统菜单列表
+     */
+    List<SysMenu> getSysMenuListBySysPermissionIdList(List<String> sysPermissionIdList);
 }

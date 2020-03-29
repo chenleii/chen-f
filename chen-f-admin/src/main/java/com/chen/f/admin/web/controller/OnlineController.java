@@ -4,6 +4,8 @@ import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUserRolePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author chen
@@ -30,9 +35,9 @@ public class OnlineController {
     @Autowired
     private ISysMenuService sysMenuService;
 
-    @ApiOperation(value = "获取在线用户", notes = "", produces = "application/json", response = SysUserRolePermission.class)
+    @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SysUserRolePermission.class)
     @ApiImplicitParams({})
-    @GetMapping("/sysUserRolePermission")
+    @GetMapping("/securityUser")
     public SecurityUser getSysUserRolePermission() {
         SecurityHelper.checkFullyAuthenticated();
         return SecurityHelper.getAuthenticationSecurityUser();
@@ -41,11 +46,27 @@ public class OnlineController {
 
     @ApiOperation(value = "获取在线用户的菜单列表", notes = "", produces = "application/json", response = List.class)
     @ApiImplicitParams({})
-    @GetMapping("/menu")
+    @GetMapping("/sysMenuList")
     public List<SysMenu> getOnlineSysUserMenu() {
         SecurityHelper.checkFullyAuthenticated();
-        String sysUserId = SecurityHelper.getSysUserId();
-        // TODO: 2019/3/20  
-        return null;
+
+        List<SysMenu> sysMenuList = new ArrayList<>();
+
+        final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
+        final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
+        final List<SysMenu> sysRoleMenuList = sysMenuService.getSysMenuListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+        sysMenuList.addAll(sysRoleMenuList);
+
+        final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
+        final List<SysMenu> sysPermissionMenuList = sysMenuService.getSysMenuListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+        sysMenuList.addAll(sysPermissionMenuList);
+
+        //去重
+        final HashSet<String> distinctSet = new HashSet<>();
+        sysMenuList = sysMenuList.stream()
+                .filter((sysMenu -> distinctSet.add(sysMenu.getId())))
+                .collect(Collectors.toList());
+        return sysMenuList;
+
     }
 }

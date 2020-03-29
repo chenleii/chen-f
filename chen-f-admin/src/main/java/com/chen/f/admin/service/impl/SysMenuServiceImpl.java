@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.admin.service.ISysMenuService;
 import com.chen.f.common.mapper.SysMenuMapper;
+import com.chen.f.common.mapper.SysPermissionMenuMapper;
+import com.chen.f.common.mapper.SysRoleMenuMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.SysPermissionMenu;
+import com.chen.f.common.pojo.SysRoleMenu;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
@@ -19,8 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,6 +45,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
+    @Autowired
+    private SysPermissionMenuMapper sysPermissionMenuMapper;
 
     @Override
     public List<SysMenu> getAllSysMenuList() {
@@ -206,6 +217,40 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         sysMenu.setUpdateDateTime(LocalDateTime.now());
         int i = sysMenuMapper.updateById(sysMenu);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统菜单禁用失败"));
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuListBySysRoleIdList(List<String> sysRoleIdList) {
+        if (CollectionUtils.isEmpty(sysRoleIdList)) {
+            //系统角色ID列表为空
+            return Collections.emptyList();
+        }
+
+        final List<SysRoleMenu> sysRoleMenuList = sysRoleMenuMapper.selectList(Wrappers.<SysRoleMenu>lambdaQuery().in(SysRoleMenu::getSysRoleId, sysRoleIdList));
+        if (CollectionUtils.isEmpty(sysRoleMenuList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysMenuIdList = sysRoleMenuList.stream()
+                .map(SysRoleMenu::getSysMenuId)
+                .collect(Collectors.toList());
+        return sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getId, sysMenuIdList).eq(SysMenu::getStatus, StatusEnum.ENABLED).orderByAsc(SysMenu::getOrder));
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuListBySysPermissionIdList(List<String> sysPermissionIdList) {
+        if (CollectionUtils.isEmpty(sysPermissionIdList)) {
+            //系统权限ID列表为空
+            return Collections.emptyList();
+        }
+
+        final List<SysPermissionMenu> sysPermissionMenuList = sysPermissionMenuMapper.selectList(Wrappers.<SysPermissionMenu>lambdaQuery().in(SysPermissionMenu::getSysPermissionId, sysPermissionIdList));
+        if (CollectionUtils.isEmpty(sysPermissionMenuList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysMenuIdList = sysPermissionMenuList.stream()
+                .map(SysPermissionMenu::getSysMenuId)
+                .collect(Collectors.toList());
+        return sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getId, sysMenuIdList).eq(SysMenu::getStatus, StatusEnum.ENABLED).orderByAsc(SysMenu::getOrder));
     }
 
 }
