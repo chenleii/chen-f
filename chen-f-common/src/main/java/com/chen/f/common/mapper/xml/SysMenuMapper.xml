@@ -38,6 +38,11 @@
         <foreach collection="idList" item="item" open="(" close=")" separator=",">
             #{item,jdbcType=VARCHAR}
         </foreach>
+        <if test="ew != null">
+            <if test="ew.sqlSegment != null and ew.sqlSegment != '' and ew.nonEmptyOfNormal">
+                AND ${ew.sqlSegment}
+            </if>
+        </if>
         UNION ALL
         SELECT
         SYS_MENU.ID, SYS_MENU.PARENT_ID, SYS_MENU.NAME,
@@ -50,7 +55,10 @@
         )
         SELECT
         <include refid="Base_Column_List"/>
-        FROM cte;
+        FROM cte
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
     </select>
 
     <!--根据ID列表查询当前记录和当前记录的所有上级记录-->
@@ -67,6 +75,11 @@
         <foreach collection="idList" item="item" open="(" close=")" separator=",">
             #{item,jdbcType=VARCHAR}
         </foreach>
+        <if test="ew != null">
+            <if test="ew.sqlSegment != null and ew.sqlSegment != '' and ew.nonEmptyOfNormal">
+                AND ${ew.sqlSegment}
+            </if>
+        </if>
         UNION ALL
         SELECT
         SYS_MENU.ID, SYS_MENU.PARENT_ID, SYS_MENU.NAME,
@@ -79,7 +92,10 @@
         )
         SELECT
         <include refid="Base_Column_List"/>
-        FROM cte;
+        FROM cte
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
     </select>
 
 </mapper>

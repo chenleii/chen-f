@@ -4,23 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.Region">
-        <id column="ID" property="id" />
-        <result column="PARENT_ID" property="parentId" />
-        <result column="LEVEL" property="level" />
-        <result column="NAME" property="name" />
-        <result column="CITY_CODE" property="cityCode" />
-        <result column="POSTAL_CODE" property="postalCode" />
-        <result column="SHORT_NAME" property="shortName" />
-        <result column="FULL_NAME" property="fullName" />
-        <result column="ENGLISH_NAME" property="englishName" />
+        <id column="ID" property="id"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="LEVEL" property="level"/>
+        <result column="NAME" property="name"/>
+        <result column="CITY_CODE" property="cityCode"/>
+        <result column="POSTAL_CODE" property="postalCode"/>
+        <result column="SHORT_NAME" property="shortName"/>
+        <result column="FULL_NAME" property="fullName"/>
+        <result column="ENGLISH_NAME" property="englishName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         ID, PARENT_ID, LEVEL, NAME, CITY_CODE, POSTAL_CODE, SHORT_NAME, FULL_NAME, ENGLISH_NAME
     </sql>
-    
-    
+
+
     <!--根据ID列表查询当前记录和当前记录的所有下级记录-->
     <select id="selectSubordinateByIdList" resultMap="BaseResultMap">
         WITH recursive cte (
@@ -34,16 +34,24 @@
         <foreach collection="idList" item="item" open="(" close=")" separator=",">
             #{item,jdbcType=VARCHAR}
         </foreach>
+        <if test="ew != null">
+            <if test="ew.sqlSegment != null and ew.sqlSegment != '' and ew.nonEmptyOfNormal">
+                AND ${ew.sqlSegment}
+            </if>
+        </if>
         UNION ALL
         SELECT
-        REGION.ID, REGION.PARENT_ID, REGION.LEVEL, REGION.NAME, REGION.CITY_CODE, 
+        REGION.ID, REGION.PARENT_ID, REGION.LEVEL, REGION.NAME, REGION.CITY_CODE,
         REGION.POSTAL_CODE, REGION.SHORT_NAME, REGION.FULL_NAME, REGION.ENGLISH_NAME
         FROM REGION
         INNER JOIN cte ON cte.ID = REGION.PARENT_ID
         )
         SELECT
         <include refid="Base_Column_List"/>
-        FROM cte;
+        FROM cte
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
     </select>
 
     <!--根据ID列表查询当前记录和当前记录的所有上级记录-->
@@ -59,6 +67,11 @@
         <foreach collection="idList" item="item" open="(" close=")" separator=",">
             #{item,jdbcType=VARCHAR}
         </foreach>
+        <if test="ew != null">
+            <if test="ew.sqlSegment != null and ew.sqlSegment != '' and ew.nonEmptyOfNormal">
+                AND ${ew.sqlSegment}
+            </if>
+        </if>
         UNION ALL
         SELECT
         REGION.ID, REGION.PARENT_ID, REGION.LEVEL, REGION.NAME, REGION.CITY_CODE,
@@ -68,7 +81,10 @@
         )
         SELECT
         <include refid="Base_Column_List"/>
-        FROM cte;
+        FROM cte
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
     </select>
 
 </mapper>
