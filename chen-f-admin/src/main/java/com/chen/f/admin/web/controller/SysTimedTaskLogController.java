@@ -4,7 +4,7 @@ package com.chen.f.admin.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.service.ISysTimedTaskLogService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import com.chen.f.common.api.response.success.R;
 import io.swagger.annotations.Api;
@@ -41,7 +41,7 @@ public class SysTimedTaskLogController {
             @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = false, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "query"),
-            @ApiImplicitParam(name = "executionStatus", value = "系统定时任务执行状态", required = false, dataTypeClass = ExecutionStatusEnum.class, paramType = "query"),
+            @ApiImplicitParam(name = "executionStatus", value = "系统定时任务执行状态", required = false, dataTypeClass = SysTimedTaskLogExecutionStatusEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = false, dataTypeClass = String.class, paramType = "query"),
     })
     @GetMapping
@@ -50,7 +50,7 @@ public class SysTimedTaskLogController {
                                                          @RequestParam(name = "code", required = false) String code,
                                                          @RequestParam(name = "name", required = false) String name,
                                                          @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum type,
-                                                         @RequestParam(name = "executionStatus", required = false) ExecutionStatusEnum executionStatusEnum,
+                                                         @RequestParam(name = "executionStatus", required = false) SysTimedTaskLogExecutionStatusEnum executionStatusEnum,
                                                          @RequestParam(name = "remark", required = false) String remark) {
         return sysTimedTaskLogService.getSysTimedTaskLogPage(pageIndex, pageNumbe, code, name, type, executionStatusEnum, remark);
     }

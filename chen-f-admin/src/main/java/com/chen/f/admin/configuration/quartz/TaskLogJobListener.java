@@ -4,7 +4,7 @@ import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -58,7 +58,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setName(sysTimedTask.getName());
         sysTimedTaskLog.setCronExpression(sysTimedTask.getCronExpression());
         sysTimedTaskLog.setType(sysTimedTask.getType());
-        sysTimedTaskLog.setExecutionStatus(ExecutionStatusEnum.REJECTION);
+        sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.REJECTION);
         sysTimedTaskLog.setRemark("任务被否决");
         sysTimedTaskLog.setExecutionStartDateTime(startLocalDateTime);
         sysTimedTaskLog.setExecutionEndDateTime(endLocalDateTime);
@@ -92,9 +92,9 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setCronExpression(sysTimedTask.getCronExpression());
         sysTimedTaskLog.setType(sysTimedTask.getType());
         if (jobException == null) {
-            sysTimedTaskLog.setExecutionStatus(ExecutionStatusEnum.SUCCESS);
+            sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.SUCCESS);
         } else {
-            sysTimedTaskLog.setExecutionStatus(ExecutionStatusEnum.EXCEPTION);
+            sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.EXCEPTION);
             String exceptionMessage = jobException.getMessage();
             if (StringUtils.length(exceptionMessage) > 255) {
                 logger.warn("定时任务异常信息超长[{}],截断处理", exceptionMessage);

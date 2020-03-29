@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.admin.service.ISysTimedTaskLogService;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
@@ -37,7 +37,7 @@ public class SysTimedTaskLogServiceImpl extends ServiceImpl<SysTimedTaskLogMappe
 
     @Override
     public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(long pageIndex, long pageNumber,
-                                                         String code, String name, SysTimedTaskTypeEnum type, ExecutionStatusEnum executionStatus, String remark) {
+                                                         String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskLogExecutionStatusEnum executionStatus, String remark) {
         LambdaQueryWrapper<SysTimedTaskLog> queryWrapper = Wrappers.<SysTimedTaskLog>lambdaQuery();
         if (StringUtils.isNotBlank(code)) {
             queryWrapper.eq(SysTimedTaskLog::getCode, code);

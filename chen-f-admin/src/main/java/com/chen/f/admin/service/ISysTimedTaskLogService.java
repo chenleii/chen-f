@@ -3,7 +3,7 @@ package com.chen.f.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.ExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 
 /**
@@ -30,7 +30,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
      * @return 分页的系统定时任务记录集合
      */
     IPage<SysTimedTaskLog> getSysTimedTaskLogPage(long pageIndex, long pageNumber,
-                                                  String code, String name, SysTimedTaskTypeEnum type, ExecutionStatusEnum executionStatus, String remark);
+                                                  String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskLogExecutionStatusEnum executionStatus, String remark);
 
 
     /**
