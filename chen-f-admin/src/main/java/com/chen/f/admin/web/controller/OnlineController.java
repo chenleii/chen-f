@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -62,9 +64,9 @@ public class OnlineController {
         sysMenuList.addAll(sysPermissionMenuList);
 
         //去重
-        final HashSet<String> distinctSet = new HashSet<>();
+        final Set<SysMenu> distinctSet = new TreeSet<>(Comparator.comparing(SysMenu::getId));
         sysMenuList = sysMenuList.stream()
-                .filter((sysMenu -> distinctSet.add(sysMenu.getId())))
+                .filter(distinctSet::add)
                 .collect(Collectors.toList());
         return sysMenuList;
 
