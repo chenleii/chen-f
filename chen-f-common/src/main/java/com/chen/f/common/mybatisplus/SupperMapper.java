@@ -164,7 +164,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
         int updateCounts = 0;
 
-        Class<?> entryClass = getEntityClass(this.getClass());
+        Class<?> entryClass = getCurrentEntityClass();
         String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.INSERT_ONE.getMethod());
         final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
         try (
@@ -199,7 +199,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
         int updateCounts = 0;
 
-        Class<?> entryClass = getEntityClass(this.getClass());
+        Class<?> entryClass = getCurrentEntityClass();
         String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.UPDATE_BY_ID.getMethod());
         final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
         try (
@@ -243,22 +243,32 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     }
 
     /**
+     * 获取当前mapper实体类
+     *
+     * @return class
+     */
+    default Class<T> getCurrentEntityClass() {
+        return getEntityClass(this.getClass(), 0);
+    }
+
+    /**
      * 获取mapper的实体类class
      *
      * @param mapperClass mapper
+     * @param index       实体类泛型下标
      * @return class
      */
     @SuppressWarnings("unchecked")
-    default Class<T> getEntityClass(Class<?> mapperClass) {
+    default Class<T> getEntityClass(Class<?> mapperClass, int index) {
         final Type[] genericInterfaces = mapperClass.getGenericInterfaces();
         for (Type genericInterface : genericInterfaces) {
             if (genericInterface instanceof ParameterizedType) {
                 final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
-                if (parameterizedType.getRawType().equals(SupperMapper.class)) {
-                    return (Class<T>) parameterizedType.getActualTypeArguments()[0];
-                }
+                //if (parameterizedType.getRawType().equals(SupperMapper.class)) {
+                return (Class<T>) parameterizedType.getActualTypeArguments()[index];
+                //}
             } else if (genericInterface instanceof Class) {
-                return getEntityClass((Class<?>) genericInterface);
+                return getEntityClass((Class<?>) genericInterface, index);
             } else {
                 return null;
             }
