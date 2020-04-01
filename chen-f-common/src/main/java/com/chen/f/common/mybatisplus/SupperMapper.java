@@ -1,8 +1,9 @@
 package com.chen.f.common.mybatisplus;
 
-import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.interfaces.Join;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
+import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
@@ -13,9 +14,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -59,7 +64,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      * @return 第一条记录
      */
     default T selectFirstOne(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
-        IPage<T> iPage = selectPage( new Page<>(1, 1,false), queryWrapper);
+        IPage<T> iPage = selectPage(new Page<>(1, 1, false), queryWrapper);
         if (CollectionUtils.isNotEmpty(iPage.getRecords())) {
             return iPage.getRecords().get(0);
         }
@@ -74,19 +79,17 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 记录
      */
-    @SuppressWarnings("unchecked")
     default T selectOneForUpdate(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         if (queryWrapper == null) {
             queryWrapper = Wrappers.<T>lambdaQuery();
         }
-        AbstractWrapper abstractWrapper = (AbstractWrapper) queryWrapper;
-        abstractWrapper.last(LAST_SQL_FOR_UPDATE);
-        List<T> list = selectList(abstractWrapper);
-        if (CollectionUtils.isNotEmpty(list)) {
-            return list.get(0);
+        if (!(queryWrapper instanceof Join)) {
+            throw new MybatisPlusException(" not support.");
         }
-        return null;
+        ((Join<?>) queryWrapper).last(LAST_SQL_FOR_UPDATE);
+        return selectOne(queryWrapper);
     }
+
 
     /**
      * 查询记录列表并加排它锁
@@ -96,14 +99,15 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 记录列表
      */
-    @SuppressWarnings("unchecked")
     default List<T> selectListForUpdate(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         if (queryWrapper == null) {
             queryWrapper = Wrappers.<T>lambdaQuery();
         }
-        AbstractWrapper abstractWrapper = (AbstractWrapper) queryWrapper;
-        abstractWrapper.last(LAST_SQL_FOR_UPDATE);
-        return selectList(abstractWrapper);
+        if (!(queryWrapper instanceof Join)) {
+            throw new MybatisPlusException(" not support.");
+        }
+        ((Join<?>) queryWrapper).last(LAST_SQL_FOR_UPDATE);
+        return selectList(queryWrapper);
     }
 
     /**
@@ -114,18 +118,15 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 记录
      */
-    @SuppressWarnings("unchecked")
     default T selectOneLockInShareMode(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         if (queryWrapper == null) {
             queryWrapper = Wrappers.<T>lambdaQuery();
         }
-        AbstractWrapper abstractWrapper = (AbstractWrapper) queryWrapper;
-        abstractWrapper.last(LAST_SQL_LOCK_IN_SHARE_MODE);
-        List<T> list = selectList(abstractWrapper);
-        if (CollectionUtils.isNotEmpty(list)) {
-            return list.get(0);
+        if (!(queryWrapper instanceof Join)) {
+            throw new MybatisPlusException(" not support.");
         }
-        return null;
+        ((Join<?>) queryWrapper).last(LAST_SQL_LOCK_IN_SHARE_MODE);
+        return selectOne(queryWrapper);
     }
 
     /**
@@ -136,15 +137,17 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 记录列表
      */
-    @SuppressWarnings("unchecked")
     default List<T> selectListLockInShareMode(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         if (queryWrapper == null) {
             queryWrapper = Wrappers.<T>lambdaQuery();
         }
-        AbstractWrapper abstractWrapper = (AbstractWrapper) queryWrapper;
-        abstractWrapper.last(LAST_SQL_LOCK_IN_SHARE_MODE);
-        return selectList(abstractWrapper);
+        if (!(queryWrapper instanceof Join)) {
+            throw new MybatisPlusException(" not support.");
+        }
+        ((Join<?>) queryWrapper).last(LAST_SQL_LOCK_IN_SHARE_MODE);
+        return selectList(queryWrapper);
     }
+
 
     /**
      * 批量插入
@@ -156,23 +159,27 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     @Transactional(rollbackFor = Exception.class)
     default int insertBatch(List<T> entityList, int batchSize) {
         if (CollectionUtils.isEmpty(entityList)) {
-            //throw new IllegalArgumentException("Error: entityList must not be empty");
             return 0;
         }
 
-        Class<?> pojoClass = entityList.get(0).getClass();
-        String sqlStatement = SqlHelper.table(pojoClass).getSqlStatement(SqlMethod.INSERT_ONE.getMethod());
         int updateCounts = 0;
-        try (SqlSession batchSqlSession = SqlHelper.sqlSessionBatch(pojoClass)) {
-            for (int i = 0; i < entityList.size(); i++) {
-                batchSqlSession.insert(sqlStatement, entityList.get(i));
-                if (i >= 1 && i % batchSize == 0) {
-                    List<BatchResult> batchResultList = batchSqlSession.flushStatements();
+
+        Class<?> entryClass = getEntityClass(this.getClass());
+        String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.INSERT_ONE.getMethod());
+        final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
+        try (
+                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        ) {
+            final int size = entityList.size();
+            int i = 1;
+            for (T entry : entityList) {
+                sqlSession.insert(sqlStatement, entry);
+                if ((i % batchSize == 0) || i == size) {
+                    List<BatchResult> batchResultList = sqlSession.flushStatements();
                     updateCounts += calculateUpdateCounts(batchResultList);
                 }
+                i++;
             }
-            List<BatchResult> batchResultList = batchSqlSession.flushStatements();
-            updateCounts += calculateUpdateCounts(batchResultList);
         }
         return updateCounts;
     }
@@ -187,46 +194,33 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     @Transactional(rollbackFor = Exception.class)
     default int updateBatchById(List<T> entityList, int batchSize) {
         if (CollectionUtils.isEmpty(entityList)) {
-            //throw new IllegalArgumentException("Error: entityList must not be empty");
             return 0;
         }
 
-        Class<?> pojoClass = entityList.get(0).getClass();
-        String sqlStatement = SqlHelper.table(pojoClass).getSqlStatement(SqlMethod.UPDATE_BY_ID.getMethod());
         int updateCounts = 0;
-        try (SqlSession batchSqlSession = SqlHelper.sqlSessionBatch(pojoClass)) {
-            for (int i = 0; i < entityList.size(); i++) {
+
+        Class<?> entryClass = getEntityClass(this.getClass());
+        String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.UPDATE_BY_ID.getMethod());
+        final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
+        try (
+                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        ) {
+            final int size = entityList.size();
+            int i = 1;
+            for (T entry : entityList) {
                 MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
-                param.put(Constants.ENTITY, entityList.get(i));
-                batchSqlSession.update(sqlStatement, param);
-                if (i >= 1 && i % batchSize == 0) {
-                    List<BatchResult> batchResultList = batchSqlSession.flushStatements();
+                param.put(Constants.ENTITY, entry);
+                sqlSession.update(sqlStatement, param);
+                if ((i % batchSize == 0) || i == size) {
+                    List<BatchResult> batchResultList = sqlSession.flushStatements();
                     updateCounts += calculateUpdateCounts(batchResultList);
                 }
+                i++;
             }
-            List<BatchResult> batchResultList = batchSqlSession.flushStatements();
-            updateCounts += calculateUpdateCounts(batchResultList);
         }
         return updateCounts;
     }
 
-    /**
-     * 计算更新数量
-     *
-     * @param batchResultList 批量更新结果
-     * @return 受影响行数
-     */
-    default int calculateUpdateCounts(List<BatchResult> batchResultList) {
-        if (CollectionUtils.isNotEmpty(batchResultList)) {
-            return batchResultList.stream()
-                    .filter(Objects::nonNull)
-                    .map(BatchResult::getUpdateCounts)
-                    .filter(Objects::nonNull)
-                    .flatMapToInt(Arrays::stream)
-                    .sum();
-        }
-        return 0;
-    }
 
     /**
      * 批量插入
@@ -246,5 +240,48 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      */
     default int updateBatchById(List<T> entityList) {
         return updateBatchById(entityList, DEFAULT_BATCH_SIZE);
+    }
+
+    /**
+     * 获取mapper的实体类class
+     *
+     * @param mapperClass mapper
+     * @return class
+     */
+    @SuppressWarnings("unchecked")
+    default Class<T> getEntityClass(Class<?> mapperClass) {
+        final Type[] genericInterfaces = mapperClass.getGenericInterfaces();
+        for (Type genericInterface : genericInterfaces) {
+            if (genericInterface instanceof ParameterizedType) {
+                final ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
+                if (parameterizedType.getRawType().equals(SupperMapper.class)) {
+                    return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+                }
+            } else if (genericInterface instanceof Class) {
+                return getEntityClass((Class<?>) genericInterface);
+            } else {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 计算更新数量
+     *
+     * @param batchResultList 批量更新结果
+     * @return 受影响行数
+     */
+    default int calculateUpdateCounts(List<BatchResult> batchResultList) {
+        if (CollectionUtils.isNotEmpty(batchResultList)) {
+            return batchResultList.stream()
+                    .filter(Objects::nonNull)
+                    .map(BatchResult::getUpdateCounts)
+                    .filter(Objects::nonNull)
+                    .flatMapToInt(Arrays::stream)
+                    .sum();
+        }
+        return 0;
     }
 }
