@@ -22,13 +22,13 @@ import java.util.List;
 
 /**
  * <p>
- * 系统API表 前端控制器
+ * 系统接口表 前端控制器
  * </p>
  *
  * @author chen
  * @since 2018-12-02
  */
-@Api(tags = "系统API接口")
+@Api(tags = "系统接口")
 @RestController
 @RequestMapping("/chen/admin/sys/api")
 public class SysApiController {
@@ -37,7 +37,7 @@ public class SysApiController {
     @Autowired
     private ISysApiService sysApiService;
 
-    @ApiOperation(value = "获取分页的系统API", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取分页的系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
@@ -61,7 +61,7 @@ public class SysApiController {
     }
 
 
-    @ApiOperation(value = "获取启用的系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取启用的系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
     })
     @GetMapping("/all/enabled")
@@ -69,16 +69,16 @@ public class SysApiController {
         return sysApiService.getEnabledSysApiList();
     }
 
-    @ApiOperation(value = "获取系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "系统ApiId", required = true, dataTypeClass = String.class, paramType = "path")
+            @ApiImplicitParam(name = "sysApiId", value = "系统接口Id", required = true, dataTypeClass = String.class, paramType = "path")
     })
     @GetMapping("/{sysApiId}")
     public SysApi getSysApi(@PathVariable("sysApiId") String sysApiId) {
         return sysApiService.getSysApi(sysApiId);
     }
 
-    @ApiOperation(value = "创建系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "创建系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "URL", required = true, dataTypeClass = String.class, paramType = "from"),
@@ -99,9 +99,9 @@ public class SysApiController {
         sysApiService.createSysApi(name, url, httpMethod, type, remark, status, operatedSysRoleId);
     }
 
-    @ApiOperation(value = "创建系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "创建系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统Api", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统接口", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysApi(@RequestBody() SysApiInputDTO sysApiInputDTO) {
@@ -110,9 +110,9 @@ public class SysApiController {
                 sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
     }
 
-    @ApiOperation(value = "修改系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "修改系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "修改的系统Apiid", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysApiId", value = "修改的系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "httpMethod", value = "HTTP请求方法", required = true, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "from"),
@@ -132,10 +132,10 @@ public class SysApiController {
         sysApiService.updateSysApi(sysApiId, name, url, httpMethod, type, remark, status, operatedSysUserId);
     }
 
-    @ApiOperation(value = "修改系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "修改系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "修改的系统ApiId", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统ApiDTO", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "sysApiId", value = "修改的系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统接口DTO", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
     })
     @PutMapping(path = "/{sysApiId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void updateSysApi(@PathVariable("sysApiId") String sysApiId,
@@ -145,18 +145,18 @@ public class SysApiController {
                 sysApiInputDTO.getType(), sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
     }
 
-    @ApiOperation(value = "删除系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "删除系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "删除的系统ApiId", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysApiId", value = "删除的系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{sysApiId}")
     public void deleteSysApi(@PathVariable("sysApiId") String sysApiId) {
         sysApiService.deleteSysApi(sysApiId);
     }
 
-    @ApiOperation(value = "启用系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "启用系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "系统ApiId", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysApiId", value = "系统接口Id", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysApiId}/enable")
     public void enabledSysApi(@PathVariable("sysApiId") String sysApiId) {
@@ -164,9 +164,9 @@ public class SysApiController {
         sysApiService.enabledSysApi(sysApiId, operatedSysUserId);
     }
 
-    @ApiOperation(value = "禁用系统Api", notes = "", produces = "application/json")
+    @ApiOperation(value = "禁用系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysApiId", value = "系统ApiId", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysApiId", value = "系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysApiId}/disable")
     public void disableSysApi(@PathVariable("sysApiId") String sysApiId) {

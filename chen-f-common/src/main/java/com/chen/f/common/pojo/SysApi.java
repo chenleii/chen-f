@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统API表
+ * 系统接口表
  * </p>
  *
  * @author chen
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_API")
-@ApiModel(value="SysApi对象", description="系统接口表")
+@ApiModel(value = "SysApi对象", description = "系统接口表")
 public class SysApi extends Model<SysApi> {
 
     private static final long serialVersionUID = 1L;

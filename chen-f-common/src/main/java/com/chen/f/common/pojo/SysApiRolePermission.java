@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- * 系统API角色权限关联
+ * 系统接口角色权限关联
  * </p>
  *
  * @author chen

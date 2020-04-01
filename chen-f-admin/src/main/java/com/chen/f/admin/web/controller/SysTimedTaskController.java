@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- * 定时任务表 前端控制器
+ * 系统定时任务表 前端控制器
  * </p>
  *
  * @author chen
@@ -32,13 +32,13 @@ public class SysTimedTaskController {
     @Autowired
     private ISysTimedTaskService sysTimedTaskService;
 
-    @ApiOperation(value = "获取系统定时任务列表", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取分页的系统定时任务列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "className", value = "系统定时任务类名", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "className", value = "系统定时任务CLASSNAME", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = false, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统定时任务状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
@@ -77,8 +77,8 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = true, dataTypeClass = String.class, paramType = "form"),
-            @ApiImplicitParam(name = "jobClassName", value = "系统定时任务className", required = true, dataTypeClass = String.class, paramType = "form"),
-            @ApiImplicitParam(name = "cronExpression", value = "系统定时任务cron表达式", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "jobClassName", value = "系统定时任务CLASSNAME", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "cronExpression", value = "系统定时任务CRON表达式", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "data", value = "系统定时任务数据参数", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = true, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "form"),
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = true, dataTypeClass = String.class, paramType = "form"),
@@ -116,8 +116,8 @@ public class SysTimedTaskController {
             @ApiImplicitParam(name = "sysTimedTaskId", value = "系统定时任务ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = true, dataTypeClass = String.class, paramType = "form"),
-            @ApiImplicitParam(name = "jobClassName", value = "系统定时任务className", required = true, dataTypeClass = String.class, paramType = "form"),
-            @ApiImplicitParam(name = "cronExpression", value = "系统定时任务cron表达式", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "jobClassName", value = "系统定时任务CLASSNAME", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "cronExpression", value = "系统定时任务CRON表达式", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "data", value = "系统定时任务数据参数", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = true, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "form"),
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = true, dataTypeClass = String.class, paramType = "form"),

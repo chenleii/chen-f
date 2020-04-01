@@ -34,7 +34,7 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 获取系统菜单
      *
-     * @param sysMenuId 系统菜单id
+     * @param sysMenuId 系统菜单ID
      * @return 系统菜单
      */
     SysMenu getSysMenu(String sysMenuId);
@@ -42,15 +42,15 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 创建系统菜单
      *
-     * @param parentId          系统菜单父级id
+     * @param parentId          系统菜单父级ID
      * @param name              系统菜单名称
-     * @param url               系统菜单url
+     * @param url               系统菜单URL
      * @param icon              系统菜单图标
      * @param type              系统菜单类型
      * @param remark            系统菜单描述
      * @param order             系统菜单顺序
      * @param status            系统菜单状态
-     * @param operatedSysUserId 操作用户id
+     * @param operatedSysUserId 操作用户ID
      */
     void createSysMenu(String parentId, String name, String url, String icon, SysMenuTypeEnum type, String remark, Integer order,
                        StatusEnum status, String operatedSysUserId);
@@ -58,16 +58,16 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 创建系统菜单
      *
-     * @param sysMenuId         系统菜单id
-     * @param parentId          父级系统菜单id
+     * @param sysMenuId         系统菜单ID
+     * @param parentId          父级系统菜单ID
      * @param name              系统菜单名称
-     * @param url               系统菜单url
+     * @param url               系统菜单URL
      * @param icon              系统菜单图标
      * @param type              系统菜单类型
      * @param remark            系统菜单描述
      * @param order             系统菜单顺序
      * @param status            系统菜单状态
-     * @param operatedSysUserId 操作用户id
+     * @param operatedSysUserId 操作用户ID
      */
     void updateSysMenu(String sysMenuId, String parentId, String name, String url, String icon, SysMenuTypeEnum type, String remark, Integer order,
                        StatusEnum status, String operatedSysUserId);
@@ -75,7 +75,7 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 删除系统菜单
      *
-     * @param sysMenuId 系统菜单id
+     * @param sysMenuId 系统菜单ID
      */
     void deleteSysMenu(String sysMenuId);
 
@@ -83,33 +83,33 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 启用系统菜单
      *
-     * @param sysMenuId         系统菜单id
-     * @param operatedSysUserId 操作的用户id
+     * @param sysMenuId         系统菜单ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysMenu(String sysMenuId, String operatedSysUserId);
 
     /**
      * 禁用系统菜单
      *
-     * @param sysMenuId         系统菜单id
-     * @param operatedSysUserId 操作的用户id
+     * @param sysMenuId         系统菜单ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysMenu(String sysMenuId, String operatedSysUserId);
 
 
     /**
-     * 根据系统角色ID列表获取系统菜单列表
+     * 根据系统角色ID列表获取启用的系统菜单列表
      *
      * @param sysRoleIdList 系统角色ID列表
      * @return 系统菜单列表
      */
-    List<SysMenu> getSysMenuListBySysRoleIdList(List<String> sysRoleIdList);
+    List<SysMenu> getEnabledSysMenuListBySysRoleIdList(List<String> sysRoleIdList);
 
     /**
-     * 根据系统权限ID列表获取系统菜单列表
+     * 根据系统权限ID列表获取启用的系统菜单列表
      *
      * @param sysPermissionIdList 系统权限ID列表
      * @return 系统菜单列表
      */
-    List<SysMenu> getSysMenuListBySysPermissionIdList(List<String> sysPermissionIdList);
+    List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(List<String> sysPermissionIdList);
 }

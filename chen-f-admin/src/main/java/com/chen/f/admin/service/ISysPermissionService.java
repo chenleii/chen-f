@@ -38,7 +38,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
     /**
      * 获取系统权限
      *
-     * @param sysPermissionId 系统权限id
+     * @param sysPermissionId 系统权限ID
      * @return 系统权限
      */
     SysPermission getSysPermission(String sysPermissionId);
@@ -50,51 +50,51 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param name              权限名
      * @param remark            备注
      * @param status            状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysPermission(String name, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 修改系统权限
      *
-     * @param sysPermissionId   系统权限id
+     * @param sysPermissionId   系统权限ID
      * @param name              权限名
      * @param remark            备注
      * @param status            状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysPermission(String sysPermissionId, String name, String remark, StatusEnum status, String operatedSysUserId);
 
 
     /**
-     * 设置系统权限的系统API
+     * 设置系统权限的系统接口
      *
-     * @param sysPermissionId   系统权限id
-     * @param sysApiIdList      系统Api id集合
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysPermissionId   系统权限ID
+     * @param sysApiIdList      系统接口ID集合
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void setSysApiOfSysPermission(String sysPermissionId, List<String> sysApiIdList, String operatedSysUserId);
 
     /**
      * 删除系统权限
      *
-     * @param sysPermissionId 系统权限id
+     * @param sysPermissionId 系统权限ID
      */
     void deleteSysPermission(String sysPermissionId);
 
     /**
      * 启用系统权限
      *
-     * @param sysPermissionId   系统权限id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysPermissionId   系统权限ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysPermission(String sysPermissionId, String operatedSysUserId);
 
     /**
      * 禁用系统权限
      *
-     * @param sysPermissionId   系统权限id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysPermissionId   系统权限ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysPermission(String sysPermissionId, String operatedSysUserId);
 }

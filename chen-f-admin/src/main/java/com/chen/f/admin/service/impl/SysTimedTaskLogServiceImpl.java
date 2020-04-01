@@ -59,7 +59,7 @@ public class SysTimedTaskLogServiceImpl extends ServiceImpl<SysTimedTaskLogMappe
 
     @Override
     public void deleteSysTimedTaskLog(String sysTimedTaskLogId) {
-        ApiAssert.isNotBlank(sysTimedTaskLogId, ErrorResponse.create("系统定时任务记录id"));
+        ApiAssert.isNotBlank(sysTimedTaskLogId, ErrorResponse.create("系统定时任务记录ID"));
         sysTimedTaskLogMapper.deleteById(sysTimedTaskLogId);
     }
 }

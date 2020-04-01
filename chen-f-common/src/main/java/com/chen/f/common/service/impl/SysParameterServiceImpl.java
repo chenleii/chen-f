@@ -93,7 +93,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(type, ErrorResponse.create("系统参数类型不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统参数备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统参数状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -123,7 +123,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(type, ErrorResponse.create("系统参数类型不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统参数备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统参数状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -164,7 +164,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     @Override
     public void enabledSysParameter(String sysParameterId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -185,7 +185,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     @Override
     public void enabledSysParameterByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -206,7 +206,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     @Override
     public void disableSysParameter(String sysParameterId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -227,7 +227,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     @Override
     public void disableSysParameterByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);

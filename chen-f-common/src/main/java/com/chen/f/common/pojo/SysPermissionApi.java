@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统权限API表
+ * 系统权限接口表
  * </p>
  *
  * @author chen

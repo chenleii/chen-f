@@ -97,16 +97,16 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         ApiAssert.isNotBlank(cronExpression, ErrorResponse.create("系统定时任务cron表达式不能为空"));
         ApiAssert.isNotNull(sysTimedTaskTypeEnum, ErrorResponse.create("系统定时任务类型不能为空"));
         ApiAssert.isNotNull(statusEnum, ErrorResponse.create("系统定时任务状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         Class<?> jobClass;
         try {
             jobClass = Class.forName(jobClassName);
         } catch (ClassNotFoundException e) {
-            logger.warn("没有找到系统定时任务class");
+            logger.warn("没有找到系统定时任务Class");
             throw new ApiException(ErrorResponse.create(String.format("没有找到系统定时任务类%s", jobClassName)), e);
         }
         logger.debug("检查jobClass是否是Job.class的子类");
-        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承job类", jobClass)));
+        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承Job类", jobClass)));
         Map dataMap = null;
         if (StringUtils.isNotBlank(data)) {
             dataMap = JacksonUtils.parseObject(data, Map.class);
@@ -143,10 +143,10 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统定时任务名称不能为空"));
         ApiAssert.isNotBlank(jobClassName, ErrorResponse.create("系统定时任务任务类名称不能为空"));
-        ApiAssert.isNotBlank(cronExpression, ErrorResponse.create("系统定时任务cron表达式不能为空"));
+        ApiAssert.isNotBlank(cronExpression, ErrorResponse.create("系统定时任务CRON表达式不能为空"));
         ApiAssert.isNotNull(sysTimedTaskTypeEnum, ErrorResponse.create("系统定时任务类型不能为空"));
         ApiAssert.isNotNull(statusEnum, ErrorResponse.create("系统定时任务状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
@@ -158,7 +158,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             logger.warn("没有找到系统定时任务class");
             throw new ApiException(ErrorResponse.create(String.format("没有找到系统定时任务类%s", jobClassName)), e);
         }
-        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承job类", jobClass)));
+        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承Job类", jobClass)));
         Map dataMap = null;
         if (StringUtils.isNotBlank(data)) {
             dataMap = JacksonUtils.parseObject(data, Map.class);
@@ -227,7 +227,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     @Override
     public void enabledSysTimedTask(String sysTimedTaskId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
@@ -239,7 +239,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             throw new ApiException(ErrorResponse.create(String.format("没有找到系统定时任务类%s", sysTimedTask.getClassName())), e);
         }
         logger.debug("检查jobClass是否是Job.class的子类");
-        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承job类", jobClass)));
+        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承Job类", jobClass)));
         Map dataMap = null;
         if (StringUtils.isNotBlank(sysTimedTask.getData())) {
             dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
@@ -265,7 +265,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     @SuppressWarnings("unchecked")
     public void enabledSysTimedTaskByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
@@ -277,7 +277,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             throw new ApiException(ErrorResponse.create(String.format("没有找到系统定时任务类%s", sysTimedTask.getClassName())), e);
         }
         logger.debug("检查jobClass是否是Job.class的子类");
-        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承job类", jobClass)));
+        ApiAssert.isAssignable(Job.class, jobClass, ErrorResponse.create(String.format("系统定时任务%s没有继承Job类", jobClass)));
         Map dataMap = null;
         if (StringUtils.isNotBlank(sysTimedTask.getData())) {
             dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
@@ -301,7 +301,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     @Override
     public void disableSysTimedTask(String sysTimedTaskId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysTimedTaskId, ErrorResponse.create("系统定时任务ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(sysTimedTaskId);
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));
@@ -324,7 +324,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     @Transactional(rollbackFor = Throwable.class)
     public void disableSysTimedTaskByCode(String code, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统定时任务标识不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("获取系统定时任务信息");
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode, code));
         ApiAssert.isNotNull(sysTimedTask, ErrorResponse.create("系统定时任务不存在"));

@@ -67,13 +67,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public SysUser getSysUser(String sysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
         return sysUserMapper.selectById(sysUserId);
     }
 
     @Override
     public List<SysRole> getSysRoleOfSysUser(String sysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
         List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getSysUserId, sysUserId));
         if (CollectionUtils.isNotEmpty(sysUserRoleList)) {
             List<String> sysRoleIdList = sysUserRoleList.stream()
@@ -91,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ApiAssert.isNotBlank(password, ErrorResponse.create("系统用户密码不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统用户状态不能为空"));
         ApiAssert.isNotNull(level, ErrorResponse.create("系统用户等级不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("检查创建用户级别是否小于等于操作用户等级");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -111,12 +111,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void updateSysUser(String sysUserId, String username, String password, String remark, SysUserStatusEnum status, Integer level, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
         ApiAssert.isNotBlank(username, ErrorResponse.create("系统用户名称不能为空"));
         ApiAssert.isNotBlank(password, ErrorResponse.create("系统用户密码不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统用户状态不能为空"));
         ApiAssert.isNotNull(level, ErrorResponse.create("系统用户等级不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -140,9 +140,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void setSysRoleOfSysUser(String sysUserId, List<String> sysRoleIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        //ApiAssert.isNotEmpty(sysRoleIdList, ErrorResponse.create("设置的系统用户角色id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        //ApiAssert.isNotEmpty(sysRoleIdList, ErrorResponse.create("设置的系统用户角色ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -173,8 +173,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void deleteSysUser(String sysUserId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -189,8 +189,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void enabledSysUser(String sysUserId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -207,8 +207,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void disableSysUser(String sysUserId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -225,8 +225,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void lockSysUser(String sysUserId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -242,8 +242,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void expireSysUser(String sysUserId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysUser sysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
         logger.debug("检查操作的系统用户是否存在");

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- * 定时任务日志表 前端控制器
+ * 系统定时任务日志表 前端控制器
  * </p>
  *
  * @author chen
@@ -57,7 +57,7 @@ public class SysTimedTaskLogController {
 
     @ApiOperation(value = "删除定时任务记录", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysTimedTaskLogId", value = "定时任务记录id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysTimedTaskLogId", value = "定时任务记录ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{sysTimedTaskLogId}")
     @ResponseBody

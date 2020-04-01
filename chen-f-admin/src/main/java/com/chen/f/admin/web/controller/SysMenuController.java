@@ -62,7 +62,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "创建系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父级菜单id", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "parentId", value = "父级菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "图标", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -98,8 +98,8 @@ public class SysMenuController {
 
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单id", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "parentId", value = "父级菜单id", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "parentId", value = "父级菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "图标", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -124,7 +124,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysMenuInputDTO", value = "系统菜单DTO", required = true, dataTypeClass = SysMenuInputDTO.class, paramType = "body"),
     })
     @PutMapping(path = "/{sysMenuId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -137,7 +137,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "删除系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysMenuId", value = "删除的系统菜单id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysMenuId", value = "删除的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{sysMenuId}")
     public void deleteSysMenu(@PathVariable("sysMenuId") String sysMenuId) {
@@ -146,7 +146,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "启用系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysMenuId", value = "系统菜单id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysMenuId", value = "系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysMenuId}/enable")
     public void enabledSysMenu(@PathVariable("sysMenuId") String sysMenuId) {
@@ -156,7 +156,7 @@ public class SysMenuController {
 
     @ApiOperation(value = "禁用系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysMenuId", value = "系统菜单id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysMenuId", value = "系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysMenuId}/disable")
     public void disableSysMenu(@PathVariable("sysMenuId") String sysMenuId) {

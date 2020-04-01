@@ -29,7 +29,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * 系统api表 服务实现类
+ * 系统接口表 服务实现类
  * </p>
  *
  * @author chen
@@ -87,20 +87,20 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
 
     @Override
     public SysApi getSysApi(String sysApiId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统API id不能为空"));
+        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
         return sysApiMapper.selectById(sysApiId);
     }
 
     @Override
     public void createSysApi(String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark,
                              StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 名称不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API URL不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API HTTP请求方法不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 类型不能为空"));
-        //ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 备注不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 状态不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口名称不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口URL不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口HTTP请求方法不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口类型不能为空"));
+        //ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口备注不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口状态不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -117,27 +117,27 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         sysApi.setCreateDateTime(LocalDateTime.now());
         sysApi.setCreateSysUserId(operatedSysUserId);
         int i = sysApiMapper.insert(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("插入系统API失败"));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("插入系统接口失败"));
     }
 
     @Override
     public void updateSysApi(String sysApiId, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统API id不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 名称不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API URL不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API HTTP请求方法不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 类型不能为空"));
-        //ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 备注不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统API 状态不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口名称不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口URL不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口HTTP请求方法不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口类型不能为空"));
+        //ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口备注不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口状态不能为空"));
+        ApiAssert.isNotBlank(name, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
-        logger.debug("检查系统API是否存在");
+        logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统API不存在"));
+        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
         logger.debug("修改系统用户");
         sysApi.setName(name);
         sysApi.setUrl(url);
@@ -148,43 +148,43 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         sysApi.setCreateDateTime(LocalDateTime.now());
         sysApi.setCreateSysUserId(operatedSysUserId);
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统API失败"));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
     }
 
     @Override
     public void deleteSysApi(String sysApiId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统API id不能为空"));
+        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
         int i = sysApiMapper.deleteById(sysApiId);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统API失败"));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统接口失败"));
     }
 
     @Override
     public void enabledSysApi(String sysApiId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统API id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
-        logger.debug("检查系统API是否存在");
+        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统API不存在"));
-        logger.debug("启用系统API");
+        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        logger.debug("启用系统接口");
         sysApi.setStatus(StatusEnum.ENABLED);
         sysApi.setUpdateSysUserId(operatedSysUserId);
         sysApi.setUpdateDateTime(LocalDateTime.now());
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统API失败"));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
     }
 
     @Override
     public void disableSysApi(String sysApiId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统API id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
-        logger.debug("检查系统API是否存在");
+        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统API不存在"));
-        logger.debug("禁用系统API");
+        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        logger.debug("禁用系统接口");
         sysApi.setStatus(StatusEnum.DISABLE);
         sysApi.setUpdateSysUserId(operatedSysUserId);
         sysApi.setUpdateDateTime(LocalDateTime.now());
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统API失败"));
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
     }
 }

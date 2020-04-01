@@ -40,7 +40,7 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 获取系统角色
      *
-     * @param sysRoleId 系统角色id
+     * @param sysRoleId 系统角色ID
      * @return 系统角色
      */
     SysRole getSysRole(String sysRoleId);
@@ -48,7 +48,7 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 获取系统角色的系统权限集合
      *
-     * @param sysRoleId 系统用户id
+     * @param sysRoleId 系统用户ID
      * @return 系统权限集合
      */
     List<SysPermission> getSysPermissionOfSysRole(String sysRoleId);
@@ -59,68 +59,68 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param name              角色名
      * @param remark            备注
      * @param status            状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysRole(String name, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 设置系统角色的系统权限
      *
-     * @param sysRoleId           设置的系统角色id
-     * @param sysPermissionIdList 系统权限id集合
-     * @param operatedSysUserId   操作的系统用户id
+     * @param sysRoleId           设置的系统角色ID
+     * @param sysPermissionIdList 系统权限ID集合
+     * @param operatedSysUserId   操作的系统用户ID
      */
     void setSysPermissionOfSysRole(String sysRoleId, List<String> sysPermissionIdList, String operatedSysUserId);
 
     /**
      * 设置系统角色的系统菜单
      *
-     * @param sysRoleId         设置的系统角色id
-     * @param sysMenuIdList     系统菜单id集合
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysRoleId         设置的系统角色ID
+     * @param sysMenuIdList     系统菜单ID集合
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void setSysMenuOfSysRole(String sysRoleId, List<String> sysMenuIdList, String operatedSysUserId);
 
     /**
-     * 设置系统角色的系统API
+     * 设置系统角色的系统接口
      *
-     * @param sysRoleId         设置的系统角色id
-     * @param sysApiIdList      系统Api id集合
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysRoleId         设置的系统角色ID
+     * @param sysApiIdList      系统接口ID集合
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void setSysApiOfSysRole(String sysRoleId, List<String> sysApiIdList, String operatedSysUserId);
 
     /**
      * 修改系统角色
      *
-     * @param sysRoleId         系统角色id
-     * @param name              角色名
+     * @param sysRoleId         系统角色ID
+     * @param name              系统角色名
      * @param remark            备注
      * @param status            状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysRole(String sysRoleId, String name, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 删除系统角色
      *
-     * @param sysRoleId 系统角色id
+     * @param sysRoleId 系统角色ID
      */
     void deleteSysRole(String sysRoleId);
 
     /**
      * 启用系统角色
      *
-     * @param sysRoleId         系统角色id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysRoleId         系统角色ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysRole(String sysRoleId, String operatedSysUserId);
 
     /**
      * 禁用系统角色
      *
-     * @param sysRoleId         系统角色id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysRoleId         系统角色ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysRole(String sysRoleId, String operatedSysUserId);
 

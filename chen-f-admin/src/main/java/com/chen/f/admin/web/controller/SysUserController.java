@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * <p>
- * 用户表 前端控制器
+ * 系统用户表 前端控制器
  * </p>
  *
  * @author chen

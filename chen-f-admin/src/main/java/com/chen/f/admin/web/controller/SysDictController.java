@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * <p>
- * 字典表 前端控制器
+ * 系统字典表 前端控制器
  * </p>
  *
  * @author chen
@@ -41,7 +41,7 @@ public class SysDictController {
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
             @ApiImplicitParam(name = "code", value = "字典标识", required = false, dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "key", value = "字典key", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "key", value = "字典KEY", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "字典名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "value", value = "字典值", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "字典描述", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -107,7 +107,7 @@ public class SysDictController {
     @ApiOperation(value = "创建系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "key", value = "KEY", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "value", value = "值", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -145,7 +145,7 @@ public class SysDictController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysDictId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "key", value = "KEY", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "value", value = "值", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -254,7 +254,7 @@ public class SysDictController {
     @ApiOperation(value = "禁用系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "标识", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "key", value = "key", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "key", value = "KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{code:.*}/{key}/disable/byCodeAndKey")
     public void disableSysDict(

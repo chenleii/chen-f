@@ -36,7 +36,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
     /**
      * 删除定时任务记录
      *
-     * @param sysTimedTaskLogId 定时任务记录id
+     * @param sysTimedTaskLogId 定时任务记录ID
      */
     void deleteSysTimedTaskLog(String sysTimedTaskLogId);
 }

@@ -66,7 +66,7 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param type              系统参数类型
      * @param remark            系统参数描述
      * @param status            系统参数状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysParameter(String code, String name, String value, SysParameterTypeEnum type, String remark,
                             StatusEnum status, String operatedSysUserId);
@@ -74,14 +74,14 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 修改系统参数
      *
-     * @param sysParameterId    系统参数id
+     * @param sysParameterId    系统参数ID
      * @param code              系统参数标识
      * @param name              系统参数名称
      * @param value             系统参数值
      * @param type              系统参数类型
      * @param remark            系统参数描述
      * @param status            系统参数状态
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysParameter(String sysParameterId, String code, String name, String value, SysParameterTypeEnum type, String remark,
                             StatusEnum status, String operatedSysUserId);
@@ -89,7 +89,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 删除系统参数
      *
-     * @param sysParameterId 系统参数id
+     * @param sysParameterId 系统参数ID
      */
     void deleteSysParameter(String sysParameterId);
 
@@ -103,8 +103,8 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 启用系统参数
      *
-     * @param sysParameterId    系统参数id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysParameterId    系统参数ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysParameter(String sysParameterId, String operatedSysUserId);
 
@@ -112,15 +112,15 @@ public interface ISysParameterService extends IService<SysParameter> {
      * 启用系统参数
      *
      * @param code              系统参数标识
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void enabledSysParameterByCode(String code, String operatedSysUserId);
 
     /**
      * 禁用系统参数
      *
-     * @param sysParameterId    系统参数id
-     * @param operatedSysUserId 操作的系统用户id
+     * @param sysParameterId    系统参数ID
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysParameter(String sysParameterId, String operatedSysUserId);
 
@@ -128,7 +128,7 @@ public interface ISysParameterService extends IService<SysParameter> {
      * 禁用系统参数
      *
      * @param code              系统参数标识
-     * @param operatedSysUserId 操作的系统用户id
+     * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysParameterByCode(String code, String operatedSysUserId);
 }

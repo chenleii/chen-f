@@ -5,7 +5,7 @@ import com.chen.f.common.pojo.SysApi;
 
 /**
  * <p>
- * 系统api表 Mapper 接口
+ * 系统接口表 Mapper 接口
  * </p>
  *
  * @author chen

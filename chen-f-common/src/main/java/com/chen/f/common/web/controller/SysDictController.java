@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 字典表 前端控制器
+ * 系统字典表 前端控制器
  * </p>
  *
  * @author chen

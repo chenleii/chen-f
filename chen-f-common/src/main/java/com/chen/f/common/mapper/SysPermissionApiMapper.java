@@ -5,7 +5,7 @@ import com.chen.f.common.pojo.SysPermissionApi;
 
 /**
  * <p>
- * 系统权限API表 Mapper 接口
+ * 系统权限接口表 Mapper 接口
  * </p>
  *
  * @author chen

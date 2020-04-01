@@ -56,11 +56,11 @@ public class OnlineController {
 
         final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
         final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
-        final List<SysMenu> sysRoleMenuList = sysMenuService.getSysMenuListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+        final List<SysMenu> sysRoleMenuList = sysMenuService.getEnabledSysMenuListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysRoleMenuList);
 
         final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
-        final List<SysMenu> sysPermissionMenuList = sysMenuService.getSysMenuListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+        final List<SysMenu> sysPermissionMenuList = sysMenuService.getEnabledSysMenuListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysPermissionMenuList);
 
         //去重

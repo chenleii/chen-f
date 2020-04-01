@@ -72,13 +72,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public SysRole getSysRole(String sysRoleId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
         return sysRoleMapper.selectById(sysRoleId);
     }
 
     @Override
     public List<SysPermission> getSysPermissionOfSysRole(String sysRoleId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
         List<SysRolePermission> sysRolePermissionList = sysRolePermissionMapper.selectList(Wrappers.<SysRolePermission>lambdaQuery().eq(SysRolePermission::getSysRoleId, sysRoleId));
         if (CollectionUtils.isNotEmpty(sysRolePermissionList)) {
             List<String> sysPermissionIdList = sysRolePermissionList.stream()
@@ -86,7 +86,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                     .collect(Collectors.toList());
             return sysPermissionMapper.selectBatchIds(sysPermissionIdList);
         }
-        logger.debug("系统角色id[{}],没有对应的系统权限", sysRoleId);
+        logger.debug("系统角色ID[{}],没有对应的系统权限", sysRoleId);
         return Collections.emptyList();
     }
 
@@ -94,7 +94,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void createSysRole(String name, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统角色名称不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统角色状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -112,9 +112,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void setSysPermissionOfSysRole(String sysRoleId, List<String> sysPermissionIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色id不能为空"));
-        //ApiAssert.isNotEmpty(sysPermissionIdList, ErrorResponse.create("设置的系统权限id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色ID不能为空"));
+        //ApiAssert.isNotEmpty(sysPermissionIdList, ErrorResponse.create("设置的系统权限ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
         ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -142,9 +142,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void setSysMenuOfSysRole(String sysRoleId, List<String> sysMenuIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色id不能为空"));
-        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统菜单id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色ID不能为空"));
+        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统菜单ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
         ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -172,9 +172,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void setSysApiOfSysRole(String sysRoleId, List<String> sysApiIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色id不能为空"));
-        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统API id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("设置的系统角色ID不能为空"));
+        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统接口ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
         SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
         ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
         logger.debug("检查操作的系统用户是否存在");
@@ -194,18 +194,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                         return sysRoleApi;
                     }).collect(Collectors.toList());
         }
-        logger.debug("删除系统角色[{}]所有系统API关联", sysRoleId);
+        logger.debug("删除系统角色[{}]所有系统接口关联", sysRoleId);
         sysRoleApiMapper.delete(Wrappers.<SysRoleApi>lambdaQuery().eq(SysRoleApi::getSysRoleId, sysRoleId));
-        logger.debug("插入系统角色API关联");
+        logger.debug("插入系统角色接口关联");
         sysRoleApiMapper.insertBatch(sysRoleApiList);
     }
 
     @Override
     public void updateSysRole(String sysRoleId, String name, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统角色名称不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统角色状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -225,7 +225,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void deleteSysRole(String sysRoleId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
         logger.debug("检查系统角色是否存在");
         ApiAssert.isEqualToOne(sysRoleMapper.selectCount(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getId, sysRoleId)),
                 ErrorResponse.create(String.format("没有找到系统角色[%s]", sysRoleId)));
@@ -237,8 +237,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void enabledSysRole(String sysRoleId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
@@ -256,8 +256,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void disableSysRole(String sysRoleId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色id不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户id不能为空"));
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);

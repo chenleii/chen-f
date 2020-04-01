@@ -18,7 +18,7 @@ public enum SysApiTypeEnum {
     ;
 
     /**
-     * 系统API类型(SYSTEM:系统接口;)
+     * 系统接口类型(SYSTEM:系统接口;)
      */
     @JsonValue
     @EnumValue

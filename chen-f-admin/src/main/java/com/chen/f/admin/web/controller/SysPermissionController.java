@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * <p>
- * 权限表 前端控制器
+ * 系统权限表 前端控制器
  * </p>
  *
  * @author chen
@@ -64,7 +64,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "获取系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限id", required = true, dataTypeClass = String.class, paramType = "path")
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path")
     })
     @GetMapping("/{sysPermissionId}")
     public SysPermission getSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
@@ -98,7 +98,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "修改系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "name", value = "权限名", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = String.class, paramType = "from"),
@@ -115,7 +115,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "修改系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysPermissionInputDTO", value = "系统权限信息", required = true, dataTypeClass = SysPermissionInputDTO.class, paramType = "body"),
     })
     @PutMapping(path = "/{sysPermissionId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -127,7 +127,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "设置系统API", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysApisInputDTO", value = "设置的系统API", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
     })
     @PutMapping(path = "/{sysPermissionId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -139,7 +139,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "删除系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "删除的系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "删除的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{sysPermissionId}")
     public void deleteSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
@@ -148,7 +148,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "启用系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysPermissionId}/enable")
     public void enabledSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
@@ -158,7 +158,7 @@ public class SysPermissionController {
 
     @ApiOperation(value = "禁用系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{sysPermissionId}/disable")
     public void disableSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
