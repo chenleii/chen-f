@@ -6,7 +6,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -24,6 +24,7 @@ import java.util.Vector;
  * @since 2019/9/9 14:05.
  */
 public class SftpUtils {
+
 
     /**
      * 创建SFTP通道
@@ -133,7 +134,7 @@ public class SftpUtils {
      * @param src         资源地址
      * @param inputStream 文件流
      */
-    public static void uploadFile(ChannelSftp channelSftp,  String src, InputStream inputStream) throws JSchException, SftpException {
+    public static void uploadFile(ChannelSftp channelSftp, String src, InputStream inputStream) throws JSchException, SftpException {
         channelSftp.put(inputStream, src);
     }
 
@@ -227,32 +228,70 @@ public class SftpUtils {
      * 是否存在文件
      *
      * @param channelSftp SFTP通道
-     * @param src         资源地址
+     * @param path        路径
+     * @param fileName    文件名称
      * @return 是/否
      */
-    public static boolean isExistFile(ChannelSftp channelSftp, String src) throws SftpException {
-        return isExistFile(channelSftp, FilenameUtils.getFullPath(src), FilenameUtils.getName(src));
+    public static boolean isExistFile(ChannelSftp channelSftp, String path, String fileName) throws SftpException {
+        return isExistFile(channelSftp, path + (path.endsWith("/") ? "" : "/") + fileName);
     }
 
     /**
      * 是否存在文件
      *
      * @param channelSftp SFTP通道
-     * @param path        路径
-     * @param fileName    文件名称
+     * @param src         资源地址
      * @return 是/否
      */
+    public static boolean isExistFile(ChannelSftp channelSftp, String src) throws SftpException {
+
+        String[] splitPathArray = StringUtils.split(src, "/");
+
+        if (ArrayUtils.isEmpty(splitPathArray)) {
+            return true;
+        }
+
+        if (StringUtils.startsWith(src, "/")) {
+            splitPathArray = ArrayUtils.insert(0, splitPathArray, "/");
+        } else {
+            if (!StringUtils.startsWith(src, ".")) {
+                splitPathArray = ArrayUtils.insert(0, splitPathArray, ".");
+            }
+        }
+
+        String currentPath = "";
+        String currentFilename = null;
+        int currentIndex = 0;
+        final int length = splitPathArray.length;
+
+        for (String splitPath : splitPathArray) {
+            if (currentIndex == length - 1) {
+                break;
+            }
+
+            currentPath = currentPath + (currentPath.endsWith("/") || splitPath.endsWith("/") ? "" : "/") + splitPath;
+            currentFilename = splitPathArray[currentIndex + 1];
+
+            if (!isExistFile0(channelSftp, currentPath, currentFilename)) {
+                return false;
+            }
+
+            currentIndex++;
+        }
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
-    public static boolean isExistFile(ChannelSftp channelSftp, String path, String fileName) throws SftpException {
+    private static boolean isExistFile0(ChannelSftp channelSftp, String path, String fileName) throws SftpException {
         final Vector<Object> vector = channelSftp.ls(path);
         if (CollectionUtils.isEmpty(vector)) {
-            return false;
+            return true;
         }
+
         return vector.stream()
                 .filter(ChannelSftp.LsEntry.class::isInstance)
                 .map(ChannelSftp.LsEntry.class::cast)
                 .anyMatch((lsEntry) -> StringUtils.equals(lsEntry.getFilename(), fileName));
-
     }
 }
 
