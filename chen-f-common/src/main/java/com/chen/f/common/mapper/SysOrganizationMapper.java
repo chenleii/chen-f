@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- * 系统组织机构表 Mapper 接口
+ * 系统组织表 Mapper 接口
  * </p>
  *
  * @author chen

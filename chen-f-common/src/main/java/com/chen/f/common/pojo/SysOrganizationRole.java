@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统组织机构角色表
+ * 系统组织角色表
  * </p>
  *
  * @author chen
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_organization_role")
-@ApiModel(value="SysOrganizationRole对象", description="系统组织机构角色表")
+@ApiModel(value="SysOrganizationRole对象", description="系统组织角色表")
 public class SysOrganizationRole extends Model<SysOrganizationRole> {
 
     private static final long serialVersionUID=1L;
@@ -35,7 +35,7 @@ public class SysOrganizationRole extends Model<SysOrganizationRole> {
       @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "系统组织机构ID")
+    @ApiModelProperty(value = "系统组织ID")
     @TableField("SYS_ORGANIZATION_ID")
     private String sysOrganizationId;
 

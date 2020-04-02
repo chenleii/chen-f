@@ -35,7 +35,6 @@ public class EnableChenFAdminConfigurationImportSelector implements DeferredImpo
                 SysTimedTaskController.class.getName(),
                 SysTimedTaskLogController.class.getName(),
                 SysUserController.class.getName(),
-                TestController.class.getName(),
 
         };
     }

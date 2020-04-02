@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统组织机构用户表
+ * 系统组织用户表
  * </p>
  *
  * @author chen
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_organization_user")
-@ApiModel(value="SysOrganizationUser对象", description="系统组织机构用户表")
+@ApiModel(value="SysOrganizationUser对象", description="系统组织用户表")
 public class SysOrganizationUser extends Model<SysOrganizationUser> {
 
     private static final long serialVersionUID=1L;
@@ -35,7 +35,7 @@ public class SysOrganizationUser extends Model<SysOrganizationUser> {
       @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "系统组织机构ID")
+    @ApiModelProperty(value = "系统组织ID")
     @TableField("SYS_ORGANIZATION_ID")
     private String sysOrganizationId;
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <p>
- * 系统组织机构表 服务类
+ * 系统组织表 服务类
  * </p>
  *
  * @author chen

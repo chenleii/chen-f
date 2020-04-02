@@ -5,7 +5,7 @@ import com.chen.f.common.mybatisplus.SupperMapper;
 
 /**
  * <p>
- * 系统组织机构角色表 Mapper 接口
+ * 系统组织角色表 Mapper 接口
  * </p>
  *
  * @author chen

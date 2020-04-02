@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 系统组织机构表 服务实现类
+ * 系统组织表 服务实现类
  * </p>
  *
  * @author chen

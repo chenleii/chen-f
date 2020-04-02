@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统组织机构表
+ * 系统组织表
  * </p>
  *
  * @author chen
@@ -28,13 +28,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_organization")
-@ApiModel(value="SysOrganization对象", description="系统组织机构表")
+@ApiModel(value="SysOrganization对象", description="系统组织表")
 public class SysOrganization extends Model<SysOrganization> {
 
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "主键ID")
-      @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "上级ID(引用本表ID字段,空白字符串为顶级)")
