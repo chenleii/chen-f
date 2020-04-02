@@ -6,10 +6,14 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Vector;
 
 /**
  * SFTP工具类
@@ -218,5 +222,37 @@ public class SftpUtils {
         return channelSftp.get(path + (path.endsWith("/") ? "" : "/") + fileName);
     }
 
+
+    /**
+     * 是否存在文件
+     *
+     * @param channelSftp SFTP通道
+     * @param src         资源地址
+     * @return 是/否
+     */
+    public static boolean isExistFile(ChannelSftp channelSftp, String src) throws SftpException {
+        return isExistFile(channelSftp, FilenameUtils.getFullPath(src), FilenameUtils.getName(src));
+    }
+
+    /**
+     * 是否存在文件
+     *
+     * @param channelSftp SFTP通道
+     * @param path        路径
+     * @param fileName    文件名称
+     * @return 是/否
+     */
+    @SuppressWarnings("unchecked")
+    public static boolean isExistFile(ChannelSftp channelSftp, String path, String fileName) throws SftpException {
+        final Vector<Object> vector = channelSftp.ls(path);
+        if (CollectionUtils.isEmpty(vector)) {
+            return false;
+        }
+        return vector.stream()
+                .filter(ChannelSftp.LsEntry.class::isInstance)
+                .map(ChannelSftp.LsEntry.class::cast)
+                .anyMatch((lsEntry) -> StringUtils.equals(lsEntry.getFilename(), fileName));
+
+    }
 }
 
