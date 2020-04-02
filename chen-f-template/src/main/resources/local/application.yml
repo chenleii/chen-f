@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: chen-f-template
-  profiles:
-    active: local
