@@ -6,6 +6,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -135,6 +136,10 @@ public class SftpUtils {
      * @param inputStream 文件流
      */
     public static void uploadFile(ChannelSftp channelSftp, String src, InputStream inputStream) throws JSchException, SftpException {
+        final String path = FilenameUtils.getFullPath(src);
+        if (!isExistFile(channelSftp, path)) {
+            channelSftp.mkdir(path);
+        }
         channelSftp.put(inputStream, src);
     }
 
@@ -147,10 +152,8 @@ public class SftpUtils {
      * @param inputStream 文件流
      */
     public static void uploadFile(ChannelSftp channelSftp, String path, String fileName, InputStream inputStream) throws JSchException, SftpException {
-        try {
+        if (!isExistFile(channelSftp, path)) {
             channelSftp.mkdir(path);
-        } catch (SftpException e) {
-            //忽略该异常(大多数时候是因为文件夹已存在,而判断文件夹是否存在逻辑比较复杂,这样比较省事)
         }
         channelSftp.put(inputStream, path + (path.endsWith("/") ? "" : "/") + fileName);
     }
