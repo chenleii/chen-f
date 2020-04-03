@@ -257,7 +257,7 @@ public class SftpUtils {
         if (StringUtils.startsWith(src, "/")) {
             splitPathArray = ArrayUtils.insert(0, splitPathArray, "/");
         } else {
-            if (!StringUtils.startsWith(src, ".")) {
+            if (!StringUtils.startsWith(src, "./")) {
                 splitPathArray = ArrayUtils.insert(0, splitPathArray, ".");
             }
         }
