@@ -3,6 +3,7 @@ package com.chen.f.admin.configuration.security.filter;
 import com.chen.f.admin.configuration.security.token.LoginAuthenticationToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -41,12 +42,14 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                     "Authentication method not supported: " + request.getMethod());
         }
 
-        String username;
-        String password;
-        if (MediaType.APPLICATION_JSON_UTF8.isCompatibleWith(MediaType.valueOf(request.getContentType()))) {
+        String username = null;
+        String password = null;
+        if (MediaType.APPLICATION_JSON.isCompatibleWith(MediaType.valueOf(request.getContentType()))) {
             //适配json
             ObjectMapper objectMapper = new ObjectMapper();
-            try (ServletInputStream inputStream = request.getInputStream();) {
+            try (
+                    ServletInputStream inputStream = request.getInputStream();
+            ) {
                 Map<String, String> map = objectMapper.readValue(inputStream, new TypeReference<Map<String, String>>() {
                 });
                 username = map.get(super.getUsernameParameter());
@@ -57,13 +60,17 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 throw new AuthenticationServiceException("获取登录信息出现异常", e);
             }
 
-        } else {
-            username = obtainUsername(request);
-            password = obtainPassword(request);
-            Map<String, String[]> parameterMap = request.getParameterMap();
-            parameterMap.forEach(request::setAttribute);
         }
 
+        if (StringUtils.isBlank(username)) {
+            username = obtainUsername(request);
+        }
+        if (StringUtils.isBlank(password)) {
+            password = obtainPassword(request);
+        }
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        parameterMap.forEach(request::setAttribute);
 
         if (username == null) {
             username = "";
@@ -77,6 +84,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
         LoginAuthenticationToken authRequest = new LoginAuthenticationToken(
                 username, password);
+
         super.setDetails(request, authRequest);
 
         return super.getAuthenticationManager().authenticate(authRequest);
