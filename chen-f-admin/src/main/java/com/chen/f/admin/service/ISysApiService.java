@@ -42,13 +42,28 @@ public interface ISysApiService extends IService<SysApi> {
     List<SysApi> getEnabledSysApiList();
 
     /**
+     * 根据系统角色ID列表获取系统接口列表
+     *
+     * @param sysRoleIdList 系统角色ID列表
+     * @return 系统接口列表
+     */
+    List<SysApi> getEnabledSysApiListBySysRoleIdList(List<String> sysRoleIdList);
+
+    /**
+     * 根据系统权限ID列表获取系统接口列表
+     *
+     * @param sysPermissionIdList 系统权限ID列表
+     * @return 系统接口列表
+     */
+    List<SysApi> getEnabledSysApiListBySysPermissionIdList(List<String> sysPermissionIdList);
+    
+    /**
      * 获取系统接口
      *
      * @param sysApiId 系统接口ID
      * @return 系统接口
      */
     SysApi getSysApi(String sysApiId);
-
 
     /**
      * 创建系统接口
@@ -102,4 +117,5 @@ public interface ISysApiService extends IService<SysApi> {
      * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysApi(String sysApiId, String operatedSysUserId);
+
 }
