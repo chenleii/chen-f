@@ -70,7 +70,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 没有找到API
      */
     static ErrorResponse notFoundApi(String api) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".notFoundApi", new Object[]{api}, "没有找到api{0}");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".notFoundApi", new Object[]{api}, "没有找到api[{0}]");
         return ErrorResponse.create(message);
     }
 }
