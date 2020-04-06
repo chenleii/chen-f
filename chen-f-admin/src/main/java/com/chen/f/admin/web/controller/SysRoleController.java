@@ -160,10 +160,10 @@ public class SysRoleController {
         sysRoleService.setSysMenuOfSysRole(sysRoleId, sysMenusInputDTO.getSysMenuList(), operatedSysUserId);
     }
 
-    @ApiOperation(value = "设置系统API", notes = "", produces = "application/json")
+    @ApiOperation(value = "设置系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysApisInputDTO", value = "设置的系统API", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysApisInputDTO", value = "设置的系统接口", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
     })
     @PutMapping(path = "/{sysRoleId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
