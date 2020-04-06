@@ -177,11 +177,11 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
 
     @Bean
     public LoginAuthenticationProvider loginAuthenticationProvider() {
-        LoginAuthenticationProvider chenLoginAuthenticationProvider = new LoginAuthenticationProvider();
-        chenLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
-        chenLoginAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        chenLoginAuthenticationProvider.setHideUserNotFoundExceptions(true);
-        return chenLoginAuthenticationProvider;
+        LoginAuthenticationProvider loginAuthenticationProvider = new LoginAuthenticationProvider();
+        loginAuthenticationProvider.setUserDetailsService(userDetailsService);
+        loginAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        loginAuthenticationProvider.setHideUserNotFoundExceptions(true);
+        return loginAuthenticationProvider;
     }
 
     @Bean

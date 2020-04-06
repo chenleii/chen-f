@@ -4,6 +4,7 @@ import com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDet
 import com.chen.f.admin.configuration.security.exception.CaptchaException;
 import com.chen.f.admin.configuration.security.token.LoginAuthenticationToken;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -44,8 +45,9 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
      * @param authentication 认证对象
      * @throws AuthenticationException 如果认证失败
      */
-    private void additionalAuthenticationChecks(UserDetails userDetails,
-                                                LoginAuthenticationToken authentication) throws AuthenticationException {
+    @Override
+    protected void additionalAuthenticationChecks(UserDetails userDetails,
+                                                  UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
         // 验证 验证码
         Object details = authentication.getDetails();
