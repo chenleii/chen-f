@@ -70,6 +70,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (Objects.nonNull(statusEnum)) {
             wrapper.eq(SysDict::getStatus, statusEnum);
         }
+        wrapper.groupBy(SysDict::getCode);
         return sysDictMapper.selectPage(new Page<>(pageIndex, pageNumber), wrapper);
     }
 
