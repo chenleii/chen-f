@@ -55,4 +55,10 @@ public class SecurityUser extends User {
                         Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
+
+    @Override
+    public void eraseCredentials() {
+        super.eraseCredentials();
+        this.sysUser.setPassword(null);
+    }
 }
