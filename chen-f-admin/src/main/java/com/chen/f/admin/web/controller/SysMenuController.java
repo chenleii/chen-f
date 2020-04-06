@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,6 +51,15 @@ public class SysMenuController {
         return sysMenuService.getEnabledSysMenuList();
     }
 
+    @ApiOperation(value = "根据系统权限ID获取启用的系统菜单", notes = "", produces = "application/json")
+    @ApiImplicitParams({    
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/permission/{sysPermissionId}/enabled")
+    public List<SysMenu> getEnabledSysMenuList(@PathVariable("sysPermissionId")String sysPermissionId) {
+        return sysMenuService.getEnabledSysMenuListBySysPermissionIdList(Arrays.asList(sysPermissionId));
+    }
+    
 
     @ApiOperation(value = "获取系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
