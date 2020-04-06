@@ -15,8 +15,8 @@ public enum SysPermissionTypeEnum {
 
     //菜单
     MENU("MENU", "菜单"),
-    //API接口
-    API("API", "API接口"),
+    //接口
+    API("API", "接口"),
     //页面元素可见性
     ELEMENT("ELEMENT", "页面元素可见性"),
     //操作
@@ -24,7 +24,7 @@ public enum SysPermissionTypeEnum {
     ;
 
     /**
-     * 类型(MENU:菜单;API:API接口;ELEMENT:页面元素可见性;OPERATION:操作;
+     * 类型(MENU:菜单;API:接口;ELEMENT:页面元素可见性;OPERATION:操作;)
      */
     @JsonValue
     @EnumValue

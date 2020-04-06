@@ -29,7 +29,7 @@ public enum SysApiHttpMethodEnum {
     //TRACE请求
     TRACE("TRACE", "TRACE请求"),
     //ANY请求
-    ANY("ANY", "ANY请求"),
+    ANY("ANY", "任意请求"),
 
     ;
 
