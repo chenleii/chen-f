@@ -2,7 +2,9 @@ package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
+import com.chen.f.admin.service.ISysApiService;
 import com.chen.f.admin.service.ISysMenuService;
+import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
@@ -37,6 +39,9 @@ public class OnlineController {
     @Autowired
     private ISysMenuService sysMenuService;
 
+    @Autowired
+    private ISysApiService sysApiService;
+
     @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SysUserRolePermission.class)
     @ApiImplicitParams({})
     @GetMapping("/securityUser")
@@ -65,6 +70,32 @@ public class OnlineController {
 
         //去重
         final Set<SysMenu> distinctSet = new TreeSet<>(Comparator.comparing(SysMenu::getId));
+        sysMenuList = sysMenuList.stream()
+                .filter(distinctSet::add)
+                .collect(Collectors.toList());
+        return sysMenuList;
+
+    }
+
+    @ApiOperation(value = "获取在线用户的接口列表", notes = "", produces = "application/json", response = List.class)
+    @ApiImplicitParams({})
+    @GetMapping("/sysApiList")
+    public List<SysApi> getOnlineSysUserApi() {
+        SecurityHelper.checkFullyAuthenticated();
+
+        List<SysApi> sysMenuList = new ArrayList<>();
+
+        final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
+        final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
+        final List<SysApi> sysRoleApiList = sysApiService.getEnabledSysApiListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+        sysMenuList.addAll(sysRoleApiList);
+
+        final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
+        final List<SysApi> sysPermissionApiList = sysApiService.getEnabledSysApiListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+        sysMenuList.addAll(sysPermissionApiList);
+
+        //去重
+        final Set<SysApi> distinctSet = new TreeSet<>(Comparator.comparing(SysApi::getId));
         sysMenuList = sysMenuList.stream()
                 .filter(distinctSet::add)
                 .collect(Collectors.toList());
