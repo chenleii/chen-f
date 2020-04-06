@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -67,6 +68,15 @@ public class SysApiController {
     @GetMapping("/all/enabled")
     public List<SysApi> getEnabledSysApiList() {
         return sysApiService.getEnabledSysApiList();
+    }
+
+    @ApiOperation(value = "根据系统权限ID列表获取启用的系统接口", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/permission/{sysPermissionId}/enabled")
+    public List<SysApi> getEnabledSysApiListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
+        return sysApiService.getEnabledSysApiListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }
 
     @ApiOperation(value = "获取系统接口", notes = "", produces = "application/json")
