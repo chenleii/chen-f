@@ -172,8 +172,7 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder
                 .authenticationProvider(loginAuthenticationProvider())
-                //不擦除认证密码，擦除会导致TokenBasedRememberMeServices因为找不到Credentials再调用UserDetailsService而抛出UsernameNotFoundException
-                .eraseCredentials(false);
+                .eraseCredentials(true);
     }
 
     @Bean
