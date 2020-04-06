@@ -1,6 +1,7 @@
 package com.chen.f.admin.web.dto;
 
 import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,7 +25,10 @@ public class SysPermissionInputDTO {
 
     @ApiModelProperty(value = "权限备注")
     private String remark;
-
+    
+    @ApiModelProperty(value = "类型(MENU:菜单;API:接口;ELEMENT:页面元素可见性;OPERATION:操作;")
+    private SysPermissionTypeEnum type;
+    
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     private StatusEnum status;
 
