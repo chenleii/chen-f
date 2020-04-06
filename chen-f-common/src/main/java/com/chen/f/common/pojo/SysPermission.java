@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,9 +45,9 @@ public class SysPermission extends Model<SysPermission> {
     @TableField("REMARK")
     private String remark;
 
-    @ApiModelProperty(value = "类型(MENU:菜单;API:API接口;ELEMENT:页面元素可见性;OPERATION:操作;")
+    @ApiModelProperty(value = "类型(MENU:菜单;API:接口;ELEMENT:页面元素可见性;OPERATION:操作;")
     @TableField("TYPE")
-    private StatusEnum type;
+    private SysPermissionTypeEnum type;
 
     @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
     @TableField("STATUS")

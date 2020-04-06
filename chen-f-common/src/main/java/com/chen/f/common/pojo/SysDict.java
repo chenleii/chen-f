@@ -41,13 +41,13 @@ public class SysDict extends Model<SysDict> {
     @TableId(value = "CODE")
     private String code;
 
-    @ApiModelProperty(value = "字典KEY")
-    @TableField("`KEY`")
-    private String key;
-
     @ApiModelProperty(value = "字典名称")
     @TableField("NAME")
     private String name;
+
+    @ApiModelProperty(value = "字典KEY")
+    @TableField("`KEY`")
+    private String key;
 
     @ApiModelProperty(value = "字典值")
     @TableField("VALUE")
@@ -57,7 +57,7 @@ public class SysDict extends Model<SysDict> {
     @TableField("REMARK")
     private String remark;
 
-    @ApiModelProperty(value = "颜色值(冗余字段用户前端展示,需要保证前端可用)(success,processing,default,error,warning)(geekblue,blue,purple,success,red,volcano,orange,gold,lime,green,cyan) (#f50,#ff0) 预设和色值")
+    @ApiModelProperty(value = "颜色值(冗余字段用于前端展示,需要保证前端可用)(success,processing,default,error,warning)(geekblue,blue,purple,success,red,volcano,orange,gold,lime,green,cyan) (#f50,#ff0) 预设和色值")
     @TableField("COLOR")
     private String color;
 
