@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
 
 import java.util.List;
 
@@ -49,10 +50,11 @@ public interface ISysPermissionService extends IService<SysPermission> {
      *
      * @param name              权限名
      * @param remark            备注
+     * @param type              类型
      * @param status            状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysPermission(String name, String remark, StatusEnum status, String operatedSysUserId);
+    void createSysPermission(String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);
 
     /**
      * 修改系统权限
@@ -60,10 +62,11 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param sysPermissionId   系统权限ID
      * @param name              权限名
      * @param remark            备注
+     * @param type              类型
      * @param status            状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void updateSysPermission(String sysPermissionId, String name, String remark, StatusEnum status, String operatedSysUserId);
+    void updateSysPermission(String sysPermissionId, String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);
 
 
     /**
@@ -74,6 +77,15 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param operatedSysUserId 操作的系统用户ID
      */
     void setSysApiOfSysPermission(String sysPermissionId, List<String> sysApiIdList, String operatedSysUserId);
+
+    /**
+     * 设置系统权限的系统菜单
+     *
+     * @param sysPermissionId   系统权限ID
+     * @param sysMenuIdList     系统菜单ID集合
+     * @param operatedSysUserId 操作的系统用户ID
+     */
+    void setSysMenuOfSysPermission(String sysPermissionId, List<String> sysMenuIdList, String operatedSysUserId);
 
     /**
      * 删除系统权限
@@ -97,4 +109,5 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param operatedSysUserId 操作的系统用户ID
      */
     void disableSysPermission(String sysPermissionId, String operatedSysUserId);
+
 }
