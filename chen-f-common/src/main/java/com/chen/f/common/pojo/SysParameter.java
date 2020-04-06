@@ -37,19 +37,19 @@ public class SysParameter extends Model<SysParameter> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "参数标识")
+    @ApiModelProperty(value = "标识")
     @TableId(value = "CODE")
     private String code;
 
-    @ApiModelProperty(value = "参数名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "参数值")
+    @ApiModelProperty(value = "值")
     @TableField("VALUE")
     private String value;
 
-    @ApiModelProperty(value = "参数类型(SYSTEM:系统参数)")
+    @ApiModelProperty(value = "类型(SYSTEM:系统参数)")
     @TableField("TYPE")
     private SysParameterTypeEnum type;
 

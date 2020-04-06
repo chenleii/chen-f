@@ -37,11 +37,11 @@ public class SysPermission extends Model<SysPermission> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "权限名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "权限备注")
+    @ApiModelProperty(value = "备注")
     @TableField("REMARK")
     private String remark;
 

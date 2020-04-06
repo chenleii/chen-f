@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 系统定时任务日志异常状态枚举
+ * 系统定时任务日志执行状态枚举
  *
  * @author chen
  * @since 2018/11/10 0:29.

@@ -41,11 +41,11 @@ public class SysMenu extends Model<SysMenu> {
     @TableField("PARENT_ID")
     private String parentId;
 
-    @ApiModelProperty(value = "菜单名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "菜单URL")
+    @ApiModelProperty(value = "URL")
     @TableField("URL")
     private String url;
 

@@ -38,7 +38,7 @@ public class Region extends Model<Region> {
     @TableField("PARENT_ID")
     private String parentId;
 
-    @ApiModelProperty(value = "地区等级(0:国家;1:省;2:市;3:区/县;)")
+    @ApiModelProperty(value = "等级(0:国家;1:省;2:市;3:区/县;)")
     @TableField("LEVEL")
     private Integer level;
 

@@ -61,7 +61,7 @@ public class SysUser extends Model<SysUser> {
     @TableField("LAST_LOGIN_DATE_TIME")
     private LocalDateTime lastLoginDateTime;
 
-    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 

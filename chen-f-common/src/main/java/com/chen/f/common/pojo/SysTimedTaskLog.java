@@ -37,11 +37,11 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "任务标识")
+    @ApiModelProperty(value = "标识")
     @TableField("CODE")
     private String code;
 
-    @ApiModelProperty(value = "任务名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
@@ -49,7 +49,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
     @TableField("CRON_EXPRESSION")
     private String cronExpression;
 
-    @ApiModelProperty(value = "定时任务类型(SYSTEM:系统定时任务)")
+    @ApiModelProperty(value = "类型(SYSTEM:系统定时任务)")
     @TableField("TYPE")
     private SysTimedTaskTypeEnum type;
 

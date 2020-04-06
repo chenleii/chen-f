@@ -34,11 +34,11 @@ public class RegionIdCardPrefix extends Model<RegionIdCardPrefix> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "身份证号前缀")
+    @ApiModelProperty(value = "前缀")
     @TableId(value = "PREFIX")
     private String prefix;
 
-    @ApiModelProperty(value = "全称")
+    @ApiModelProperty(value = "父级前缀(引用本表ID字段,空白字符串为顶级)")
     @TableField("PARENT_PREFIX")
     private String parentPrefix;
 

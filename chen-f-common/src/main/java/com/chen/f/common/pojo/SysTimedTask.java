@@ -37,11 +37,11 @@ public class SysTimedTask extends Model<SysTimedTask> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "任务标识")
+    @ApiModelProperty(value = "标识")
     @TableId(value = "CODE")
     private String code;
 
-    @ApiModelProperty(value = "任务名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
@@ -53,11 +53,11 @@ public class SysTimedTask extends Model<SysTimedTask> {
     @TableField("CRON_EXPRESSION")
     private String cronExpression;
 
-    @ApiModelProperty(value = "任务数据(JSON格式)")
+    @ApiModelProperty(value = "数据(JSON格式)")
     @TableField("DATA")
     private String data;
 
-    @ApiModelProperty(value = "定时任务类型(SYSTEM:系统定时任务)")
+    @ApiModelProperty(value = "类型(SYSTEM:系统定时任务)")
     @TableField("TYPE")
     private SysTimedTaskTypeEnum type;
 
@@ -69,11 +69,11 @@ public class SysTimedTask extends Model<SysTimedTask> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

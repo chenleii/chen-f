@@ -38,11 +38,11 @@ public class SysApi extends Model<SysApi> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "接口名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "接口URL")
+    @ApiModelProperty(value = "URL")
     @TableField("URL")
     private String url;
 
@@ -50,7 +50,7 @@ public class SysApi extends Model<SysApi> {
     @TableField("HTTP_METHOD")
     private SysApiHttpMethodEnum httpMethod;
 
-    @ApiModelProperty(value = "接口类型(SYSTEM:系统接口;)")
+    @ApiModelProperty(value = "类型(SYSTEM:系统接口;)")
     @TableField("TYPE")
     private SysApiTypeEnum type;
 

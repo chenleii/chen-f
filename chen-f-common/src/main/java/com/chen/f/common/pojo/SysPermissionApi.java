@@ -43,7 +43,7 @@ public class SysPermissionApi extends Model<SysPermissionApi> {
     @TableField("SYS_API_ID")
     private String sysApiId;
 
-    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

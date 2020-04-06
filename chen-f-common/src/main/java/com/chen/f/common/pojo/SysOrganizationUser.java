@@ -43,7 +43,7 @@ public class SysOrganizationUser extends Model<SysOrganizationUser> {
     @TableField("SYS_USER_ID")
     private String sysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

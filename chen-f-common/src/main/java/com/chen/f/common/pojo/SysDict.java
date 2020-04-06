@@ -37,19 +37,19 @@ public class SysDict extends Model<SysDict> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "字典标识")
+    @ApiModelProperty(value = "标识")
     @TableId(value = "CODE")
     private String code;
 
-    @ApiModelProperty(value = "字典名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "字典KEY")
+    @ApiModelProperty(value = "KEY")
     @TableField("`KEY`")
     private String key;
 
-    @ApiModelProperty(value = "字典值")
+    @ApiModelProperty(value = "值")
     @TableField("VALUE")
     private String value;
 
@@ -57,11 +57,11 @@ public class SysDict extends Model<SysDict> {
     @TableField("REMARK")
     private String remark;
 
-    @ApiModelProperty(value = "颜色值(冗余字段用于前端展示,需要保证前端可用)(success,processing,default,error,warning)(geekblue,blue,purple,success,red,volcano,orange,gold,lime,green,cyan) (#f50,#ff0) 预设和色值")
+    @ApiModelProperty(value = "颜色值(冗余字段用于前端展示,例如#f50,#ff0)")
     @TableField("COLOR")
     private String color;
 
-    @ApiModelProperty(value = "字典值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)")
+    @ApiModelProperty(value = "值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)")
     @TableField("TYPE")
     private SysDictTypeEnum type;
 

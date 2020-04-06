@@ -36,11 +36,11 @@ public class SysRole extends Model<SysRole> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "角色名称")
+    @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;
 
-    @ApiModelProperty(value = "角色备注")
+    @ApiModelProperty(value = "备注")
     @TableField("REMARK")
     private String remark;
 
@@ -48,11 +48,11 @@ public class SysRole extends Model<SysRole> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 
