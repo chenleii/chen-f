@@ -22,11 +22,11 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
      *
      * @param pageIndex       页数
      * @param pageNumber      页大小
-     * @param code            标识
-     * @param name            名称
-     * @param type            类型
-     * @param executionStatus 执行状态
-     * @param remark          备注
+     * @param code            系统定时任务日志标识
+     * @param name            系统定时任务日志名称
+     * @param type            系统定时任务日志类型
+     * @param executionStatus 系统定时任务日志执行状态
+     * @param remark          系统定时任务日志备注
      * @return 分页的系统定时任务记录集合
      */
     IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,

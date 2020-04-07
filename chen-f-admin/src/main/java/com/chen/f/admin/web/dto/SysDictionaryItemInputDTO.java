@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="SysDictDTO", description="系统字典DTO")
-public class SysDictInputDTO {
+@ApiModel(value="SysDictionaryItemInputDTO", description="系统字典项目DTO")
+public class SysDictionaryItemInputDTO {
 
     @ApiModelProperty(value = "主键ID")
     private String id;

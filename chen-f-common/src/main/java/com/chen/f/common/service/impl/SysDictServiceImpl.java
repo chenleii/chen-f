@@ -10,7 +10,7 @@ import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.SysDictTypeEnum;
+import com.chen.f.common.pojo.enums.ValueTypeEnum;
 import com.chen.f.common.service.ISysDictService;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
@@ -44,7 +44,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
 
     @Override
-    public IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber, String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum) {
+    public IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber, String code, String key, String name, String value, String remark, String color, ValueTypeEnum valueTypeEnum, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(code)) {
             wrapper.like(SysDict::getCode, code);
@@ -64,8 +64,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         if (StringUtils.isNotBlank(color)) {
             wrapper.like(SysDict::getColor, color);
         }
-        if (Objects.nonNull(sysDictTypeEnum)) {
-            wrapper.eq(SysDict::getType, sysDictTypeEnum);
+        if (Objects.nonNull(valueTypeEnum)) {
+            wrapper.eq(SysDict::getType, valueTypeEnum);
         }
         if (Objects.nonNull(statusEnum)) {
             wrapper.eq(SysDict::getStatus, statusEnum);
@@ -100,7 +100,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void createSysDict(String code, String key, String name, String value, String remark,
-                              String color, SysDictTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
+                              String color, ValueTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
@@ -134,7 +134,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void updateSysDict(String sysDictId, String code, String key, String name, String value, String remark,
-                              String color, SysDictTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
+                              String color, ValueTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysDictId, ErrorResponse.create("系统字典ID不能为空"));
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));

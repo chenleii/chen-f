@@ -48,10 +48,10 @@ public interface ISysPermissionService extends IService<SysPermission> {
     /**
      * 创建系统权限
      *
-     * @param name              权限名
-     * @param remark            备注
-     * @param type              类型
-     * @param status            状态
+     * @param name              系统权限名称
+     * @param remark            系统权限备注
+     * @param type              系统权限类型
+     * @param status            系统权限状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysPermission(String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);
@@ -60,10 +60,10 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * 修改系统权限
      *
      * @param sysPermissionId   系统权限ID
-     * @param name              权限名
-     * @param remark            备注
-     * @param type              类型
-     * @param status            状态
+     * @param name              系统权限名称
+     * @param remark            系统权限备注
+     * @param type              系统权限类型
+     * @param status            系统权限状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysPermission(String sysPermissionId, String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);

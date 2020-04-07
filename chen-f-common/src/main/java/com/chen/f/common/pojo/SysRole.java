@@ -36,6 +36,10 @@ public class SysRole extends Model<SysRole> {
     @TableId(value = "ID", type = IdType.ASSIGN_ID)
     private String id;
 
+    @ApiModelProperty(value = "标识")
+    @TableField("CODE")
+    private String code;
+
     @ApiModelProperty(value = "名称")
     @TableField("NAME")
     private String name;

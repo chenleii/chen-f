@@ -56,9 +56,9 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 创建系统角色
      *
-     * @param name              角色名
-     * @param remark            备注
-     * @param status            状态
+     * @param name              系统角色名
+     * @param remark            系统角色备注
+     * @param status            系统角色状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysRole(String name, String remark, StatusEnum status, String operatedSysUserId);
@@ -94,9 +94,9 @@ public interface ISysRoleService extends IService<SysRole> {
      * 修改系统角色
      *
      * @param sysRoleId         系统角色ID
-     * @param name              系统角色名
-     * @param remark            备注
-     * @param status            状态
+     * @param name              系统角色名称
+     * @param remark            系统角色备注
+     * @param status            系统角色状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysRole(String sysRoleId, String name, String remark, StatusEnum status, String operatedSysUserId);

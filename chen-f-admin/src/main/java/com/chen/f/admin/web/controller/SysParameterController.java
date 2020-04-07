@@ -109,7 +109,7 @@ public class SysParameterController {
 
     @ApiOperation(value = "创建系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysParameterInputDTO", value = "系统参数", required = true, dataTypeClass = SysParameterInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysParameterInputDTO", value = "系统参数DTO", required = true, dataTypeClass = SysParameterInputDTO.class, paramType = "body"),
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public void createSysParameter(@RequestBody() SysParameterInputDTO sysParameterInputDTO) {

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.SysDictTypeEnum;
+import com.chen.f.common.pojo.enums.ValueTypeEnum;
 
 import java.util.List;
 
@@ -29,12 +29,12 @@ public interface ISysDictService extends IService<SysDict> {
      * @param value           系统字典值
      * @param remark          系统字典描述
      * @param color           系统字典颜色
-     * @param sysDictTypeEnum 系统字典类型
+     * @param valueTypeEnum 系统字典类型
      * @param statusEnum      系统字典状态
      * @return 分页的系统字典集合
      */
     IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber,
-                                  String code, String key, String name, String value, String remark, String color, SysDictTypeEnum sysDictTypeEnum, StatusEnum statusEnum);
+                                  String code, String key, String name, String value, String remark, String color, ValueTypeEnum valueTypeEnum, StatusEnum statusEnum);
 
     /**
      * 获取启用的系统字典列表
@@ -84,7 +84,7 @@ public interface ISysDictService extends IService<SysDict> {
      * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysDict(String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
+    void createSysDict(String code, String key, String name, String value, String remark, String color, ValueTypeEnum type,
                        Integer order, StatusEnum status, String operatedSysUserId);
 
     /**
@@ -102,7 +102,7 @@ public interface ISysDictService extends IService<SysDict> {
      * @param status            系统字典状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void updateSysDict(String sysDictId, String code, String key, String name, String value, String remark, String color, SysDictTypeEnum type,
+    void updateSysDict(String sysDictId, String code, String key, String name, String value, String remark, String color, ValueTypeEnum type,
                        Integer order, StatusEnum status, String operatedSysUserId);
 
     /**

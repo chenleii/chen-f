@@ -2,7 +2,7 @@ package com.chen.f.admin.web.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.ValueTypeEnum;
+import com.chen.f.common.pojo.enums.SysDictionaryTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="SysDictDTO", description="系统字典DTO")
-public class SysDictInputDTO {
+@ApiModel(value="SysDictionaryInputDTO", description="系统字典DTO")
+public class SysDictionaryInputDTO {
 
     @ApiModelProperty(value = "主键ID")
     private String id;
@@ -41,7 +41,7 @@ public class SysDictInputDTO {
     private String color;
 
     @ApiModelProperty(value = "字典值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)")
-    private ValueTypeEnum type;
+    private SysDictionaryTypeEnum type;
 
     @ApiModelProperty(value = "显示顺序")
     private Integer order;

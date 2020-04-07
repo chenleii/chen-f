@@ -122,11 +122,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("检查修改后的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(level, operatedSysUser.getLevel(), ErrorResponse.create("修改的用户级别不能大于操作用户级别"));
-        logger.debug("修改用户信息");
+        logger.debug("检查修改的系统用户级别是否小于操作用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改用户级别"));
+        logger.debug("检查修改后的系统用户级别是否小于操作用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(level, operatedSysUser.getLevel(), ErrorResponse.create("修改的系统用户级别不能大于操作用户级别"));
+        logger.debug("修改系统用户信息");
         sysUser.setUsername(username);
         sysUser.setPassword(password);
         sysUser.setRemark(remark);
@@ -148,8 +148,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
+        logger.debug("检查修改的系统用户级别是否小于操作的系统用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
 
         List<SysUserRole> sysUserRoleList = Collections.emptyList();
 
@@ -180,9 +180,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("删除用户");
+        logger.debug("检查修改的系统用户级别是否小于操作的系统用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
+        logger.debug("删除系统用户");
         int i = sysUserMapper.deleteById(sysUserId);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统用户失败"));
     }
@@ -196,9 +196,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("启用用户");
+        logger.debug("检查修改的系统用户级别是否小于操作的系统用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
+        logger.debug("启用系统用户");
         sysUser.setStatus(SysUserStatusEnum.ENABLED);
         int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.ENABLED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
@@ -214,9 +214,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("禁用用户");
+        logger.debug("检查修改的系统用户级别是否小于操作的系统用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
+        logger.debug("禁用系统用户");
         sysUser.setStatus(SysUserStatusEnum.DISABLE);
         int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.DISABLE));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
@@ -233,8 +233,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
         logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("锁定用户");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
+        logger.debug("锁定系统用户");
         sysUser.setStatus(SysUserStatusEnum.LOCKED);
         int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.LOCKED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
@@ -249,9 +249,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        logger.debug("检查修改的用户级别是否小于操作用户级别");
-        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作用户级别不能小于修改用户级别"));
-        logger.debug("过期用户");
+        logger.debug("检查修改的系统用户级别是否小于操作的系统用户级别");
+        ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
+        logger.debug("过期系统用户");
         sysUser.setStatus(SysUserStatusEnum.EXPIRED);
         int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.EXPIRED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));

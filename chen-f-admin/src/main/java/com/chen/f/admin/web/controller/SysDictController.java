@@ -5,7 +5,7 @@ import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.web.dto.SysDictInputDTO;
 import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.SysDictTypeEnum;
+import com.chen.f.common.pojo.enums.ValueTypeEnum;
 import com.chen.f.common.service.ISysDictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,7 +46,7 @@ public class SysDictController {
             @ApiImplicitParam(name = "value", value = "字典值", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "字典描述", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "color", value = "字典颜色", required = false, dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "type", value = "字典类型", required = false, dataTypeClass = SysDictTypeEnum.class, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "字典类型", required = false, dataTypeClass = ValueTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "字典状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
@@ -58,10 +58,10 @@ public class SysDictController {
                                          @RequestParam(name = "value", required = false) String value,
                                          @RequestParam(name = "remark", required = false) String remark,
                                          @RequestParam(name = "color", required = false) String color,
-                                         @RequestParam(name = "type", required = false) SysDictTypeEnum sysDictTypeEnum,
+                                         @RequestParam(name = "type", required = false) ValueTypeEnum valueTypeEnum,
                                          @RequestParam(name = "status", required = false) StatusEnum statusEnum
     ) {
-        return sysDictService.getSysDictPage(pageIndex, pageNumber, code, key, name, value, remark, color, sysDictTypeEnum, statusEnum);
+        return sysDictService.getSysDictPage(pageIndex, pageNumber, code, key, name, value, remark, color, valueTypeEnum, statusEnum);
     }
 
     @ApiOperation(value = "获取启用的系统字典", notes = "", produces = "application/json")
@@ -112,7 +112,7 @@ public class SysDictController {
             @ApiImplicitParam(name = "value", value = "值", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "color", value = "颜色", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = SysDictTypeEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = ValueTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PostMapping
@@ -123,7 +123,7 @@ public class SysDictController {
             @RequestParam(name = "value") String value,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "color", required = false) String color,
-            @RequestParam(name = "type") SysDictTypeEnum type,
+            @RequestParam(name = "type") ValueTypeEnum type,
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysRoleId = SecurityHelper.getSysUserId();
@@ -150,7 +150,7 @@ public class SysDictController {
             @ApiImplicitParam(name = "value", value = "值", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "remark", value = "备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "color", value = "颜色", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = SysDictTypeEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = ValueTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "order", value = "显示顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
@@ -163,7 +163,7 @@ public class SysDictController {
             @RequestParam(name = "value") String value,
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "color", required = false) String color,
-            @RequestParam(name = "type") SysDictTypeEnum type,
+            @RequestParam(name = "type") ValueTypeEnum type,
             @RequestParam(name = "order", required = false) Integer order,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();

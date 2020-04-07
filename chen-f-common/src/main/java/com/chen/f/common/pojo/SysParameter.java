@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
+import com.chen.f.common.pojo.enums.ValueTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -48,6 +49,10 @@ public class SysParameter extends Model<SysParameter> {
     @ApiModelProperty(value = "值")
     @TableField("VALUE")
     private String value;
+
+    @ApiModelProperty(value = "值类型(STRING:字符串;BYTE:整数BYTE;SHORT:整数SHORT;INTEGER:整数INTEGER;LONG:整数LONG;BIG_INTEGER:大的整数;FLOAT:小数FLOAT;DOUBLE:小数DOUBLE;BIG_DECIMAL:大的小数;BOOLEAN:布尔)")
+    @TableField("TYPE")
+    private ValueTypeEnum valueType;
 
     @ApiModelProperty(value = "类型(SYSTEM:系统参数)")
     @TableField("TYPE")

@@ -72,8 +72,8 @@ public interface ISysApiService extends IService<SysApi> {
      * @param url               系统接口URL
      * @param httpMethod        系统接口HTTP请求方法
      * @param type              系统接口类型
-     * @param remark            备注
-     * @param status            状态
+     * @param remark            系统接口备注
+     * @param status            系统接口状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysApi(String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark,
@@ -88,8 +88,8 @@ public interface ISysApiService extends IService<SysApi> {
      * @param url               系统接口URL
      * @param httpMethod        系统接口HTTP请求方法
      * @param type              系统接口类型
-     * @param remark            备注
-     * @param status            状态
+     * @param remark            系统接口备注
+     * @param status            系统接口状态
      * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysApi(String sysApiId, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark,

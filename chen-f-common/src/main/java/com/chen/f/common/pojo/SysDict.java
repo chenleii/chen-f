@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.SysDictTypeEnum;
+import com.chen.f.common.pojo.enums.ValueTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -53,6 +53,10 @@ public class SysDict extends Model<SysDict> {
     @TableField("VALUE")
     private String value;
 
+    @ApiModelProperty(value = "值类型(STRING:字符串;BYTE:整数BYTE;SHORT:整数SHORT;INTEGER:整数INTEGER;LONG:整数LONG;BIG_INTEGER:大的整数;FLOAT:小数FLOAT;DOUBLE:小数DOUBLE;BIG_DECIMAL:大的小数;BOOLEAN:布尔)")
+    @TableField("TYPE")
+    private ValueTypeEnum type;
+
     @ApiModelProperty(value = "备注")
     @TableField("REMARK")
     private String remark;
@@ -60,10 +64,6 @@ public class SysDict extends Model<SysDict> {
     @ApiModelProperty(value = "颜色值(冗余字段用于前端展示,例如#f50,#ff0)")
     @TableField("COLOR")
     private String color;
-
-    @ApiModelProperty(value = "值类型(STRING:字符串;BYTE:数字byte;SHORT:数字short;INTEGER:数字integer;LONG:数字long;FLOAT:小数float;DOUBLE:小数double;BOOLEAN:布尔)")
-    @TableField("TYPE")
-    private SysDictTypeEnum type;
 
     @ApiModelProperty(value = "显示顺序")
     @TableField("`ORDER`")
@@ -73,11 +73,11 @@ public class SysDict extends Model<SysDict> {
     @TableField("STATUS")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
     @TableField("UPDATE_SYS_USER_ID")
     private String updateSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID('为初始化创建)")
+    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
     @TableField("CREATE_SYS_USER_ID")
     private String createSysUserId;
 

@@ -22,10 +22,10 @@ public interface ISysUserService extends IService<SysUser> {
      *
      * @param pageIndex         页数
      * @param pageNumber        页大小
-     * @param username          用户名称
-     * @param remark            用户描述
-     * @param sysUserStatusEnum 用户状态
-     * @param level             用户级别
+     * @param username          系统用户名称
+     * @param remark            系统用户描述
+     * @param sysUserStatusEnum 系统用户状态
+     * @param level             系统用户级别
      * @return 分页的系统用户集合
      */
     IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level);
@@ -50,11 +50,11 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 创建系统用户
      *
-     * @param username          用户名
-     * @param password          密码
-     * @param remark            备注
-     * @param status            状态
-     * @param level             等级
+     * @param username          系统用户用户名
+     * @param password          系统用户密码
+     * @param remark            系统用户备注
+     * @param status            系统用户状态
+     * @param level             系统用户等级
      * @param operatedSysUserId 操作的系统用户ID
      */
     void createSysUser(String username, String password, String remark, SysUserStatusEnum status, Integer level, String operatedSysUserId);
@@ -72,11 +72,11 @@ public interface ISysUserService extends IService<SysUser> {
      * 修改系统用户
      *
      * @param sysUserId         系统用户ID
-     * @param username          用户名
-     * @param password          密码
-     * @param remark            备注
-     * @param status            状态
-     * @param level             等级
+     * @param username          系统用户用户名
+     * @param password          系统用户密码
+     * @param remark            系统用户备注
+     * @param status            系统用户状态
+     * @param level             系统用户等级
      * @param operatedSysUserId 操作的系统用户ID
      */
     void updateSysUser(String sysUserId, String username, String password, String remark, SysUserStatusEnum status, Integer level, String operatedSysUserId);

@@ -8,7 +8,6 @@ import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
-import com.chen.f.common.pojo.SysUserRolePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +41,7 @@ public class OnlineController {
     @Autowired
     private ISysApiService sysApiService;
 
-    @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SysUserRolePermission.class)
+    @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SecurityHelper.class)
     @ApiImplicitParams({})
     @GetMapping("/securityUser")
     public SecurityUser getSysUserRolePermission() {
