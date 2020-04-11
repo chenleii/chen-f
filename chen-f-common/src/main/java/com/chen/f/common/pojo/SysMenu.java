@@ -22,68 +22,68 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chen
- * @since 2019-02-24
+ * @since 2020-04-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("SYS_MENU")
+@TableName("`sys_menu`")
 @ApiModel(value="SysMenu对象", description="系统菜单表")
 public class SysMenu extends Model<SysMenu> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键ID")
-    @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "系统菜单ID")
+      @TableId(value = "`ID`", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "父级的ID(引用本表ID字段,空白字符串为顶级菜单)")
-    @TableField("PARENT_ID")
+    @ApiModelProperty(value = "父级的系统菜单ID(引用本表ID字段,空白字符串为顶级)")
+    @TableField("`PARENT_ID`")
     private String parentId;
 
-    @ApiModelProperty(value = "名称")
-    @TableField("NAME")
+    @ApiModelProperty(value = "系统菜单名称")
+    @TableField("`NAME`")
     private String name;
 
-    @ApiModelProperty(value = "URL")
-    @TableField("URL")
+    @ApiModelProperty(value = "系统菜单URL")
+    @TableField("`URL`")
     private String url;
 
-    @ApiModelProperty(value = "图标")
-    @TableField("ICON")
+    @ApiModelProperty(value = "系统菜单图标")
+    @TableField("`ICON`")
     private String icon;
 
-    @ApiModelProperty(value = "类型(GROUP:组;MENU:菜单;LINK:链接;EXTERNAL_LINK:外部链接;)")
-    @TableField("TYPE")
+    @ApiModelProperty(value = "系统菜单类型(GROUP:组;MENU:菜单;LINK:链接;EXTERNAL_LINK:外部链接;)")
+    @TableField("`TYPE`")
     private SysMenuTypeEnum type;
 
-    @ApiModelProperty(value = "备注")
-    @TableField("REMARK")
-    private String remark;
-
-    @ApiModelProperty(value = "显示顺序")
+    @ApiModelProperty(value = "系统菜单显示顺序")
     @TableField("`ORDER`")
     private Integer order;
 
-    @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
-    @TableField("STATUS")
+    @ApiModelProperty(value = "系统菜单备注")
+    @TableField("`REMARK`")
+    private String remark;
+
+    @ApiModelProperty(value = "系统菜单状态(ENABLED:启用;DISABLE:禁用;)")
+    @TableField("`STATUS`")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
-    @TableField("UPDATE_SYS_USER_ID")
-    private String updateSysUserId;
+    @ApiModelProperty(value = "更新的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`UPDATED_SYS_USER_ID`")
+    private String updatedSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
-    @TableField("CREATE_SYS_USER_ID")
-    private String createSysUserId;
+    @ApiModelProperty(value = "创建的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`CREATED_SYS_USER_ID`")
+    private String createdSysUserId;
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("UPDATE_DATE_TIME")
-    private LocalDateTime updateDateTime;
+    @ApiModelProperty(value = "更新的日期时间")
+    @TableField("`UPDATED_DATE_TIME`")
+    private LocalDateTime updatedDateTime;
 
-    @ApiModelProperty(value = "创建时间")
-    @TableField("CREATE_DATE_TIME")
-    private LocalDateTime createDateTime;
+    @ApiModelProperty(value = "创建的日期时间")
+    @TableField("`CREATED_DATE_TIME`")
+    private LocalDateTime createdDateTime;
 
 
     @Override

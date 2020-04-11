@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 public class AlainSelectOutputDTO {
 
     @ApiModelProperty(value = "名称")
-    private String label;
+    private Object label;
 
     @ApiModelProperty(value = "值")
     private Object value;

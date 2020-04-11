@@ -20,40 +20,41 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chen
- * @since 2019-02-24
+ * @since 2020-04-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("SYS_USER_ROLE")
+@TableName("`sys_user_role`")
 @ApiModel(value="SysUserRole对象", description="系统用户角色表")
 public class SysUserRole extends Model<SysUserRole> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键ID")
-    @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "系统用户角色ID")
+      @TableId(value = "`ID`", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "系统用户ID")
-    @TableId(value = "SYS_USER_ID")
+    @TableField("`SYS_USER_ID`")
     private String sysUserId;
 
     @ApiModelProperty(value = "系统角色ID")
-    @TableField("SYS_ROLE_ID")
+    @TableField("`SYS_ROLE_ID`")
     private String sysRoleId;
 
-    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
-    @TableField("CREATE_SYS_USER_ID")
-    private String createSysUserId;
+    @ApiModelProperty(value = "创建的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`CREATED_SYS_USER_ID`")
+    private String createdSysUserId;
 
-    @TableField("CREATE_DATE_TIME")
-    private LocalDateTime createDateTime;
+    @ApiModelProperty(value = "创建的日期时间")
+    @TableField("`CREATED_DATE_TIME`")
+    private LocalDateTime createdDateTime;
 
 
     @Override
     protected Serializable pkVal() {
-        return this.sysUserId;
+        return this.id;
     }
 
 }

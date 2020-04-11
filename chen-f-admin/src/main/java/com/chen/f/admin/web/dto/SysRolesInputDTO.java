@@ -15,9 +15,9 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "设置的系统角色", description = "设置的系统角色dto")
+@ApiModel(value = "设置的系统角色", description = "设置的系统角色DTO")
 public class SysRolesInputDTO {
 
-    @ApiModelProperty(value = "sysRoleList")
-    private List<String> sysRoleList;
+    @ApiModelProperty(value = "设置的系统角色ID列表")
+    private List<String> sysRoleIdList;
 }

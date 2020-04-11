@@ -2,7 +2,6 @@ package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysMenuService;
-import com.chen.f.admin.web.dto.SysMenuInputDTO;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
@@ -14,7 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,12 +58,21 @@ public class SysMenuController {
         return sysMenuService.getEnabledSysMenuList();
     }
 
+    @ApiOperation(value = "根据系统角色ID获取启用的系统菜单", notes = "", produces = "application/json")
+    @ApiImplicitParams({    
+            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/role/{sysRoleId}/enabled")
+    public List<SysMenu> getEnabledSysMenuListBySysRoleIdList(@PathVariable("sysRoleId")String sysRoleId) {
+        return sysMenuService.getEnabledSysMenuListBySysRoleIdList(Arrays.asList(sysRoleId));
+    }
+
     @ApiOperation(value = "根据系统权限ID获取启用的系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({    
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping("/permission/{sysPermissionId}/enabled")
-    public List<SysMenu> getEnabledSysMenuList(@PathVariable("sysPermissionId")String sysPermissionId) {
+    public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId")String sysPermissionId) {
         return sysMenuService.getEnabledSysMenuListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }
     
@@ -77,8 +93,8 @@ public class SysMenuController {
             @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PostMapping
@@ -88,22 +104,22 @@ public class SysMenuController {
             @RequestParam(name = "url") String url,
             @RequestParam(name = "icon", required = false) String icon,
             @RequestParam(name = "type") SysMenuTypeEnum type,
-            @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "order", required = false) Integer order,
+            @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.createSysMenu(parentId, name, url, icon, type, remark, order, status, operatedSysUserId);
+        sysMenuService.createSysMenu(parentId, name, url, icon, type, order, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "创建系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysMenuInputDTO", value = "系统菜单DTO", required = true, dataTypeClass = SysMenuInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysMenu", value = "系统菜单", required = true, dataTypeClass = SysMenu.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysMenu(@RequestBody() SysMenuInputDTO sysMenuInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysMenu(@RequestBody() SysMenu sysMenu) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.createSysMenu(sysMenuInputDTO.getParentId(), sysMenuInputDTO.getName(), sysMenuInputDTO.getUrl(), sysMenuInputDTO.getIcon(), sysMenuInputDTO.getType(),
-                sysMenuInputDTO.getRemark(), sysMenuInputDTO.getOrder(), sysMenuInputDTO.getStatus(), operatedSysUserId);
+        sysMenuService.createSysMenu(sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(), sysMenu.getIcon(), sysMenu.getType(),
+                sysMenu.getOrder(), sysMenu.getRemark(), sysMenu.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
@@ -114,8 +130,8 @@ public class SysMenuController {
             @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PutMapping("/{sysMenuId}")
@@ -125,24 +141,24 @@ public class SysMenuController {
                               @RequestParam(name = "url") String url,
                               @RequestParam(name = "icon", required = false) String icon,
                               @RequestParam(name = "type") SysMenuTypeEnum type,
-                              @RequestParam(name = "remark", required = false) String remark,
                               @RequestParam(name = "order", required = false) Integer order,
+                              @RequestParam(name = "remark", required = false) String remark,
                               @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.updateSysMenu(sysMenuId, parentId, name, url, icon, type, remark, order, status, operatedSysUserId);
+        sysMenuService.updateSysMenu(sysMenuId, parentId, name, url, icon, type, order, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysMenuInputDTO", value = "系统菜单DTO", required = true, dataTypeClass = SysMenuInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysMenu", value = "系统菜单", required = true, dataTypeClass = SysMenu.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysMenuId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysMenuId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysMenu(@PathVariable("sysMenuId") String sysMenuId,
-                              @RequestBody() SysMenuInputDTO sysMenuInputDTO) {
+                              @RequestBody() SysMenu sysMenu) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.updateSysMenu(sysMenuId, sysMenuInputDTO.getParentId(), sysMenuInputDTO.getName(), sysMenuInputDTO.getUrl(), sysMenuInputDTO.getIcon(),
-                sysMenuInputDTO.getType(), sysMenuInputDTO.getRemark(), sysMenuInputDTO.getOrder(), sysMenuInputDTO.getStatus(), operatedSysUserId);
+        sysMenuService.updateSysMenu(sysMenuId, sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(), sysMenu.getIcon(),
+                sysMenu.getType(), sysMenu.getOrder(), sysMenu.getRemark(), sysMenu.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统菜单", notes = "", produces = "application/json")

@@ -4,7 +4,7 @@ import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -45,7 +45,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         LocalDateTime endLocalDateTime = LocalDateTime.now();
         //任务执行时间
         long jobRunTime = context.getJobRunTime();
-        //获取任务标识
+        //获取任务编码
         JobKey jobKey = context.getJobDetail().getKey();
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(jobKey.getName());
         if (sysTimedTask == null) {
@@ -58,15 +58,15 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setName(sysTimedTask.getName());
         sysTimedTaskLog.setCronExpression(sysTimedTask.getCronExpression());
         sysTimedTaskLog.setType(sysTimedTask.getType());
-        sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.REJECTION);
+        sysTimedTaskLog.setExecutionStatus(SysTimedTaskExecutionStatusEnum.REJECTION);
         sysTimedTaskLog.setRemark("任务被否决");
         sysTimedTaskLog.setExecutionStartDateTime(startLocalDateTime);
         sysTimedTaskLog.setExecutionEndDateTime(endLocalDateTime);
         sysTimedTaskLog.setExecutionTime(jobRunTime);
-        sysTimedTaskLog.setUpdateDateTime(LocalDateTime.now());
-        sysTimedTaskLog.setCreateDateTime(sysTimedTaskLog.getUpdateDateTime());
+        sysTimedTaskLog.setUpdatedDateTime(LocalDateTime.now());
+        sysTimedTaskLog.setCreatedDateTime(sysTimedTaskLog.getUpdatedDateTime());
         sysTimedTaskLogMapper.insert(sysTimedTaskLog);
-        logger.debug("定时任务日志监听:任务标识:[{}] 任务名称:[{}] 任务执行时间(毫秒数):[{}]", sysTimedTask.getCode(), sysTimedTask.getName(), jobRunTime);
+        logger.debug("定时任务日志监听:任务编码:[{}] 任务名称:[{}] 任务执行时间(毫秒数):[{}]", sysTimedTask.getCode(), sysTimedTask.getName(), jobRunTime);
 
     }
 
@@ -78,7 +78,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         LocalDateTime endLocalDateTime = LocalDateTime.now();
         //任务执行时间
         long jobRunTime = context.getJobRunTime();
-        //获取任务标识
+        //获取任务编码
         JobKey jobKey = context.getJobDetail().getKey();
         SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(jobKey.getName());
         if (sysTimedTask == null) {
@@ -92,9 +92,9 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setCronExpression(sysTimedTask.getCronExpression());
         sysTimedTaskLog.setType(sysTimedTask.getType());
         if (jobException == null) {
-            sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.SUCCESS);
+            sysTimedTaskLog.setExecutionStatus(SysTimedTaskExecutionStatusEnum.SUCCESS);
         } else {
-            sysTimedTaskLog.setExecutionStatus(SysTimedTaskLogExecutionStatusEnum.EXCEPTION);
+            sysTimedTaskLog.setExecutionStatus(SysTimedTaskExecutionStatusEnum.EXCEPTION);
             String exceptionMessage = jobException.getMessage();
             if (StringUtils.length(exceptionMessage) > 255) {
                 logger.warn("定时任务异常信息超长[{}],截断处理", exceptionMessage);
@@ -105,10 +105,10 @@ public class TaskLogJobListener extends JobListenerSupport {
         sysTimedTaskLog.setExecutionStartDateTime(startLocalDateTime);
         sysTimedTaskLog.setExecutionEndDateTime(endLocalDateTime);
         sysTimedTaskLog.setExecutionTime(jobRunTime);
-        sysTimedTaskLog.setUpdateDateTime(LocalDateTime.now());
-        sysTimedTaskLog.setCreateDateTime(sysTimedTaskLog.getUpdateDateTime());
+        sysTimedTaskLog.setUpdatedDateTime(LocalDateTime.now());
+        sysTimedTaskLog.setCreatedDateTime(sysTimedTaskLog.getUpdatedDateTime());
         sysTimedTaskLogMapper.insert(sysTimedTaskLog);
-        logger.debug("定时任务日志监听:任务标识:[{}] 任务名称:[{}] 任务执行时间(毫秒数):[{}]", sysTimedTask.getCode(), sysTimedTask.getName(), jobRunTime);
+        logger.debug("定时任务日志监听:任务编码:[{}] 任务名称:[{}] 任务执行时间(毫秒数):[{}]", sysTimedTask.getCode(), sysTimedTask.getName(), jobRunTime);
 
     }
 }

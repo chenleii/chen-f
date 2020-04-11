@@ -20,35 +20,36 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chen
- * @since 2020-03-25
+ * @since 2020-04-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_permission_menu")
+@TableName("`sys_permission_menu`")
 @ApiModel(value="SysPermissionMenu对象", description="系统权限菜单表")
 public class SysPermissionMenu extends Model<SysPermissionMenu> {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键ID")
-      @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "系统权限菜单ID")
+      @TableId(value = "`ID`", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "系统权限ID")
-    @TableField("SYS_PERMISSION_ID")
+    @TableField("`SYS_PERMISSION_ID`")
     private String sysPermissionId;
 
     @ApiModelProperty(value = "系统菜单ID")
-    @TableField("SYS_MENU_ID")
+    @TableField("`SYS_MENU_ID`")
     private String sysMenuId;
 
-    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
-    @TableField("CREATE_SYS_USER_ID")
-    private String createSysUserId;
+    @ApiModelProperty(value = "创建的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`CREATED_SYS_USER_ID`")
+    private String createdSysUserId;
 
-    @TableField("CREATE_DATE_TIME")
-    private LocalDateTime createDateTime;
+    @ApiModelProperty(value = "创建的日期时间")
+    @TableField("`CREATED_DATE_TIME`")
+    private LocalDateTime createdDateTime;
 
 
     @Override

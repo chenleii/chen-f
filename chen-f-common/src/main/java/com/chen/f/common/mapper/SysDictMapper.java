@@ -1,7 +1,7 @@
 package com.chen.f.common.mapper;
 
-import com.chen.f.common.mybatisplus.SupperMapper;
 import com.chen.f.common.pojo.SysDict;
+import com.chen.f.common.mybatisplus.SupperMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.chen.f.common.pojo.SysDict;
  * </p>
  *
  * @author chen
- * @since 2019-01-11
+ * @since 2020-04-08
  */
 public interface SysDictMapper extends SupperMapper<SysDict> {
 

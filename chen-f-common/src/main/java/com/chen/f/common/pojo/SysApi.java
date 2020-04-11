@@ -23,60 +23,60 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chen
- * @since 2019-03-05
+ * @since 2020-04-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("SYS_API")
-@ApiModel(value = "SysApi对象", description = "系统接口表")
+@TableName("`sys_api`")
+@ApiModel(value="SysApi对象", description="系统接口表")
 public class SysApi extends Model<SysApi> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键ID")
-    @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "系统接口ID")
+      @TableId(value = "`ID`", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "名称")
-    @TableField("NAME")
+    @ApiModelProperty(value = "系统接口名称")
+    @TableField("`NAME`")
     private String name;
 
-    @ApiModelProperty(value = "URL")
-    @TableField("URL")
+    @ApiModelProperty(value = "系统接口URL")
+    @TableField("`URL`")
     private String url;
 
-    @ApiModelProperty(value = "HTTP请求方法(GET;HEAD;POST;PUT;PATCH;DELETE;OPTIONS;TRACE;ANY;)")
-    @TableField("HTTP_METHOD")
+    @ApiModelProperty(value = "系统接口HTTP请求方法(GET:GET请求;HEAD:HEAD请求;POST:POST请求;PUT:PUT请求;PATCH:PATCH请求;DELETE:DELETE请求;OPTIONS:OPTIONS请求;TRACE:TRACE请求;ANY:任意的请求;)")
+    @TableField("`HTTP_METHOD`")
     private SysApiHttpMethodEnum httpMethod;
 
-    @ApiModelProperty(value = "类型(SYSTEM:系统接口;)")
-    @TableField("TYPE")
+    @ApiModelProperty(value = "系统接口类型(SYSTEM:系统接口;)")
+    @TableField("`TYPE`")
     private SysApiTypeEnum type;
 
-    @ApiModelProperty(value = "备注")
-    @TableField("REMARK")
+    @ApiModelProperty(value = "系统接口备注")
+    @TableField("`REMARK`")
     private String remark;
 
-    @ApiModelProperty(value = "状态(ENABLED:启用;DISABLE:禁用;)")
-    @TableField("STATUS")
+    @ApiModelProperty(value = "系统接口状态(ENABLED:启用;DISABLE:禁用;)")
+    @TableField("`STATUS`")
     private StatusEnum status;
 
-    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
-    @TableField("UPDATE_SYS_USER_ID")
-    private String updateSysUserId;
+    @ApiModelProperty(value = "更新的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`UPDATED_SYS_USER_ID`")
+    private String updatedSysUserId;
 
-    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
-    @TableField("CREATE_SYS_USER_ID")
-    private String createSysUserId;
+    @ApiModelProperty(value = "创建的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`CREATED_SYS_USER_ID`")
+    private String createdSysUserId;
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("UPDATE_DATE_TIME")
-    private LocalDateTime updateDateTime;
+    @ApiModelProperty(value = "更新的日期时间")
+    @TableField("`UPDATED_DATE_TIME`")
+    private LocalDateTime updatedDateTime;
 
-    @ApiModelProperty(value = "创建时间")
-    @TableField("CREATE_DATE_TIME")
-    private LocalDateTime createDateTime;
+    @ApiModelProperty(value = "创建的日期时间")
+    @TableField("`CREATED_DATE_TIME`")
+    private LocalDateTime createdDateTime;
 
 
     @Override

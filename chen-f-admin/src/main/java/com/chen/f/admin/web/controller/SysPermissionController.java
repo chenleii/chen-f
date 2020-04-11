@@ -5,7 +5,6 @@ import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysPermissionService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
-import com.chen.f.admin.web.dto.SysPermissionInputDTO;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
@@ -17,7 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -42,17 +49,21 @@ public class SysPermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
     @GetMapping
     public IPage<SysPermission> getSysPermissionPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
                                                      @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
+                                                     @RequestParam(name = "code", required = false) String code,
                                                      @RequestParam(name = "name", required = false) String name,
+                                                     @RequestParam(name = "type", required = false) SysPermissionTypeEnum type,
                                                      @RequestParam(name = "remark", required = false) String remark,
                                                      @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysPermissionService.getSysPermissionPage(pageIndex, pageNumber, name, remark, status);
+        return sysPermissionService.getSysPermissionPage(pageIndex, pageNumber, code, name, type, remark, status);
     }
 
 
@@ -76,59 +87,63 @@ public class SysPermissionController {
 
     @ApiOperation(value = "创建系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "权限名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PostMapping
-    public void createSysPermission(@RequestParam("name") String name,
-                                    @RequestParam("remark") String remark,
-                                    @RequestParam("type") SysPermissionTypeEnum type,
-                                    @RequestParam("status") StatusEnum status) {
+    public void createSysPermission(@RequestParam(name = "code") String code,
+                                    @RequestParam(name = "name") String name,
+                                    @RequestParam(name = "type") SysPermissionTypeEnum type,
+                                    @RequestParam(name = "remark", required = false) String remark,
+                                    @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.createSysPermission(name, remark, type, status, operatedSysUserId);
+        sysPermissionService.createSysPermission(code, name, type, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "创建系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysPermissionInputDTO", value = "系统权限信息", required = true, dataTypeClass = SysPermissionInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysPermission", value = "系统权限", required = true, dataTypeClass = SysPermission.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysPermission(@RequestBody() SysPermissionInputDTO sysPermissionInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysPermission(@RequestBody() SysPermission sysPermission) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.createSysPermission(sysPermissionInputDTO.getName(), sysPermissionInputDTO.getRemark(), sysPermissionInputDTO.getType(), sysPermissionInputDTO.getStatus(), operatedSysUserId);
+        sysPermissionService.createSysPermission(sysPermission.getCode(), sysPermission.getName(), sysPermission.getType(), sysPermission.getRemark(), sysPermission.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "name", value = "权限名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "类型", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PutMapping("/{sysPermissionId}")
     public void updateSysPermission(@PathVariable("sysPermissionId") String sysPermissionId,
-                                    @RequestParam("name") String name,
-                                    @RequestParam("remark") String remark,
-                                    @RequestParam("type") SysPermissionTypeEnum type,
-                                    @RequestParam("status") StatusEnum status) {
+                                    @RequestParam(name = "code") String code,
+                                    @RequestParam(name = "name") String name,
+                                    @RequestParam(name = "type") SysPermissionTypeEnum type,
+                                    @RequestParam(name = "remark", required = false) String remark,
+                                    @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.updateSysPermission(sysPermissionId, name, remark, type, status, operatedSysUserId);
+        sysPermissionService.updateSysPermission(sysPermissionId,code, name, type, remark, status, operatedSysUserId);
     }
 
 
     @ApiOperation(value = "修改系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysPermissionInputDTO", value = "系统权限信息", required = true, dataTypeClass = SysPermissionInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysPermission", value = "系统权限", required = true, dataTypeClass = SysPermission.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysPermissionId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysPermissionId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysPermission(@PathVariable("sysPermissionId") String sysPermissionId,
-                                    @RequestBody() SysPermissionInputDTO sysPermissionInputDTO) {
+                                    @RequestBody() SysPermission sysPermission) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.updateSysPermission(sysPermissionId, sysPermissionInputDTO.getName(), sysPermissionInputDTO.getRemark(), sysPermissionInputDTO.getType(), sysPermissionInputDTO.getStatus(), operatedSysUserId);
+        sysPermissionService.updateSysPermission(sysPermissionId, sysPermission.getCode(), sysPermission.getName(), sysPermission.getType(), sysPermission.getRemark(), sysPermission.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统接口", notes = "", produces = "application/json")
@@ -136,11 +151,11 @@ public class SysPermissionController {
             @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysApisInputDTO", value = "设置的系统接口", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysPermissionId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysPermissionId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysPermissionId") String sysPermissionId,
                                    @RequestBody() SysApisInputDTO sysApisInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.setSysApiOfSysPermission(sysPermissionId, sysApisInputDTO.getSysApiList(), operatedSysUserId);
+        sysPermissionService.setSysApiOfSysPermission(sysPermissionId, sysApisInputDTO.getSysApiIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统菜单", notes = "", produces = "application/json")
@@ -148,11 +163,11 @@ public class SysPermissionController {
             @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysMenusInputDTO", value = "设置的系统菜单", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysPermissionId}/setSysMenu", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysPermissionId}/setSysMenu", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysPermissionId") String sysPermissionId,
                                    @RequestBody() SysMenusInputDTO sysMenusInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.setSysMenuOfSysPermission(sysPermissionId, sysMenusInputDTO.getSysMenuList(), operatedSysUserId);
+        sysPermissionService.setSysMenuOfSysPermission(sysPermissionId, sysMenusInputDTO.getSysMenuIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统权限", notes = "", produces = "application/json")

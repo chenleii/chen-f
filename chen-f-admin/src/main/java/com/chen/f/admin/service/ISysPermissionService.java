@@ -22,12 +22,14 @@ public interface ISysPermissionService extends IService<SysPermission> {
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
+     * @param code       系统权限编码
      * @param name       系统权限名称
+     * @param type       系统权限类型
      * @param remark     系统权限描述
      * @param status     系统权限状态
      * @return 分页的系统权限集合
      */
-    IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status);
+    IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber, String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status);
 
     /**
      * 获取启用的系统权限列表
@@ -48,25 +50,27 @@ public interface ISysPermissionService extends IService<SysPermission> {
     /**
      * 创建系统权限
      *
+     * @param code              系统权限编码
      * @param name              系统权限名称
-     * @param remark            系统权限备注
      * @param type              系统权限类型
+     * @param remark            系统权限备注
      * @param status            系统权限状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysPermission(String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);
+    void createSysPermission(String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 修改系统权限
      *
      * @param sysPermissionId   系统权限ID
+     * @param code              系统权限编码
      * @param name              系统权限名称
-     * @param remark            系统权限备注
      * @param type              系统权限类型
+     * @param remark            系统权限备注
      * @param status            系统权限状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void updateSysPermission(String sysPermissionId, String name, String remark, SysPermissionTypeEnum type, StatusEnum status, String operatedSysUserId);
+    void updateSysPermission(String sysPermissionId, String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status, String operatedSysUserId);
 
 
     /**

@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 public class AlainTagOutputDTO {
 
     @ApiModelProperty(value = "文本")
-    private String text;
+    private Object text;
 
     @ApiModelProperty(value = "颜色")
     private String color;

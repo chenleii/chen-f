@@ -18,6 +18,6 @@ import java.util.List;
 @ApiModel(value = "设置的系统菜单", description = "设置的系统菜单dto")
 public class SysMenusInputDTO {
 
-    @ApiModelProperty(value = "sysMenuList")
-    private List<String> sysMenuList;
+    @ApiModelProperty(value = "设置的菜单接口ID列表")
+    private List<String> sysMenuIdList;
 }

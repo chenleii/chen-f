@@ -10,7 +10,7 @@ import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysDict;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
-import com.chen.f.common.pojo.enums.ValueTypeEnum;
+import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictService;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
@@ -44,7 +44,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
 
     @Override
-    public IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber, String code, String key, String name, String value, String remark, String color, ValueTypeEnum valueTypeEnum, StatusEnum statusEnum) {
+    public IPage<SysDict> getSysDictPage(Long pageIndex, Long pageNumber, String code, String key, String name, String value, String remark, String color, TypeTypeEnum valueTypeEnum, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(code)) {
             wrapper.like(SysDict::getCode, code);
@@ -87,21 +87,21 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public List<SysDict> getSysDictList(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         return sysDictMapper.selectList(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code));
     }
 
     @Override
     public SysDict getSysDict(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         return sysDictMapper.selectOne(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
     }
 
     @Override
     public void createSysDict(String code, String key, String name, String value, String remark,
-                              String color, ValueTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+                              String color, TypeTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典值不能为空"));
@@ -125,8 +125,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         sysDict.setColor(color);
         sysDict.setType(type);
         sysDict.setStatus(status);
-        sysDict.setCreateSysUserId(operatedSysUserId);
-        sysDict.setCreateDateTime(LocalDateTime.now());
+        sysDict.setCreatedSysUserId(operatedSysUserId);
+        sysDict.setCreatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.insert(sysDict);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("创建系统字典失败"));
 
@@ -134,9 +134,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void updateSysDict(String sysDictId, String code, String key, String name, String value, String remark,
-                              String color, ValueTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
+                              String color, TypeTypeEnum type, Integer order, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysDictId, ErrorResponse.create("系统字典ID不能为空"));
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典值不能为空"));
@@ -164,8 +164,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         sysDict.setColor(color);
         sysDict.setType(type);
         sysDict.setStatus(status);
-        sysDict.setUpdateSysUserId(operatedSysUserId);
-        sysDict.setUpdateDateTime(LocalDateTime.now());
+        sysDict.setUpdatedSysUserId(operatedSysUserId);
+        sysDict.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.updateById(sysDict);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统字典失败"));
     }
@@ -179,14 +179,14 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
     @Override
     public void deleteSysDictByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         int i = sysDictMapper.delete(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code));
         ApiAssert.isGreaterThatZero(i, ErrorResponse.create("删除系统字典失败"));
     }
 
     @Override
     public void deleteSysDictByCodeAndKey(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         int i = sysDictMapper.delete(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统字典失败"));
@@ -207,15 +207,15 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
         logger.debug("启用系统字典");
         sysDict.setStatus(StatusEnum.ENABLED);
-        sysDict.setUpdateSysUserId(operatedSysUserId);
-        sysDict.setUpdateDateTime(LocalDateTime.now());
+        sysDict.setUpdatedSysUserId(operatedSysUserId);
+        sysDict.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.updateById(sysDict);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统字典失败"));
     }
 
     @Override
     public void enabledSysDictByCodeAndKey(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
@@ -231,8 +231,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         sysDict.setCode(code);
         sysDict.setKey(key);
         sysDict.setStatus(StatusEnum.ENABLED);
-        sysDict.setUpdateSysUserId(operatedSysUserId);
-        sysDict.setUpdateDateTime(LocalDateTime.now());
+        sysDict.setUpdatedSysUserId(operatedSysUserId);
+        sysDict.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.update(sysDict, Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统字典失败"));
     }
@@ -251,15 +251,15 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
         logger.debug("禁用系统字典");
         sysDict.setStatus(StatusEnum.DISABLE);
-        sysDict.setUpdateSysUserId(operatedSysUserId);
-        sysDict.setUpdateDateTime(LocalDateTime.now());
+        sysDict.setUpdatedSysUserId(operatedSysUserId);
+        sysDict.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.updateById(sysDict);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统字典失败"));
     }
 
     @Override
     public void disableSysDictByCodeAndKey(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典KEY不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
@@ -274,8 +274,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         sysDict.setCode(code);
         sysDict.setKey(key);
         sysDict.setStatus(StatusEnum.DISABLE);
-        sysDict.setUpdateSysUserId(operatedSysUserId);
-        sysDict.setUpdateDateTime(LocalDateTime.now());
+        sysDict.setUpdatedSysUserId(operatedSysUserId);
+        sysDict.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictMapper.update(sysDict, Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, code).eq(SysDict::getKey, key));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统字典失败"));
     }

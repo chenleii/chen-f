@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  */
 public class GeneratorCode {
     private static final String parentPackageName = "com.chen.f.common";
-    private static final String[] tableNames = new String[]{};
+    private static final String[] tableNames = {};
 
     @Test
     public void generateCode() {
@@ -39,15 +39,15 @@ public class GeneratorCode {
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setTablePrefix("")
                 .setFieldPrefix("")
-                .setSuperEntityColumns("", "")
+                .setSuperEntityColumns("")
                 //.setSuperEntityClass(Object.class.getName())
                 .setSuperMapperClass(SupperMapper.class.getName())
                 .setEntityLombokModel(true)
                 .setRestControllerStyle(true)
                 .setEntityTableFieldAnnotationEnable(true)
+                .setEntityBooleanColumnRemoveIsPrefix(true)
                 .setVersionFieldName("version")
-                .setLogicDeleteFieldName("deleted")
-                //修改替换成你需要的表名，多个表名传数组
+                .setLogicDeleteFieldName("is_deleted")
                 .setInclude(tableNames);
 
         PackageConfig packageConfig = new PackageConfig()

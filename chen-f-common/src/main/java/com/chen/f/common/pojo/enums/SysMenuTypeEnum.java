@@ -24,7 +24,7 @@ public enum SysMenuTypeEnum {
     ;
 
     /**
-     * 类型(GROUP:组;MENU:菜单;LINK:链接;EXTERNAL_LINK:外部链接;)
+     * 系统菜单类型(GROUP:组;MENU:菜单;LINK:链接;EXTERNAL_LINK:外部链接;)
      */
     @JsonValue
     @EnumValue

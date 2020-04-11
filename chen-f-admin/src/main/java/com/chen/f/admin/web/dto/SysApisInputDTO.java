@@ -18,6 +18,6 @@ import java.util.List;
 @ApiModel(value = "设置的系统接口", description = "设置的系统接口DTO")
 public class SysApisInputDTO {
 
-    @ApiModelProperty(value = "sysApiList")
-    private List<String> sysApiList;
+    @ApiModelProperty(value = "设置的系统接口ID列表")
+    private List<String> sysApiIdList;
 }

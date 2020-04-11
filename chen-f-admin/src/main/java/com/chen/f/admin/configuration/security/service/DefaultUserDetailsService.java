@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +80,7 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
     /**
      * 根据用户名定位用户。在实际的实现中，搜索可能是大小写敏感的
      *
-     * @param username 用户名标识需要数据的用户
+     * @param username 用户名编码需要数据的用户
      * @return 一个完全填充的用户记录（永远不会是null
      * @throws UsernameNotFoundException 如果用户不能被找到或者用户没有GrantedAuthority
      */
@@ -91,6 +92,10 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
             logger.debug("没有找到该用户:[{}]", username);
             throw new UsernameNotFoundException("没有找到该用户[ " + username + " ]");
         }
+        
+        //更新系统用户最后登录日期时间
+        sysUser.setLastLoginDateTime(LocalDateTime.now());
+        sysUserMapper.updateById(sysUser);
 
 
         //系统用户的组织列表
@@ -189,7 +194,7 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
             //转换角色（加前缀）
             List<SimpleGrantedAuthority> sysRoleList = sysUserRoleList.stream()
                     .filter(Objects::nonNull)
-                    .map((sysRolePermission) -> new SimpleGrantedAuthority(rolePrefix + sysRolePermission.getName()))
+                    .map((sysRolePermission) -> new SimpleGrantedAuthority(rolePrefix + sysRolePermission.getCode()))
                     .collect(Collectors.toList());
             simpleGrantedAuthorityList.addAll(sysRoleList);
         }
@@ -197,7 +202,7 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
             //转换权限
             List<SimpleGrantedAuthority> sysPermissionList = sysUserPermissionList.stream()
                     .filter(Objects::nonNull)
-                    .map((sysPermission) -> new SimpleGrantedAuthority(sysPermission.getName()))
+                    .map((sysPermission) -> new SimpleGrantedAuthority(sysPermission.getCode()))
                     .collect(Collectors.toList());
             simpleGrantedAuthorityList.addAll(sysPermissionList);
         }

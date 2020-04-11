@@ -2,7 +2,7 @@ package com.chen.f.common.web.controller;
 
 
 import com.chen.f.common.pojo.SysDict;
-import com.chen.f.common.pojo.enums.ValueTypeEnum;
+import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictService;
 import com.chen.f.common.web.dto.AlainSelectOutputDTO;
 import com.chen.f.common.web.dto.AlainTagOutputDTO;
@@ -43,7 +43,7 @@ public class SysDictController {
 
     @ApiOperation(value = "获取系统字典集合", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/{code}/byCode")
     public List<SysDict> getSysDictList(@PathVariable(name = "code") String code) {
@@ -63,7 +63,7 @@ public class SysDictController {
 
     @ApiOperation(value = "获取系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/{code:.*}/{key}/byCodeAndKey")
@@ -75,7 +75,7 @@ public class SysDictController {
 
     @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/alain/tag/{code:.*}")
     public Map<Object, AlainTagOutputDTO> getSysDictByAlainTag(@PathVariable(name = "code") String code) {
@@ -83,21 +83,21 @@ public class SysDictController {
         if (CollectionUtils.isNotEmpty(sysDictList)) {
             return sysDictList.stream()
                     .collect(Collectors.toMap((sysDict) -> {
-                        if (sysDict.getType() == ValueTypeEnum.STRING) {
+                        if (sysDict.getType() == TypeTypeEnum.STRING) {
                             return sysDict.getKey();
-                        } else if (sysDict.getType() == ValueTypeEnum.BYTE) {
+                        } else if (sysDict.getType() == TypeTypeEnum.BYTE) {
                             return Byte.parseByte(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.SHORT) {
+                        } else if (sysDict.getType() == TypeTypeEnum.SHORT) {
                             return Short.parseShort(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.INTEGER) {
+                        } else if (sysDict.getType() == TypeTypeEnum.INTEGER) {
                             return Integer.parseInt(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.LONG) {
+                        } else if (sysDict.getType() == TypeTypeEnum.LONG) {
                             return Long.parseLong(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.FLOAT) {
+                        } else if (sysDict.getType() == TypeTypeEnum.FLOAT) {
                             return Float.parseFloat(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.DOUBLE) {
+                        } else if (sysDict.getType() == TypeTypeEnum.DOUBLE) {
                             return Double.parseDouble(sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.BOOLEAN) {
+                        } else if (sysDict.getType() == TypeTypeEnum.BOOLEAN) {
                             return Boolean.parseBoolean(sysDict.getKey());
                         } else {
                             return sysDict.getKey();
@@ -111,7 +111,7 @@ public class SysDictController {
 
     @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/alain/select/{code:.*}")
     public List<com.chen.f.common.web.dto.AlainSelectOutputDTO> getSysDictByAlainSelect(@PathVariable(name = "code") String code) {
@@ -119,21 +119,21 @@ public class SysDictController {
         if (CollectionUtils.isNotEmpty(sysDictList)) {
             return sysDictList.stream()
                     .map((sysDict -> {
-                        if (sysDict.getType() == ValueTypeEnum.STRING) {
+                        if (sysDict.getType() == TypeTypeEnum.STRING) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), sysDict.getKey());
-                        } else if (sysDict.getType() == ValueTypeEnum.BYTE) {
+                        } else if (sysDict.getType() == TypeTypeEnum.BYTE) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Byte.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.SHORT) {
+                        } else if (sysDict.getType() == TypeTypeEnum.SHORT) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Short.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.INTEGER) {
+                        } else if (sysDict.getType() == TypeTypeEnum.INTEGER) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Integer.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.LONG) {
+                        } else if (sysDict.getType() == TypeTypeEnum.LONG) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(),Long.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.FLOAT) {
+                        } else if (sysDict.getType() == TypeTypeEnum.FLOAT) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Float.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.DOUBLE) {
+                        } else if (sysDict.getType() == TypeTypeEnum.DOUBLE) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Double.valueOf(sysDict.getKey()));
-                        } else if (sysDict.getType() == ValueTypeEnum.BOOLEAN) {
+                        } else if (sysDict.getType() == TypeTypeEnum.BOOLEAN) {
                             return new com.chen.f.common.web.dto.AlainSelectOutputDTO(sysDict.getValue(), Boolean.valueOf(sysDict.getKey()));
                         } else {
                             return new AlainSelectOutputDTO(sysDict.getValue(), sysDict.getKey());

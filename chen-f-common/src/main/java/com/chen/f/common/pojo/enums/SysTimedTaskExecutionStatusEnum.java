@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 系统定时任务日志执行状态枚举
+ * 系统定时任务执行状态枚举
  *
  * @author chen
  * @since 2018/11/10 0:29.
  */
-public enum SysTimedTaskLogExecutionStatusEnum {
+public enum SysTimedTaskExecutionStatusEnum {
 
     //未执行
     NON("NON", "未执行"),
@@ -29,7 +29,7 @@ public enum SysTimedTaskLogExecutionStatusEnum {
     ;
 
     /**
-     * 执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)
+     * 系统定时任务执行状态(NON:未执行;EXECUTING:执行中;SUCCESS:执行成功;FAILURE:执行失败;EXCEPTION:执行异常;REJECTION;执行拒绝;)
      */
     @JsonValue
     @EnumValue
@@ -37,15 +37,15 @@ public enum SysTimedTaskLogExecutionStatusEnum {
 
     public final String description;
 
-    SysTimedTaskLogExecutionStatusEnum(String status, String description) {
+    SysTimedTaskExecutionStatusEnum(String status, String description) {
         this.status = status;
         this.description = description;
     }
 
     @JsonCreator
-    public static SysTimedTaskLogExecutionStatusEnum of(String status) {
-        SysTimedTaskLogExecutionStatusEnum[] values = SysTimedTaskLogExecutionStatusEnum.values();
-        for (SysTimedTaskLogExecutionStatusEnum value : values) {
+    public static SysTimedTaskExecutionStatusEnum of(String status) {
+        SysTimedTaskExecutionStatusEnum[] values = SysTimedTaskExecutionStatusEnum.values();
+        for (SysTimedTaskExecutionStatusEnum value : values) {
             if (StringUtils.equalsIgnoreCase(value.status, status)) {
                 return value;
             }

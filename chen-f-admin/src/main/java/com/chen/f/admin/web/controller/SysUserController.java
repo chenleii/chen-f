@@ -6,7 +6,6 @@ import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysRoleService;
 import com.chen.f.admin.service.ISysUserService;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
-import com.chen.f.admin.web.dto.SysUserInputDTO;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
@@ -18,7 +17,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -108,13 +115,13 @@ public class SysUserController {
 
     @ApiOperation(value = "创建系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysUserInputDTO", value = "系统用户信息", required = true, dataTypeClass = SysUserInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysUser", value = "系统用户", required = true, dataTypeClass = SysUser.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysUser(@RequestBody() SysUserInputDTO sysUserInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysUser(@RequestBody() SysUser sysUser) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.createSysUser(sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getRemark(),
-                sysUserInputDTO.getStatus(), sysUserInputDTO.getLevel(), operatedSysUserId);
+        sysUserService.createSysUser(sysUser.getUsername(), sysUser.getPassword(), sysUser.getRemark(),
+                sysUser.getStatus(), sysUser.getLevel(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统用户", notes = "", produces = "application/json")
@@ -140,11 +147,11 @@ public class SysUserController {
     @ApiOperation(value = "修改系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户id", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "sysUserInputDTO", value = "系统用户信息", required = true, dataTypeClass = SysUserInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysUser", value = "系统用户", required = true, dataTypeClass = SysUser.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysUserId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysUserId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,
-                              @RequestBody() SysUserInputDTO sysUserInputDTO) {
+                              @RequestBody() SysUser sysUserInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysUserService.updateSysUser(sysUserId, sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getRemark(),
                 sysUserInputDTO.getStatus(), sysUserInputDTO.getLevel(), operatedSysUserId);
@@ -153,13 +160,13 @@ public class SysUserController {
     @ApiOperation(value = "设置系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户id", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "sysRolesInputDTO", value = "设置的系统角色", required = true, dataTypeClass = SysUserInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysRolesInputDTO", value = "设置的系统角色", required = true, dataTypeClass = SysRolesInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysUserId}/setSysRole", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysUserId}/setSysRole", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysRoleOfSysUser(@PathVariable("sysUserId") String sysUserId,
                                     @RequestBody() SysRolesInputDTO sysRolesInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.setSysRoleOfSysUser(sysUserId, sysRolesInputDTO.getSysRoleList(), operatedSysUserId);
+        sysUserService.setSysRoleOfSysUser(sysUserId, sysRolesInputDTO.getSysRoleIdList(), operatedSysUserId);
     }
 
 

@@ -9,7 +9,7 @@ import com.chen.f.common.mybatisplus.SupperMapper;
  * </p>
  *
  * @author chen
- * @since 2020-03-25
+ * @since 2020-04-08
  */
 public interface SysOrganizationUserMapper extends SupperMapper<SysOrganizationUser> {
 

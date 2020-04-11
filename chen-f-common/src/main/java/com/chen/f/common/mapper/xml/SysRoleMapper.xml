@@ -5,18 +5,28 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysRole">
         <id column="ID" property="id" />
+        <result column="CODE" property="code" />
         <result column="NAME" property="name" />
         <result column="REMARK" property="remark" />
         <result column="STATUS" property="status" />
-        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
-        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
-        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <result column="UPDATED_SYS_USER_ID" property="updatedSysUserId" />
+        <result column="CREATED_SYS_USER_ID" property="createdSysUserId" />
+        <result column="UPDATED_DATE_TIME" property="updatedDateTime" />
+        <result column="CREATED_DATE_TIME" property="createdDateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, NAME, REMARK, STATUS, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        `ID`,
+        `CODE`,
+        `NAME`,
+        `REMARK`,
+        `STATUS`,
+        `UPDATED_SYS_USER_ID`,
+        `CREATED_SYS_USER_ID`,
+        `UPDATED_DATE_TIME`,
+        `CREATED_DATE_TIME`
+        
     </sql>
 
 </mapper>

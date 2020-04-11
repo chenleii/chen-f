@@ -1,7 +1,7 @@
 package com.chen.f.common.mapper;
 
-import com.chen.f.common.mybatisplus.SupperMapper;
 import com.chen.f.common.pojo.SysPermission;
+import com.chen.f.common.mybatisplus.SupperMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.chen.f.common.pojo.SysPermission;
  * </p>
  *
  * @author chen
- * @since 2019-01-13
+ * @since 2020-04-08
  */
 public interface SysPermissionMapper extends SupperMapper<SysPermission> {
 

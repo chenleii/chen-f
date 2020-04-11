@@ -1,8 +1,7 @@
 package com.chen.f.common.mapper;
 
-import com.chen.f.common.mybatisplus.SupperMapper;
 import com.chen.f.common.pojo.SysRoleApi;
-
+import com.chen.f.common.mybatisplus.SupperMapper;
 
 /**
  * <p>
@@ -10,7 +9,7 @@ import com.chen.f.common.pojo.SysRoleApi;
  * </p>
  *
  * @author chen
- * @since 2019-03-05
+ * @since 2020-04-08
  */
 public interface SysRoleApiMapper extends SupperMapper<SysRoleApi> {
 

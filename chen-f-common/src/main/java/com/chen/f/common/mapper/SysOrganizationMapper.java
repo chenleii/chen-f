@@ -15,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author chen
- * @since 2020-03-25
+ * @since 2020-04-08
  */
 public interface SysOrganizationMapper extends SupperMapper<SysOrganization> {
 

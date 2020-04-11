@@ -23,12 +23,13 @@ public interface ISysRoleService extends IService<SysRole> {
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
+     * @param code       系统角色编码
      * @param name       系统角色名称
      * @param remark     系统角色描述
      * @param status     系统角色状态
      * @return 分页的系统角色集合
      */
-    IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String name, String remark, StatusEnum status);
+    IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String code, String name, String remark, StatusEnum status);
 
     /**
      * 获取启用的系统角色列表
@@ -56,12 +57,13 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 创建系统角色
      *
-     * @param name              系统角色名
+     * @param code              系统角色编码
+     * @param name              系统角色名称
      * @param remark            系统角色备注
      * @param status            系统角色状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysRole(String name, String remark, StatusEnum status, String operatedSysUserId);
+    void createSysRole(String code, String name, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 设置系统角色的系统权限
@@ -94,12 +96,13 @@ public interface ISysRoleService extends IService<SysRole> {
      * 修改系统角色
      *
      * @param sysRoleId         系统角色ID
+     * @param code              系统角色编码
      * @param name              系统角色名称
      * @param remark            系统角色备注
      * @param status            系统角色状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void updateSysRole(String sysRoleId, String name, String remark, StatusEnum status, String operatedSysUserId);
+    void updateSysRole(String sysRoleId, String code, String name, String remark, StatusEnum status, String operatedSysUserId);
 
     /**
      * 删除系统角色

@@ -71,9 +71,9 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
     /**
      * 删除系统组织
      *
-     * @param sysOrganizatioId 系统组织ID
+     * @param sysOrganizationId 系统组织ID
      */
-    void deleteSysOrganization(String sysOrganizatioId);
+    void deleteSysOrganization(String sysOrganizationId);
 
 
     /**

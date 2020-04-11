@@ -6,7 +6,6 @@ import com.chen.f.admin.service.ISysRoleService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
 import com.chen.f.admin.web.dto.SysPermissionsInputDTO;
-import com.chen.f.admin.web.dto.SysRoleInputDTO;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.enums.StatusEnum;
@@ -18,7 +17,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -43,6 +50,7 @@ public class SysRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "code", value = "系统角色编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统角色名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统角色备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统角色状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
@@ -50,10 +58,11 @@ public class SysRoleController {
     @GetMapping
     public IPage<SysRole> getSysRolePage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
                                          @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
+                                         @RequestParam(name = "code", required = false) String code,
                                          @RequestParam(name = "name", required = false) String name,
                                          @RequestParam(name = "remark", required = false) String remark,
                                          @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysRoleService.getSysRolePage(pageIndex, pageNumber, name, remark, status);
+        return sysRoleService.getSysRolePage(pageIndex, pageNumber, code, name, remark, status);
     }
 
 
@@ -86,54 +95,58 @@ public class SysRoleController {
 
     @ApiOperation(value = "创建系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "角色名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PostMapping
-    public void createSysRole(@RequestParam("name") String name,
+    public void createSysRole(@RequestParam("code") String code,
+                              @RequestParam("name") String name,
                               @RequestParam("remark") String remark,
                               @RequestParam("status") StatusEnum status) {
         String operatedSysRoleId = SecurityHelper.getSysUserId();
-        sysRoleService.createSysRole(name, remark, status, operatedSysRoleId);
+        sysRoleService.createSysRole(code, name, remark, status, operatedSysRoleId);
     }
 
     @ApiOperation(value = "创建系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysRoleInputDTO", value = "系统角色信息", required = true, dataTypeClass = SysRoleInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysRoleInputDTO", value = "系统角色信息", required = true, dataTypeClass = SysRole.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysRole(@RequestBody() SysRoleInputDTO sysRoleInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysRole(@RequestBody() SysRole sysRole) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.createSysRole(sysRoleInputDTO.getName(), sysRoleInputDTO.getRemark(), sysRoleInputDTO.getStatus(), operatedSysUserId);
+        sysRoleService.createSysRole(sysRole.getCode(), sysRole.getName(), sysRole.getRemark(), sysRole.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "name", value = "角色名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
     @PutMapping("/{sysRoleId}")
     public void updateSysRole(@PathVariable("sysRoleId") String sysRoleId,
+                              @RequestParam("code") String code,
                               @RequestParam("name") String name,
                               @RequestParam("remark") String remark,
                               @RequestParam("status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.updateSysRole(sysRoleId, name, remark, status, operatedSysUserId);
+        sysRoleService.updateSysRole(sysRoleId, code, name, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysRoleInputDTO", value = "系统角色信息", required = true, dataTypeClass = SysRoleInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysRoleInputDTO", value = "系统角色信息", required = true, dataTypeClass = SysRole.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysRoleId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysRoleId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysRole(@PathVariable("sysRoleId") String sysRoleId,
-                              @RequestBody() SysRoleInputDTO sysRoleInputDTO) {
+                              @RequestBody() SysRole sysRole) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.updateSysRole(sysRoleId, sysRoleInputDTO.getName(), sysRoleInputDTO.getRemark(), sysRoleInputDTO.getStatus(), operatedSysUserId);
+        sysRoleService.updateSysRole(sysRoleId, sysRole.getCode(), sysRole.getName(), sysRole.getRemark(), sysRole.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统权限", notes = "", produces = "application/json")
@@ -141,11 +154,11 @@ public class SysRoleController {
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysPermissionsInputDTO", value = "设置的系统角色", required = true, dataTypeClass = SysPermissionsInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysRoleId}/setSysPermission", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysRoleId}/setSysPermission", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysPermissionOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                           @RequestBody() SysPermissionsInputDTO sysPermissionsInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.setSysPermissionOfSysRole(sysRoleId, sysPermissionsInputDTO.getSysPermissionList(), operatedSysUserId);
+        sysRoleService.setSysPermissionOfSysRole(sysRoleId, sysPermissionsInputDTO.getSysPermissionIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统菜单", notes = "", produces = "application/json")
@@ -153,11 +166,11 @@ public class SysRoleController {
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysMenusInputDTO", value = "设置的系统菜单", required = true, dataTypeClass = SysMenusInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysRoleId}/setSysMenu", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysRoleId}/setSysMenu", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysMenuOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                     @RequestBody() SysMenusInputDTO sysMenusInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.setSysMenuOfSysRole(sysRoleId, sysMenusInputDTO.getSysMenuList(), operatedSysUserId);
+        sysRoleService.setSysMenuOfSysRole(sysRoleId, sysMenusInputDTO.getSysMenuIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统接口", notes = "", produces = "application/json")
@@ -165,11 +178,11 @@ public class SysRoleController {
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "SysApisInputDTO", value = "设置的系统接口", required = true, dataTypeClass = SysApisInputDTO.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysRoleId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysRoleId}/setSysApi", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void setSysApiOfSysRole(@PathVariable("sysRoleId") String sysRoleId,
                                    @RequestBody() SysApisInputDTO sysApisInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysRoleService.setSysApiOfSysRole(sysRoleId, sysApisInputDTO.getSysApiList(), operatedSysUserId);
+        sysRoleService.setSysApiOfSysRole(sysRoleId, sysApisInputDTO.getSysApiIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统角色", notes = "", produces = "application/json")

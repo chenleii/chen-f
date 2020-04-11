@@ -165,13 +165,13 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
                         String hasAuthorityString = null;
                         if (CollectionUtils.isNotEmpty(sysApiRolePermission.getSysRoleList())) {
                             hasRoleString = sysApiRolePermission.getSysRoleList().stream()
-                                    .map(SysRole::getName)
+                                    .map(SysRole::getCode)
                                     .map((s) -> "'" + s + "'")
                                     .collect(Collectors.joining(",", "hasRole(", ")"));
                         }
                         if (CollectionUtils.isNotEmpty(sysApiRolePermission.getSysPermissionList())) {
                             hasAuthorityString = sysApiRolePermission.getSysPermissionList().stream()
-                                    .map(SysPermission::getName)
+                                    .map(SysPermission::getCode)
                                     .map((s) -> "'" + s + "'")
                                     .collect(Collectors.joining(",", "hasAuthority(", ")"));
                         }

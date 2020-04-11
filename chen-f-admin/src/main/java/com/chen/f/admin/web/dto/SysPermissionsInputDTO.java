@@ -15,8 +15,9 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "设置的系统权限", description = "设置的系统权限dto")
+@ApiModel(value = "设置的系统权限", description = "设置的系统权限DTO")
 public class SysPermissionsInputDTO {
-    @ApiModelProperty(value = "sysPermissionList")
-    private List<String> sysPermissionList;
+    
+    @ApiModelProperty(value = "设置的角色ID列表")
+    private List<String> sysPermissionIdList;
 }

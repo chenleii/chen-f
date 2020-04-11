@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,61 +21,60 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chen
- * @since 2019-02-24
+ * @since 2020-04-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("SYS_USER")
+@TableName("`sys_user`")
 @ApiModel(value="SysUser对象", description="系统用户表")
 public class SysUser extends Model<SysUser> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "主键ID")
-    @TableId(value = "ID", type = IdType.ASSIGN_ID)
+    @ApiModelProperty(value = "系统用户ID")
+      @TableId(value = "`ID`", type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty(value = "用户名")
-    @TableField("USERNAME")
+    @ApiModelProperty(value = "系统用户用户名")
+    @TableField("`USERNAME`")
     private String username;
 
-    @ApiModelProperty(value = "密码")
-    @TableField("PASSWORD")
+    @ApiModelProperty(value = "系统用户密码")
+    @TableField("`PASSWORD`")
     private String password;
 
-    @ApiModelProperty(value = "备注")
-    @TableField("REMARK")
-    private String remark;
-
-    @ApiModelProperty(value = "用户状态(ENABLED:启用;LOCKED:锁定;EXPIRED:过期;DISABLE:禁用;)")
-    @TableField("STATUS")
-    private SysUserStatusEnum status;
-
-    @ApiModelProperty(value = "级别(0:超级用户;1.数值越小级别越大,2.低级别用户不能修改比自己高级别的用户,3.新创建用户的级别默认比创建用户低一级别,4.高级别用户最高可以修改低级别用户为和自己同一级别)")
-    @TableField("LEVEL")
+    @ApiModelProperty(value = "系统用户级别(0为超级用户,数值越小级别越大)")
+    @TableField("`LEVEL`")
     private Integer level;
 
-    @ApiModelProperty(value = "最后登录时间")
-    @TableField("LAST_LOGIN_DATE_TIME")
+    @ApiModelProperty(value = "系统用户最后登录日期时间")
+    @TableField("`LAST_LOGIN_DATE_TIME`")
     private LocalDateTime lastLoginDateTime;
 
-    @ApiModelProperty(value = "更新系统用户ID(空白字符串为初始化创建)")
-    @TableField("UPDATE_SYS_USER_ID")
-    private String updateSysUserId;
+    @ApiModelProperty(value = "系统用户备注")
+    @TableField("`REMARK`")
+    private String remark;
 
-    @ApiModelProperty(value = "创建系统用户ID(空白字符串为初始化创建)")
-    @TableField("CREATE_SYS_USER_ID")
-    private String createSysUserId;
+    @ApiModelProperty(value = "系统用户状态(ENABLED:启用;LOCKED:锁定;EXPIRED:过期;DISABLE:禁用;)")
+    @TableField("`STATUS`")
+    private SysUserStatusEnum status;
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField("UPDATE_DATE_TIME")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateDateTime;
+    @ApiModelProperty(value = "更新的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`UPDATED_SYS_USER_ID`")
+    private String updatedSysUserId;
 
-    @ApiModelProperty(value = "创建时间")
-    @TableField("CREATE_DATE_TIME")
-    private LocalDateTime createDateTime;
+    @ApiModelProperty(value = "创建的系统用户ID(空白字符串为初始化创建)")
+    @TableField("`CREATED_SYS_USER_ID`")
+    private String createdSysUserId;
+
+    @ApiModelProperty(value = "更新的日期时间")
+    @TableField("`UPDATED_DATE_TIME`")
+    private LocalDateTime updatedDateTime;
+
+    @ApiModelProperty(value = "创建的日期时间")
+    @TableField("`CREATED_DATE_TIME`")
+    private LocalDateTime createdDateTime;
 
 
     @Override

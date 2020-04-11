@@ -11,6 +11,7 @@ import com.chen.f.common.pojo.SysParameter;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
+import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysParameterService;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
@@ -49,26 +50,15 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
     @Override
     public IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
-                                                   String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum statusEnum) {
+                                                   String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysParameter> lambdaQueryWrapper = Wrappers.<SysParameter>lambdaQuery();
-        if (StringUtils.isNotBlank(code)) {
-            lambdaQueryWrapper.eq(SysParameter::getCode, code);
-        }
-        if (StringUtils.isNotBlank(name)) {
-            lambdaQueryWrapper.eq(SysParameter::getName, name);
-        }
-        if (StringUtils.isNotBlank(value)) {
-            lambdaQueryWrapper.eq(SysParameter::getValue, value);
-        }
-        if (Objects.nonNull(type)) {
-            lambdaQueryWrapper.eq(SysParameter::getType, type);
-        }
-        if (StringUtils.isNotBlank(remark)) {
-            lambdaQueryWrapper.like(SysParameter::getRemark, remark);
-        }
-        if (Objects.nonNull(statusEnum)) {
-            lambdaQueryWrapper.eq(SysParameter::getStatus, statusEnum);
-        }
+        lambdaQueryWrapper.eq(StringUtils.isNotBlank(code), SysParameter::getCode, code);
+        lambdaQueryWrapper.eq(StringUtils.isNotBlank(name), SysParameter::getName, name);
+        lambdaQueryWrapper.eq(StringUtils.isNotBlank(value), SysParameter::getValue, value);
+        lambdaQueryWrapper.eq(Objects.nonNull(valueType), SysParameter::getValueType, valueType);
+        lambdaQueryWrapper.eq(Objects.nonNull(type), SysParameter::getType, type);
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(remark), SysParameter::getRemark, remark);
+        lambdaQueryWrapper.eq(Objects.nonNull(statusEnum), SysParameter::getStatus, statusEnum);
         return sysParameterMapper.selectPage(new Page<>(pageIndex, pageNumber), lambdaQueryWrapper);
     }
 
@@ -80,16 +70,17 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
     @Override
     public SysParameter getSysParameterByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         return sysParameterMapper.selectOne(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
     }
 
     @Override
     public void createSysParameter(String code, String name, String value,
-                                   SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+                                   TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统参数名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统参数值不能为空"));
+        ApiAssert.isNotNull(valueType, ErrorResponse.create("系统参数值类型不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统参数类型不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统参数备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统参数状态不能为空"));
@@ -105,22 +96,27 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         sysParameter.setCode(code);
         sysParameter.setName(name);
         sysParameter.setValue(value);
+        sysParameter.setValueType(valueType);
         sysParameter.setType(type);
         sysParameter.setRemark(remark);
         sysParameter.setStatus(status);
-        sysParameter.setCreateSysUserId(operatedSysUserId);
-        sysParameter.setCreateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setCreatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
+        sysParameter.setCreatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.insert(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("创建系统参数失败"));
     }
 
     @Override
-    public void updateSysParameter(String sysParameterId, String code, String name, String value, SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
+    public void updateSysParameter(String sysParameterId, String code, String name,
+                                   String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysParameterId, ErrorResponse.create("系统参数ID不能为空"));
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统参数名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统参数值不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统参数类型不能为空"));
+        ApiAssert.isNotNull(valueType, ErrorResponse.create("系统参数值类型不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统参数备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统参数状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
@@ -138,11 +134,12 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         sysParameter.setCode(code);
         sysParameter.setName(name);
         sysParameter.setValue(value);
+        sysParameter.setValueType(valueType);
         sysParameter.setType(type);
         sysParameter.setRemark(remark);
         sysParameter.setStatus(status);
-        sysParameter.setUpdateSysUserId(operatedSysUserId);
-        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统参数失败"));
     }
@@ -156,7 +153,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
     @Override
     public void deleteSysParameterByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         int i = sysParameterMapper.delete(Wrappers.<SysParameter>lambdaQuery().eq(SysParameter::getCode, code));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统参数失败"));
     }
@@ -176,15 +173,15 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
         logger.debug("启用系统参数");
         sysParameter.setStatus(StatusEnum.ENABLED);
-        sysParameter.setUpdateSysUserId(operatedSysUserId);
-        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统参数失败"));
     }
 
     @Override
     public void enabledSysParameterByCode(String code, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -197,8 +194,8 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
         logger.debug("启用系统参数");
         sysParameter.setStatus(StatusEnum.ENABLED);
-        sysParameter.setUpdateSysUserId(operatedSysUserId);
-        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统参数失败"));
     }
@@ -218,15 +215,15 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
         logger.debug("禁用系统参数");
         sysParameter.setStatus(StatusEnum.DISABLE);
-        sysParameter.setUpdateSysUserId(operatedSysUserId);
-        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统参数失败"));
     }
 
     @Override
     public void disableSysParameterByCode(String code, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数标识不能为空"));
+        ApiAssert.isNotBlank(code, ErrorResponse.create("系统参数编码不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
         logger.debug("检查操作的系统用户");
@@ -239,8 +236,8 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
         logger.debug("禁用系统参数");
         sysParameter.setStatus(StatusEnum.DISABLE);
-        sysParameter.setUpdateSysUserId(operatedSysUserId);
-        sysParameter.setUpdateDateTime(LocalDateTime.now());
+        sysParameter.setUpdatedSysUserId(operatedSysUserId);
+        sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统参数失败"));
     }

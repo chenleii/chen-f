@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "SysApiRolePermission对象", description = "系统API角色权限")
+@ApiModel(value = "SysApiRolePermission对象", description = "系统接口角色权限")
 public class SysApiRolePermission extends SysApi implements Serializable {
 
     @ApiModelProperty(value = "系统角色列表")

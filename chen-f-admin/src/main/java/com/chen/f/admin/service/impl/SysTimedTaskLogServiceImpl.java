@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.admin.service.ISysTimedTaskLogService;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
@@ -37,29 +37,24 @@ public class SysTimedTaskLogServiceImpl extends ServiceImpl<SysTimedTaskLogMappe
 
     @Override
     public IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,
-                                                         String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskLogExecutionStatusEnum executionStatus, String remark) {
+                                                         String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskExecutionStatusEnum executionStatus, String remark) {
         LambdaQueryWrapper<SysTimedTaskLog> queryWrapper = Wrappers.<SysTimedTaskLog>lambdaQuery();
-        if (StringUtils.isNotBlank(code)) {
-            queryWrapper.eq(SysTimedTaskLog::getCode, code);
-        }
-        if (StringUtils.isNotBlank(name)) {
-            queryWrapper.eq(SysTimedTaskLog::getName, name);
-        }
-        if (Objects.nonNull(type)) {
-            queryWrapper.eq(SysTimedTaskLog::getType, type);
-        }
-        if (Objects.nonNull(executionStatus)) {
-            queryWrapper.eq(SysTimedTaskLog::getExecutionStatus, executionStatus);
-        }
-        if (StringUtils.isNotBlank(remark)) {
-            queryWrapper.like(SysTimedTaskLog::getRemark, remark);
-        }
+        queryWrapper.eq(StringUtils.isNotBlank(code), SysTimedTaskLog::getCode, code);
+        queryWrapper.eq(StringUtils.isNotBlank(name), SysTimedTaskLog::getName, name);
+        queryWrapper.eq(Objects.nonNull(type), SysTimedTaskLog::getType, type);
+        queryWrapper.eq(Objects.nonNull(executionStatus), SysTimedTaskLog::getExecutionStatus, executionStatus);
+        queryWrapper.like(StringUtils.isNotBlank(remark), SysTimedTaskLog::getRemark, remark);
         return sysTimedTaskLogMapper.selectPage(new Page<>(pageIndex, pageNumber), queryWrapper);
     }
 
     @Override
+    public SysTimedTaskLog getSysTimedTaskLog(String sysTimedTaskLogId) {
+        return sysTimedTaskLogMapper.selectById(sysTimedTaskLogId);
+    }
+
+    @Override
     public void deleteSysTimedTaskLog(String sysTimedTaskLogId) {
-        ApiAssert.isNotBlank(sysTimedTaskLogId, ErrorResponse.create("系统定时任务记录ID"));
+        ApiAssert.isNotBlank(sysTimedTaskLogId, ErrorResponse.create("系统定时任务日志ID"));
         sysTimedTaskLogMapper.deleteById(sysTimedTaskLogId);
     }
 }

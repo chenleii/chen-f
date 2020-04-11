@@ -17,7 +17,7 @@ public enum SysTimedTaskTypeEnum {
     ;
 
     /**
-     * 定时任务类型(SYSTEM:系统定时任务)
+     * 系统定时任务类型(SYSTEM:系统定时任务)
      */
     @JsonValue
     @EnumValue

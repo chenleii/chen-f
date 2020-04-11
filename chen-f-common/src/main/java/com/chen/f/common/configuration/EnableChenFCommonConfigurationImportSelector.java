@@ -14,15 +14,19 @@ public class EnableChenFCommonConfigurationImportSelector implements DeferredImp
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         return new String[]{
                 CountryServiceImpl.class.getName(),
-                RegionIdCardPrefixServiceImpl.class.getName(),
+                RegionIdCardServiceImpl.class.getName(),
                 RegionServiceImpl.class.getName(),
                 SysDictServiceImpl.class.getName(),
+                SysDictionaryServiceImpl.class.getName(),
+                SysDictionaryItemServiceImpl.class.getName(),
                 SysParameterServiceImpl.class.getName(),
 
                 CountryController.class.getName(),
                 RegionController.class.getName(),
-                RegionIdCardPrefixController.class.getName(),
+                RegionIdCardController.class.getName(),
                 SysDictController.class.getName(),
+                SysDictionaryController.class.getName(),
+                SysDictionaryItemController.class.getName(),
                 SysParameterController.class.getName(),
         };
     }

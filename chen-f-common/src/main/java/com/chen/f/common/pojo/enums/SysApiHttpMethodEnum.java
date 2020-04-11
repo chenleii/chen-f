@@ -28,13 +28,13 @@ public enum SysApiHttpMethodEnum {
     OPTIONS("OPTIONS", "OPTIONS请求"),
     //TRACE请求
     TRACE("TRACE", "TRACE请求"),
-    //ANY请求
+    //任意请求
     ANY("ANY", "任意请求"),
 
     ;
 
     /**
-     * HTTP请求方法(GET;HEAD;POST;PUT;PATCH;DELETE;OPTIONS;TRACE;ANY;)
+     * 系统接口HTTP请求方法(GET:GET请求;HEAD:HEAD请求;POST:POST请求;PUT:PUT请求;PATCH:PATCH请求;DELETE:DELETE请求;OPTIONS:OPTIONS请求;TRACE:TRACE请求;ANY:任意的请求;)
      */
     @JsonValue
     @EnumValue

@@ -4,7 +4,7 @@ package com.chen.f.admin.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.service.ISysTimedTaskLogService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
-import com.chen.f.common.pojo.enums.SysTimedTaskLogExecutionStatusEnum;
+import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import com.chen.f.common.api.response.success.R;
 import io.swagger.annotations.Api;
@@ -34,14 +34,14 @@ public class SysTimedTaskLogController {
     private ISysTimedTaskLogService sysTimedTaskLogService;
 
 
-    @ApiOperation(value = "获取定时任务记录列表", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取定时任务日志列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = false, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "query"),
-            @ApiImplicitParam(name = "executionStatus", value = "系统定时任务执行状态", required = false, dataTypeClass = SysTimedTaskLogExecutionStatusEnum.class, paramType = "query"),
+            @ApiImplicitParam(name = "executionStatus", value = "系统定时任务执行状态", required = false, dataTypeClass = SysTimedTaskExecutionStatusEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = false, dataTypeClass = String.class, paramType = "query"),
     })
     @GetMapping
@@ -50,14 +50,24 @@ public class SysTimedTaskLogController {
                                                          @RequestParam(name = "code", required = false) String code,
                                                          @RequestParam(name = "name", required = false) String name,
                                                          @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum type,
-                                                         @RequestParam(name = "executionStatus", required = false) SysTimedTaskLogExecutionStatusEnum executionStatusEnum,
+                                                         @RequestParam(name = "executionStatus", required = false) SysTimedTaskExecutionStatusEnum executionStatusEnum,
                                                          @RequestParam(name = "remark", required = false) String remark) {
         return sysTimedTaskLogService.getSysTimedTaskLogPage(pageIndex, pageNumbe, code, name, type, executionStatusEnum, remark);
     }
 
-    @ApiOperation(value = "删除定时任务记录", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取定时任务日志", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysTimedTaskLogId", value = "定时任务记录ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysTimedTaskLogId", value = "定时任务日志ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/{sysTimedTaskLogId}")
+    @ResponseBody
+    public SysTimedTaskLog getSysTimedTaskLog(@PathVariable(name = "sysTimedTaskLogId") String sysTimedTaskLogId) {
+        return sysTimedTaskLogService.getSysTimedTaskLog(sysTimedTaskLogId);
+    }
+
+    @ApiOperation(value = "删除定时任务日志", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysTimedTaskLogId", value = "定时任务日志ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{sysTimedTaskLogId}")
     @ResponseBody

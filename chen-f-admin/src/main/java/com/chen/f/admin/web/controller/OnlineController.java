@@ -43,7 +43,7 @@ public class OnlineController {
 
     @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SecurityHelper.class)
     @ApiImplicitParams({})
-    @GetMapping("/securityUser")
+    @GetMapping("/sysUser")
     public SecurityUser getSysUserRolePermission() {
         SecurityHelper.checkFullyAuthenticated();
         return SecurityHelper.getAuthenticationSecurityUser();
@@ -71,6 +71,7 @@ public class OnlineController {
         final Set<SysMenu> distinctSet = new TreeSet<>(Comparator.comparing(SysMenu::getId));
         sysMenuList = sysMenuList.stream()
                 .filter(distinctSet::add)
+                .sorted(Comparator.comparing(SysMenu::getOrder))
                 .collect(Collectors.toList());
         return sysMenuList;
 

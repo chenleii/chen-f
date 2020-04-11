@@ -3,17 +3,28 @@ package com.chen.f.admin.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysTimedTaskService;
-import com.chen.f.admin.web.dto.SysTimedTaskInputDTO;
+import com.chen.f.common.api.response.success.R;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
-import com.chen.f.common.api.response.success.R;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -36,7 +47,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "className", value = "系统定时任务CLASSNAME", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统定时任务类型", required = false, dataTypeClass = SysTimedTaskTypeEnum.class, paramType = "query"),
@@ -60,13 +71,13 @@ public class SysTimedTaskController {
             @ApiImplicitParam(name = "sysTimedTaskId", value = "系统定时任务ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping(path = "/{sysTimedTaskId}")
-    public SysTimedTask sysTimedTask(@PathVariable(name = "code") String sysTimedTaskId) {
+    public SysTimedTask sysTimedTask(@PathVariable(name = "sysTimedTaskId") String sysTimedTaskId) {
         return sysTimedTaskService.getSysTimedTask(sysTimedTaskId);
     }
 
     @ApiOperation(value = "获取系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "path")
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path")
     })
     @GetMapping(path = "/{code}/byCode")
     public SysTimedTask getSysTimedTaskByCode(@PathVariable(name = "code") String code) {
@@ -75,7 +86,7 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "添加系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "jobClassName", value = "系统定时任务CLASSNAME", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "cronExpression", value = "系统定时任务CRON表达式", required = true, dataTypeClass = String.class, paramType = "form"),
@@ -84,7 +95,6 @@ public class SysTimedTaskController {
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "status", value = "系统定时任务状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
-    @ApiResponse(code = 200, message = "成功", response = R.class)
     @PostMapping
     public R addSysTimedTask(@RequestParam(name = "code") String code,
                              @RequestParam(name = "name") String name,
@@ -101,20 +111,20 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "创建系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysTimedTaskInputDTO", value = "系统定时任务信息", required = true, dataTypeClass = SysTimedTaskInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysTimedTask", value = "系统定时任务", required = true, dataTypeClass = SysTimedTask.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysTimedTask(@RequestBody() SysTimedTaskInputDTO sysTimedTaskInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysTimedTask(@RequestBody() SysTimedTask sysTimedTask) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysTimedTaskService.createSysTimedTask(sysTimedTaskInputDTO.getCode(), sysTimedTaskInputDTO.getName(), sysTimedTaskInputDTO.getClassName(), sysTimedTaskInputDTO.getCronExpression(),
-                sysTimedTaskInputDTO.getData(), sysTimedTaskInputDTO.getType(), sysTimedTaskInputDTO.getRemark(), sysTimedTaskInputDTO.getStatus(), operatedSysUserId);
+        sysTimedTaskService.createSysTimedTask(sysTimedTask.getCode(), sysTimedTask.getName(), sysTimedTask.getClassName(), sysTimedTask.getCronExpression(),
+                sysTimedTask.getData(), sysTimedTask.getType(), sysTimedTask.getRemark(), sysTimedTask.getStatus(), operatedSysUserId);
     }
 
 
     @ApiOperation(value = "修改系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysTimedTaskId", value = "系统定时任务ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "jobClassName", value = "系统定时任务CLASSNAME", required = true, dataTypeClass = String.class, paramType = "form"),
             @ApiImplicitParam(name = "cronExpression", value = "系统定时任务CRON表达式", required = true, dataTypeClass = String.class, paramType = "form"),
@@ -143,14 +153,14 @@ public class SysTimedTaskController {
     @ApiOperation(value = "修改系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysTimedTaskId", value = "系统定时任务ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysTimedTaskInputDTO", value = "系统定时任务信息", required = true, dataTypeClass = SysTimedTaskInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysTimedTask", value = "系统定时任务", required = true, dataTypeClass = SysTimedTask.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysTimedTaskId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysTimedTaskId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysTimedTask(@PathVariable("sysTimedTaskId") String sysTimedTaskId,
-                                   @RequestBody() SysTimedTaskInputDTO sysTimedTaskInputDTO) {
+                                   @RequestBody() SysTimedTask sysTimedTask) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysTimedTaskService.updateSysTimedTask(sysTimedTaskId, sysTimedTaskInputDTO.getCode(), sysTimedTaskInputDTO.getName(), sysTimedTaskInputDTO.getClassName(), sysTimedTaskInputDTO.getCronExpression(),
-                sysTimedTaskInputDTO.getData(), sysTimedTaskInputDTO.getType(), sysTimedTaskInputDTO.getRemark(), sysTimedTaskInputDTO.getStatus(), operatedSysUserId);
+        sysTimedTaskService.updateSysTimedTask(sysTimedTaskId, sysTimedTask.getCode(), sysTimedTask.getName(), sysTimedTask.getClassName(), sysTimedTask.getCronExpression(),
+                sysTimedTask.getData(), sysTimedTask.getType(), sysTimedTask.getRemark(), sysTimedTask.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统定时任务", notes = "", produces = "application/json")
@@ -166,7 +176,7 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "删除系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @DeleteMapping("/{code}/byCode")
     @ResponseBody
@@ -189,7 +199,7 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "启用系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{code}/enable/byCode")
     @ResponseBody
@@ -213,7 +223,7 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "禁用系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{code}/disable/byCode")
     @ResponseBody
@@ -236,7 +246,7 @@ public class SysTimedTaskController {
 
     @ApiOperation(value = "执行系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统定时任务标识", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @PostMapping("/{code}/execution/byCode")
     @ResponseBody

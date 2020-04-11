@@ -17,7 +17,7 @@ import java.util.List;
  * </p>
  *
  * @author chen
- * @since 2019-01-15
+ * @since 2020-04-08
  */
 public interface SysMenuMapper extends SupperMapper<SysMenu> {
 

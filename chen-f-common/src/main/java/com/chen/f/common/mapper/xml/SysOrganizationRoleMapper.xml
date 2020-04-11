@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chen.f.common.mapper.SysOrganizationRoleMapper">
-
+    
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysOrganizationRole">
         <id column="ID" property="id" />
         <result column="SYS_ORGANIZATION_ID" property="sysOrganizationId" />
         <result column="SYS_ROLE_ID" property="sysRoleId" />
-        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <result column="CREATED_SYS_USER_ID" property="createdSysUserId" />
+        <result column="CREATED_DATE_TIME" property="createdDateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, SYS_ORGANIZATION_ID, SYS_ROLE_ID, CREATE_SYS_USER_ID, CREATE_DATE_TIME
+        `ID`,
+        `SYS_ORGANIZATION_ID`,
+        `SYS_ROLE_ID`,
+        `CREATED_SYS_USER_ID`,
+        `CREATED_DATE_TIME`
+        
     </sql>
 
 </mapper>

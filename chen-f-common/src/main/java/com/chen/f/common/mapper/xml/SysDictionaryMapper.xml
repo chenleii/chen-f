@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.f.common.mapper.SysDictionaryMapper">
+    
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysDictionary">
+        <id column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="TYPE" property="type" />
+        <result column="REMARK" property="remark" />
+        <result column="STATUS" property="status" />
+        <result column="UPDATED_SYS_USER_ID" property="updatedSysUserId" />
+        <result column="CREATED_SYS_USER_ID" property="createdSysUserId" />
+        <result column="UPDATED_DATE_TIME" property="updatedDateTime" />
+        <result column="CREATED_DATE_TIME" property="createdDateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `ID`,
+        `CODE`,
+        `NAME`,
+        `TYPE`,
+        `REMARK`,
+        `STATUS`,
+        `UPDATED_SYS_USER_ID`,
+        `CREATED_SYS_USER_ID`,
+        `UPDATED_DATE_TIME`,
+        `CREATED_DATE_TIME`
+        
+    </sql>
+
+</mapper>

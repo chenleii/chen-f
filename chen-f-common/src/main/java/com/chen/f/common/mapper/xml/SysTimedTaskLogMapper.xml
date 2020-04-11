@@ -5,9 +5,12 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.SysTimedTaskLog">
         <id column="ID" property="id" />
+        <result column="SYS_TIMED_TASK_ID" property="sysTimedTaskId" />
         <result column="CODE" property="code" />
         <result column="NAME" property="name" />
+        <result column="CLASS_NAME" property="className" />
         <result column="CRON_EXPRESSION" property="cronExpression" />
+        <result column="DATA" property="data" />
         <result column="TYPE" property="type" />
         <result column="EXECUTION_STATUS" property="executionStatus" />
         <result column="EXCEPTION_MESSAGE" property="exceptionMessage" />
@@ -15,13 +18,29 @@
         <result column="EXECUTION_END_DATE_TIME" property="executionEndDateTime" />
         <result column="EXECUTION_TIME" property="executionTime" />
         <result column="REMARK" property="remark" />
-        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <result column="UPDATED_DATE_TIME" property="updatedDateTime" />
+        <result column="CREATED_DATE_TIME" property="createdDateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, CODE, NAME, CRON_EXPRESSION, TYPE, EXECUTION_STATUS, EXCEPTION_MESSAGE, EXECUTION_START_DATE_TIME, EXECUTION_END_DATE_TIME, EXECUTION_TIME, REMARK, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        `ID`,
+        `SYS_TIMED_TASK_ID`,
+        `CODE`,
+        `NAME`,
+        `CLASS_NAME`,
+        `CRON_EXPRESSION`,
+        `DATA`,
+        `TYPE`,
+        `EXECUTION_STATUS`,
+        `EXCEPTION_MESSAGE`,
+        `EXECUTION_START_DATE_TIME`,
+        `EXECUTION_END_DATE_TIME`,
+        `EXECUTION_TIME`,
+        `REMARK`,
+        `UPDATED_DATE_TIME`,
+        `CREATED_DATE_TIME`
+        
     </sql>
 
 </mapper>

@@ -69,16 +69,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void createSysMenu(String parentId, String name, String url, String icon, SysMenuTypeEnum type,
-                              String remark, Integer order, StatusEnum status, String operatedSysUserId) {
+                              Integer order, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotNull(parentId, ErrorResponse.create("系统菜单父级ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统菜单名称不能为空"));
         ApiAssert.isNotBlank(url, ErrorResponse.create("系统菜单URL不能为空"));
         //ApiAssert.isNotBlank(icon, ErrorResponse.create("系统菜单图标不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统菜单类型不能为空"));
-        ApiAssert.isNotNull(remark, ErrorResponse.create("系统菜单备注不能为空"));
         //ApiAssert.isNotNull(order, ErrorResponse.create("系统菜单顺序不能为空"));
+        //ApiAssert.isNotNull(remark, ErrorResponse.create("系统菜单备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统菜单状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -107,11 +108,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         sysMenu.setUrl(url);
         sysMenu.setIcon(icon);
         sysMenu.setType(type);
-        sysMenu.setRemark(remark);
         sysMenu.setOrder(order);
+        sysMenu.setRemark(remark);
         sysMenu.setStatus(status);
-        sysMenu.setCreateSysUserId(operatedSysUserId);
-        sysMenu.setCreateDateTime(LocalDateTime.now());
+        sysMenu.setCreatedSysUserId(operatedSysUserId);
+        sysMenu.setCreatedDateTime(LocalDateTime.now());
         int i = sysMenuMapper.insert(sysMenu);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统菜单插入失败"));
 
@@ -119,15 +120,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void updateSysMenu(String sysMenuId, String parentId, String name, String url, String icon, SysMenuTypeEnum type,
-                              String remark, Integer order, StatusEnum status, String operatedSysUserId) {
+                              Integer order, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单ID不能为空"));
         //ApiAssert.isNotBlank(parentId, ErrorResponse.create("系统菜单父级ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统菜单名称不能为空"));
         ApiAssert.isNotBlank(url, ErrorResponse.create("系统菜单URL不能为空"));
         //ApiAssert.isNotBlank(icon, ErrorResponse.create("系统菜单图标不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统菜单类型不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统菜单备注不能为空"));
         //ApiAssert.isNotNull(order, ErrorResponse.create("系统菜单顺序不能为空"));
+        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统菜单备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统菜单状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
@@ -165,25 +166,37 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         sysMenu.setUrl(url);
         sysMenu.setIcon(icon);
         sysMenu.setType(type);
-        sysMenu.setRemark(remark);
         sysMenu.setOrder(order);
+        sysMenu.setRemark(remark);
         sysMenu.setStatus(status);
-        sysMenu.setCreateSysUserId(operatedSysUserId);
-        sysMenu.setCreateDateTime(LocalDateTime.now());
+        sysMenu.setCreatedSysUserId(operatedSysUserId);
+        sysMenu.setCreatedDateTime(LocalDateTime.now());
         int i = sysMenuMapper.updateById(sysMenu);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统菜单修改失败"));
     }
 
     @Override
     public void deleteSysMenu(String sysMenuId) {
-        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单不能为空"));
+        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单ID不能为空"));
+
+        SysMenu sysMenu = sysMenuMapper.selectById(sysMenuId);
+        ApiAssert.isNotNull(sysMenu, ErrorResponse.create("系统菜单不存在"));
+        
         int i = sysMenuMapper.deleteById(sysMenuId);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统菜单失败"));
+        
+        //删除系统角色菜单
+        sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>lambdaQuery().eq(SysRoleMenu::getSysMenuId, sysMenuId));
+        
+        //删除系统权限菜单
+        sysPermissionMenuMapper.delete(Wrappers.<SysPermissionMenu>lambdaQuery().eq(SysPermissionMenu::getSysMenuId, sysMenuId));
     }
 
     @Override
     public void enabledSysMenu(String sysMenuId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单不能为空"));
+        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -194,15 +207,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         logger.debug("启用系统菜单");
         sysMenu.setStatus(StatusEnum.ENABLED);
-        sysMenu.setUpdateSysUserId(operatedSysUserId);
-        sysMenu.setUpdateDateTime(LocalDateTime.now());
+        sysMenu.setUpdatedSysUserId(operatedSysUserId);
+        sysMenu.setUpdatedDateTime(LocalDateTime.now());
         int i = sysMenuMapper.updateById(sysMenu);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统菜单启用失败"));
     }
 
     @Override
     public void disableSysMenu(String sysMenuId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单不能为空"));
+        ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单ID不能为空"));
+        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -213,8 +228,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         logger.debug("禁用系统菜单");
         sysMenu.setStatus(StatusEnum.DISABLE);
-        sysMenu.setUpdateSysUserId(operatedSysUserId);
-        sysMenu.setUpdateDateTime(LocalDateTime.now());
+        sysMenu.setUpdatedSysUserId(operatedSysUserId);
+        sysMenu.setUpdatedDateTime(LocalDateTime.now());
         int i = sysMenuMapper.updateById(sysMenu);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统菜单禁用失败"));
     }

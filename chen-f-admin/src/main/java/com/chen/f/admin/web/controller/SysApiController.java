@@ -3,7 +3,6 @@ package com.chen.f.admin.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysApiService;
-import com.chen.f.admin.web.dto.SysApiInputDTO;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
@@ -16,7 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +77,15 @@ public class SysApiController {
         return sysApiService.getEnabledSysApiList();
     }
 
+    @ApiOperation(value = "根据系统角色ID列表获取启用的系统接口", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/role/{sysRoleId}/enabled")
+    public List<SysApi> getEnabledSysApiListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
+        return sysApiService.getEnabledSysApiListBySysRoleIdList(Arrays.asList(sysRoleId));
+    }
+
     @ApiOperation(value = "根据系统权限ID列表获取启用的系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
@@ -111,13 +127,13 @@ public class SysApiController {
 
     @ApiOperation(value = "创建系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统接口DTO", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysApi", value = "系统接口", required = true, dataTypeClass = SysApi.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public void createSysApi(@RequestBody() SysApiInputDTO sysApiInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysApi(@RequestBody() SysApi sysApi) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysApiService.createSysApi(sysApiInputDTO.getName(), sysApiInputDTO.getUrl(), sysApiInputDTO.getHttpMethod(), sysApiInputDTO.getType(),
-                sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
+        sysApiService.createSysApi(sysApi.getName(), sysApi.getUrl(), sysApi.getHttpMethod(), sysApi.getType(),
+                sysApi.getRemark(), sysApi.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统接口", notes = "", produces = "application/json")
@@ -145,14 +161,14 @@ public class SysApiController {
     @ApiOperation(value = "修改系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysApiId", value = "修改的系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysApiInputDTO", value = "系统接口DTO", required = true, dataTypeClass = SysApiInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysApi", value = "系统接口", required = true, dataTypeClass = SysApi.class, paramType = "body"),
     })
-    @PutMapping(path = "/{sysApiId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @PutMapping(path = "/{sysApiId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysApi(@PathVariable("sysApiId") String sysApiId,
-                             @RequestBody() SysApiInputDTO sysApiInputDTO) {
+                             @RequestBody() SysApi sysApi) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysApiService.updateSysApi(sysApiId, sysApiInputDTO.getName(), sysApiInputDTO.getUrl(), sysApiInputDTO.getHttpMethod(),
-                sysApiInputDTO.getType(), sysApiInputDTO.getRemark(), sysApiInputDTO.getStatus(), operatedSysUserId);
+        sysApiService.updateSysApi(sysApiId, sysApi.getName(), sysApi.getUrl(), sysApi.getHttpMethod(),
+                sysApi.getType(), sysApi.getRemark(), sysApi.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统接口", notes = "", produces = "application/json")

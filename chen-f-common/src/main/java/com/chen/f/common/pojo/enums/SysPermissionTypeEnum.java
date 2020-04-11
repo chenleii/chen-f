@@ -24,7 +24,7 @@ public enum SysPermissionTypeEnum {
     ;
 
     /**
-     * 类型(MENU:菜单;API:接口;ELEMENT:页面元素可见性;OPERATION:操作;)
+     * 系统权限类型(MENU:菜单;API:接口;ELEMENT:页面元素可见性;OPERATION:操作;)
      */
     @JsonValue
     @EnumValue

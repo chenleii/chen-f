@@ -1,6 +1,5 @@
 package com.chen.f.common.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -8,11 +7,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -36,13 +32,13 @@ public class EnableChenFCommonWebMvcConfiguration implements WebMvcConfigurer {
     
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder.json();
-        jackson2ObjectMapperBuilderCustomizer().customize(jackson2ObjectMapperBuilder);
-        ObjectMapper objectMapper = jackson2ObjectMapperBuilder.build();
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
+        //Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder.json();
+        //jackson2ObjectMapperBuilderCustomizer().customize(jackson2ObjectMapperBuilder);
+        //ObjectMapper objectMapper = jackson2ObjectMapperBuilder.build();
+        //converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
     }
 
-    @Bean
+    //@Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return ((builder) -> {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

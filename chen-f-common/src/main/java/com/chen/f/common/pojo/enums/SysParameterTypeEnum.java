@@ -18,7 +18,7 @@ public enum SysParameterTypeEnum {
     ;
 
     /**
-     * 参数类型(SYSTEM:系统参数)
+     * 系统参数类型(SYSTEM:系统参数)
      */
     @JsonValue
     @EnumValue

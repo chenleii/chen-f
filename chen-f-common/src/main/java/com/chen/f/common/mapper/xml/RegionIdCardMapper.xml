@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chen.f.common.mapper.RegionIdCardPrefixMapper">
-
+<mapper namespace="com.chen.f.common.mapper.RegionIdCardMapper">
+    
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.RegionIdCardPrefix">
+    <resultMap id="BaseResultMap" type="com.chen.f.common.pojo.RegionIdCard">
         <id column="ID" property="id" />
-        <id column="PREFIX" property="prefix" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="PREFIX" property="prefix" />
         <result column="PARENT_PREFIX" property="parentPrefix" />
         <result column="PROVINCE" property="province" />
         <result column="CITY" property="city" />
@@ -15,7 +16,15 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, PREFIX, PARENT_PREFIX, PROVINCE, CITY, NAME, FULL_NAME
+        `ID`,
+        `PARENT_ID`,
+        `PREFIX`,
+        `PARENT_PREFIX`,
+        `PROVINCE`,
+        `CITY`,
+        `NAME`,
+        `FULL_NAME`
+        
     </sql>
 
 </mapper>

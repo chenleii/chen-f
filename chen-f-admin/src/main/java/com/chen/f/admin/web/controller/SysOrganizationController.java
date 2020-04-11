@@ -3,7 +3,6 @@ package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.helper.SecurityHelper;
 import com.chen.f.admin.service.ISysOrganizationService;
-import com.chen.f.admin.web.dto.SysOrganizationInputDTO;
 import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysOrganizationTypeEnum;
@@ -91,18 +90,18 @@ public class SysOrganizationController {
 
     @ApiOperation(value = "创建系统组织", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysOrganizationInputDTO", value = "系统组织DTO", required = true, dataTypeClass = SysOrganizationInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "SysOrganization", value = "系统组织", required = true, dataTypeClass = SysOrganization.class, paramType = "body"),
     })
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void createSysOrganization(@RequestBody() SysOrganizationInputDTO SysOrganizationInputDTO) {
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void createSysOrganization(@RequestBody() SysOrganization sysOrganization) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysOrganizationService.createSysOrganization(SysOrganizationInputDTO.getParentId(), SysOrganizationInputDTO.getName(), SysOrganizationInputDTO.getFullName(),
-                SysOrganizationInputDTO.getType(), SysOrganizationInputDTO.getRemark(), SysOrganizationInputDTO.getStatus(), operatedSysUserId);
+        sysOrganizationService.createSysOrganization(sysOrganization.getParentId(), sysOrganization.getName(), sysOrganization.getFullName(),
+                sysOrganization.getType(), sysOrganization.getRemark(), sysOrganization.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统组织", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysOrganizationId", value = "修改的系统组织ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "sysOrganizationId", value = "修改的系统组织ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "parentId", value = "父级系统组织ID", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "系统组织名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "fullName", value = "系统组织全称", required = true, dataTypeClass = String.class, paramType = "from"),
@@ -110,8 +109,8 @@ public class SysOrganizationController {
             @ApiImplicitParam(name = "remark", value = "系统组织备注", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "status", value = "系统组织状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
     })
-    @PutMapping("/{SysOrganizationId}")
-    public void updateSysOrganization(@PathVariable("SysOrganizationId") String SysOrganizationId,
+    @PutMapping("/{sysOrganizationId}")
+    public void updateSysOrganization(@PathVariable("sysOrganizationId") String sysOrganizationId,
                                       @RequestParam(name = "parentId", required = false) String parentId,
                                       @RequestParam(name = "name") String name,
                                       @RequestParam(name = "fullName") String fullName,
@@ -119,20 +118,20 @@ public class SysOrganizationController {
                                       @RequestParam(name = "remark", required = false) String remark,
                                       @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysOrganizationService.updateSysOrganization(SysOrganizationId, parentId, name, fullName, type, remark, status, operatedSysUserId);
+        sysOrganizationService.updateSysOrganization(sysOrganizationId, parentId, name, fullName, type, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统组织", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "SysOrganizationId", value = "修改的系统组织ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "SysOrganizationInputDTO", value = "系统组织DTO", required = true, dataTypeClass = SysOrganizationInputDTO.class, paramType = "body"),
+            @ApiImplicitParam(name = "sysOrganizationId", value = "修改的系统组织ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "SysOrganization", value = "系统组织", required = true, dataTypeClass = SysOrganization.class, paramType = "body"),
     })
-    @PutMapping(path = "/{SysOrganizationId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public void updateSysOrganization(@PathVariable("SysOrganizationId") String SysOrganizationId,
-                                      @RequestBody() SysOrganizationInputDTO SysOrganizationInputDTO) {
+    @PutMapping(path = "/{sysOrganizationId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void updateSysOrganization(@PathVariable("sysOrganizationId") String sysOrganizationId,
+                                      @RequestBody() SysOrganization sysOrganization) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysOrganizationService.updateSysOrganization(SysOrganizationId, SysOrganizationInputDTO.getParentId(), SysOrganizationInputDTO.getName(), SysOrganizationInputDTO.getFullName(),
-                SysOrganizationInputDTO.getType(), SysOrganizationInputDTO.getRemark(), SysOrganizationInputDTO.getStatus(), operatedSysUserId);
+        sysOrganizationService.updateSysOrganization(sysOrganizationId, sysOrganization.getParentId(), sysOrganization.getName(), sysOrganization.getFullName(),
+                sysOrganization.getType(), sysOrganization.getRemark(), sysOrganization.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "删除系统组织", notes = "", produces = "application/json")

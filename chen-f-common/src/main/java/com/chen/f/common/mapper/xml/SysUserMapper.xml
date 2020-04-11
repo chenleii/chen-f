@@ -7,19 +7,30 @@
         <id column="ID" property="id" />
         <result column="USERNAME" property="username" />
         <result column="PASSWORD" property="password" />
-        <result column="REMARK" property="remark" />
-        <result column="STATUS" property="status" />
         <result column="LEVEL" property="level" />
         <result column="LAST_LOGIN_DATE_TIME" property="lastLoginDateTime" />
-        <result column="UPDATE_SYS_USER_ID" property="updateSysUserId" />
-        <result column="CREATE_SYS_USER_ID" property="createSysUserId" />
-        <result column="UPDATE_DATE_TIME" property="updateDateTime" />
-        <result column="CREATE_DATE_TIME" property="createDateTime" />
+        <result column="REMARK" property="remark" />
+        <result column="STATUS" property="status" />
+        <result column="UPDATED_SYS_USER_ID" property="updatedSysUserId" />
+        <result column="CREATED_SYS_USER_ID" property="createdSysUserId" />
+        <result column="UPDATED_DATE_TIME" property="updatedDateTime" />
+        <result column="CREATED_DATE_TIME" property="createdDateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, USERNAME, PASSWORD, REMARK, STATUS, `LEVEL`, LAST_LOGIN_DATE_TIME, UPDATE_SYS_USER_ID, CREATE_SYS_USER_ID, UPDATE_DATE_TIME, CREATE_DATE_TIME
+        `ID`,
+        `USERNAME`,
+        `PASSWORD`,
+        `LEVEL`,
+        `LAST_LOGIN_DATE_TIME`,
+        `REMARK`,
+        `STATUS`,
+        `UPDATED_SYS_USER_ID`,
+        `CREATED_SYS_USER_ID`,
+        `UPDATED_DATE_TIME`,
+        `CREATED_DATE_TIME`
+        
     </sql>
 
 </mapper>

@@ -11,32 +11,35 @@
         <result column="API_TYPE" property="type"/>
         <result column="API_REMARK" property="remark"/>
         <result column="API_STATUS" property="status"/>
-        <result column="API_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
-        <result column="API_CREATE_SYS_USER_ID" property="createSysUserId"/>
-        <result column="API_UPDATE_DATE_TIME" property="updateDateTime"/>
-        <result column="API_CREATE_DATE_TIME" property="createDateTime"/>
+        <result column="API_UPDATED_SYS_USER_ID" property="updatedSysUserId"/>
+        <result column="API_CREATED_SYS_USER_ID" property="createdSysUserId"/>
+        <result column="API_UPDATED_DATE_TIME" property="updatedDateTime"/>
+        <result column="API_CREATED_DATE_TIME" property="createdDateTime"/>
         <collection property="sysRoleList"
                     ofType="com.chen.f.common.pojo.SysRole"
                     javaType="java.util.ArrayList">
             <id column="ROLE_ID" property="id"/>
+            <result column="ROLE_CODE" property="code"/>
             <result column="ROLE_NAME" property="name"/>
             <result column="ROLE_REMARK" property="remark"/>
             <result column="ROLE_STATUS" property="status"/>
-            <result column="ROLE_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
-            <result column="ROLE_CREATE_SYS_USER_ID" property="createSysUserId"/>
-            <result column="ROLE_UPDATE_DATE_TIME" property="updateDateTime"/>
-            <result column="ROLE_CREATE_DATE_TIME" property="createDateTime"/>
+            <result column="ROLE_UPDATED_SYS_USER_ID" property="updatedSysUserId"/>
+            <result column="ROLE_CREATED_SYS_USER_ID" property="createdSysUserId"/>
+            <result column="ROLE_UPDATED_DATE_TIME" property="updatedDateTime"/>
+            <result column="ROLE_CREATED_DATE_TIME" property="createdDateTime"/>
         </collection>
         <collection property="sysPermissionList" ofType="com.chen.f.common.pojo.SysPermission"
                     javaType="java.util.ArrayList">
             <id column="PERMISSION_ID" property="id"/>
+            <result column="PERMISSION_CODE" property="code"/>
             <result column="PERMISSION_NAME" property="name"/>
+            <result column="PERMISSION_TYPE" property="type"/>
             <result column="PERMISSION_REMARK" property="remark"/>
             <result column="PERMISSION_STATUS" property="status"/>
-            <result column="PERMISSION_UPDATE_SYS_USER_ID" property="updateSysUserId"/>
-            <result column="PERMISSION_CREATE_SYS_USER_ID" property="createSysUserId"/>
-            <result column="PERMISSION_UPDATE_DATE_TIME" property="updateDateTime"/>
-            <result column="PERMISSION_CREATE_DATE_TIME" property="createDateTime"/>
+            <result column="PERMISSION_UPDATED_SYS_USER_ID" property="updatedSysUserId"/>
+            <result column="PERMISSION_CREATED_SYS_USER_ID" property="createdSysUserId"/>
+            <result column="PERMISSION_UPDATED_DATE_TIME" property="updatedDateTime"/>
+            <result column="PERMISSION_CREATED_DATE_TIME" property="createdDateTime"/>
         </collection>
     </resultMap>
 
@@ -50,28 +53,31 @@
             API.TYPE                        API_TYPE,
             API.REMARK                      API_REMARK,
             API.STATUS                      API_STATUS,
-            API.UPDATE_SYS_USER_ID          API_UPDATE_SYS_USER_ID,
-            API.CREATE_SYS_USER_ID          API_CREATE_SYS_USER_ID,
-            API.UPDATE_DATE_TIME            API_UPDATE_DATE_TIME,
-            API.CREATE_DATE_TIME            API_CREATE_DATE_TIME,
+            API.UPDATED_SYS_USER_ID          API_UPDATE_SYS_USER_ID,
+            API.CREATED_SYS_USER_ID          API_CREATE_SYS_USER_ID,
+            API.UPDATED_DATE_TIME            API_UPDATE_DATE_TIME,
+            API.CREATED_DATE_TIME            API_CREATE_DATE_TIME,
 
             ROLE.ID                         ROLE_ID,
+            ROLE.CODE                       ROLE_CODE,
             ROLE.NAME                       ROLE_NAME,
             ROLE.REMARK                     ROLE_REMARK,
             ROLE.STATUS                     ROLE_STATUS,
-            ROLE.UPDATE_SYS_USER_ID         ROLE_UPDATE_SYS_USER_ID,
-            ROLE.CREATE_SYS_USER_ID         ROLE_CREATE_SYS_USER_ID,
-            ROLE.UPDATE_DATE_TIME           ROLE_UPDATE_DATE_TIME,
-            ROLE.CREATE_DATE_TIME           ROLE_CREATE_DATE_TIME,
+            ROLE.UPDATED_SYS_USER_ID         ROLE_UPDATE_SYS_USER_ID,
+            ROLE.CREATED_SYS_USER_ID         ROLE_CREATE_SYS_USER_ID,
+            ROLE.UPDATED_DATE_TIME           ROLE_UPDATE_DATE_TIME,
+            ROLE.CREATED_DATE_TIME           ROLE_CREATE_DATE_TIME,
 
             PERMISSION.ID                   PERMISSION_ID,
+            PERMISSION.CODE                 PERMISSION_CODE,
             PERMISSION.NAME                 PERMISSION_NAME,
+            PERMISSION.TYPE                 PERMISSION_TYPE,
             PERMISSION.REMARK               PERMISSION_REMARK,
             PERMISSION.STATUS               PERMISSION_STATUS,
-            PERMISSION.UPDATE_SYS_USER_ID   PERMISSION_UPDATE_SYS_USER_ID,
-            PERMISSION.CREATE_SYS_USER_ID   PERMISSION_CREATE_SYS_USER_ID,
-            PERMISSION.UPDATE_DATE_TIME     PERMISSION_UPDATE_DATE_TIME,
-            PERMISSION.CREATE_DATE_TIME     PERMISSION_CREATE_DATE_TIME
+            PERMISSION.UPDATED_SYS_USER_ID   PERMISSION_UPDATE_SYS_USER_ID,
+            PERMISSION.CREATED_SYS_USER_ID   PERMISSION_CREATE_SYS_USER_ID,
+            PERMISSION.UPDATED_DATE_TIME     PERMISSION_UPDATE_DATE_TIME,
+            PERMISSION.CREATED_DATE_TIME     PERMISSION_CREATE_DATE_TIME
         FROM
             SYS_API API
             LEFT JOIN SYS_ROLE_API ROLE_API ON API.ID = ROLE_API.SYS_API_ID

@@ -6,9 +6,11 @@ import com.chen.f.admin.service.ISysOrganizationService;
 import com.chen.f.common.api.ApiAssert;
 import com.chen.f.common.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysOrganizationMapper;
+import com.chen.f.common.mapper.SysOrganizationRoleMapper;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysOrganization;
+import com.chen.f.common.pojo.SysOrganizationRole;
 import com.chen.f.common.pojo.SysOrganizationUser;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
@@ -42,6 +44,9 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 
     @Autowired
     private SysOrganizationUserMapper sysOrganizationUserMapper;
+
+    @Autowired
+    private SysOrganizationRoleMapper sysOrganizationRoleMapper;
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -88,22 +93,22 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         sysOrganization.setType(type);
         sysOrganization.setRemark(remark);
         sysOrganization.setStatus(status);
-        sysOrganization.setCreateSysUserId(operatedSysUserId);
-        sysOrganization.setCreateDateTime(LocalDateTime.now());
+        sysOrganization.setCreatedSysUserId(operatedSysUserId);
+        sysOrganization.setCreatedDateTime(LocalDateTime.now());
         final int i = sysOrganizationMapper.insert(sysOrganization);
-
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织插入失败"));
 
     }
 
     @Override
-    public void updateSysOrganization(String sysOrganizationId, String parentId, String name, String fullName, SysOrganizationTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
+    public void updateSysOrganization(String sysOrganizationId, String parentId, String name, String fullName, 
+                                      SysOrganizationTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotNull(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        ApiAssert.isNotNull(parentId, ErrorResponse.create("系统组织父级ID不能为空"));
+        //ApiAssert.isNotNull(parentId, ErrorResponse.create("系统组织父级ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统组织名称不能为空"));
         ApiAssert.isNotBlank(fullName, ErrorResponse.create("系统组织URL不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统组织类型不能为空"));
-        ApiAssert.isNotNull(remark, ErrorResponse.create("系统组织备注不能为空"));
+        //ApiAssert.isNotNull(remark, ErrorResponse.create("系统组织备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统组织状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
 
@@ -125,18 +130,27 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         sysOrganization.setType(type);
         sysOrganization.setRemark(remark);
         sysOrganization.setStatus(status);
-        sysOrganization.setCreateSysUserId(operatedSysUserId);
-        sysOrganization.setCreateDateTime(LocalDateTime.now());
+        sysOrganization.setCreatedSysUserId(operatedSysUserId);
+        sysOrganization.setCreatedDateTime(LocalDateTime.now());
         final int i = sysOrganizationMapper.updateById(sysOrganization);
-
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织修改失败"));
     }
 
     @Override
-    public void deleteSysOrganization(String sysOrganizatioId) {
-        ApiAssert.isNotBlank(sysOrganizatioId, ErrorResponse.create("系统组织不能为空"));
-        int i = sysOrganizationMapper.deleteById(sysOrganizatioId);
+    public void deleteSysOrganization(String sysOrganizationId) {
+        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
+
+        SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
+        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        
+        int i = sysOrganizationMapper.deleteById(sysOrganizationId);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统组织失败"));
+        
+        //删除系统组织用户
+        sysOrganizationUserMapper.delete(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysOrganizationId, sysOrganizationId));
+        
+        //删除系统组织角色
+        sysOrganizationRoleMapper.delete(Wrappers.<SysOrganizationRole>lambdaQuery().eq(SysOrganizationRole::getSysOrganizationId, sysOrganizationId));
     }
 
     @Override
@@ -152,8 +166,8 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 
         logger.debug("启用系统组织");
         sysOrganization.setStatus(StatusEnum.ENABLED);
-        sysOrganization.setUpdateSysUserId(operatedSysUserId);
-        sysOrganization.setUpdateDateTime(LocalDateTime.now());
+        sysOrganization.setUpdatedSysUserId(operatedSysUserId);
+        sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         int i = sysOrganizationMapper.updateById(sysOrganization);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织启用失败"));
     }
@@ -171,8 +185,8 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 
         logger.debug("禁用系统组织");
         sysOrganization.setStatus(StatusEnum.DISABLE);
-        sysOrganization.setUpdateSysUserId(operatedSysUserId);
-        sysOrganization.setUpdateDateTime(LocalDateTime.now());
+        sysOrganization.setUpdatedSysUserId(operatedSysUserId);
+        sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         int i = sysOrganizationMapper.updateById(sysOrganization);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织禁用失败"));
     }
