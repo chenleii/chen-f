@@ -2,6 +2,8 @@ package com.chen.f.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysOrganization;
+import com.chen.f.common.pojo.SysRole;
+import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysOrganizationTypeEnum;
 
@@ -32,12 +34,42 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
     List<SysOrganization> getEnabledSysOrganizationList();
 
     /**
+     * 获取系统组织列表
+     *
+     * @param parentId 父级ID
+     * @param name     系统组织名称
+     * @param fullName 系统组织全称
+     * @param type     系统组织类型
+     * @param remark   系统组织备注
+     * @param status   系统组织状态
+     * @return 系统组织列表
+     */
+    List<SysOrganization> getSysOrganizationList(String parentId, String name, String fullName,
+                                                 SysOrganizationTypeEnum type, String remark, StatusEnum status);
+
+    /**
      * 获取系统组织
      *
      * @param sysOrganizationId 系统组织ID
      * @return 系统组织
      */
     SysOrganization getSysOrganization(String sysOrganizationId);
+
+    /**
+     * 获取系统组织的系统用户
+     *
+     * @param sysOrganizationId 系统组织ID
+     * @return 系统用户列表
+     */
+    List<SysUser> getSysUserOfSysOrganization(String sysOrganizationId);
+
+    /**
+     * 获取系统组织的系统角色
+     *
+     * @param sysOrganizationId 系统组织ID
+     * @return 系统角色列表
+     */
+    List<SysRole> getSysRoleOfSysOrganization(String sysOrganizationId);
 
     /**
      * 创建系统组织
@@ -67,6 +99,24 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
      */
     void updateSysOrganization(String sysOrganizationId, String parentId, String name, String fullName, SysOrganizationTypeEnum type,
                                String remark, StatusEnum status, String operatedSysUserId);
+
+    /**
+     * 设置系统组织的系统用户
+     *
+     * @param sysOrganizationId 设置的系统组织ID
+     * @param sysUserIdList     系统用户ID集合
+     * @param operatedSysUserId 操作的系统用户
+     */
+    void setSysUserOfSysOrganization(String sysOrganizationId, List<String> sysUserIdList, String operatedSysUserId);
+
+    /**
+     * 设置系统组织的系统角色
+     *
+     * @param sysOrganizationId 设置的系统组织ID
+     * @param sysRoleIdList     系统角色ID集合
+     * @param operatedSysUserId 操作的系统用户
+     */
+    void setSysRoleOfSysOrganization(String sysOrganizationId, List<String> sysRoleIdList, String operatedSysUserId);
 
     /**
      * 删除系统组织
@@ -99,5 +149,4 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
      * @return 系统组织列表
      */
     List<SysOrganization> getEnabledSysOrganizationListBySysUserId(String sysUserId);
-
 }

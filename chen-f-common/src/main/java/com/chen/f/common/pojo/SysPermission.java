@@ -53,7 +53,7 @@ public class SysPermission extends Model<SysPermission> {
     @TableField("`REMARK`")
     private String remark;
 
-    @ApiModelProperty(value = "系统权限状态(ENABLED:启用;DISABLE:禁用;)")
+    @ApiModelProperty(value = "系统权限状态(ENABLED:启用;DISABLED:禁用;)")
     @TableField("`STATUS`")
     private StatusEnum status;
 

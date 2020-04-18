@@ -58,7 +58,7 @@ public class SysApi extends Model<SysApi> {
     @TableField("`REMARK`")
     private String remark;
 
-    @ApiModelProperty(value = "系统接口状态(ENABLED:启用;DISABLE:禁用;)")
+    @ApiModelProperty(value = "系统接口状态(ENABLED:启用;DISABLED:禁用;)")
     @TableField("`STATUS`")
     private StatusEnum status;
 

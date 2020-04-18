@@ -18,9 +18,9 @@ import java.util.List;
 public interface ISysMenuService extends IService<SysMenu> {
 
     /**
-     * 获取所有系统菜单
+     * 获取所有的系统菜单
      *
-     * @return 所有系统菜单
+     * @return 所有的系统菜单
      */
     List<SysMenu> getAllSysMenuList();
 
@@ -32,6 +32,20 @@ public interface ISysMenuService extends IService<SysMenu> {
     List<SysMenu> getEnabledSysMenuList();
 
     /**
+     * 获取系统菜单列表
+     *
+     * @param parentId 父级ID
+     * @param name     系统菜单名称
+     * @param url      系统菜单URL
+     * @param type     系统菜单类型
+     * @param remark   系统菜单备注
+     * @param status   系统菜单状态
+     * @return 系统菜单列表
+     */
+    List<SysMenu> getSysMenuList(String parentId, String name, String url,
+                                 SysMenuTypeEnum type, String remark, StatusEnum status);
+
+    /**
      * 获取系统菜单
      *
      * @param sysMenuId 系统菜单ID
@@ -41,7 +55,8 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     /**
      * 创建系统菜单
-     *  @param parentId          系统菜单父级ID
+     *
+     * @param parentId          系统菜单父级ID
      * @param name              系统菜单名称
      * @param url               系统菜单URL
      * @param icon              系统菜单图标
@@ -56,7 +71,8 @@ public interface ISysMenuService extends IService<SysMenu> {
 
     /**
      * 创建系统菜单
-     *  @param sysMenuId         系统菜单ID
+     *
+     * @param sysMenuId         系统菜单ID
      * @param parentId          父级系统菜单ID
      * @param name              系统菜单名称
      * @param url               系统菜单URL

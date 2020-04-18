@@ -15,12 +15,12 @@ public enum StatusEnum {
     //启用
     ENABLED("ENABLED", "启用"),
     //禁用
-    DISABLE("DISABLE", "禁用"),
+    DISABLE("DISABLED", "禁用"),
 
     ;
 
     /**
-     * 状态(ENABLED:启用;DISABLE:停用;)
+     * 状态(ENABLED:启用;DISABLED:禁用;)
      */
     @JsonValue
     @EnumValue

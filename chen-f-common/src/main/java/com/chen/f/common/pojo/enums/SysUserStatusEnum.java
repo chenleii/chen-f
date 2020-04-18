@@ -19,12 +19,12 @@ public enum SysUserStatusEnum {
     //过期
     EXPIRED("EXPIRED", "过期"),
     //禁用
-    DISABLE("DISABLE", "禁用"),
+    DISABLE("DISABLED", "禁用"),
 
     ;
 
     /**
-     * 系统用户状态(ENABLED:正常;LOCKED:锁定;EXPIRED:过期;DISABLE:禁用;)
+     * 系统用户状态(ENABLED:正常;LOCKED:锁定;EXPIRED:过期;DISABLED:禁用;)
      */
     @JsonValue
     @EnumValue

@@ -7,6 +7,7 @@ import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictionaryItemService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,7 @@ import java.util.List;
  * @author chen
  * @since 2020-04-06
  */
+@Api(tags = "系统字典项目接口")
 @RestController
 @RequestMapping("/chen/admin/sys/dictionary/item")
 public class SysDictionaryItemController {

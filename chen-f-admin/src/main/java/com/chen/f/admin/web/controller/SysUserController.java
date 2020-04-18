@@ -48,14 +48,28 @@ public class SysUserController {
     @Autowired
     private ISysRoleService sysRoleService;
 
+    @ApiOperation(value = "获取所有的系统用户", notes = "", produces = "application/json")
+    @ApiImplicitParams({})
+    @GetMapping("/all")
+    public List<SysUser> getAllSysUserList() {
+        return sysUserService.getAllSysUserList();
+    }
+    
+    @ApiOperation(value = "获取启用的系统用户", notes = "", produces = "application/json")
+    @ApiImplicitParams({})
+    @GetMapping("/all/enabled")
+    public List<SysUser> getEnabledSysOrganizationList() {
+        return sysUserService.getEnabledSysUserList();
+    }
+    
     @ApiOperation(value = "获取分页的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
-            @ApiImplicitParam(name = "username", value = "用户名称", required = false, dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "remark", value = "用户描述", required = false, dataTypeClass = String.class, paramType = "query"),
-            @ApiImplicitParam(name = "status", value = "用户状态", required = false, dataTypeClass = SysUserStatusEnum.class, paramType = "query"),
-            @ApiImplicitParam(name = "level", value = "用户级别", required = false, dataTypeClass = Integer.class, paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "系统用户名称", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "remark", value = "系统用户描述", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "系统用户状态", required = false, dataTypeClass = SysUserStatusEnum.class, paramType = "query"),
+            @ApiImplicitParam(name = "level", value = "系统用户级别", required = false, dataTypeClass = Integer.class, paramType = "query"),
     })
     @GetMapping
     public IPage<SysUser> getSysUserPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
@@ -65,7 +79,7 @@ public class SysUserController {
                                          @RequestParam(name = "status", required = false) SysUserStatusEnum sysUserStatusEnum,
                                          @RequestParam(name = "level", required = false) Integer level
     ) {
-        return sysUserService.getSysUserPage(pageIndex, pageNumber, username, remark, sysUserStatusEnum, level);
+        return sysUserService.getSysUserPage(pageIndex, pageNumber, username, level, remark, sysUserStatusEnum);
     }
 
     /**
@@ -97,11 +111,11 @@ public class SysUserController {
 
     @ApiOperation(value = "创建系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "level", value = "等级", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "username", value = "系统用户名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "from"),
     })
     @PostMapping
     public void createSysUser(@RequestParam("username") String username,
@@ -110,7 +124,7 @@ public class SysUserController {
                               @RequestParam("status") SysUserStatusEnum status,
                               @RequestParam("level") Integer level) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.createSysUser(username, password, remark, status, level, operatedSysUserId);
+        sysUserService.createSysUser(username, password, level, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "创建系统用户", notes = "", produces = "application/json")
@@ -120,28 +134,28 @@ public class SysUserController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void createSysUser(@RequestBody() SysUser sysUser) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.createSysUser(sysUser.getUsername(), sysUser.getPassword(), sysUser.getRemark(),
-                sysUser.getStatus(), sysUser.getLevel(), operatedSysUserId);
+        sysUserService.createSysUser(sysUser.getUsername(), sysUser.getPassword(), sysUser.getLevel(), sysUser.getRemark(),
+                sysUser.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户id", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "状态", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "level", value = "等级", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户ID", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "username", value = "系统用户用户名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "from"),
     })
     @PutMapping("/{sysUserId}")
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,
                               @RequestParam("username") String username,
                               @RequestParam("password") String password,
+                              @RequestParam("level") Integer level,
                               @RequestParam("remark") String remark,
-                              @RequestParam("status") SysUserStatusEnum status,
-                              @RequestParam("level") Integer level) {
+                              @RequestParam("status") SysUserStatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.updateSysUser(sysUserId, username, password, remark, status, level, operatedSysUserId);
+        sysUserService.updateSysUser(sysUserId, username, password, level, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统用户", notes = "", produces = "application/json")
@@ -153,8 +167,8 @@ public class SysUserController {
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,
                               @RequestBody() SysUser sysUserInputDTO) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.updateSysUser(sysUserId, sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getRemark(),
-                sysUserInputDTO.getStatus(), sysUserInputDTO.getLevel(), operatedSysUserId);
+        sysUserService.updateSysUser(sysUserId, sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getLevel(), sysUserInputDTO.getRemark(),
+                sysUserInputDTO.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统角色", notes = "", produces = "application/json")

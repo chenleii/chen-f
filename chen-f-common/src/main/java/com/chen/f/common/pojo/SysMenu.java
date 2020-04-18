@@ -65,7 +65,7 @@ public class SysMenu extends Model<SysMenu> {
     @TableField("`REMARK`")
     private String remark;
 
-    @ApiModelProperty(value = "系统菜单状态(ENABLED:启用;DISABLE:禁用;)")
+    @ApiModelProperty(value = "系统菜单状态(ENABLED:启用;DISABLED:禁用;)")
     @TableField("`STATUS`")
     private StatusEnum status;
 

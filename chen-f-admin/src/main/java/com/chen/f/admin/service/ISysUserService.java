@@ -17,18 +17,33 @@ import java.util.List;
  * @since 2018-12-02
  */
 public interface ISysUserService extends IService<SysUser> {
+
+    /**
+     * 获取所有系统用户
+     *
+     * @return 所有系统用户
+     */
+    List<SysUser> getAllSysUserList();
+
+    /**
+     * 获取启用的系统用户列表
+     *
+     * @return 启用的系统用户列表
+     */
+    List<SysUser> getEnabledSysUserList();
+    
     /**
      * 获取分页的系统用户集合
      *
      * @param pageIndex         页数
      * @param pageNumber        页大小
      * @param username          系统用户名称
+     * @param level             系统用户级别
      * @param remark            系统用户描述
      * @param sysUserStatusEnum 系统用户状态
-     * @param level             系统用户级别
      * @return 分页的系统用户集合
      */
-    IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, String remark, SysUserStatusEnum sysUserStatusEnum, Integer level);
+    IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum);
 
     /**
      * 获取系统用户
@@ -50,14 +65,28 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 创建系统用户
      *
-     * @param username          系统用户用户名
+     * @param username          系统用户用户名称
      * @param password          系统用户密码
+     * @param level             系统用户等级
      * @param remark            系统用户备注
      * @param status            系统用户状态
-     * @param level             系统用户等级
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysUser(String username, String password, String remark, SysUserStatusEnum status, Integer level, String operatedSysUserId);
+    void createSysUser(String username, String password, Integer level, String remark, SysUserStatusEnum status, String operatedSysUserId);
+
+    /**
+     * 修改系统用户
+     *
+     * @param sysUserId         系统用户ID
+     * @param username          系统用户用户名称
+     * @param password          系统用户密码
+     * @param level             系统用户等级
+     * @param remark            系统用户备注
+     * @param status            系统用户状态
+     * @param operatedSysUserId 操作的系统用户ID
+     */
+    void updateSysUser(String sysUserId, String username, String password, Integer level, String remark, SysUserStatusEnum status, String operatedSysUserId);
+
 
     /**
      * 设置系统用户的系统角色
@@ -67,20 +96,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param operatedSysUserId 操作的系统用户
      */
     void setSysRoleOfSysUser(String sysUserId, List<String> sysRoleIdList, String operatedSysUserId);
-
-    /**
-     * 修改系统用户
-     *
-     * @param sysUserId         系统用户ID
-     * @param username          系统用户用户名
-     * @param password          系统用户密码
-     * @param remark            系统用户备注
-     * @param status            系统用户状态
-     * @param level             系统用户等级
-     * @param operatedSysUserId 操作的系统用户ID
-     */
-    void updateSysUser(String sysUserId, String username, String password, String remark, SysUserStatusEnum status, Integer level, String operatedSysUserId);
-
+    
     /**
      * 删除系统用户
      *
@@ -120,5 +136,5 @@ public interface ISysUserService extends IService<SysUser> {
      * @param operatedSysUserId 操作的系统用户ID
      */
     void expireSysUser(String sysUserId, String operatedSysUserId);
-
+    
 }

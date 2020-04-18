@@ -58,31 +58,51 @@ public class SysMenuController {
         return sysMenuService.getEnabledSysMenuList();
     }
 
+    @ApiOperation(value = "获取系统菜单列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "系统菜单名称", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "url", value = "系统菜单URL", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "系统菜单类型", required = false, dataTypeClass = SysMenuTypeEnum.class, paramType = "query"),
+            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "系统菜单状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
+    })
+    @GetMapping("/list")
+    public List<SysMenu> getEnabledSysMenuList(
+            @RequestParam(name = "parentId", required = false) String parentId,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "url", required = false) String url,
+            @RequestParam(name = "type", required = false) SysMenuTypeEnum type,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum status) {
+        return sysMenuService.getSysMenuList(parentId, name, url, type, remark, status);
+    }
+
     @ApiOperation(value = "根据系统角色ID获取启用的系统菜单", notes = "", produces = "application/json")
-    @ApiImplicitParams({    
+    @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping("/role/{sysRoleId}/enabled")
-    public List<SysMenu> getEnabledSysMenuListBySysRoleIdList(@PathVariable("sysRoleId")String sysRoleId) {
+    public List<SysMenu> getEnabledSysMenuListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
         return sysMenuService.getEnabledSysMenuListBySysRoleIdList(Arrays.asList(sysRoleId));
     }
 
     @ApiOperation(value = "根据系统权限ID获取启用的系统菜单", notes = "", produces = "application/json")
-    @ApiImplicitParams({    
+    @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
     @GetMapping("/permission/{sysPermissionId}/enabled")
-    public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId")String sysPermissionId) {
+    public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysMenuService.getEnabledSysMenuListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }
-    
+
 
     @ApiOperation(value = "获取系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysMenuId", value = "系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path")
     })
     @GetMapping("/{sysMenuId}")
-    public SysMenu getSysMenu(@PathVariable("sysRoleId") String sysMenuId) {
+    public SysMenu getSysMenu(@PathVariable("sysMenuId") String sysMenuId) {
         return sysMenuService.getSysMenu(sysMenuId);
     }
 

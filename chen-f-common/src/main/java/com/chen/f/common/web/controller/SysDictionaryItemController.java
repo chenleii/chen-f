@@ -5,6 +5,7 @@ import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.service.ISysDictionaryItemService;
 import com.chen.f.common.web.dto.AlainSelectOutputDTO;
 import com.chen.f.common.web.dto.AlainTagOutputDTO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  * @author chen
  * @since 2020-04-06
  */
+@Api(tags = "系统字典项目接口")
 @RestController
 @RequestMapping("/chen/common/sys/dictionary/item")
 public class SysDictionaryItemController {

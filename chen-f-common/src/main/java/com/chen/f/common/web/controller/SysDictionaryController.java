@@ -1,8 +1,8 @@
 package com.chen.f.common.web.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chen
  * @since 2020-04-06
  */
+@Api(tags = "系统字典接口")
 @RestController
 @RequestMapping("/chen/common/sys/dictionary")
 public class SysDictionaryController {
