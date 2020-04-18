@@ -303,10 +303,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         ApiAssert.isNotNull(sysRole, ErrorResponse.create(String.format("没有找到系统角色[%s]", sysRoleId)));
         
         logger.debug("禁用系统角色");
-        sysRole.setStatus(StatusEnum.DISABLE);
+        sysRole.setStatus(StatusEnum.DISABLED);
         sysRole.setUpdatedSysUserId(operatedSysUserId);
         sysRole.setUpdatedDateTime(LocalDateTime.now());
-        int i = sysRoleMapper.update(sysRole, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getId, sysRoleId).ne(SysRole::getStatus, StatusEnum.DISABLE));
+        int i = sysRoleMapper.update(sysRole, Wrappers.<SysRole>lambdaQuery().eq(SysRole::getId, sysRoleId).ne(SysRole::getStatus, StatusEnum.DISABLED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统角色失败"));
     }
 }

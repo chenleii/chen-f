@@ -303,7 +303,7 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
 
         logger.debug("禁用系统组织");
-        sysOrganization.setStatus(StatusEnum.DISABLE);
+        sysOrganization.setStatus(StatusEnum.DISABLED);
         sysOrganization.setUpdatedSysUserId(operatedSysUserId);
         sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         int i = sysOrganizationMapper.updateById(sysOrganization);

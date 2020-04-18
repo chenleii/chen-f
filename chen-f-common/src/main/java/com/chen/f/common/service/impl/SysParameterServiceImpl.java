@@ -214,7 +214,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("禁用系统参数");
-        sysParameter.setStatus(StatusEnum.DISABLE);
+        sysParameter.setStatus(StatusEnum.DISABLED);
         sysParameter.setUpdatedSysUserId(operatedSysUserId);
         sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);
@@ -235,7 +235,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         ApiAssert.isNotNull(sysParameter, ErrorResponse.create("系统参数不存在"));
 
         logger.debug("禁用系统参数");
-        sysParameter.setStatus(StatusEnum.DISABLE);
+        sysParameter.setStatus(StatusEnum.DISABLED);
         sysParameter.setUpdatedSysUserId(operatedSysUserId);
         sysParameter.setUpdatedDateTime(LocalDateTime.now());
         int i = sysParameterMapper.updateById(sysParameter);

@@ -167,7 +167,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             logger.warn("添加系统定时任务失败", e);
             throw new ApiException(ErrorResponse.create("添加系统定时任务失败"), e);
         }
-        if (statusEnum == StatusEnum.DISABLE) {
+        if (statusEnum == StatusEnum.DISABLED) {
             this.disableSysTimedTaskByCode(code, operatedSysUserId);
         }
         
@@ -324,7 +324,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         logger.debug("修改系统定时任务数据库记录为禁用");
         sysTimedTask.setUpdatedSysUserId(operatedSysUserId);
         sysTimedTask.setUpdatedDateTime(LocalDateTime.now());
-        sysTimedTask.setStatus(StatusEnum.DISABLE);
+        sysTimedTask.setStatus(StatusEnum.DISABLED);
         int i = sysTimedTaskMapper.updateById(sysTimedTask);
         ApiAssert.isGreaterThatZero(i, ErrorResponse.create("禁用系统定时任务失败"));
     }
@@ -350,7 +350,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         logger.debug("修改系统定时任务数据库记录为禁用");
         sysTimedTask.setUpdatedSysUserId(operatedSysUserId);
         sysTimedTask.setUpdatedDateTime(LocalDateTime.now());
-        sysTimedTask.setStatus(StatusEnum.DISABLE);
+        sysTimedTask.setStatus(StatusEnum.DISABLED);
         int i = sysTimedTaskMapper.updateById(sysTimedTask);
         ApiAssert.isGreaterThatZero(i, ErrorResponse.create("禁用系统定时任务失败"));
     }

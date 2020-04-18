@@ -258,10 +258,10 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
         
         logger.debug("禁用系统权限");
-        sysPermission.setStatus(StatusEnum.DISABLE);
+        sysPermission.setStatus(StatusEnum.DISABLED);
         sysPermission.setUpdatedSysUserId(operatedSysUserId);
         sysPermission.setUpdatedDateTime(LocalDateTime.now());
-        int i = sysPermissionMapper.update(sysPermission, Wrappers.<SysPermission>lambdaQuery().eq(SysPermission::getId, sysPermissionId).ne(SysPermission::getStatus, StatusEnum.DISABLE));
+        int i = sysPermissionMapper.update(sysPermission, Wrappers.<SysPermission>lambdaQuery().eq(SysPermission::getId, sysPermissionId).ne(SysPermission::getStatus, StatusEnum.DISABLED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统权限失败"));
     }
 }

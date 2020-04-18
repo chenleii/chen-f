@@ -199,7 +199,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         ApiAssert.isNotNull(sysDictionary, ErrorResponse.create("系统字典不存在"));
 
         logger.debug("禁用系统字典");
-        sysDictionary.setStatus(StatusEnum.DISABLE);
+        sysDictionary.setStatus(StatusEnum.DISABLED);
         sysDictionary.setUpdatedSysUserId(operatedSysUserId);
         sysDictionary.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryMapper.updateById(sysDictionary);
@@ -207,7 +207,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
 
         //更新系统字典项目
         SysDictionaryItem sysDictionaryItem = new SysDictionaryItem();
-        sysDictionaryItem.setStatus(StatusEnum.DISABLE);
+        sysDictionaryItem.setStatus(StatusEnum.DISABLED);
         sysDictionaryItemMapper.update(sysDictionaryItem,
                 Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getSysDictionaryId, sysDictionaryId));
     }

@@ -258,7 +258,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
 
         logger.debug("禁用系统字典项目");
-        sysDictionaryItem.setStatus(StatusEnum.DISABLE);
+        sysDictionaryItem.setStatus(StatusEnum.DISABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
@@ -281,7 +281,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         logger.debug("禁用系统字典项目");
         sysDictionaryItem.setCode(code);
         sysDictionaryItem.setKey(key);
-        sysDictionaryItem.setStatus(StatusEnum.DISABLE);
+        sysDictionaryItem.setStatus(StatusEnum.DISABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.update(sysDictionaryItem, Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));

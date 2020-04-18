@@ -247,7 +247,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         ApiAssert.isNotNull(sysMenu, ErrorResponse.create("系统菜单不存在"));
 
         logger.debug("禁用系统菜单");
-        sysMenu.setStatus(StatusEnum.DISABLE);
+        sysMenu.setStatus(StatusEnum.DISABLED);
         sysMenu.setUpdatedSysUserId(operatedSysUserId);
         sysMenu.setUpdatedDateTime(LocalDateTime.now());
         int i = sysMenuMapper.updateById(sysMenu);

@@ -223,7 +223,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
         
         logger.debug("禁用系统接口");
-        sysApi.setStatus(StatusEnum.DISABLE);
+        sysApi.setStatus(StatusEnum.DISABLED);
         sysApi.setUpdatedSysUserId(operatedSysUserId);
         sysApi.setUpdatedDateTime(LocalDateTime.now());
         int i = sysApiMapper.updateById(sysApi);
