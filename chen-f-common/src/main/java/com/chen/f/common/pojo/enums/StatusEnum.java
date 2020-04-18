@@ -15,7 +15,7 @@ public enum StatusEnum {
     //启用
     ENABLED("ENABLED", "启用"),
     //禁用
-    DISABLE("DISABLED", "禁用"),
+    DISABLED("DISABLED", "禁用"),
 
     ;
 

@@ -19,7 +19,7 @@ public enum SysUserStatusEnum {
     //过期
     EXPIRED("EXPIRED", "过期"),
     //禁用
-    DISABLE("DISABLED", "禁用"),
+    DISABLED("DISABLED", "禁用"),
 
     ;
 
