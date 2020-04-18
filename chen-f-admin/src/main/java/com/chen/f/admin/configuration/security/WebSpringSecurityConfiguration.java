@@ -3,8 +3,8 @@ package com.chen.f.admin.configuration.security;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.chen.f.admin.configuration.security.filter.LoginAuthenticationFilter;
-import com.chen.f.admin.configuration.security.provider.LoginAuthenticationProvider;
 import com.chen.f.admin.configuration.security.handle.SpringSecurityHandle;
+import com.chen.f.admin.configuration.security.provider.LoginAuthenticationProvider;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
@@ -66,7 +67,7 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //禁用csrf
-        http.csrf().disable();
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login");
         //配置cors
         http.cors().configurationSource(corsConfigurationSource());
         // 基于token，所以不需要session

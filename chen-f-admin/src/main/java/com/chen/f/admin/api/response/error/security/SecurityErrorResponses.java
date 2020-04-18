@@ -75,8 +75,8 @@ public interface SecurityErrorResponses extends ErrorResponse {
     /**
      * 账户已禁用
      */
-    static ErrorResponse accountDisable() {
-        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountDisable", "账户已禁用");
+    static ErrorResponse accountDisabled() {
+        String message = I18nHelper.getMessage(SecurityErrorResponses.class.getName() + ".accountDisabled", "账户已禁用");
         return ErrorResponse.create(message);
     }
 

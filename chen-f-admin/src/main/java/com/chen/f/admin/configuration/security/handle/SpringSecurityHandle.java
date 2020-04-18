@@ -74,7 +74,7 @@ public class SpringSecurityHandle {
         } else if (authenticationException instanceof UsernameNotFoundException) {
             ServletUtils.responseJson(response, SecurityErrorResponses.usernameOrPasswordError());
         } else if (authenticationException instanceof DisabledException) {
-            ServletUtils.responseJson(response, SecurityErrorResponses.accountDisable());
+            ServletUtils.responseJson(response, SecurityErrorResponses.accountDisabled());
         } else if (authenticationException instanceof LockedException) {
             ServletUtils.responseJson(response, SecurityErrorResponses.accountLocked());
         } else if (authenticationException instanceof AccountExpiredException) {
