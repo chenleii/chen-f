@@ -89,7 +89,7 @@ public class SysDictionaryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}/byCode")
+    @GetMapping(path = "/code/{code:.*}")
     public SysDictionary getSysDictionaryList(@PathVariable(name = "code") String code) {
         return sysDictionaryService.getSysDictionaryByCode(code);
     }
@@ -174,7 +174,7 @@ public class SysDictionaryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code:.*}/byCode")
+    @DeleteMapping("/code/{code:.*}")
     public void deleteSysDictionaryByCode(
             @PathVariable(name = "code") String code) {
         sysDictionaryService.deleteSysDictionaryByCode(code);

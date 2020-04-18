@@ -84,7 +84,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param key  系统字典项目KEY
      * @return 系统字典项目对象
      */
-    SysDictionaryItem getSysDictionaryItem(String code, String key);
+    SysDictionaryItem getSysDictionaryItemByCodeAndKey(String code, String key);
 
     /**
      * 创建系统字典项目

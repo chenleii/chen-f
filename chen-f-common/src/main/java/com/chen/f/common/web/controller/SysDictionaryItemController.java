@@ -44,7 +44,7 @@ public class SysDictionaryItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code}/byCode")
+    @GetMapping(path = "/code/{code}")
     public List<SysDictionaryItem> getSysDictionaryItemList(@PathVariable(name = "code") String code) {
         return sysDictionaryItemService.getSysDictionaryItemListByCode(code);
     }
@@ -65,11 +65,11 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}/{key}/byCodeAndKey")
+    @GetMapping(path = "/code/key/{code:.*}/{key}")
     public SysDictionaryItem getSysDictionaryItem(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
-        return sysDictionaryItemService.getSysDictionaryItem(code, key);
+        return sysDictionaryItemService.getSysDictionaryItemByCodeAndKey(code, key);
     }
 
     @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")

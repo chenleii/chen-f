@@ -264,8 +264,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ApiAssert.isGreaterThanOrEqualTo(sysUser.getLevel(), operatedSysUser.getLevel(), ErrorResponse.create("操作的系统用户级别不能小于修改的系统用户级别"));
 
         logger.debug("禁用系统用户");
-        sysUser.setStatus(SysUserStatusEnum.DISABLE);
-        int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.DISABLE));
+        sysUser.setStatus(SysUserStatusEnum.DISABLED);
+        int i = sysUserMapper.update(sysUser, Wrappers.<SysUser>lambdaQuery().eq(SysUser::getId, sysUserId).ne(SysUser::getStatus, SysUserStatusEnum.DISABLED));
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
 
     }

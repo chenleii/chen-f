@@ -82,7 +82,7 @@ public class SysMenuController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping("/role/{sysRoleId}/enabled")
+    @GetMapping("/role/enabled/{sysRoleId}")
     public List<SysMenu> getEnabledSysMenuListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
         return sysMenuService.getEnabledSysMenuListBySysRoleIdList(Arrays.asList(sysRoleId));
     }
@@ -91,7 +91,7 @@ public class SysMenuController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping("/permission/{sysPermissionId}/enabled")
+    @GetMapping("/permission/enabled/{sysPermissionId}")
     public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysMenuService.getEnabledSysMenuListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }

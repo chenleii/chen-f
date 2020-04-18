@@ -79,7 +79,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path")
     })
-    @GetMapping(path = "/{code}/byCode")
+    @GetMapping(path = "/code/{code}")
     public SysTimedTask getSysTimedTaskByCode(@PathVariable(name = "code") String code) {
         return sysTimedTaskService.getSysTimedTaskByCode(code);
     }
@@ -178,7 +178,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code}/byCode")
+    @DeleteMapping("/code/{code}")
     @ResponseBody
     public R deleteSysTimedTaskByCode(@PathVariable(name = "code") String code) {
         sysTimedTaskService.deleteSysTimedTaskByCode(code);
@@ -201,7 +201,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code}/enable/byCode")
+    @PostMapping("/code/{code}/enable")
     @ResponseBody
     public R enabledSysTimedTaskByCode(@PathVariable(name = "code") String code) {
         String sysUserId = SecurityHelper.getSysUserId();
@@ -225,7 +225,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code}/disable/byCode")
+    @PostMapping("/code/{code}/disable")
     @ResponseBody
     public R disableSysTimedTaskByCode(@PathVariable(name = "code") String code) {
         String sysUserId = SecurityHelper.getSysUserId();
@@ -248,7 +248,7 @@ public class SysTimedTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code}/execution/byCode")
+    @PostMapping("/code/{code}/execution")
     @ResponseBody
     public R executionSysTimedTaskByCode(@PathVariable(name = "code") String code) {
         sysTimedTaskService.executionSysTimedTaskByCode(code);

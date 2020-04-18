@@ -87,7 +87,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
     }
 
     @Override
-    public SysDictionaryItem getSysDictionaryItem(String code, String key) {
+    public SysDictionaryItem getSysDictionaryItemByCodeAndKey(String code, String key) {
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
         return sysDictionaryItemMapper.selectOne(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));

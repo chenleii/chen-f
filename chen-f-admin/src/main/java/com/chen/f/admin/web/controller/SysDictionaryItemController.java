@@ -97,7 +97,7 @@ public class SysDictionaryItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysDictionaryItemId", value = "系统字典项目ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{sysDictionaryId}/BySysDictionaryId")
+    @GetMapping(path = "/sysDictionaryId/{sysDictionaryId}")
     public List<SysDictionaryItem> getSysDictionaryItemListBySysDictionaryId(
             @PathVariable(name = "sysDictionaryId") String sysDictionaryId) {
         return sysDictionaryItemService.getSysDictionaryItemListBySysDictionaryId(sysDictionaryId);
@@ -107,7 +107,7 @@ public class SysDictionaryItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}/byCode")
+    @GetMapping(path = "/code/{code:.*}")
     public List<SysDictionaryItem> getSysDictionaryItemList(@PathVariable(name = "code") String code) {
         return sysDictionaryItemService.getSysDictionaryItemListByCode(code);
     }
@@ -117,11 +117,11 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping(path = "/{code:.*}/{key}/byCodeAndKey")
+    @GetMapping(path = "/code/key/{code:.*}/{key}")
     public com.chen.f.common.pojo.SysDictionaryItem getSysDictionaryItem(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
-        return sysDictionaryItemService.getSysDictionaryItem(code, key);
+        return sysDictionaryItemService.getSysDictionaryItemByCodeAndKey(code, key);
     }
 
     @ApiOperation(value = "创建系统字典项目", notes = "", produces = "application/json")
@@ -229,7 +229,7 @@ public class SysDictionaryItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code:.*}/byCode")
+    @DeleteMapping("/code/{code:.*}")
     public void deleteSysDictionaryItemByCode(
             @PathVariable(name = "code") String code) {
         sysDictionaryItemService.deleteSysDictionaryItemByCode(code);
@@ -240,7 +240,7 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code:.*}/{key}/byCodeAndKey")
+    @DeleteMapping("/code/key/{code:.*}/{key}")
     public void deleteSysDictionaryItem(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
@@ -252,7 +252,7 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code:.*}/{key}/enable/byCodeAndKey")
+    @PostMapping("/code/key/{code:.*}/{key}/enable")
     public void enabledSysDictionaryItem(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {
@@ -287,7 +287,7 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code:.*}/{key}/disable/byCodeAndKey")
+    @PostMapping("/code/key/{code:.*}/{key}/disable")
     public void disableSysDictionaryItem(
             @PathVariable(name = "code") String code,
             @PathVariable(name = "key") String key) {

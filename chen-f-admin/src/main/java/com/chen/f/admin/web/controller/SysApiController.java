@@ -81,7 +81,7 @@ public class SysApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping("/role/{sysRoleId}/enabled")
+    @GetMapping("/role/enabled/{sysRoleId}")
     public List<SysApi> getEnabledSysApiListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
         return sysApiService.getEnabledSysApiListBySysRoleIdList(Arrays.asList(sysRoleId));
     }
@@ -90,7 +90,7 @@ public class SysApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping("/permission/{sysPermissionId}/enabled")
+    @GetMapping("/permission/enabled/{sysPermissionId}")
     public List<SysApi> getEnabledSysApiListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysApiService.getEnabledSysApiListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }

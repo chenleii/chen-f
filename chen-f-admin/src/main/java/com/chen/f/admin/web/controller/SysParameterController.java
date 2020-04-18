@@ -91,7 +91,7 @@ public class SysParameterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @GetMapping("/{code}/byCode")
+    @GetMapping("/code/{code}")
     public SysParameter getSysParameterByCode(@PathVariable("code") String code) {
         return sysParameterService.getSysParameterByCode(code);
     }
@@ -181,7 +181,7 @@ public class SysParameterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @DeleteMapping("/{code}/byCode")
+    @DeleteMapping("/code/{code}")
     public void deleteSysParameterByCode(@PathVariable("code") String code) {
         sysParameterService.deleteSysParameterByCode(code);
     }
@@ -200,7 +200,7 @@ public class SysParameterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code}/enable/byCode")
+    @PostMapping("/code/{code}/enable")
     public void enabledSysParameterByCode(@PathVariable("code") String code) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.enabledSysParameterByCode(code, operatedSysUserId);
@@ -220,7 +220,7 @@ public class SysParameterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
-    @PostMapping("/{code}/disable/byCode")
+    @PostMapping("/code/{code}/disable")
     public void disableSysParameterByCode(@PathVariable("code") String code) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysParameterService.disableSysParameterByCode(code, operatedSysUserId);
