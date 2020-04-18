@@ -26,7 +26,6 @@ public class EnableChenFAdminConfigurationImportSelector implements DeferredImpo
 
                 OnlineController.class.getName(),
                 SysApiController.class.getName(),
-                SysDictController.class.getName(),
                 SysDictionaryController.class.getName(),
                 SysDictionaryItemController.class.getName(),
                 SysMenuController.class.getName(),
