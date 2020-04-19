@@ -42,7 +42,7 @@ public class EnableChenFAdminSpringSecurityConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnClass({GrantedAuthorityDefaults.class, SysOrganizationMapper.class, SysOrganizationUserMapper.class, SysOrganizationRoleMapper.class,
-            SysUserMapper.class, SysUserRoleMapper.class, SysRoleMapper.class, SysRolePermissionMapper.class, SysPermissionMapper.class, 
+            SysUserMapper.class, SysUserRoleMapper.class, SysRoleMapper.class, SysRolePermissionMapper.class, SysPermissionMapper.class,
     })
     public UserDetailsService userDetailsService(
             GrantedAuthorityDefaults grantedAuthorityDefaults,
@@ -66,14 +66,16 @@ public class EnableChenFAdminSpringSecurityConfiguration {
     }
 
     @Bean
-    public HttpSecurityCustomizer httpSecurityCustomizer(SysApiRolePermissionMapper sysApiRolePermissionMapper) {
+    public HttpSecurityCustomizer httpSecurityCustomizer(
+            GrantedAuthorityDefaults grantedAuthorityDefaults, SysApiRolePermissionMapper sysApiRolePermissionMapper) {
         return (httpSecurity) -> {
             if (sysApiRolePermissionMapper != null) {
                 List<SysApiRolePermission> sysApiRolePermissionList = sysApiRolePermissionMapper.selectSysApiRolePermissionList();
                 if (CollectionUtils.isNotEmpty(sysApiRolePermissionList)) {
                     ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = httpSecurity.authorizeRequests();
                     for (SysApiRolePermission sysApiRolePermission : sysApiRolePermissionList) {
-                        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl = expressionInterceptUrlRegistry.antMatchers(HttpMethod.resolve(sysApiRolePermission.getHttpMethod().httpMethod), sysApiRolePermission.getUrl());
+                        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl = expressionInterceptUrlRegistry.antMatchers(
+                                HttpMethod.resolve(sysApiRolePermission.getHttpMethod().httpMethod), sysApiRolePermission.getUrl());
                         //有角色字符串
                         String hasRoleString = null;
                         //有权限字符串
@@ -81,7 +83,7 @@ public class EnableChenFAdminSpringSecurityConfiguration {
                         if (CollectionUtils.isNotEmpty(sysApiRolePermission.getSysRoleList())) {
                             hasRoleString = sysApiRolePermission.getSysRoleList().stream()
                                     .map(SysRole::getCode)
-                                    .map((s) -> "'" + s + "'")
+                                    .map((s) -> "'" + grantedAuthorityDefaults.getRolePrefix() + s + "'")
                                     .collect(Collectors.joining(",", "hasRole(", ")"));
                         }
                         if (CollectionUtils.isNotEmpty(sysApiRolePermission.getSysPermissionList())) {
