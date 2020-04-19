@@ -6,7 +6,7 @@ import com.chen.f.admin.service.ISysTimedTaskLogService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
 import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
-import com.chen.f.common.api.response.success.R;
+import com.chen.f.core.api.response.success.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

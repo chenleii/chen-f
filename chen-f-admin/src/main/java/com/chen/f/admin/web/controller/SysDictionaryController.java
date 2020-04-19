@@ -2,7 +2,7 @@ package com.chen.f.admin.web.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.configuration.helper.SecurityHelper;
+import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.common.pojo.SysDictionary;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysDictionaryTypeEnum;

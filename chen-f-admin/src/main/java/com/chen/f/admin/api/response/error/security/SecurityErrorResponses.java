@@ -1,14 +1,14 @@
 package com.chen.f.admin.api.response.error.security;
 
-import com.chen.f.common.api.response.error.ErrorResponse;
-import com.chen.f.common.configuration.helper.I18nHelper;
+import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.configuration.i18n.I18nHelper;
 
 import java.util.Collection;
 
 /**
  * spring-security的错误响应
  * <p>
- * 继承{@link com.chen.f.common.api.response.error.ErrorResponse}方便查找
+ * 继承{@link com.chen.f.core.api.response.error.ErrorResponse}方便查找
  *
  * @author chen
  * @since 2018/11/11 17:19.

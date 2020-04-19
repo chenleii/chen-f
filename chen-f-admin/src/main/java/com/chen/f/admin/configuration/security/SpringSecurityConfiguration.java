@@ -1,8 +1,6 @@
 package com.chen.f.admin.configuration.security;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.admin.configuration.helper.SecuritySessionHelper;
-import com.chen.f.admin.configuration.helper.SysUserRolePermissionHelper;
 import com.chen.f.admin.configuration.security.errorhandle.SpringSecurityExceptionHandle;
 import com.chen.f.admin.configuration.security.service.DefaultUserDetailsService;
 import com.chen.f.common.mapper.SysApiRolePermissionMapper;
@@ -41,7 +39,6 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
@@ -130,23 +127,6 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @ConditionalOnClass({SessionRegistry.class})
     public SecuritySessionHelper springSecurityHelper(SessionRegistry sessionRegistry) {
         return new SecuritySessionHelper(sessionRegistry);
-    }
-
-    @Bean
-    @ConditionalOnClass({
-            SysUserRolePermissionHelper.class,
-            PasswordEncoder.class,
-            SysUserMapper.class,
-            SysRoleMapper.class,
-            SysPermissionMapper.class,
-            SysUserRoleMapper.class,
-            SysRolePermissionMapper.class,
-            SysUserRolePermissionMapper.class,
-    })
-    public SysUserRolePermissionHelper sysUserRolePermissionHelper(PasswordEncoder passwordEncoder,
-                                                                   SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper, SysPermissionMapper sysPermissionMapper,
-                                                                   SysUserRoleMapper sysUserRoleMapper, SysRolePermissionMapper sysRolePermissionMapper, SysUserRolePermissionMapper sysUserRolePermissionMapper) {
-        return new SysUserRolePermissionHelper(passwordEncoder, sysUserMapper, sysRoleMapper, sysPermissionMapper, sysUserRoleMapper, sysRolePermissionMapper, sysUserRolePermissionMapper);
     }
 
 

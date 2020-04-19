@@ -1,7 +1,6 @@
 package com.chen.f.admin.configuration.quartz;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.admin.configuration.helper.QuartzHelper;
 import com.chen.f.admin.service.ISysTimedTaskService;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;

@@ -1,8 +1,15 @@
 package com.chen.f.common.configuration;
 
-import com.chen.f.common.configuration.distributedlock.EnableDistributedLock;
-import com.chen.f.common.configuration.errorhandle.EnableChenFErrorHandle;
-import com.chen.f.common.configuration.i18n.EnableChenFI18n;
+import com.chen.f.core.configuration.applicationcontext.EnableChenFApplicationContext;
+import com.chen.f.core.configuration.cache.EnableChenFCache;
+import com.chen.f.core.configuration.distributedlock.EnableDistributedLock;
+import com.chen.f.core.configuration.errorhandle.EnableChenFErrorHandle;
+import com.chen.f.core.configuration.i18n.EnableChenFI18n;
+import com.chen.f.core.configuration.mybatisplus.EnableChenFMybatisPlus;
+import com.chen.f.core.configuration.redis.EnableChenFRedis;
+import com.chen.f.core.configuration.session.EnableChenFSession;
+import com.chen.f.core.configuration.swagger.EnableChenFSwagger;
+import com.chen.f.core.configuration.validator.EnableChenFValidator;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Import;
 
@@ -22,18 +29,19 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({
-        EnableChenFCommonMybatisPlusConfiguration.class,
-        EnableChenFCommonRedisConfiguration.class,
-        EnableChenFCommonSpringSessionConfiguration.class,
-        EnableChenFCommonSwagger2Configuration.class,
-        EnableChenFCommonWebMvcConfiguration.class,
-
         EnableChenFCommonConfiguration.class,
         EnableChenFCommonConfigurationImportSelector.class,
 })
 @EnableChenFI18n
 @EnableChenFErrorHandle
 @EnableCaching
+@EnableChenFCache
+@EnableChenFValidator
 @EnableDistributedLock
+@EnableChenFRedis
+@EnableChenFSession
+@EnableChenFApplicationContext
+@EnableChenFMybatisPlus
+@EnableChenFSwagger
 public @interface EnableChenFCommon {
 }
