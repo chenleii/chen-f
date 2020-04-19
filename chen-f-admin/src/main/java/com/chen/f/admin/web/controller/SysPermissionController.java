@@ -2,7 +2,7 @@ package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.admin.service.ISysPermissionService;
+import com.chen.f.common.service.ISysPermissionService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
 import com.chen.f.common.pojo.SysPermission;

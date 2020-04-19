@@ -2,7 +2,7 @@ package com.chen.f.admin.web.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.chen.f.admin.service.ISysTimedTaskLogService;
+import com.chen.f.common.service.ISysTimedTaskLogService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
 import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;

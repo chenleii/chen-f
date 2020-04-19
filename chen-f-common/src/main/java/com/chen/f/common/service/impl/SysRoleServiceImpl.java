@@ -1,4 +1,4 @@
-package com.chen.f.admin.service.impl;
+package com.chen.f.common.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.admin.service.ISysRoleService;
+import com.chen.f.common.service.ISysRoleService;
 import com.chen.f.common.mapper.*;
 import com.chen.f.common.pojo.*;
 import com.chen.f.common.pojo.enums.StatusEnum;

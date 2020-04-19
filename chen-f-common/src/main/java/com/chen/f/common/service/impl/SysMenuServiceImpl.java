@@ -1,9 +1,9 @@
-package com.chen.f.admin.service.impl;
+package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.admin.service.ISysMenuService;
+import com.chen.f.common.service.ISysMenuService;
 import com.chen.f.common.mapper.SysMenuMapper;
 import com.chen.f.common.mapper.SysPermissionMenuMapper;
 import com.chen.f.common.mapper.SysRoleMenuMapper;

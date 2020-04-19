@@ -20,6 +20,15 @@ public class EnableChenFCommonConfigurationImportSelector implements DeferredImp
                 SysDictionaryItemServiceImpl.class.getName(),
                 SysParameterServiceImpl.class.getName(),
 
+                SysApiServiceImpl.class.getName(),
+                SysMenuServiceImpl.class.getName(),
+                SysOrganizationServiceImpl.class.getName(),
+                SysPermissionServiceImpl.class.getName(),
+                SysRoleServiceImpl.class.getName(),
+                SysTimedTaskLogServiceImpl.class.getName(),
+                SysTimedTaskServiceImpl.class.getName(),
+                SysUserServiceImpl.class.getName(),
+
                 CountryController.class.getName(),
                 RegionController.class.getName(),
                 RegionIdCardController.class.getName(),

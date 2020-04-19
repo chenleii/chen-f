@@ -1,11 +1,11 @@
-package com.chen.f.admin.service.impl;
+package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.admin.service.ISysTimedTaskLogService;
+import com.chen.f.common.service.ISysTimedTaskLogService;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.pojo.SysTimedTaskLog;
 import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;

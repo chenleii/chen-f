@@ -2,8 +2,8 @@ package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
-import com.chen.f.admin.service.ISysApiService;
-import com.chen.f.admin.service.ISysMenuService;
+import com.chen.f.common.service.ISysApiService;
+import com.chen.f.common.service.ISysMenuService;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;

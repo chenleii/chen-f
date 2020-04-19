@@ -2,7 +2,7 @@ package com.chen.f.admin.web.controller;
 
 
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.admin.service.ISysOrganizationService;
+import com.chen.f.common.service.ISysOrganizationService;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
 import com.chen.f.admin.web.dto.SysUsersInputDTO;
 import com.chen.f.common.pojo.SysOrganization;

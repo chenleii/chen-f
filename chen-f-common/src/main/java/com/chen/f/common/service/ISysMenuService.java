@@ -1,4 +1,4 @@
-package com.chen.f.admin.service;
+package com.chen.f.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysMenu;
