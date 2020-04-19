@@ -1,6 +1,6 @@
 package com.chen.f.admin.configuration.security;
 
-import com.chen.f.core.configuration.security.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.core.api.response.error.security.SecurityErrorResponses;
 import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
 import com.chen.f.core.api.ApiAssert;

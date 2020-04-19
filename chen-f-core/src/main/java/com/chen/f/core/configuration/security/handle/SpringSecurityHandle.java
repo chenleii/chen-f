@@ -1,7 +1,7 @@
 package com.chen.f.core.configuration.security.handle;
 
 import com.chen.f.core.api.response.success.R;
-import com.chen.f.core.configuration.security.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.core.api.response.error.security.SecurityErrorResponses;
 import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
 import com.chen.f.core.configuration.security.exception.CaptchaException;
 import com.chen.f.core.util.ServletUtils;
