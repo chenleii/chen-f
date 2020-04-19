@@ -7,6 +7,7 @@
         <id column="ID" property="id" />
         <result column="PARENT_ID" property="parentId" />
         <result column="NAME" property="name" />
+        <result column="NAME_I18N" property="nameI18n" />
         <result column="URL" property="url" />
         <result column="ICON" property="icon" />
         <result column="TYPE" property="type" />
@@ -24,6 +25,7 @@
         `ID`,
         `PARENT_ID`,
         `NAME`,
+        `NAME_I18N`,
         `URL`,
         `ICON`,
         `TYPE`,
@@ -61,6 +63,7 @@
         SYS_MENU.`ID`,
         SYS_MENU.`PARENT_ID`,
         SYS_MENU.`NAME`,
+        SYS_MENU.`NAME_I18N`,
         SYS_MENU.`URL`,
         SYS_MENU.`ICON`,
         SYS_MENU.`TYPE`,
@@ -107,6 +110,7 @@
         SYS_MENU.`ID`,
         SYS_MENU.`PARENT_ID`,
         SYS_MENU.`NAME`,
+        SYS_MENU.`NAME_I18N`,
         SYS_MENU.`URL`,
         SYS_MENU.`ICON`,
         SYS_MENU.`TYPE`,

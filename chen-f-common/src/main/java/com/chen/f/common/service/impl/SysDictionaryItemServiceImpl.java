@@ -94,13 +94,14 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
     }
 
     @Override
-    public void createSysDictionaryItem(String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
+    public void createSysDictionaryItem(String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                         StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysDictionaryId, ErrorResponse.create("系统字典ID不能为空"));
         ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典项目名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典项目值不能为空"));
+        //ApiAssert.isNotBlank(valueI18n, ErrorResponse.create("系统字典项目值的国际化不能为空"));
         ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
         ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
@@ -119,6 +120,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setName(name);
         sysDictionaryItem.setKey(key);
         sysDictionaryItem.setValue(value);
+        sysDictionaryItem.setValueI18n(valueI18n);
         sysDictionaryItem.setKeyType(keyType);
         sysDictionaryItem.setValueType(valueType);
         sysDictionaryItem.setColor(color);
@@ -135,7 +137,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
     }
 
     @Override
-    public void updateSysDictionaryItem(String sysDictionaryItemId, String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
+    public void updateSysDictionaryItem(String sysDictionaryItemId, String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                         StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
         ApiAssert.isNotBlank(sysDictionaryId, ErrorResponse.create("系统字典ID不能为空"));
@@ -143,6 +145,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典项目名称不能为空"));
         ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典项目值不能为空"));
+        //ApiAssert.isNotBlank(valueI18n, ErrorResponse.create("系统字典项目值的国际化不能为空"));
         ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
         ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
@@ -165,6 +168,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setKey(key);
         sysDictionaryItem.setName(name);
         sysDictionaryItem.setValue(value);
+        sysDictionaryItem.setValueI18n(valueI18n);
         sysDictionaryItem.setKeyType(keyType);
         sysDictionaryItem.setValueType(valueType);
         sysDictionaryItem.setColor(color);

@@ -131,6 +131,7 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "name", value = "系统字典项目名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "value", value = "系统字典项目值", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "valueI18n", value = "系统字典项目值的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "keyType", value = "系统字典项目KEY类型", required = true, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "valueType", value = "系统字典项目值类型", required = true, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "color", value = "系统字典项目颜色", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -145,6 +146,7 @@ public class SysDictionaryItemController {
             @RequestParam(name = "name") String name,
             @RequestParam(name = "key") String key,
             @RequestParam(name = "value") String value,
+            @RequestParam(name = "valueI18n", required = false) String valueI18n,
             @RequestParam(name = "keyType") TypeTypeEnum keyType,
             @RequestParam(name = "valueType") TypeTypeEnum valueType,
             @RequestParam(name = "color", required = false) String color,
@@ -152,7 +154,7 @@ public class SysDictionaryItemController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysRoleId = SecurityHelper.getSysUserId();
-        sysDictionaryItemService.createSysDictionaryItem(sysDictionaryId, code, name, key, value, keyType, valueType, color, order, remark, status, operatedSysRoleId);
+        sysDictionaryItemService.createSysDictionaryItem(sysDictionaryId, code, name, key, value, valueI18n, keyType, valueType, color, order, remark, status, operatedSysRoleId);
     }
 
     @ApiOperation(value = "创建系统字典项目", notes = "", produces = "application/json")
@@ -163,7 +165,7 @@ public class SysDictionaryItemController {
     public void createSysDictionaryItem(@RequestBody() SysDictionaryItem sysDictionaryItem) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictionaryItemService.createSysDictionaryItem(sysDictionaryItem.getSysDictionaryId(), sysDictionaryItem.getCode(), sysDictionaryItem.getName(), sysDictionaryItem.getKey(), sysDictionaryItem.getValue(),
-                sysDictionaryItem.getKeyType(), sysDictionaryItem.getValueType(), sysDictionaryItem.getColor(), sysDictionaryItem.getOrder(), sysDictionaryItem.getRemark(), sysDictionaryItem.getStatus(), operatedSysUserId);
+                sysDictionaryItem.getValueI18n(), sysDictionaryItem.getKeyType(), sysDictionaryItem.getValueType(), sysDictionaryItem.getColor(), sysDictionaryItem.getOrder(), sysDictionaryItem.getRemark(), sysDictionaryItem.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统字典项目", notes = "", produces = "application/json")
@@ -174,6 +176,7 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "name", value = "系统字典项目名称", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "key", value = "系统字典项目KEY", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "value", value = "系统字典项目值", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "valueI18n", value = "系统字典项目值的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "keyType", value = "系统字典项目KEY类型", required = true, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "valueType", value = "系统字典项目值类型", required = true, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
             @ApiImplicitParam(name = "color", value = "系统字典项目颜色", required = false, dataTypeClass = String.class, paramType = "from"),
@@ -189,6 +192,7 @@ public class SysDictionaryItemController {
             @RequestParam(name = "name") String name,
             @RequestParam(name = "key") String key,
             @RequestParam(name = "value") String value,
+            @RequestParam(name = "valueI18n", required = false) String valueI18n,
             @RequestParam(name = "keyType") TypeTypeEnum keyType,
             @RequestParam(name = "valueType") TypeTypeEnum valueType,
             @RequestParam(name = "color", required = false) String color,
@@ -197,7 +201,7 @@ public class SysDictionaryItemController {
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictionaryItemService.updateSysDictionaryItem(sysDictionaryItemId, sysDictionaryId, code, name, key,
-                value, keyType, valueType, color, order, remark, status, operatedSysUserId);
+                value, valueI18n, keyType, valueType, color, order, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统字典项目", notes = "", produces = "application/json")
@@ -211,7 +215,7 @@ public class SysDictionaryItemController {
             @RequestBody() SysDictionaryItem sysDictionaryItem) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
         sysDictionaryItemService.updateSysDictionaryItem(sysDictionaryItemId, sysDictionaryItem.getSysDictionaryId(), sysDictionaryItem.getCode(), sysDictionaryItem.getName(), sysDictionaryItem.getKey(), sysDictionaryItem.getValue(),
-                sysDictionaryItem.getKeyType(), sysDictionaryItem.getValueType(), sysDictionaryItem.getColor(), sysDictionaryItem.getOrder(), sysDictionaryItem.getRemark(),
+                sysDictionaryItem.getValueI18n(), sysDictionaryItem.getKeyType(), sysDictionaryItem.getValueType(), sysDictionaryItem.getColor(), sysDictionaryItem.getOrder(), sysDictionaryItem.getRemark(),
                 sysDictionaryItem.getStatus(), operatedSysUserId);
     }
 

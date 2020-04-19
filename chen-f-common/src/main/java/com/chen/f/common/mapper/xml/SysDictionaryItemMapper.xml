@@ -10,6 +10,7 @@
         <result column="NAME" property="name" />
         <result column="KEY" property="key" />
         <result column="VALUE" property="value" />
+        <result column="VALUE_I18N" property="valueI18n" />
         <result column="KEY_TYPE" property="keyType" />
         <result column="VALUE_TYPE" property="valueType" />
         <result column="COLOR" property="color" />
@@ -30,6 +31,7 @@
         `NAME`,
         `KEY`,
         `VALUE`,
+        `VALUE_I18N`,
         `KEY_TYPE`,
         `VALUE_TYPE`,
         `COLOR`,

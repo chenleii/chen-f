@@ -82,10 +82,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public void createSysMenu(String parentId, String name, String url, String icon, SysMenuTypeEnum type,
+    public void createSysMenu(String parentId, String name, String nameI18n, String url, String icon, SysMenuTypeEnum type,
                               Integer order, String remark, StatusEnum status, String operatedSysUserId) {
         //ApiAssert.isNotNull(parentId, ErrorResponse.create("系统菜单父级ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统菜单名称不能为空"));
+        //ApiAssert.isNotBlank(nameI18n, ErrorResponse.create("系统菜单名称的国际化不能为空"));
         //ApiAssert.isNotBlank(url, ErrorResponse.create("系统菜单URL不能为空"));
         //ApiAssert.isNotBlank(icon, ErrorResponse.create("系统菜单图标不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统菜单类型不能为空"));
@@ -123,6 +124,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         SysMenu sysMenu = new SysMenu();
         sysMenu.setParentId(parentId);
         sysMenu.setName(name);
+        sysMenu.setNameI18n(nameI18n);
         sysMenu.setUrl(url);
         sysMenu.setIcon(icon);
         sysMenu.setType(type);
@@ -139,11 +141,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public void updateSysMenu(String sysMenuId, String parentId, String name, String url, String icon, SysMenuTypeEnum type,
+    public void updateSysMenu(String sysMenuId, String parentId, String name, String nameI18n, String url, String icon, SysMenuTypeEnum type,
                               Integer order, String remark, StatusEnum status, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysMenuId, ErrorResponse.create("系统菜单ID不能为空"));
         //ApiAssert.isNotBlank(parentId, ErrorResponse.create("系统菜单父级ID不能为空"));
         ApiAssert.isNotBlank(name, ErrorResponse.create("系统菜单名称不能为空"));
+        //ApiAssert.isNotBlank(nameI18n, ErrorResponse.create("系统菜单名称的国际化不能为空"));
         ApiAssert.isNotBlank(url, ErrorResponse.create("系统菜单URL不能为空"));
         //ApiAssert.isNotBlank(icon, ErrorResponse.create("系统菜单图标不能为空"));
         ApiAssert.isNotNull(type, ErrorResponse.create("系统菜单类型不能为空"));
@@ -183,6 +186,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         logger.debug("修改系统菜单");
         sysMenu.setParentId(parentId);
         sysMenu.setName(name);
+        sysMenu.setNameI18n(nameI18n);
         sysMenu.setUrl(url);
         sysMenu.setIcon(icon);
         sysMenu.setType(type);

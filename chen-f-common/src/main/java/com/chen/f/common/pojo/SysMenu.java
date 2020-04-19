@@ -44,6 +44,10 @@ public class SysMenu extends Model<SysMenu> {
     @ApiModelProperty(value = "系统菜单名称")
     @TableField("`NAME`")
     private String name;
+    
+    @ApiModelProperty(value = "系统字典名称的国际化")
+    @TableField("`NAME_I18N`")
+    private String nameI18n;
 
     @ApiModelProperty(value = "系统菜单URL")
     @TableField("`URL`")

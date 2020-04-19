@@ -57,6 +57,10 @@ public class SysDictionaryItem extends Model<SysDictionaryItem> {
     @TableField("`VALUE`")
     private String value;
 
+    @ApiModelProperty(value = "系统字典项目值的国际化")
+    @TableField("`VALUE_I18N`")
+    private String valueI18n;
+
     @ApiModelProperty(value = "系统字典项目KEY类型(STRING:字符串;BYTE:整数BYTE;SHORT:整数SHORT;INTEGER:整数INTEGER;LONG:整数LONG;BIG_INTEGER:大的整数;FLOAT:小数FLOAT;DOUBLE:小数DOUBLE;BIG_DECIMAL:大的小数;BOOLEAN:布尔;)")
     @TableField("`KEY_TYPE`")
     private TypeTypeEnum keyType;

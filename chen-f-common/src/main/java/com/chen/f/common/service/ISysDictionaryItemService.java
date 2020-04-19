@@ -94,7 +94,8 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param name              系统字典项目名称
      * @param key               系统字典项目KEY
      * @param value             系统字典项目值
-     * @param keyType           KEY类型
+     * @param valueI18n         系统字典项目值的国际化
+     * @param keyType           系统字典项目KEY类型
      * @param valueType         系统字典项目值类型
      * @param color             系统字典项目颜色
      * @param order             系统字典项目顺序
@@ -102,7 +103,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param status            系统字典项目状态
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void createSysDictionaryItem(String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
+    void createSysDictionaryItem(String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                  StatusEnum status, String operatedSysUserId);
 
     /**
@@ -114,7 +115,8 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param name                系统字典项目名称
      * @param key                 系统字典项目KEY
      * @param value               系统字典项目值
-     * @param keyType             KEY类型
+     * @param valueI18n           系统字典项目值的国际化
+     * @param keyType             系统字典项目KEY类型
      * @param valueType           系统字典项目值类型
      * @param color               系统字典项目颜色
      * @param order               系统字典项目顺序
@@ -122,7 +124,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param status              系统字典项目状态
      * @param operatedSysUserId   操作的系统用户ID
      */
-    void updateSysDictionaryItem(String sysDictionaryItemId, String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
+    void updateSysDictionaryItem(String sysDictionaryItemId, String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                  StatusEnum status, String operatedSysUserId);
 
     /**

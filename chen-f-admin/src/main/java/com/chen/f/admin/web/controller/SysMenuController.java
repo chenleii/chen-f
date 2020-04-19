@@ -110,6 +110,7 @@ public class SysMenuController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
@@ -121,6 +122,7 @@ public class SysMenuController {
     public void createSysMenu(
             @RequestParam(name = "parentId", required = false) String parentId,
             @RequestParam(name = "name") String name,
+            @RequestParam(name = "nameI18n", required = false) String nameI18n,
             @RequestParam(name = "url") String url,
             @RequestParam(name = "icon", required = false) String icon,
             @RequestParam(name = "type") SysMenuTypeEnum type,
@@ -128,7 +130,7 @@ public class SysMenuController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.createSysMenu(parentId, name, url, icon, type, order, remark, status, operatedSysUserId);
+        sysMenuService.createSysMenu(parentId, name, nameI18n, url, icon, type, order, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "创建系统菜单", notes = "", produces = "application/json")
@@ -138,7 +140,7 @@ public class SysMenuController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void createSysMenu(@RequestBody() SysMenu sysMenu) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.createSysMenu(sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(), sysMenu.getIcon(), sysMenu.getType(),
+        sysMenuService.createSysMenu(sysMenu.getParentId(), sysMenu.getName(), sysMenu.getNameI18n(), sysMenu.getUrl(), sysMenu.getIcon(), sysMenu.getType(),
                 sysMenu.getOrder(), sysMenu.getRemark(), sysMenu.getStatus(), operatedSysUserId);
     }
 
@@ -147,6 +149,7 @@ public class SysMenuController {
             @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
             @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
             @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
@@ -158,6 +161,7 @@ public class SysMenuController {
     public void updateSysMenu(@PathVariable("sysMenuId") String sysMenuId,
                               @RequestParam(name = "parentId", required = false) String parentId,
                               @RequestParam(name = "name") String name,
+                              @RequestParam(name = "nameI18n", required = false) String nameI18n,
                               @RequestParam(name = "url") String url,
                               @RequestParam(name = "icon", required = false) String icon,
                               @RequestParam(name = "type") SysMenuTypeEnum type,
@@ -165,7 +169,7 @@ public class SysMenuController {
                               @RequestParam(name = "remark", required = false) String remark,
                               @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.updateSysMenu(sysMenuId, parentId, name, url, icon, type, order, remark, status, operatedSysUserId);
+        sysMenuService.updateSysMenu(sysMenuId, parentId, name, nameI18n, url, icon, type, order, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
@@ -177,7 +181,7 @@ public class SysMenuController {
     public void updateSysMenu(@PathVariable("sysMenuId") String sysMenuId,
                               @RequestBody() SysMenu sysMenu) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysMenuService.updateSysMenu(sysMenuId, sysMenu.getParentId(), sysMenu.getName(), sysMenu.getUrl(), sysMenu.getIcon(),
+        sysMenuService.updateSysMenu(sysMenuId, sysMenu.getParentId(), sysMenu.getName(), sysMenu.getNameI18n(), sysMenu.getUrl(), sysMenu.getIcon(),
                 sysMenu.getType(), sysMenu.getOrder(), sysMenu.getRemark(), sysMenu.getStatus(), operatedSysUserId);
     }
 
