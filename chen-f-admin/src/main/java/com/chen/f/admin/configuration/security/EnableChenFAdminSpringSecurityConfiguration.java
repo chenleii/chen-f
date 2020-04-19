@@ -10,7 +10,6 @@ import com.chen.f.common.mapper.SysRoleMapper;
 import com.chen.f.common.mapper.SysRolePermissionMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.mapper.SysUserRoleMapper;
-import com.chen.f.common.mapper.SysUserRolePermissionMapper;
 import com.chen.f.common.pojo.SysApiRolePermission;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
@@ -43,7 +42,7 @@ public class EnableChenFAdminSpringSecurityConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnClass({GrantedAuthorityDefaults.class, SysOrganizationMapper.class, SysOrganizationUserMapper.class, SysOrganizationRoleMapper.class,
-            SysUserMapper.class, SysUserRoleMapper.class, SysRoleMapper.class, SysRolePermissionMapper.class, SysPermissionMapper.class, SysUserRolePermissionMapper.class,
+            SysUserMapper.class, SysUserRoleMapper.class, SysRoleMapper.class, SysRolePermissionMapper.class, SysPermissionMapper.class, 
     })
     public UserDetailsService userDetailsService(
             GrantedAuthorityDefaults grantedAuthorityDefaults,
@@ -54,8 +53,7 @@ public class EnableChenFAdminSpringSecurityConfiguration {
             SysUserRoleMapper sysUserRoleMapper,
             SysRoleMapper sysRoleMapper,
             SysRolePermissionMapper sysRolePermissionMapper,
-            SysPermissionMapper sysPermissionMapper,
-            SysUserRolePermissionMapper sysUserRolePermissionMapper) {
+            SysPermissionMapper sysPermissionMapper) {
         return new DefaultUserDetailsService(grantedAuthorityDefaults.getRolePrefix(),
                 sysOrganizationMapper,
                 sysOrganizationUserMapper,
