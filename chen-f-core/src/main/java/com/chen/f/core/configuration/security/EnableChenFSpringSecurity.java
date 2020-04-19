@@ -1,4 +1,4 @@
-package com.chen.f.admin.configuration.security;
+package com.chen.f.core.configuration.security;
 
 import org.springframework.context.annotation.Import;
 

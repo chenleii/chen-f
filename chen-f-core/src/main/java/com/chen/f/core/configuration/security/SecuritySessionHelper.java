@@ -1,4 +1,4 @@
-package com.chen.f.admin.configuration.security;
+package com.chen.f.core.configuration.security;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;

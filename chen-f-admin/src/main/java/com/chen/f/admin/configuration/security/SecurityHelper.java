@@ -1,7 +1,7 @@
 package com.chen.f.admin.configuration.security;
 
-import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
-import com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDetails;
+import com.chen.f.core.configuration.security.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
 import com.chen.f.admin.configuration.security.service.SecurityUser;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.common.pojo.SysPermission;
@@ -68,8 +68,8 @@ public class SecurityHelper {
     }
 
     /**
-     * 获取认证对象的详细信息{@link com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDetails}
-     * 默认使用了{@link com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDetails}
+     * 获取认证对象的详细信息{@link com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails}
+     * 默认使用了{@link com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails}
      *
      * @return CustomWebAuthenticationDetails实例
      */

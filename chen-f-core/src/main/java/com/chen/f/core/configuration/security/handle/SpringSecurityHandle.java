@@ -1,10 +1,10 @@
-package com.chen.f.admin.configuration.security.handle;
+package com.chen.f.core.configuration.security.handle;
 
-import com.chen.f.admin.configuration.security.details.LoginWebAuthenticationDetails;
-import com.chen.f.admin.api.response.error.security.SecurityErrorResponses;
 import com.chen.f.core.api.response.success.R;
+import com.chen.f.core.configuration.security.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
+import com.chen.f.core.configuration.security.exception.CaptchaException;
 import com.chen.f.core.util.ServletUtils;
-import com.chen.f.admin.configuration.security.exception.CaptchaException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;

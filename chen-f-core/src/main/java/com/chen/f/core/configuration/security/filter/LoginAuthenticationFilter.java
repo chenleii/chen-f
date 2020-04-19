@@ -1,6 +1,6 @@
-package com.chen.f.admin.configuration.security.filter;
+package com.chen.f.core.configuration.security.filter;
 
-import com.chen.f.admin.configuration.security.token.LoginAuthenticationToken;
+import com.chen.f.core.configuration.security.token.LoginAuthenticationToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;

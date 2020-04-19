@@ -1,8 +1,10 @@
 package com.chen.f.admin.configuration;
 
-import com.chen.f.core.configuration.quartz.EnableChenFQuartz;
-import com.chen.f.admin.configuration.security.EnableChenFSpringSecurity;
+import com.chen.f.admin.configuration.quartz.EnableChenFAdminQuartzConfiguration;
+import com.chen.f.admin.configuration.security.EnableChenFAdminSpringSecurityConfiguration;
 import com.chen.f.common.configuration.EnableChenFCommon;
+import com.chen.f.core.configuration.quartz.EnableChenFQuartz;
+import com.chen.f.core.configuration.security.EnableChenFSpringSecurity;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -22,6 +24,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({
+        EnableChenFAdminQuartzConfiguration.class,
+        EnableChenFAdminSpringSecurityConfiguration.class,
+
         EnableChenFAdminConfiguration.class,
         EnableChenFAdminConfigurationImportSelector.class,
 })

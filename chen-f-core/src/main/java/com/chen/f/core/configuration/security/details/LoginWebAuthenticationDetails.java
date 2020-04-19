@@ -1,4 +1,4 @@
-package com.chen.f.admin.configuration.security.details;
+package com.chen.f.core.configuration.security.details;
 
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 

@@ -1,4 +1,4 @@
-package com.chen.f.admin.api.response.error.security;
+package com.chen.f.core.configuration.security.api.response.error.security;
 
 import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.configuration.i18n.I18nHelper;

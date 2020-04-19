@@ -1,4 +1,4 @@
-package com.chen.f.admin.configuration.security;
+package com.chen.f.core.configuration.security;
 
 /**
  * reactive web spring security 配置

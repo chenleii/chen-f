@@ -1,10 +1,10 @@
-package com.chen.f.admin.configuration.security;
+package com.chen.f.core.configuration.security;
 
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.admin.configuration.security.filter.LoginAuthenticationFilter;
-import com.chen.f.admin.configuration.security.handle.SpringSecurityHandle;
-import com.chen.f.admin.configuration.security.provider.LoginAuthenticationProvider;
+import com.chen.f.core.configuration.security.filter.LoginAuthenticationFilter;
+import com.chen.f.core.configuration.security.handle.SpringSecurityHandle;
+import com.chen.f.core.configuration.security.provider.LoginAuthenticationProvider;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
