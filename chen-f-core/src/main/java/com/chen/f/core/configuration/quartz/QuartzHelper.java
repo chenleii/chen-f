@@ -1,9 +1,5 @@
-package com.chen.f.admin.configuration.quartz;
+package com.chen.f.core.configuration.quartz;
 
-import com.chen.f.admin.service.ISysTimedTaskService;
-import com.chen.f.common.pojo.SysTimedTask;
-import com.chen.f.core.util.JacksonUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronScheduleBuilder;
@@ -22,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,53 +30,12 @@ public class QuartzHelper {
     protected static final Logger logger = LoggerFactory.getLogger(QuartzHelper.class);
 
     private static SchedulerFactoryBean schedulerFactoryBean;
-    private static ISysTimedTaskService sysTimedTaskService;
 
-    public QuartzHelper(SchedulerFactoryBean schedulerFactoryBean, ISysTimedTaskService sysTimedTaskService) {
+    public QuartzHelper(SchedulerFactoryBean schedulerFactoryBean) {
         QuartzHelper.schedulerFactoryBean = schedulerFactoryBean;
-        QuartzHelper.sysTimedTaskService = sysTimedTaskService;
     }
 
-
-    /**
-     * 初始化定时任务
-     * <p>
-     * 可手动调用做刷新操作
-     */
-    @PostConstruct
-    public void init() {
-        logger.debug("配置定时任务开始...");
-        List<SysTimedTask> enabledSysTimedTaskList = sysTimedTaskService.getEnabledSysTimedTaskList();
-
-        if (CollectionUtils.isNotEmpty(enabledSysTimedTaskList)) {
-            logger.debug("查询出 {} 条定时任务", enabledSysTimedTaskList.size());
-            enabledSysTimedTaskList.forEach((sysTimedTask -> {
-                try {
-                    Class<?> jobClass = Class.forName(sysTimedTask.getClassName());
-                    if (!Job.class.isAssignableFrom(jobClass)) {
-                        logger.warn("[{}]不是Job的实现类,添加定时任务失败", jobClass);
-                        return;
-                    }
-                    Map dataMap = null;
-                    if (StringUtils.isNotBlank(sysTimedTask.getData())) {
-                        dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
-                    }
-                    addJob(sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(), sysTimedTask.getCode(),
-                            (Class<? extends Job>) jobClass, sysTimedTask.getCronExpression(), dataMap);
-                } catch (SchedulerException e) {
-                    logger.warn("添加定时任务异常", e);
-                } catch (ClassNotFoundException e) {
-                    logger.warn("添加定时任务失败,没有找到Job[{}]", sysTimedTask.getClassName());
-                } catch (Exception e) {
-                    logger.warn("添加定时任务失败,出现异常", e);
-                }
-            }));
-
-        } else {
-            logger.debug("没有定时任务");
-        }
-        logger.debug("配置定时任务结束...");
-    }
+    
 
     /**
      * 动态添加定时任务.

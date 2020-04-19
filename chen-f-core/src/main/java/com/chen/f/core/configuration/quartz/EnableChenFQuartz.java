@@ -1,4 +1,4 @@
-package com.chen.f.admin.configuration.quartz;
+package com.chen.f.core.configuration.quartz;
 
 import org.springframework.context.annotation.Import;
 

@@ -151,4 +151,9 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
      */
     void executionSysTimedTaskByCode(String code);
 
+    /**
+     * 初始化系统定时任务
+     */
+    void initSysTimedTask();
+
 }

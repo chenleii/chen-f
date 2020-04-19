@@ -1,6 +1,6 @@
 package com.chen.f.admin.configuration;
 
-import com.chen.f.admin.configuration.quartz.EnableChenFQuartz;
+import com.chen.f.core.configuration.quartz.EnableChenFQuartz;
 import com.chen.f.admin.configuration.security.EnableChenFSpringSecurity;
 import com.chen.f.common.configuration.EnableChenFCommon;
 import org.springframework.context.annotation.Import;
