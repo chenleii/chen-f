@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysDictionaryItem;
@@ -14,6 +12,8 @@ import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictionaryItemService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,6 +113,19 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
+        logger.debug("检查系统字典显示顺序");
+        if (Objects.isNull(order)) {
+            SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
+                    .eq(SysDictionaryItem::getSysDictionaryId, sysDictionaryId).orderByDesc(SysDictionaryItem::getOrder));
+
+            if (Objects.nonNull(maxOrderSysDictionaryItem)) {
+                order = maxOrderSysDictionaryItem.getOrder() + 1;
+            } else {
+                //默认顺序号1
+                order = 1;
+            }
+        }
+        
         logger.debug("插入系统字典项目");
         SysDictionaryItem sysDictionaryItem = new SysDictionaryItem();
         sysDictionaryItem.setSysDictionaryId(sysDictionaryId);
@@ -161,6 +174,18 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
         ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
 
+        logger.debug("检查系统字典显示顺序");
+        if (Objects.isNull(order)) {
+            SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
+                    .eq(SysDictionaryItem::getSysDictionaryId, sysDictionaryId).orderByDesc(SysDictionaryItem::getOrder));
+
+            if (Objects.nonNull(maxOrderSysDictionaryItem)) {
+                order = maxOrderSysDictionaryItem.getOrder() + 1;
+            } else {
+                //默认顺序号1
+                order = 1;
+            }
+        }
         logger.debug("修改系统字典项目");
         sysDictionaryItem.setId(sysDictionaryItemId);
         sysDictionaryItem.setSysDictionaryId(sysDictionaryId);

@@ -106,14 +106,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         icon = ObjectUtils.defaultIfNull(icon, "");
         remark = ObjectUtils.defaultIfNull(remark, "");
 
-        logger.debug("检查菜单显示顺序");
+        logger.debug("检查系统菜单显示顺序");
         if (Objects.isNull(order)) {
-            List<SysMenu> sysMenuList = sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId));
+            SysMenu maxOrderSysMenu = sysMenuMapper.selectFirstOne(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId).orderByDesc(SysMenu::getOrder));
 
-            if (CollectionUtils.isNotEmpty(sysMenuList)) {
-                //获取当前菜单下最后一个顺序号
-                SysMenu lastSysMenu = sysMenuList.get(sysMenuList.size() - 1);
-                order = lastSysMenu.getOrder() + 1;
+            if (Objects.nonNull(maxOrderSysMenu)) {
+                order = maxOrderSysMenu.getOrder() + 1;
             } else {
                 //默认顺序号1
                 order = 1;
@@ -166,17 +164,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         //初始化父级菜单默认值
         parentId = ObjectUtils.defaultIfNull(parentId, "");
 
-        logger.debug("检查菜单显示顺序");
+        logger.debug("检查系统菜单显示顺序");
         if (Objects.isNull(order)) {
-            List<SysMenu> sysMenuList = sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId));
-            if (CollectionUtils.isNotEmpty(sysMenuList)) {
-                //获取当前菜单下最后一个顺序号
-                SysMenu lastSysMenu = sysMenuList.get(sysMenuList.size() - 1);
-                if (Objects.equals(sysMenu.getId(), lastSysMenu.getId())) {
-                    order = sysMenu.getOrder();
-                } else {
-                    order = lastSysMenu.getOrder() + 1;
-                }
+            SysMenu maxOrderSysMenu = sysMenuMapper.selectFirstOne(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId).orderByDesc(SysMenu::getOrder));
+
+            if (Objects.nonNull(maxOrderSysMenu)) {
+                order = maxOrderSysMenu.getOrder() + 1;
             } else {
                 //默认顺序号1
                 order = 1;
