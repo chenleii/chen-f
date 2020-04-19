@@ -3,20 +3,22 @@ package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysRoleService;
-import com.chen.f.common.service.ISysUserService;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
+import com.chen.f.common.service.ISysRoleService;
+import com.chen.f.common.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +49,9 @@ public class SysUserController {
     private ISysUserService sysUserService;
     @Autowired
     private ISysRoleService sysRoleService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "获取所有的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({})
@@ -124,6 +129,9 @@ public class SysUserController {
                               @RequestParam("status") SysUserStatusEnum status,
                               @RequestParam("level") Integer level) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
+        if (StringUtils.isNotBlank(password)) {
+            password = passwordEncoder.encode(password);
+        }
         sysUserService.createSysUser(username, password, level, remark, status, operatedSysUserId);
     }
 
@@ -134,6 +142,9 @@ public class SysUserController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void createSysUser(@RequestBody() SysUser sysUser) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
+        if (StringUtils.isNotBlank(sysUser.getPassword())) {
+            sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        }
         sysUserService.createSysUser(sysUser.getUsername(), sysUser.getPassword(), sysUser.getLevel(), sysUser.getRemark(),
                 sysUser.getStatus(), operatedSysUserId);
     }
@@ -155,6 +166,9 @@ public class SysUserController {
                               @RequestParam("remark") String remark,
                               @RequestParam("status") SysUserStatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
+        if (StringUtils.isNotBlank(password)) {
+            password = passwordEncoder.encode(password);
+        }
         sysUserService.updateSysUser(sysUserId, username, password, level, remark, status, operatedSysUserId);
     }
 
@@ -165,10 +179,13 @@ public class SysUserController {
     })
     @PutMapping(path = "/{sysUserId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,
-                              @RequestBody() SysUser sysUserInputDTO) {
+                              @RequestBody() SysUser sysUser) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysUserService.updateSysUser(sysUserId, sysUserInputDTO.getUsername(), sysUserInputDTO.getPassword(), sysUserInputDTO.getLevel(), sysUserInputDTO.getRemark(),
-                sysUserInputDTO.getStatus(), operatedSysUserId);
+        if (StringUtils.isNotBlank(sysUser.getPassword())) {
+            sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        }
+        sysUserService.updateSysUser(sysUserId, sysUser.getUsername(), sysUser.getPassword(), sysUser.getLevel(), sysUser.getRemark(),
+                sysUser.getStatus(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统角色", notes = "", produces = "application/json")

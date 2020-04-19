@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.common.service.ISysUserService;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
 import com.chen.f.common.mapper.SysRoleMapper;
 import com.chen.f.common.mapper.SysUserMapper;
@@ -17,12 +14,14 @@ import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.SysUserRole;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
+import com.chen.f.common.service.ISysUserService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -53,8 +52,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<SysUser> getAllSysUserList() {
@@ -110,8 +107,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ApiAssert.isGreaterThanOrEqualTo(level, operatedSysUser.getLevel(), ErrorResponse.create("创建的用户级别不能大于操作用户级别"));
 
 
-        password = passwordEncoder.encode(password);
-
         logger.debug("插入系统用户信息");
         SysUser sysUser = new SysUser();
         sysUser.setUsername(username);
@@ -148,9 +143,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         logger.debug("检查修改后的系统用户级别是否小于操作用户级别");
         ApiAssert.isGreaterThanOrEqualTo(level, operatedSysUser.getLevel(), ErrorResponse.create("修改的系统用户级别不能大于操作用户级别"));
-
-
-        password = passwordEncoder.encode(password);
 
         logger.debug("修改系统用户信息");
         sysUser.setUsername(username);
