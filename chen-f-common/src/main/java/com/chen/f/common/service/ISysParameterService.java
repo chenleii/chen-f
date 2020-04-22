@@ -27,7 +27,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     List<SysParameter> getEnabledSysParameterList();
 
     /**
-     * 获取分页的系统参数集合
+     * 获取分页的系统参数列表
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
@@ -38,7 +38,7 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param type       系统参数类型
      * @param remark     系统参数描述
      * @param statusEnum 系统参数状态
-     * @return 分页的系统参数集合
+     * @return 分页的系统参数列表
      */
     IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
                                             String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum);

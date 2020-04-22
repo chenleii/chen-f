@@ -102,7 +102,7 @@ public class SysUserController {
 
     /**
      * @param sysUserId 系统用户id
-     * @return 系统用户角色集合
+     * @return 系统用户角色列表
      */
     @ApiOperation(value = "获取系统用户的角色", notes = "", produces = "application/json")
     @ApiImplicitParams({

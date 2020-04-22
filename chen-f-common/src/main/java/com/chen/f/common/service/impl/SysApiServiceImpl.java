@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.common.service.ISysApiService;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.mapper.SysPermissionApiMapper;
 import com.chen.f.common.mapper.SysRoleApiMapper;
@@ -19,7 +16,9 @@ import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
-import org.apache.commons.collections4.CollectionUtils;
+import com.chen.f.common.service.ISysApiService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,10 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -55,6 +52,15 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
     @Autowired
     private SysPermissionApiMapper sysPermissionApiMapper;
 
+    @Override
+    public List<SysApi> getAllSysApiList() {
+        return sysApiMapper.selectAll();
+    }
+    
+    @Override
+    public List<SysApi> getEnabledSysApiList() {
+        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().eq(SysApi::getStatus, StatusEnum.ENABLED));
+    }
 
     @Override
     public IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber,
@@ -67,45 +73,6 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         lambdaQueryWrapper.like(StringUtils.isNotBlank(remark), SysApi::getRemark, remark);
         lambdaQueryWrapper.eq(Objects.nonNull(status), SysApi::getStatus, status);
         return sysApiMapper.selectPage(new Page<>(pageIndex, pageNumber), lambdaQueryWrapper);
-    }
-
-    @Override
-    public List<SysApi> getEnabledSysApiList() {
-        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().eq(SysApi::getStatus, StatusEnum.ENABLED));
-    }
-
-    @Override
-    public List<SysApi> getEnabledSysApiListBySysRoleIdList(List<String> sysRoleIdList) {
-        if (CollectionUtils.isEmpty(sysRoleIdList)) {
-            return Collections.emptyList();
-        }
-
-        List<SysRoleApi> sysRoleApiList = sysRoleApiMapper.selectList(Wrappers.<SysRoleApi>lambdaQuery().in(SysRoleApi::getSysRoleId, sysRoleIdList));
-        if (CollectionUtils.isEmpty(sysRoleApiList)) {
-            return Collections.emptyList();
-        }
-
-        List<String> sysApiIdList = sysRoleApiList.stream()
-                .map(SysRoleApi::getSysApiId)
-                .collect(Collectors.toList());
-        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().in(SysApi::getId, sysApiIdList).eq(SysApi::getStatus, StatusEnum.ENABLED));
-    }
-
-    @Override
-    public List<SysApi> getEnabledSysApiListBySysPermissionIdList(List<String> sysPermissionIdList) {
-        if (CollectionUtils.isEmpty(sysPermissionIdList)) {
-            return Collections.emptyList();
-        }
-
-        List<SysPermissionApi> sysPermissionApiList = sysPermissionApiMapper.selectList(Wrappers.<SysPermissionApi>lambdaQuery().in(SysPermissionApi::getSysPermissionId, sysPermissionIdList));
-        if (CollectionUtils.isEmpty(sysPermissionApiList)) {
-            return Collections.emptyList();
-        }
-
-        List<String> sysApiIdList = sysPermissionApiList.stream()
-                .map(SysPermissionApi::getSysApiId)
-                .collect(Collectors.toList());
-        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().in(SysApi::getId, sysApiIdList).eq(SysApi::getStatus, StatusEnum.ENABLED));
     }
 
     @Override

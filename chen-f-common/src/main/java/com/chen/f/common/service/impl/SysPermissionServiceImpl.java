@@ -5,14 +5,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.common.service.ISysPermissionService;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.common.mapper.SysApiMapper;
+import com.chen.f.common.mapper.SysMenuMapper;
 import com.chen.f.common.mapper.SysPermissionApiMapper;
 import com.chen.f.common.mapper.SysPermissionMapper;
 import com.chen.f.common.mapper.SysPermissionMenuMapper;
 import com.chen.f.common.mapper.SysRolePermissionMapper;
 import com.chen.f.common.mapper.SysUserMapper;
+import com.chen.f.common.pojo.SysApi;
+import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysPermissionApi;
 import com.chen.f.common.pojo.SysPermissionMenu;
@@ -20,6 +21,9 @@ import com.chen.f.common.pojo.SysRolePermission;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
+import com.chen.f.common.service.ISysPermissionService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +60,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     private SysPermissionApiMapper sysPermissionApiMapper;
     @Autowired
     private SysPermissionMenuMapper sysPermissionMenuMapper;
+    @Autowired
+    private SysApiMapper sysApiMapper;
+    @Autowired
+    private SysMenuMapper sysMenuMapper;
+
+    @Override
+    public List<SysPermission> getEnabledSysPermissionList() {
+        return sysPermissionMapper.selectList(Wrappers.<SysPermission>lambdaQuery().eq(SysPermission::getStatus, StatusEnum.ENABLED));
+    }
 
     @Override
     public IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber,
@@ -69,14 +83,66 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public List<SysPermission> getEnabledSysPermissionList() {
-        return sysPermissionMapper.selectList(Wrappers.<SysPermission>lambdaQuery().eq(SysPermission::getStatus, StatusEnum.ENABLED));
-    }
-
-    @Override
     public SysPermission getSysPermission(String sysPermissionId) {
         ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
         return sysPermissionMapper.selectById(sysPermissionId);
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuOfSysPermission(String sysPermissionId) {
+        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+
+        logger.debug("获取系统权限");
+        final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
+        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
+        
+        return getSysMenuOfSysPermission(Arrays.asList(sysPermissionId));
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuOfSysPermission(List<String> sysPermissionIdList) {
+        if (CollectionUtils.isEmpty(sysPermissionIdList)) {
+            //系统权限ID列表为空
+            return Collections.emptyList();
+        }
+
+        final List<SysPermissionMenu> sysPermissionMenuList = sysPermissionMenuMapper.selectList(Wrappers.<SysPermissionMenu>lambdaQuery().in(SysPermissionMenu::getSysPermissionId, sysPermissionIdList));
+        if (CollectionUtils.isEmpty(sysPermissionMenuList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysMenuIdList = sysPermissionMenuList.stream()
+                .map(SysPermissionMenu::getSysMenuId)
+                .collect(Collectors.toList());
+        return sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getId, sysMenuIdList).orderByAsc(SysMenu::getOrder));
+
+    }
+
+    @Override
+    public List<SysApi> getSysApiOfSysPermission(String sysPermissionId) {
+        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+
+        logger.debug("获取系统权限");
+        final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
+        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
+        
+        return getSysApiOfSysPermission(Arrays.asList(sysPermissionId));
+    }
+
+    @Override
+    public List<SysApi> getSysApiOfSysPermission(List<String> sysPermissionIdList) {
+        if (CollectionUtils.isEmpty(sysPermissionIdList)) {
+            return Collections.emptyList();
+        }
+
+        List<SysPermissionApi> sysPermissionApiList = sysPermissionApiMapper.selectList(Wrappers.<SysPermissionApi>lambdaQuery().in(SysPermissionApi::getSysPermissionId, sysPermissionIdList));
+        if (CollectionUtils.isEmpty(sysPermissionApiList)) {
+            return Collections.emptyList();
+        }
+
+        List<String> sysApiIdList = sysPermissionApiList.stream()
+                .map(SysPermissionApi::getSysApiId)
+                .collect(Collectors.toList());
+        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().in(SysApi::getId, sysApiIdList));
     }
 
 
@@ -177,11 +243,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-        
+
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
-        
+
         List<SysPermissionMenu> sysPermissionMenuList = Collections.emptyList();
         if (CollectionUtils.isNotEmpty(sysMenuIdList)) {
             //转换
@@ -204,11 +270,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public void deleteSysPermission(String sysPermissionId) {
         ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
-        
+
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
-       
+
         logger.debug("删除系统权限");
         int i = sysPermissionMapper.deleteById(sysPermissionId);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统权限失败"));
@@ -235,7 +301,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
-        
+
         logger.debug("启用系统权限");
         sysPermission.setStatus(StatusEnum.ENABLED);
         sysPermission.setUpdatedSysUserId(operatedSysUserId);
@@ -248,7 +314,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     public void disableSysPermission(String sysPermissionId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
-        
+
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
@@ -256,7 +322,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
-        
+
         logger.debug("禁用系统权限");
         sysPermission.setStatus(StatusEnum.DISABLED);
         sysPermission.setUpdatedSysUserId(operatedSysUserId);

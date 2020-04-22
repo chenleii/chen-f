@@ -18,7 +18,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
 
 
     /**
-     * 获取分页的系统定时任务日志集合
+     * 获取分页的系统定时任务日志列表
      *
      * @param pageIndex       页数
      * @param pageNumber      页大小
@@ -27,7 +27,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
      * @param type            系统定时任务日志类型
      * @param executionStatus 系统定时任务日志执行状态
      * @param remark          系统定时任务日志备注
-     * @return 分页的系统定时任务日志集合
+     * @return 分页的系统定时任务日志列表
      */
     IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,
                                                   String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskExecutionStatusEnum executionStatus, String remark);

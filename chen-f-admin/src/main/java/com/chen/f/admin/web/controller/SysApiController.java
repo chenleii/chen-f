@@ -2,11 +2,11 @@ package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysApiService;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
+import com.chen.f.common.service.ISysApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,6 +44,22 @@ public class SysApiController {
     @Autowired
     private ISysApiService sysApiService;
 
+    @ApiOperation(value = "获取所有的系统接口", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/all")
+    public List<SysApi> getAllSysApiList() {
+        return sysApiService.getAllSysApiList();
+    }
+
+    @ApiOperation(value = "获取启用的系统接口", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/all/enabled")
+    public List<SysApi> getEnabledSysApiList() {
+        return sysApiService.getEnabledSysApiList();
+    }
+    
     @ApiOperation(value = "获取分页的系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
@@ -66,33 +81,6 @@ public class SysApiController {
                                        @RequestParam(name = "remark", required = false) String remark,
                                        @RequestParam(name = "status", required = false) StatusEnum status) {
         return sysApiService.getSysApiPage(pageIndex, pageNumber, name, url, httpMethod, type, remark, status);
-    }
-
-
-    @ApiOperation(value = "获取启用的系统接口", notes = "", produces = "application/json")
-    @ApiImplicitParams({
-    })
-    @GetMapping("/all/enabled")
-    public List<SysApi> getEnabledSysApiList() {
-        return sysApiService.getEnabledSysApiList();
-    }
-
-    @ApiOperation(value = "根据系统角色ID列表获取启用的系统接口", notes = "", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping("/role/enabled/{sysRoleId}")
-    public List<SysApi> getEnabledSysApiListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
-        return sysApiService.getEnabledSysApiListBySysRoleIdList(Arrays.asList(sysRoleId));
-    }
-
-    @ApiOperation(value = "根据系统权限ID列表获取启用的系统接口", notes = "", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping("/permission/enabled/{sysPermissionId}")
-    public List<SysApi> getEnabledSysApiListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
-        return sysApiService.getEnabledSysApiListBySysPermissionIdList(Arrays.asList(sysPermissionId));
     }
 
     @ApiOperation(value = "获取系统接口", notes = "", produces = "application/json")

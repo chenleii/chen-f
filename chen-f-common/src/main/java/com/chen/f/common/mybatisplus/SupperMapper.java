@@ -152,7 +152,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     /**
      * 批量插入
      *
-     * @param entityList 实体集合
+     * @param entityList 实体列表
      * @param batchSize  插入批次数量
      * @return 受影响行数
      */
@@ -187,7 +187,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     /**
      * 批量修改
      *
-     * @param entityList 实体集合
+     * @param entityList 实体列表
      * @param batchSize  修改批次数量
      * @return 受影响行数
      */
@@ -225,7 +225,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     /**
      * 批量插入
      *
-     * @param entityList 实体集合
+     * @param entityList 实体列表
      * @return 受影响行数
      */
     default int insertBatch(List<T> entityList) {
@@ -235,7 +235,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     /**
      * 批量修改
      *
-     * @param entityList 实体集合
+     * @param entityList 实体列表
      * @return 受影响行数
      */
     default int updateBatchById(List<T> entityList) {

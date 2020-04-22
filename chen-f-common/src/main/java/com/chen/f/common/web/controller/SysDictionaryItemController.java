@@ -40,7 +40,7 @@ public class SysDictionaryItemController {
     @Autowired
     private ISysDictionaryItemService sysDictionaryItemService;
 
-    @ApiOperation(value = "获取系统字典集合", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取系统字典列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
@@ -72,7 +72,7 @@ public class SysDictionaryItemController {
         return sysDictionaryItemService.getSysDictionaryItemByCodeAndKey(code, key);
     }
 
-    @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
+    @ApiOperation(value = "获取系统字典列表", notes = "仅针对alain使用", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })
@@ -90,7 +90,7 @@ public class SysDictionaryItemController {
     }
 
 
-    @ApiOperation(value = "获取系统字典集合", notes = "仅针对alain使用", produces = "application/json")
+    @ApiOperation(value = "获取系统字典列表", notes = "仅针对alain使用", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = true, dataTypeClass = String.class, paramType = "path"),
     })

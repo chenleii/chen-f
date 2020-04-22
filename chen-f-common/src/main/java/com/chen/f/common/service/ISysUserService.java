@@ -2,6 +2,7 @@ package com.chen.f.common.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
@@ -33,7 +34,7 @@ public interface ISysUserService extends IService<SysUser> {
     List<SysUser> getEnabledSysUserList();
     
     /**
-     * 获取分页的系统用户集合
+     * 获取分页的系统用户列表
      *
      * @param pageIndex         页数
      * @param pageNumber        页大小
@@ -41,7 +42,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param level             系统用户级别
      * @param remark            系统用户描述
      * @param sysUserStatusEnum 系统用户状态
-     * @return 分页的系统用户集合
+     * @return 分页的系统用户列表
      */
     IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum);
 
@@ -52,13 +53,20 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 系统用户
      */
     SysUser getSysUser(String sysUserId);
-
-
+    
     /**
-     * 获取系统用户的系统角色
+     * 获取系统用户的系统组织列表
      *
      * @param sysUserId 系统用户ID
-     * @return 系统用户的系统角色集合
+     * @return 系统用户的系统组织列表
+     */
+    List<SysOrganization> getSysOrganizationOfSysUser(String sysUserId);
+    
+    /**
+     * 获取系统用户的系统角色列表
+     *
+     * @param sysUserId 系统用户ID
+     * @return 系统用户的系统角色列表
      */
     List<SysRole> getSysRoleOfSysUser(String sysUserId);
 
@@ -92,7 +100,7 @@ public interface ISysUserService extends IService<SysUser> {
      * 设置系统用户的系统角色
      *
      * @param sysUserId         设置的系统用户ID
-     * @param sysRoleIdList     系统角色ID集合
+     * @param sysRoleIdList     系统角色ID列表
      * @param operatedSysUserId 操作的系统用户
      */
     void setSysRoleOfSysUser(String sysUserId, List<String> sysRoleIdList, String operatedSysUserId);

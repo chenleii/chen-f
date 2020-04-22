@@ -309,24 +309,5 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         int i = sysOrganizationMapper.updateById(sysOrganization);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织禁用失败"));
     }
-
-    @Override
-    public List<SysOrganization> getEnabledSysOrganizationListBySysUserId(String sysUserId) {
-        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
-
-        logger.debug("获取系统用户");
-        SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
-
-        final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysUserId, sysUserId));
-        if (CollectionUtils.isNotEmpty(sysOrganizationUserList)) {
-            return Collections.emptyList();
-        }
-
-        final List<String> sysOrganizationIdList = sysOrganizationUserList.stream()
-                .map(SysOrganizationUser::getSysOrganizationId)
-                .collect(Collectors.toList());
-        return sysOrganizationMapper.selectSuperiorByIdList(sysOrganizationIdList,
-                Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getStatus, StatusEnum.ENABLED));
-    }
+    
 }

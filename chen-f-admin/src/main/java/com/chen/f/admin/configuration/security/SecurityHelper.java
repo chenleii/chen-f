@@ -147,9 +147,9 @@ public class SecurityHelper {
     }
 
     /**
-     * 是否有权限集合
+     * 是否有权限列表
      *
-     * @param permissionCollection 权限名集合
+     * @param permissionCollection 权限名列表
      * @return 是/否
      */
     public static boolean hasPermission(Collection<String> permissionCollection) {
@@ -186,10 +186,10 @@ public class SecurityHelper {
     }
 
     /**
-     * 是否有权限集合
+     * 是否有权限列表
      * 如果没有权限抛出异常
      *
-     * @param permissionCollection 权限集合
+     * @param permissionCollection 权限列表
      */
     public static void checkPermission(Collection<String> permissionCollection) {
         ApiAssert.isTrue(hasPermission(permissionCollection), SecurityErrorResponses.notPermission(permissionCollection));
@@ -217,9 +217,9 @@ public class SecurityHelper {
 
 
     /**
-     * 是否有角色集合
+     * 是否有角色列表
      *
-     * @param roleCollection 角色名集合
+     * @param roleCollection 角色名列表
      * @return 是/否
      */
     public static boolean hasRole(Collection<String> roleCollection) {
@@ -255,10 +255,10 @@ public class SecurityHelper {
     }
 
     /**
-     * 是否有角色集合
+     * 是否有角色列表
      * 如果没有角色抛出异常
      *
-     * @param roleCollection 角色名集合
+     * @param roleCollection 角色名列表
      */
     public static void checkRole(Collection<String> roleCollection) {
         ApiAssert.isTrue(hasRole(roleCollection), SecurityErrorResponses.notRole(roleCollection));

@@ -18,8 +18,24 @@ import java.util.List;
  * @since 2019-03-05
  */
 public interface ISysApiService extends IService<SysApi> {
+
+
     /**
-     * 获取分页的系统接口集合
+     * 获取所有的系统接口列表
+     *
+     * @return 所有的系统接口列表
+     */
+    List<SysApi> getAllSysApiList();
+
+    /**
+     * 获取启用的系统接口列表
+     *
+     * @return 启用的系统接口列表
+     */
+    List<SysApi> getEnabledSysApiList();
+    
+    /**
+     * 获取分页的系统接口列表
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
@@ -29,33 +45,10 @@ public interface ISysApiService extends IService<SysApi> {
      * @param type       系统接口类型
      * @param remark     系统接口描述
      * @param status     系统接口状态
-     * @return 分页的系统接口集合
+     * @return 分页的系统接口列表
      */
     IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type,
                                 String remark, StatusEnum status);
-
-    /**
-     * 获取启用的系统接口列表
-     *
-     * @return 启用的系统接口列表
-     */
-    List<SysApi> getEnabledSysApiList();
-
-    /**
-     * 根据系统角色ID列表获取系统接口列表
-     *
-     * @param sysRoleIdList 系统角色ID列表
-     * @return 系统接口列表
-     */
-    List<SysApi> getEnabledSysApiListBySysRoleIdList(List<String> sysRoleIdList);
-
-    /**
-     * 根据系统权限ID列表获取系统接口列表
-     *
-     * @param sysPermissionIdList 系统权限ID列表
-     * @return 系统接口列表
-     */
-    List<SysApi> getEnabledSysApiListBySysPermissionIdList(List<String> sysPermissionIdList);
     
     /**
      * 获取系统接口

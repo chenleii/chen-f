@@ -20,7 +20,7 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
 
 
     /**
-     * 获取分页的系统定时任务集合
+     * 获取分页的系统定时任务列表
      *
      * @param pageIndex  页数
      * @param pageNumber 页大小
@@ -30,7 +30,7 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
      * @param type       系统定时任务类型
      * @param remark     系统定时任务备注
      * @param status     系统定时任务状态
-     * @return 分页的系统定时任务集合
+     * @return 分页的系统定时任务列表
      */
     IPage<SysTimedTask> getSysTimedTaskPage(Long pageIndex, Long pageNumber,
                                             String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status);

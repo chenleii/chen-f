@@ -2,13 +2,15 @@ package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysRoleService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
 import com.chen.f.admin.web.dto.SysPermissionsInputDTO;
+import com.chen.f.common.pojo.SysApi;
+import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.service.ISysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -87,11 +89,28 @@ public class SysRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path")
     })
-    @GetMapping("/{sysRoleId}/sysPermission")
+    @GetMapping("/permission/{sysRoleId}")
     public List<SysPermission> getSysPermissionOfSysRole(@PathVariable("sysRoleId") String sysRoleId) {
         return sysRoleService.getSysPermissionOfSysRole(sysRoleId);
     }
 
+    @ApiOperation(value = "获取系统角色的系统菜单列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/menu/{sysRoleId}")
+    public List<SysMenu> getSysMenuOfSysRole(@PathVariable("sysRoleId") String sysRoleId) {
+        return sysRoleService.getSysMenuOfSysRole(sysRoleId);
+    }
+    
+    @ApiOperation(value = "获取系统角色的系统接口列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/api/{sysRoleId}")
+    public List<SysApi> getSysApiOfSysRole(@PathVariable("sysRoleId") String sysRoleId) {
+        return sysRoleService.getSysApiOfSysRole(sysRoleId);
+    }
 
     @ApiOperation(value = "创建系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({

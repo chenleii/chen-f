@@ -8,6 +8,8 @@ import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
+import com.chen.f.common.service.ISysPermissionService;
+import com.chen.f.common.service.ISysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +42,10 @@ public class OnlineController {
 
     @Autowired
     private ISysApiService sysApiService;
+    @Autowired
+    private ISysRoleService sysRoleService;
+    @Autowired
+    private ISysPermissionService sysPermissionService;
 
     @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SecurityHelper.class)
     @ApiImplicitParams({})
@@ -60,11 +66,11 @@ public class OnlineController {
 
         final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
         final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
-        final List<SysMenu> sysRoleMenuList = sysMenuService.getEnabledSysMenuListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+        final List<SysMenu> sysRoleMenuList = sysRoleService.getSysMenuOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysRoleMenuList);
 
         final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
-        final List<SysMenu> sysPermissionMenuList = sysMenuService.getEnabledSysMenuListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+        final List<SysMenu> sysPermissionMenuList = sysPermissionService.getSysMenuOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysPermissionMenuList);
 
         //去重
@@ -87,11 +93,11 @@ public class OnlineController {
 
         final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
         final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
-        final List<SysApi> sysRoleApiList = sysApiService.getEnabledSysApiListBySysRoleIdList(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+        final List<SysApi> sysRoleApiList = sysRoleService.getSysApiOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysRoleApiList);
 
         final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
-        final List<SysApi> sysPermissionApiList = sysApiService.getEnabledSysApiListBySysPermissionIdList(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+        final List<SysApi> sysPermissionApiList = sysPermissionService.getSysApiOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
         sysMenuList.addAll(sysPermissionApiList);
 
         //去重

@@ -85,7 +85,7 @@ public class SysDictionaryController {
         return sysDictionaryService.getSysDictionary(sysDictionaryId);
     }
 
-    @ApiOperation(value = "获取系统字典集合", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取系统字典列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "path"),
     })

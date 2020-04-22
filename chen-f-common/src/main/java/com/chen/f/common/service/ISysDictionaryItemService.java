@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
     /**
-     * 获取分页的系统字典项目集合
+     * 获取分页的系统字典项目列表
      *
      * @param pageIndex       页数
      * @param pageNumber      页大小
@@ -31,7 +31,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param color           系统字典项目颜色
      * @param remark          系统字典项目描述
      * @param statusEnum      系统字典项目状态
-     * @return 分页的系统字典项目集合
+     * @return 分页的系统字典项目列表
      */
     IPage<SysDictionaryItem> getSysDictionaryItemPage(Long pageIndex, Long pageNumber,
                                                       String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum valueTypeEnum, String color, String remark, StatusEnum statusEnum);
@@ -54,26 +54,26 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
 
 
     /**
-     * 根据系统字典ID获取系统字典项目集合
+     * 根据系统字典ID获取系统字典项目列表
      *
      * @param sysDictionaryId 系统字典ID
-     * @return 系统字典项目集合
+     * @return 系统字典项目列表
      */
     List<SysDictionaryItem> getSysDictionaryItemListBySysDictionaryId(String sysDictionaryId);
 
     /**
-     * 根据系统字典编码获取系统字典项目集合
+     * 根据系统字典编码获取系统字典项目列表
      *
      * @param code 系统字典编码
-     * @return 系统字典项目集合
+     * @return 系统字典项目列表
      */
     List<SysDictionaryItem> getSysDictionaryItemListByCode(String code);
 
     /**
-     * 根据系统字典编码获取启用的系统字典项目集合
+     * 根据系统字典编码获取启用的系统字典项目列表
      *
      * @param code 系统字典编码
-     * @return 系统字典项目集合
+     * @return 系统字典项目列表
      */
     List<SysDictionaryItem> getEnabledSysDictionaryItemListByCode(String code);
 

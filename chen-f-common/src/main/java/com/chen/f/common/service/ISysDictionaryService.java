@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ISysDictionaryService extends IService<SysDictionary> {
     /**
-     * 获取分页的系统字典集合
+     * 获取分页的系统字典列表
      *
      * @param pageIndex             页数
      * @param pageNumber            页大小
@@ -27,7 +27,7 @@ public interface ISysDictionaryService extends IService<SysDictionary> {
      * @param remark                系统字典描述
      * @param sysDictionaryTypeEnum 系统字典类型
      * @param statusEnum            系统字典状态
-     * @return 分页的系统字典集合
+     * @return 分页的系统字典列表
      */
     IPage<SysDictionary> getSysDictionaryPage(Long pageIndex, Long pageNumber,
                                               String code, String name, SysDictionaryTypeEnum sysDictionaryTypeEnum, String remark, StatusEnum statusEnum);
@@ -50,10 +50,10 @@ public interface ISysDictionaryService extends IService<SysDictionary> {
 
 
     /**
-     * 根据系统字典编码获取系统字典集合
+     * 根据系统字典编码获取系统字典列表
      *
      * @param code 系统字典编码
-     * @return 系统字典集合
+     * @return 系统字典列表
      */
     SysDictionary getSysDictionaryByCode(String code);
 

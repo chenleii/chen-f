@@ -104,7 +104,7 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
      * 设置系统组织的系统用户
      *
      * @param sysOrganizationId 设置的系统组织ID
-     * @param sysUserIdList     系统用户ID集合
+     * @param sysUserIdList     系统用户ID列表
      * @param operatedSysUserId 操作的系统用户
      */
     void setSysUserOfSysOrganization(String sysOrganizationId, List<String> sysUserIdList, String operatedSysUserId);
@@ -113,7 +113,7 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
      * 设置系统组织的系统角色
      *
      * @param sysOrganizationId 设置的系统组织ID
-     * @param sysRoleIdList     系统角色ID集合
+     * @param sysRoleIdList     系统角色ID列表
      * @param operatedSysUserId 操作的系统用户
      */
     void setSysRoleOfSysOrganization(String sysOrganizationId, List<String> sysRoleIdList, String operatedSysUserId);
@@ -142,11 +142,4 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
      */
     void disableSysOrganization(String sysOrganizatioId, String operatedSysUserId);
 
-    /**
-     * 根据系统用户ID获取启用的系统组织列表
-     *
-     * @param sysUserId 系统用户ID
-     * @return 系统组织列表
-     */
-    List<SysOrganization> getEnabledSysOrganizationListBySysUserId(String sysUserId);
 }

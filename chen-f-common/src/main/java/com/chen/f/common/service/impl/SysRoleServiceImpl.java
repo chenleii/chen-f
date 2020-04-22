@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -54,8 +55,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private SysRoleMenuMapper sysRoleMenuMapper;
     @Autowired
     private SysRoleApiMapper sysRoleApiMapper;
-    
-    
+    @Autowired
+    private SysApiMapper sysApiMapper;
+    @Autowired
+    private SysMenuMapper sysMenuMapper;
+
+
+
+    @Override
+    public List<SysRole> getEnabledSysRoleList() {
+        return sysRoleMapper.selectList(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getStatus, StatusEnum.ENABLED));
+    }
 
     @Override
     public IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String code, String name, String remark, StatusEnum status) {
@@ -68,11 +78,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public List<SysRole> getEnabledSysRoleList() {
-        return sysRoleMapper.selectList(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getStatus, StatusEnum.ENABLED));
-    }
-
-    @Override
     public SysRole getSysRole(String sysRoleId) {
         ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
         return sysRoleMapper.selectById(sysRoleId);
@@ -81,16 +86,79 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<SysPermission> getSysPermissionOfSysRole(String sysRoleId) {
         ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
+
+        logger.debug("获取系统角色");
+        final SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
+        ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
+        
         List<SysRolePermission> sysRolePermissionList = sysRolePermissionMapper.selectList(
                 Wrappers.<SysRolePermission>lambdaQuery().eq(SysRolePermission::getSysRoleId, sysRoleId));
-        if (CollectionUtils.isNotEmpty(sysRolePermissionList)) {
-            List<String> sysPermissionIdList = sysRolePermissionList.stream()
-                    .map(SysRolePermission::getSysPermissionId)
-                    .collect(Collectors.toList());
-            return sysPermissionMapper.selectBatchIds(sysPermissionIdList);
+        if (CollectionUtils.isEmpty(sysRolePermissionList)) {
+            logger.debug("系统角色ID[{}],没有对应的系统权限", sysRoleId);
+            return Collections.emptyList();
         }
-        logger.debug("系统角色ID[{}],没有对应的系统权限", sysRoleId);
-        return Collections.emptyList();
+
+        List<String> sysPermissionIdList = sysRolePermissionList.stream()
+                .map(SysRolePermission::getSysPermissionId)
+                .collect(Collectors.toList());
+        return sysPermissionMapper.selectBatchIds(sysPermissionIdList);
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuOfSysRole(String sysRoleId) {
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
+
+        logger.debug("获取系统角色");
+        final SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
+        ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
+        
+        return getSysMenuOfSysRole(Arrays.asList(sysRoleId));
+    }
+
+    @Override
+    public List<SysMenu> getSysMenuOfSysRole(List<String> sysRoleIdList) {
+        if (CollectionUtils.isEmpty(sysRoleIdList)) {
+            //系统角色ID列表为空
+            return Collections.emptyList();
+        }
+
+        final List<SysRoleMenu> sysRoleMenuList = sysRoleMenuMapper.selectList(Wrappers.<SysRoleMenu>lambdaQuery().in(SysRoleMenu::getSysRoleId, sysRoleIdList));
+        if (CollectionUtils.isEmpty(sysRoleMenuList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysMenuIdList = sysRoleMenuList.stream()
+                .map(SysRoleMenu::getSysMenuId)
+                .collect(Collectors.toList());
+        return sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getId, sysMenuIdList).orderByAsc(SysMenu::getOrder));
+
+    }
+
+    @Override
+    public List<SysApi> getSysApiOfSysRole(String sysRoleId) {
+        ApiAssert.isNotBlank(sysRoleId, ErrorResponse.create("系统角色ID不能为空"));
+        
+        logger.debug("获取系统角色");
+        final SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
+        ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
+        
+        return getSysApiOfSysRole(Arrays.asList(sysRoleId));
+    }
+    
+    @Override
+    public List<SysApi> getSysApiOfSysRole(List<String> sysRoleIdList) {
+        if (CollectionUtils.isEmpty(sysRoleIdList)) {
+            return Collections.emptyList();
+        }
+
+        List<SysRoleApi> sysRoleApiList = sysRoleApiMapper.selectList(Wrappers.<SysRoleApi>lambdaQuery().in(SysRoleApi::getSysRoleId, sysRoleIdList));
+        if (CollectionUtils.isEmpty(sysRoleApiList)) {
+            return Collections.emptyList();
+        }
+
+        List<String> sysApiIdList = sysRoleApiList.stream()
+                .map(SysRoleApi::getSysApiId)
+                .collect(Collectors.toList());
+        return sysApiMapper.selectList(Wrappers.<SysApi>lambdaQuery().in(SysApi::getId, sysApiIdList));
     }
 
     @Override

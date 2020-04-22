@@ -99,11 +99,11 @@ public class JacksonUtils {
     }
 
     /**
-     * json字符串转成集合对象
+     * json字符串转成列表对象
      *
      * @param jsonString json字符串
-     * @param clazz      需要转换的集合泛型class
-     * @param <T>        要转换的集合泛型对象
+     * @param clazz      需要转换的列表泛型class
+     * @param <T>        要转换的列表泛型对象
      * @return List<T> 要转换的对象
      */
     public static <T> List<T> parseArray(String jsonString, Class<T> clazz) {

@@ -2,12 +2,14 @@ package com.chen.f.admin.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysPermissionService;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
+import com.chen.f.common.pojo.SysApi;
+import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
+import com.chen.f.common.service.ISysPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -83,7 +85,24 @@ public class SysPermissionController {
     public SysPermission getSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysPermissionService.getSysPermission(sysPermissionId);
     }
-
+    
+    @ApiOperation(value = "获取系统权限的系统菜单列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/menu/{sysPermissionId}")
+    public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
+        return sysPermissionService.getSysMenuOfSysPermission(sysPermissionId);
+    }
+    
+    @ApiOperation(value = "获取系统权限的系统接口列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
+    })
+    @GetMapping("/api/{sysPermissionId}")
+    public List<SysApi> getSysApiOfSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
+        return sysPermissionService.getSysApiOfSysPermission(sysPermissionId);
+    }
 
     @ApiOperation(value = "创建系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({

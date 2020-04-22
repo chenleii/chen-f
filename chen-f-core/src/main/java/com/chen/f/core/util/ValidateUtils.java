@@ -23,7 +23,7 @@ public class ValidateUtils {
      * @param object 验证的对象
      * @param groups 组  对象实现的接口
      * @param <T>    验证的对象
-     * @return 验证的错误集合
+     * @return 验证的错误列表
      */
     public static <T> Set<ConstraintViolation<T>> validate(T object, Class<?>... groups) {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

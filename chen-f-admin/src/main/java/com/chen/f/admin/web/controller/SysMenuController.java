@@ -1,10 +1,10 @@
 package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysMenuService;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
+import com.chen.f.common.service.ISysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -77,26 +76,7 @@ public class SysMenuController {
             @RequestParam(name = "status", required = false) StatusEnum status) {
         return sysMenuService.getSysMenuList(parentId, name, url, type, remark, status);
     }
-
-    @ApiOperation(value = "根据系统角色ID获取启用的系统菜单", notes = "", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysRoleId", value = "系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping("/role/enabled/{sysRoleId}")
-    public List<SysMenu> getEnabledSysMenuListBySysRoleIdList(@PathVariable("sysRoleId") String sysRoleId) {
-        return sysMenuService.getEnabledSysMenuListBySysRoleIdList(Arrays.asList(sysRoleId));
-    }
-
-    @ApiOperation(value = "根据系统权限ID获取启用的系统菜单", notes = "", produces = "application/json")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
-    })
-    @GetMapping("/permission/enabled/{sysPermissionId}")
-    public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
-        return sysMenuService.getEnabledSysMenuListBySysPermissionIdList(Arrays.asList(sysPermissionId));
-    }
-
-
+    
     @ApiOperation(value = "获取系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysMenuId", value = "系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path")

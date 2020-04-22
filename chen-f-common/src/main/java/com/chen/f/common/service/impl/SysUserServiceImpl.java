@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.mapper.SysOrganizationMapper;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
 import com.chen.f.common.mapper.SysRoleMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.mapper.SysUserRoleMapper;
+import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.SysOrganizationUser;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
@@ -51,6 +53,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysOrganizationUserMapper sysOrganizationUserMapper;
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
+    @Autowired
+    private SysOrganizationMapper sysOrganizationMapper;
 
 
     @Override
@@ -80,8 +84,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public List<SysOrganization> getSysOrganizationOfSysUser(String sysUserId) {
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+
+        logger.debug("获取系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
+
+        final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysUserId, sysUserId));
+        if (CollectionUtils.isNotEmpty(sysOrganizationUserList)) {
+            return Collections.emptyList();
+        }
+
+        final List<String> sysOrganizationIdList = sysOrganizationUserList.stream()
+                .map(SysOrganizationUser::getSysOrganizationId)
+                .collect(Collectors.toList());
+        return sysOrganizationMapper.selectSuperiorByIdList(sysOrganizationIdList);
+    }
+
+    @Override
     public List<SysRole> getSysRoleOfSysUser(String sysUserId) {
         ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+
+        logger.debug("获取系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
+        
         List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getSysUserId, sysUserId));
         if (CollectionUtils.isEmpty(sysUserRoleList)) {
             logger.debug("系统用户ID[{}],没有对应系统角色.", sysUserId);
