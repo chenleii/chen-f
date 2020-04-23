@@ -93,11 +93,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
 
         logger.debug("获取系统用户");
-        SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
+        SysUser sysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
 
         final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysUserId, sysUserId));
-        if (CollectionUtils.isNotEmpty(sysOrganizationUserList)) {
+        if (CollectionUtils.isEmpty(sysOrganizationUserList)) {
             return Collections.emptyList();
         }
 
@@ -112,8 +112,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
 
         logger.debug("获取系统用户");
-        SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
+        SysUser sysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
 
         List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getSysUserId, sysUserId));
         if (CollectionUtils.isEmpty(sysUserRoleList)) {
