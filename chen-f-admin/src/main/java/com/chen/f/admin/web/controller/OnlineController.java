@@ -1,33 +1,28 @@
 package com.chen.f.admin.web.controller;
 
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.admin.configuration.security.service.SecurityUser;
-import com.chen.f.common.service.ISysApiService;
-import com.chen.f.common.service.ISysMenuService;
+import com.chen.f.admin.configuration.security.service.LoginUser;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
-import com.chen.f.common.service.ISysPermissionService;
-import com.chen.f.common.service.ISysRoleService;
+import com.chen.f.common.pojo.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
+ * 在线接口
+ * <p>
+ * 获取系统用户登录后的信息
+ *
  * @author chen
  * @since 2019/3/20 15:13.
  */
@@ -37,75 +32,63 @@ import java.util.stream.Collectors;
 public class OnlineController {
     protected static final Logger logger = LoggerFactory.getLogger(OnlineController.class);
 
-    @Autowired
-    private ISysMenuService sysMenuService;
 
-    @Autowired
-    private ISysApiService sysApiService;
-    @Autowired
-    private ISysRoleService sysRoleService;
-    @Autowired
-    private ISysPermissionService sysPermissionService;
-
-    @ApiOperation(value = "获取在线系统用户", notes = "", produces = "application/json", response = SecurityHelper.class)
+    @ApiOperation(value = "获取在线登录用户", notes = "", produces = "application/json", response = LoginUser.class)
     @ApiImplicitParams({})
-    @GetMapping("/sysUser")
-    public SecurityUser getSysUserRolePermission() {
+    @GetMapping("/loginUser")
+    public LoginUser getLoginUser() {
         SecurityHelper.checkFullyAuthenticated();
         return SecurityHelper.getAuthenticationSecurityUser();
     }
 
-
-    @ApiOperation(value = "获取在线用户的菜单列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户", notes = "", produces = "application/json", response = SysUser.class)
     @ApiImplicitParams({})
-    @GetMapping("/sysMenuList")
-    public List<SysMenu> getOnlineSysUserMenu() {
+    @GetMapping("/loginUser/sysUser")
+    public SysUser getOnlineSysUser() {
         SecurityHelper.checkFullyAuthenticated();
 
-        List<SysMenu> sysMenuList = new ArrayList<>();
-
-        final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
-        final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
-        final List<SysMenu> sysRoleMenuList = sysRoleService.getSysMenuOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
-        sysMenuList.addAll(sysRoleMenuList);
-
-        final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
-        final List<SysMenu> sysPermissionMenuList = sysPermissionService.getSysMenuOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
-        sysMenuList.addAll(sysPermissionMenuList);
-
-        //去重
-        final Set<SysMenu> distinctSet = new TreeSet<>(Comparator.comparing(SysMenu::getId));
-        sysMenuList = sysMenuList.stream()
-                .filter(distinctSet::add)
-                .sorted(Comparator.comparing(SysMenu::getOrder))
-                .collect(Collectors.toList());
-        return sysMenuList;
-
+        final LoginUser loginUser = SecurityHelper.getAuthenticationSecurityUser();
+        return loginUser.getSysUser();
     }
 
-    @ApiOperation(value = "获取在线用户的接口列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户的角色列表", notes = "", produces = "application/json", response = List.class)
     @ApiImplicitParams({})
-    @GetMapping("/sysApiList")
-    public List<SysApi> getOnlineSysUserApi() {
+    @GetMapping("/loginUser/sysRoleList")
+    public List<SysRole> getOnlineSysUserRoleList() {
         SecurityHelper.checkFullyAuthenticated();
 
-        List<SysApi> sysMenuList = new ArrayList<>();
+        final LoginUser loginUser = SecurityHelper.getAuthenticationSecurityUser();
+        return loginUser.getSysUserRoleList();
+    }
 
-        final SecurityUser securityUser = SecurityHelper.getAuthenticationSecurityUser();
-        final List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
-        final List<SysApi> sysRoleApiList = sysRoleService.getSysApiOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
-        sysMenuList.addAll(sysRoleApiList);
+    @ApiOperation(value = "获取在线登录用户的系统用户的权限列表", notes = "", produces = "application/json", response = List.class)
+    @ApiImplicitParams({})
+    @GetMapping("/loginUser/sysPermissionList")
+    public List<SysPermission> getOnlineSysUserPermissionList() {
+        SecurityHelper.checkFullyAuthenticated();
 
-        final List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
-        final List<SysApi> sysPermissionApiList = sysPermissionService.getSysApiOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
-        sysMenuList.addAll(sysPermissionApiList);
+        final LoginUser loginUser = SecurityHelper.getAuthenticationSecurityUser();
+        return loginUser.getSysUserPermissionList();
+    }
 
-        //去重
-        final Set<SysApi> distinctSet = new TreeSet<>(Comparator.comparing(SysApi::getId));
-        sysMenuList = sysMenuList.stream()
-                .filter(distinctSet::add)
-                .collect(Collectors.toList());
-        return sysMenuList;
 
+    @ApiOperation(value = "获取在线登录用户的系统用户的菜单列表", notes = "", produces = "application/json", response = List.class)
+    @ApiImplicitParams({})
+    @GetMapping("/loginUser/sysMenuList")
+    public List<SysMenu> getOnlineSysUserMenuList() {
+        SecurityHelper.checkFullyAuthenticated();
+
+        final LoginUser loginUser = SecurityHelper.getAuthenticationSecurityUser();
+        return loginUser.getSysUserMenuList();
+    }
+
+    @ApiOperation(value = "获取在线登录用户的系统用户的接口列表", notes = "", produces = "application/json", response = List.class)
+    @ApiImplicitParams({})
+    @GetMapping("/loginUser/sysApiList")
+    public List<SysApi> getOnlineSysUserApiList() {
+        SecurityHelper.checkFullyAuthenticated();
+
+        final LoginUser loginUser = SecurityHelper.getAuthenticationSecurityUser();
+        return loginUser.getSysUserApiList();
     }
 }
