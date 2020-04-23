@@ -1,24 +1,18 @@
 package com.chen.f.admin.configuration.security.service;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.chen.f.common.mapper.SysOrganizationMapper;
-import com.chen.f.common.mapper.SysOrganizationRoleMapper;
-import com.chen.f.common.mapper.SysOrganizationUserMapper;
-import com.chen.f.common.mapper.SysPermissionMapper;
-import com.chen.f.common.mapper.SysRoleMapper;
-import com.chen.f.common.mapper.SysRolePermissionMapper;
-import com.chen.f.common.mapper.SysUserMapper;
-import com.chen.f.common.mapper.SysUserRoleMapper;
+import com.chen.f.common.pojo.SysApi;
+import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysOrganization;
-import com.chen.f.common.pojo.SysOrganizationRole;
-import com.chen.f.common.pojo.SysOrganizationUser;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
-import com.chen.f.common.pojo.SysRolePermission;
 import com.chen.f.common.pojo.SysUser;
-import com.chen.f.common.pojo.SysUserRole;
-import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
+import com.chen.f.common.service.ISysApiService;
+import com.chen.f.common.service.ISysMenuService;
+import com.chen.f.common.service.ISysOrganizationService;
+import com.chen.f.common.service.ISysPermissionService;
+import com.chen.f.common.service.ISysRoleService;
+import com.chen.f.common.service.ISysUserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +25,11 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -44,36 +41,31 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
 
     private final String rolePrefix;
 
-    private final SysOrganizationMapper sysOrganizationMapper;
-    private final SysOrganizationUserMapper sysOrganizationUserMapper;
-    private final SysOrganizationRoleMapper sysOrganizationRoleMapper;
+    private final ISysOrganizationService sysOrganizationService;
+    private final ISysUserService sysUserService;
+    private final ISysRoleService sysRoleService;
+    private final ISysPermissionService sysPermissionService;
 
-    private final SysUserMapper sysUserMapper;
-    private final SysUserRoleMapper sysUserRoleMapper;
-    private final SysRoleMapper sysRoleMapper;
-    private final SysRolePermissionMapper sysRolePermissionMapper;
-    private final SysPermissionMapper sysPermissionMapper;
+    private final ISysMenuService sysMenuService;
+    private final ISysApiService sysApiService;
 
     public DefaultUserDetailsService(String rolePrefix,
-                                     SysOrganizationMapper sysOrganizationMapper,
-                                     SysOrganizationUserMapper sysOrganizationUserMapper,
-                                     SysOrganizationRoleMapper sysOrganizationRoleMapper,
-                                     SysUserMapper sysUserMapper,
-                                     SysUserRoleMapper sysUserRoleMapper,
-                                     SysRoleMapper sysRoleMapper,
-                                     SysRolePermissionMapper sysRolePermissionMapper,
-                                     SysPermissionMapper sysPermissionMapper) {
+                                     ISysOrganizationService sysOrganizationService,
+                                     ISysUserService sysUserService,
+                                     ISysRoleService sysRoleService,
+                                     ISysPermissionService sysPermissionService,
+
+                                     ISysMenuService sysMenuService,
+                                     ISysApiService sysApiService) {
         this.rolePrefix = rolePrefix;
 
-        this.sysOrganizationMapper = sysOrganizationMapper;
-        this.sysOrganizationUserMapper = sysOrganizationUserMapper;
-        this.sysOrganizationRoleMapper = sysOrganizationRoleMapper;
+        this.sysOrganizationService = sysOrganizationService;
+        this.sysUserService = sysUserService;
+        this.sysRoleService = sysRoleService;
+        this.sysPermissionService = sysPermissionService;
 
-        this.sysUserMapper = sysUserMapper;
-        this.sysUserRoleMapper = sysUserRoleMapper;
-        this.sysRoleMapper = sysRoleMapper;
-        this.sysRolePermissionMapper = sysRolePermissionMapper;
-        this.sysPermissionMapper = sysPermissionMapper;
+        this.sysMenuService = sysMenuService;
+        this.sysApiService = sysApiService;
     }
 
 
@@ -86,17 +78,17 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final SysUser sysUser = sysUserMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
-                .eq(SysUser::getUsername, username).eq(SysUser::getStatus, SysUserStatusEnum.ENABLED));
+        final SysUser sysUser = sysUserService.getSysUserByUsername(username);
         if (sysUser == null) {
             logger.debug("没有找到该用户:[{}]", username);
             throw new UsernameNotFoundException("没有找到该用户[ " + username + " ]");
         }
-        
-        //更新系统用户最后登录日期时间
-        sysUser.setLastLoginDateTime(LocalDateTime.now());
-        sysUserMapper.updateById(sysUser);
 
+        //系统用户ID
+        final String sysUserId = sysUser.getId();
+
+        //更新系统用户最后登录时间
+        sysUserService.updateSysUserLastLoginDateTime(sysUserId, LocalDateTime.now());
 
         //系统用户的组织列表
         final List<SysOrganization> sysUserOrganizationList = new ArrayList<>();
@@ -104,85 +96,132 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
         final List<SysRole> sysUserRoleList = new ArrayList<>();
         //系统用户的权限列表
         final List<SysPermission> sysUserPermissionList = new ArrayList<>();
+        //系统用户的菜单列表
+        final List<SysMenu> sysUserMenuList = new ArrayList<>();
+        //系统用户的接口列表
+        final List<SysApi> sysUserApiList = new ArrayList<>();
 
-        //系统用户的角色ID列表
-        final List<String> sysUserRoleIdList = new ArrayList<>();
-        //系统用户的权限ID列表
-        final List<String> sysUserPermissionIdList = new ArrayList<>();
-
-
-        //查询系统用户的组织
-        final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery()
-                .eq(SysOrganizationUser::getSysUserId, sysUser.getId()));
-        if (CollectionUtils.isNotEmpty(sysOrganizationUserList)) {
-            final List<String> sysOrganizationIdList = sysOrganizationUserList.stream()
-                    .map(SysOrganizationUser::getSysOrganizationId)
-                    .collect(Collectors.toList());
-            final List<SysOrganization> sysOrganizationList = sysOrganizationMapper.selectSuperiorByIdList(sysOrganizationIdList,
-                    Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getStatus, StatusEnum.ENABLED));
+        {
+            //查询系统用户的组织
+            final List<SysOrganization> sysOrganizationList = sysUserService.getSysOrganizationOfSysUser(sysUserId);
             if (CollectionUtils.isNotEmpty(sysOrganizationList)) {
                 //添加系统用户的组织列表
                 sysUserOrganizationList.addAll(sysOrganizationList);
             }
         }
 
-
         if (sysUser.getLevel().equals(0)) {
             logger.debug("[{}]是超级用户,设置所有角色和权限", sysUser.getUsername());
-            List<SysRole> sysRoleList = sysRoleMapper.selectList(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getStatus, StatusEnum.ENABLED));
-            List<SysPermission> sysPermissionList = sysPermissionMapper.selectList(Wrappers.<SysPermission>lambdaQuery().eq(SysPermission::getStatus, StatusEnum.ENABLED));
 
+            List<SysRole> sysRoleList = sysRoleService.getEnabledSysRoleList();
             if (CollectionUtils.isNotEmpty(sysRoleList)) {
                 sysUserRoleList.addAll(sysRoleList);
             }
+
+            List<SysPermission> sysPermissionList = sysPermissionService.getEnabledSysPermissionList();
             if (CollectionUtils.isNotEmpty(sysPermissionList)) {
                 sysUserPermissionList.addAll(sysPermissionList);
             }
+
+            final List<SysMenu> allSysMenuList = sysMenuService.getAllSysMenuList();
+            if (CollectionUtils.isNotEmpty(allSysMenuList)) {
+                sysUserMenuList.addAll(
+                        allSysMenuList.stream()
+                                .sorted(Comparator.comparing(SysMenu::getOrder))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            final List<SysApi> allSysApiList = sysApiService.getAllSysApiList();
+            if (CollectionUtils.isNotEmpty(allSysApiList)) {
+                sysUserApiList.addAll(allSysApiList);
+            }
+
         } else {
-            //查询系统组织的角色
-            if (CollectionUtils.isNotEmpty(sysUserOrganizationList)) {
-                final List<SysOrganizationRole> sysOrganizationRoleList = sysOrganizationRoleMapper.selectList(Wrappers.<SysOrganizationRole>lambdaQuery()
-                        .in(SysOrganizationRole::getSysOrganizationId, sysUserOrganizationList.stream().map(SysOrganization::getId).collect(Collectors.toList())));
-                if (CollectionUtils.isNotEmpty(sysOrganizationRoleList)) {
-                    //添加系统用户的角色ID列表
-                    final List<String> sysOrganizationRoleIdList = sysOrganizationRoleList.stream()
-                            .map(SysOrganizationRole::getSysRoleId)
-                            .collect(Collectors.toList());
-                    sysUserRoleIdList.addAll(sysOrganizationRoleIdList);
+            {
+                final Set<SysRole> sysUserRoleDistinctSet = new TreeSet<>(Comparator.comparing(SysRole::getId));
+                //查询系统组织的角色
+                if (CollectionUtils.isNotEmpty(sysUserOrganizationList)) {
+                    final List<SysRole> sysRoleOfSysOrganization = sysOrganizationService.getSysRoleOfSysOrganization(
+                            sysUserOrganizationList.stream().map(SysOrganization::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysRoleOfSysOrganization)) {
+                        //添加系统用户的权限列表
+                        sysUserRoleDistinctSet.addAll(sysRoleOfSysOrganization);
+                    }
+                }
+                //查询系统用户的角色
+                final List<SysRole> sysRoleOfSysUser = sysUserService.getSysRoleOfSysUser(sysUserId);
+                if (CollectionUtils.isNotEmpty(sysRoleOfSysUser)) {
+                    //添加系统用户的角色列表
+                    sysUserRoleDistinctSet.addAll(sysRoleOfSysUser);
+                }
+                if (CollectionUtils.isNotEmpty(sysUserRoleDistinctSet)) {
+                    sysUserRoleList.addAll(sysUserRoleDistinctSet);
                 }
             }
 
-            //查询系统用户的角色
-            final List<SysUserRole> sysUserRoleList1 = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery()
-                    .eq(SysUserRole::getSysUserId, sysUser.getId()));
-            if (CollectionUtils.isNotEmpty(sysUserRoleList1)) {
-                final List<SysRole> sysRoleList = sysRoleMapper.selectList(Wrappers.<SysRole>lambdaQuery()
-                        .in(SysRole::getId, sysUserRoleList1.stream().map(SysUserRole::getSysRoleId).collect(Collectors.toList())));
-                if (CollectionUtils.isNotEmpty(sysRoleList)) {
-                    //添加系统用户的角色列表
-                    sysUserRoleList.addAll(sysRoleList);
-                    //添加系统用户的角色ID列表
-                    final List<String> sysRoleIdList = sysRoleList.stream().map(SysRole::getId).collect(Collectors.toList());
-                    sysUserRoleIdList.addAll(sysRoleIdList);
-
-
-                    //查询系统角色的权限
-                    final List<SysRolePermission> sysRolePermissionList = sysRolePermissionMapper.selectList(Wrappers.<SysRolePermission>lambdaQuery()
-                            .in(SysRolePermission::getSysRoleId, sysUserRoleIdList));
-                    if (CollectionUtils.isNotEmpty(sysRolePermissionList)) {
-                        //添加系统用户的权限ID列表
-                        final List<String> sysRolePermissionIdList = sysRolePermissionList.stream()
-                                .map(SysRolePermission::getSysPermissionId)
-                                .collect(Collectors.toList());
-                        sysUserPermissionIdList.addAll(sysRolePermissionIdList);
-
-                        final List<SysPermission> sysPermissionList = sysPermissionMapper.selectList(Wrappers.<SysPermission>lambdaQuery()
-                                .in(SysPermission::getId, sysUserPermissionIdList));
-                        if (CollectionUtils.isNotEmpty(sysPermissionList)) {
-                            //添加系统用户的权限列表
-                            sysUserPermissionList.addAll(sysPermissionList);
-                        }
+            {
+                final Set<SysPermission> sysUserPermissionDistinctSet = new TreeSet<>(Comparator.comparing(SysPermission::getId));
+                //查询系统角色的权限
+                if (CollectionUtils.isNotEmpty(sysUserRoleList)) {
+                    final List<SysPermission> sysPermissionOfSysRole = sysRoleService.getSysPermissionOfSysRole(
+                            sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysPermissionOfSysRole)) {
+                        //添加系统用户的权限列表
+                        sysUserPermissionDistinctSet.addAll(sysPermissionOfSysRole);
                     }
+                }
+                if (CollectionUtils.isNotEmpty(sysUserPermissionDistinctSet)) {
+                    sysUserPermissionList.addAll(sysUserPermissionDistinctSet);
+                }
+            }
+
+            {
+                final Set<SysMenu> sysUserMenuDistinctSet = new TreeSet<>(Comparator.comparing(SysMenu::getId));
+                //设置系统用户的菜单
+                if (CollectionUtils.isNotEmpty(sysUserRoleList)) {
+                    final List<SysMenu> sysMenuOfSysRole = sysRoleService.getSysMenuOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysMenuOfSysRole)) {
+                        //添加系统用户的菜单列表
+                        sysUserMenuDistinctSet.addAll(sysMenuOfSysRole);
+                    }
+                }
+                if (CollectionUtils.isNotEmpty(sysUserPermissionList)) {
+                    final List<SysMenu> sysMenuOfSysPermission = sysPermissionService.getSysMenuOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysMenuOfSysPermission)) {
+                        //添加系统用户的菜单列表
+                        sysUserMenuDistinctSet.addAll(sysMenuOfSysPermission);
+                    }
+                }
+                if (CollectionUtils.isNotEmpty(sysUserMenuDistinctSet)) {
+                    sysUserMenuList.addAll(
+                            sysUserMenuDistinctSet.stream()
+                                    .sorted(Comparator.comparing(SysMenu::getOrder))
+                                    .collect(Collectors.toList())
+                    );
+                }
+            }
+
+
+            {
+                final Set<SysApi> sysUserApiDistinctSet = new TreeSet<>(Comparator.comparing(SysApi::getId));
+                //设置系统用户的接口
+                if (CollectionUtils.isNotEmpty(sysUserRoleList)) {
+                    final List<SysApi> sysApiOfSysRole = sysRoleService.getSysApiOfSysRole(sysUserRoleList.stream().map(SysRole::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysApiOfSysRole)) {
+                        //添加系统用户的接口列表
+                        sysUserApiDistinctSet.addAll(sysApiOfSysRole);
+                    }
+                }
+                if (CollectionUtils.isNotEmpty(sysUserPermissionList)) {
+                    final List<SysApi> sysApiOfSysPermission = sysPermissionService.getSysApiOfSysPermission(sysUserPermissionList.stream().map(SysPermission::getId).collect(Collectors.toList()));
+                    if (CollectionUtils.isNotEmpty(sysApiOfSysPermission)) {
+                        //添加系统用户的接口列表
+                        sysUserApiDistinctSet.addAll(sysApiOfSysPermission);
+                    }
+                }
+                if (CollectionUtils.isNotEmpty(sysUserApiDistinctSet)) {
+                    sysUserApiList.addAll(sysUserApiDistinctSet);
                 }
             }
         }
@@ -208,16 +247,19 @@ public class DefaultUserDetailsService implements UserDetailsService, ReactiveUs
         }
 
         //创建用户
-        SecurityUser securityUser = new SecurityUser(sysUser.getUsername(), sysUser.getPassword(),
+        LoginUser loginUser = new LoginUser(sysUser.getUsername(), sysUser.getPassword(),
                 sysUser.getStatus() == SysUserStatusEnum.ENABLED,
                 sysUser.getStatus() != SysUserStatusEnum.EXPIRED,
                 true, sysUser.getStatus() != SysUserStatusEnum.LOCKED,
                 simpleGrantedAuthorityList);
-        securityUser.setSysUser(sysUser);
-        securityUser.setSysUserOrganizationList(sysUserOrganizationList);
-        securityUser.setSysUserRoleList(sysUserRoleList);
-        securityUser.setSysUserPermissionList(sysUserPermissionList);
-        return securityUser;
+        loginUser.setSysUser(sysUser);
+        loginUser.setSysUserOrganizationList(sysUserOrganizationList);
+        loginUser.setSysUserRoleList(sysUserRoleList);
+        loginUser.setSysUserPermissionList(sysUserPermissionList);
+
+        loginUser.setSysUserMenuList(sysUserMenuList);
+        loginUser.setSysUserApiList(sysUserApiList);
+        return loginUser;
     }
 
 

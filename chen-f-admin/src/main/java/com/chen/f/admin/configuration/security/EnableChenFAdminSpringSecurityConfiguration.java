@@ -2,17 +2,15 @@ package com.chen.f.admin.configuration.security;
 
 import com.chen.f.admin.configuration.security.service.DefaultUserDetailsService;
 import com.chen.f.common.mapper.SysApiRolePermissionMapper;
-import com.chen.f.common.mapper.SysOrganizationMapper;
-import com.chen.f.common.mapper.SysOrganizationRoleMapper;
-import com.chen.f.common.mapper.SysOrganizationUserMapper;
-import com.chen.f.common.mapper.SysPermissionMapper;
-import com.chen.f.common.mapper.SysRoleMapper;
-import com.chen.f.common.mapper.SysRolePermissionMapper;
-import com.chen.f.common.mapper.SysUserMapper;
-import com.chen.f.common.mapper.SysUserRoleMapper;
 import com.chen.f.common.pojo.SysApiRolePermission;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
+import com.chen.f.common.service.ISysApiService;
+import com.chen.f.common.service.ISysMenuService;
+import com.chen.f.common.service.ISysOrganizationService;
+import com.chen.f.common.service.ISysPermissionService;
+import com.chen.f.common.service.ISysRoleService;
+import com.chen.f.common.service.ISysUserService;
 import com.chen.f.core.configuration.security.HttpSecurityCustomizer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,28 +39,25 @@ public class EnableChenFAdminSpringSecurityConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnClass({GrantedAuthorityDefaults.class, SysOrganizationMapper.class, SysOrganizationUserMapper.class, SysOrganizationRoleMapper.class,
-            SysUserMapper.class, SysUserRoleMapper.class, SysRoleMapper.class, SysRolePermissionMapper.class, SysPermissionMapper.class,
+    @ConditionalOnClass({GrantedAuthorityDefaults.class, ISysOrganizationService.class,
+            ISysUserService.class, ISysRoleService.class, ISysPermissionService.class, ISysMenuService.class, ISysApiService.class
     })
     public UserDetailsService userDetailsService(
             GrantedAuthorityDefaults grantedAuthorityDefaults,
-            SysOrganizationMapper sysOrganizationMapper,
-            SysOrganizationUserMapper sysOrganizationUserMapper,
-            SysOrganizationRoleMapper sysOrganizationRoleMapper,
-            SysUserMapper sysUserMapper,
-            SysUserRoleMapper sysUserRoleMapper,
-            SysRoleMapper sysRoleMapper,
-            SysRolePermissionMapper sysRolePermissionMapper,
-            SysPermissionMapper sysPermissionMapper) {
+            ISysOrganizationService sysOrganizationService,
+            ISysUserService sysUserService,
+            ISysRoleService sysRoleService,
+            ISysPermissionService sysPermissionService,
+
+            ISysMenuService sysMenuService,
+            ISysApiService sysApiService) {
         return new DefaultUserDetailsService(grantedAuthorityDefaults.getRolePrefix(),
-                sysOrganizationMapper,
-                sysOrganizationUserMapper,
-                sysOrganizationRoleMapper,
-                sysUserMapper,
-                sysUserRoleMapper,
-                sysRoleMapper,
-                sysRolePermissionMapper,
-                sysPermissionMapper);
+                sysOrganizationService,
+                sysUserService,
+                sysRoleService,
+                sysPermissionService,
+                sysMenuService,
+                sysApiService);
     }
 
     @Bean

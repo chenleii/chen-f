@@ -1,5 +1,7 @@
 package com.chen.f.admin.configuration.security.service;
 
+import com.chen.f.common.pojo.SysApi;
+import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
@@ -15,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 登录用户
+ * <p>
  * spring-security对象
  *
  * @author chen
@@ -23,7 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SecurityUser extends User {
+public class LoginUser extends User {
 
     /**
      * 系统用户
@@ -45,14 +49,24 @@ public class SecurityUser extends User {
      */
     private List<SysPermission> sysUserPermissionList = Collections.emptyList();
 
+    /**
+     * 系统用户菜单列表
+     */
+    private List<SysMenu> sysUserMenuList = Collections.emptyList();
 
-    public SecurityUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    /**
+     * 系统用户接口列表
+     */
+    private List<SysApi> sysUserApiList = Collections.emptyList();
+
+
+    public LoginUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
 
-    public SecurityUser(String username, String password,
-                        boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
-                        Collection<? extends GrantedAuthority> authorities) {
+    public LoginUser(String username, String password,
+                     boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
+                     Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 

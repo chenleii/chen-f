@@ -2,7 +2,7 @@ package com.chen.f.admin.configuration.security;
 
 import com.chen.f.core.api.response.error.security.SecurityErrorResponses;
 import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
-import com.chen.f.admin.configuration.security.service.SecurityUser;
+import com.chen.f.admin.configuration.security.service.LoginUser;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
@@ -46,16 +46,16 @@ public class SecurityHelper {
     }
 
     /**
-     * 获取认证对象中的{@link com.chen.f.admin.configuration.security.service.SecurityUser}
+     * 获取认证对象中的{@link com.chen.f.admin.configuration.security.service.LoginUser}
      * 默认的{@link org.springframework.security.core.userdetails.UserDetailsService}获取的是这个对象
      *
      * @return SecurityUser实例
      */
-    public static SecurityUser getAuthenticationSecurityUser() {
+    public static LoginUser getAuthenticationSecurityUser() {
         Authentication authentication = getFullyAuthenticatedAuthentication();
         Object principal = authentication.getPrincipal();
-        ApiAssert.isInstanceOf(SecurityUser.class, principal, SecurityErrorResponses.principalError());
-        return (SecurityUser) principal;
+        ApiAssert.isInstanceOf(LoginUser.class, principal, SecurityErrorResponses.principalError());
+        return (LoginUser) principal;
     }
 
     /**
@@ -163,8 +163,8 @@ public class SecurityHelper {
      * @return 是/否
      */
     public static boolean hasPermission(String... permissions) {
-        SecurityUser securityUser = getAuthenticationSecurityUser();
-        List<SysPermission> sysUserPermissionList = securityUser.getSysUserPermissionList();
+        LoginUser loginUser = getAuthenticationSecurityUser();
+        List<SysPermission> sysUserPermissionList = loginUser.getSysUserPermissionList();
         if (CollectionUtils.isEmpty(sysUserPermissionList)) {
             return false;
         }
@@ -233,8 +233,8 @@ public class SecurityHelper {
      * @return 是/否
      */
     public static boolean hasRole(String... roles) {
-        SecurityUser securityUser = getAuthenticationSecurityUser();
-        List<SysRole> sysUserRoleList = securityUser.getSysUserRoleList();
+        LoginUser loginUser = getAuthenticationSecurityUser();
+        List<SysRole> sysUserRoleList = loginUser.getSysUserRoleList();
         if (CollectionUtils.isEmpty(sysUserRoleList)) {
             return false;
         }
@@ -280,8 +280,8 @@ public class SecurityHelper {
      * @return 等级(0是管理员, 数值越小级别越大)
      */
     public static int getSysUserLevel() {
-        SecurityUser securityUser = getAuthenticationSecurityUser();
-        return securityUser.getSysUser().getLevel();
+        LoginUser loginUser = getAuthenticationSecurityUser();
+        return loginUser.getSysUser().getLevel();
     }
 
     /**
