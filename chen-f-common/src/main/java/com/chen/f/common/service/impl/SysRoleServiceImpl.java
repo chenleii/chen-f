@@ -90,18 +90,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         logger.debug("获取系统角色");
         final SysRole sysRole = sysRoleMapper.selectById(sysRoleId);
         ApiAssert.isNotNull(sysRole, ErrorResponse.create("系统角色不存在"));
-        
-        List<SysRolePermission> sysRolePermissionList = sysRolePermissionMapper.selectList(
-                Wrappers.<SysRolePermission>lambdaQuery().eq(SysRolePermission::getSysRoleId, sysRoleId));
-        if (CollectionUtils.isEmpty(sysRolePermissionList)) {
-            logger.debug("系统角色ID[{}],没有对应的系统权限", sysRoleId);
+
+        return getSysPermissionOfSysRole(Arrays.asList(sysRoleId));
+    }
+
+    @Override
+    public List<SysPermission> getSysPermissionOfSysRole(List<String> sysRoleIdList) {
+        if (CollectionUtils.isEmpty(sysRoleIdList)) {
+            //系统角色ID列表为空
             return Collections.emptyList();
         }
 
-        List<String> sysPermissionIdList = sysRolePermissionList.stream()
+        final List<SysRolePermission> sysRolePermissionList = sysRolePermissionMapper.selectList(Wrappers.<SysRolePermission>lambdaQuery().in(SysRolePermission::getSysRoleId, sysRoleIdList));
+        if (CollectionUtils.isEmpty(sysRolePermissionList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysPermissionIdList = sysRolePermissionList.stream()
                 .map(SysRolePermission::getSysPermissionId)
                 .collect(Collectors.toList());
-        return sysPermissionMapper.selectBatchIds(sysPermissionIdList);
+        return sysPermissionMapper.selectList(Wrappers.<SysPermission>lambdaQuery().in(SysPermission::getId, sysPermissionIdList));
     }
 
     @Override
@@ -130,7 +137,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 .map(SysRoleMenu::getSysMenuId)
                 .collect(Collectors.toList());
         return sysMenuMapper.selectList(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getId, sysMenuIdList).orderByAsc(SysMenu::getOrder));
-
     }
 
     @Override

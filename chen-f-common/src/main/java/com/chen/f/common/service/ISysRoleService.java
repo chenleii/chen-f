@@ -51,10 +51,18 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 获取系统角色的系统权限列表
      *
-     * @param sysRoleId 系统用户ID
+     * @param sysRoleId 系统角色ID
      * @return 系统权限列表
      */
     List<SysPermission> getSysPermissionOfSysRole(String sysRoleId);
+
+    /**
+     * 获取系统角色的系统权限列表
+     *
+     * @param sysRoleIdList 系统角色ID列表
+     * @return 系统权限列表
+     */
+    List<SysPermission> getSysPermissionOfSysRole(List<String> sysRoleIdList);
 
     /**
      * 获取系统角色的系统菜单列表
