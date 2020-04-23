@@ -273,14 +273,14 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
-    public void enabledSysOrganization(String sysOrganizatioId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizatioId, ErrorResponse.create("系统组织不能为空"));
+    public void enabledSysOrganization(String sysOrganizationId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织不能为空"));
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统组织是否存在");
-        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizatioId);
+        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
         ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
 
         logger.debug("启用系统组织");
@@ -292,14 +292,14 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
-    public void disableSysOrganization(String sysOrganizatioId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizatioId, ErrorResponse.create("系统组织不能为空"));
+    public void disableSysOrganization(String sysOrganizationId, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织不能为空"));
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
 
         logger.debug("检查系统组织是否存在");
-        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizatioId);
+        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
         ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
 
         logger.debug("禁用系统组织");

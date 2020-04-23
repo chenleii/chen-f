@@ -129,17 +129,17 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
     /**
      * 启用系统组织
      *
-     * @param sysOrganizatioId  系统组织ID
+     * @param sysOrganizationId  系统组织ID
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void enabledSysOrganization(String sysOrganizatioId, String operatedSysUserId);
+    void enabledSysOrganization(String sysOrganizationId, String operatedSysUserId);
 
     /**
      * 禁用系统组织
      *
-     * @param sysOrganizatioId  系统组织ID
+     * @param sysOrganizationId  系统组织ID
      * @param operatedSysUserId 操作的系统用户ID
      */
-    void disableSysOrganization(String sysOrganizatioId, String operatedSysUserId);
+    void disableSysOrganization(String sysOrganizationId, String operatedSysUserId);
 
 }
