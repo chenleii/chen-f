@@ -64,12 +64,28 @@ public interface ISysOrganizationService extends IService<SysOrganization> {
     List<SysUser> getSysUserOfSysOrganization(String sysOrganizationId);
 
     /**
+     * 获取系统组织的系统用户
+     *
+     * @param sysOrganizationIdList 系统组织ID列表
+     * @return 系统用户列表
+     */
+    List<SysUser> getSysUserOfSysOrganization(List<String> sysOrganizationIdList);
+
+    /**
      * 获取系统组织的系统角色
      *
      * @param sysOrganizationId 系统组织ID
      * @return 系统角色列表
      */
     List<SysRole> getSysRoleOfSysOrganization(String sysOrganizationId);
+
+    /**
+     * 获取系统组织的系统角色
+     *
+     * @param sysOrganizationIdList 系统组织ID列表
+     * @return 系统角色列表
+     */
+    List<SysRole> getSysRoleOfSysOrganization(List<String> sysOrganizationIdList);
 
     /**
      * 创建系统组织

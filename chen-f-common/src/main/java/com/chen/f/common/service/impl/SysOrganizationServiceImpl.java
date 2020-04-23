@@ -3,9 +3,6 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.common.service.ISysOrganizationService;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysOrganizationMapper;
 import com.chen.f.common.mapper.SysOrganizationRoleMapper;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
@@ -18,6 +15,9 @@ import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysOrganizationTypeEnum;
+import com.chen.f.common.service.ISysOrganizationService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -89,31 +90,57 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     @Override
     public List<SysUser> getSysUserOfSysOrganization(String sysOrganizationId) {
         ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysOrganizationId, sysOrganizationId));
 
-        if (CollectionUtils.isEmpty(sysOrganizationUserList)) {
-            logger.debug("系统组织ID[{}],没有对应系统用户.", sysOrganizationId);
+        logger.debug("获取系统组织");
+        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
+        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+
+        return getSysUserOfSysOrganization(Arrays.asList(sysOrganizationId));
+    }
+
+    @Override
+    public List<SysUser> getSysUserOfSysOrganization(List<String> sysOrganizationIdList) {
+        if (CollectionUtils.isEmpty(sysOrganizationIdList)) {
+            //系统组织ID列表为空
             return Collections.emptyList();
         }
-        List<String> sysUserIdList = sysOrganizationUserList.stream()
-                .map((SysOrganizationUser::getSysUserId))
+
+        final List<SysOrganizationUser> sysOrganizationUserList = sysOrganizationUserMapper.selectList(Wrappers.<SysOrganizationUser>lambdaQuery().in(SysOrganizationUser::getSysOrganizationId, sysOrganizationIdList));
+        if (CollectionUtils.isEmpty(sysOrganizationUserList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysUserIdList = sysOrganizationUserList.stream()
+                .map(SysOrganizationUser::getSysUserId)
                 .collect(Collectors.toList());
-        return sysUserMapper.selectBatchIds(sysUserIdList);
+        return sysUserMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getId, sysUserIdList));
     }
 
     @Override
     public List<SysRole> getSysRoleOfSysOrganization(String sysOrganizationId) {
         ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        final List<SysOrganizationRole> sysOrganizationRoleList = sysOrganizationRoleMapper.selectList(Wrappers.<SysOrganizationRole>lambdaQuery().eq(SysOrganizationRole::getSysOrganizationId, sysOrganizationId));
 
-        if (CollectionUtils.isEmpty(sysOrganizationRoleList)) {
-            logger.debug("系统组织ID[{}],没有对应系统角色.", sysOrganizationId);
+        logger.debug("获取系统组织");
+        final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
+        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+
+        return getSysRoleOfSysOrganization(Arrays.asList(sysOrganizationId));
+    }
+
+    @Override
+    public List<SysRole> getSysRoleOfSysOrganization(List<String> sysOrganizationIdList) {
+        if (CollectionUtils.isEmpty(sysOrganizationIdList)) {
+            //系统组织ID列表为空
             return Collections.emptyList();
         }
-        List<String> sysRoleIdList = sysOrganizationRoleList.stream()
-                .map((SysOrganizationRole::getSysRoleId))
+
+        final List<SysOrganizationRole> sysOrganizationRoleList = sysOrganizationRoleMapper.selectList(Wrappers.<SysOrganizationRole>lambdaQuery().in(SysOrganizationRole::getSysOrganizationId, sysOrganizationIdList));
+        if (CollectionUtils.isEmpty(sysOrganizationRoleList)) {
+            return Collections.emptyList();
+        }
+        final List<String> sysRoleIdList = sysOrganizationRoleList.stream()
+                .map(SysOrganizationRole::getSysRoleId)
                 .collect(Collectors.toList());
-        return sysRoleMapper.selectBatchIds(sysRoleIdList);
+        return sysRoleMapper.selectList(Wrappers.<SysRole>lambdaQuery().in(SysRole::getId, sysRoleIdList));
     }
 
     @Override
@@ -309,5 +336,5 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         int i = sysOrganizationMapper.updateById(sysOrganization);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织禁用失败"));
     }
-    
+
 }
