@@ -7,6 +7,7 @@ import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 启用的系统用户列表
      */
     List<SysUser> getEnabledSysUserList();
-    
+
     /**
      * 获取分页的系统用户列表
      *
@@ -53,7 +54,15 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 系统用户
      */
     SysUser getSysUser(String sysUserId);
-    
+
+    /**
+     * 根据系统用户名称获取系统用户
+     *
+     * @param username 系统用户名称
+     * @return 系统用户
+     */
+    SysUser getSysUserByUsername(String username);
+
     /**
      * 获取系统用户的系统组织列表
      *
@@ -61,7 +70,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 系统用户的系统组织列表
      */
     List<SysOrganization> getSysOrganizationOfSysUser(String sysUserId);
-    
+
     /**
      * 获取系统用户的系统角色列表
      *
@@ -95,6 +104,13 @@ public interface ISysUserService extends IService<SysUser> {
      */
     void updateSysUser(String sysUserId, String username, String password, Integer level, String remark, SysUserStatusEnum status, String operatedSysUserId);
 
+    /**
+     * 更新系统用户最后登录日期时间
+     *
+     * @param sysUserId         系统用户ID
+     * @param lastLoginDateTime 最后登录日期时间
+     */
+    void updateSysUserLastLoginDateTime(String sysUserId, LocalDateTime lastLoginDateTime);
 
     /**
      * 设置系统用户的系统角色
@@ -104,7 +120,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param operatedSysUserId 操作的系统用户
      */
     void setSysRoleOfSysUser(String sysUserId, List<String> sysRoleIdList, String operatedSysUserId);
-    
+
     /**
      * 删除系统用户
      *
@@ -144,5 +160,5 @@ public interface ISysUserService extends IService<SysUser> {
      * @param operatedSysUserId 操作的系统用户ID
      */
     void expireSysUser(String sysUserId, String operatedSysUserId);
-    
+
 }

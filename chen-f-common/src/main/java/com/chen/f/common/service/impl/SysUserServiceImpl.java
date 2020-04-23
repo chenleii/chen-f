@@ -84,6 +84,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public SysUser getSysUserByUsername(String username) {
+        return sysUserMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+    }
+
+    @Override
     public List<SysOrganization> getSysOrganizationOfSysUser(String sysUserId) {
         ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
 
@@ -109,7 +114,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.debug("获取系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(sysUserId);
         ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("系统用户不存在"));
-        
+
         List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getSysUserId, sysUserId));
         if (CollectionUtils.isEmpty(sysUserRoleList)) {
             logger.debug("系统用户ID[{}],没有对应系统角色.", sysUserId);
@@ -180,6 +185,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setLevel(level);
         sysUser.setUpdatedSysUserId(operatedSysUserId);
         sysUser.setUpdatedDateTime(LocalDateTime.now());
+        int i = sysUserMapper.updateById(sysUser);
+        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
+    }
+
+    @Override
+    public void updateSysUserLastLoginDateTime(String sysUserId, LocalDateTime lastLoginDateTime) {
+        ApiAssert.isNotBlank(sysUserId, ErrorResponse.create("系统用户ID不能为空"));
+        ApiAssert.isNotNull(lastLoginDateTime, ErrorResponse.create("系统用户的最后登录日期时间不能为空"));
+
+        SysUser sysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(sysUser, ErrorResponse.create("系统用户不存在"));
+
+        logger.debug("修改系统用户信息");
+        sysUser.setLastLoginDateTime(lastLoginDateTime);
+        //sysUser.setUpdatedSysUserId(operatedSysUserId);
+        //sysUser.setUpdatedDateTime(LocalDateTime.now());
         int i = sysUserMapper.updateById(sysUser);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统用户失败"));
     }
