@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -149,6 +153,42 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     }
 
 
+
+    /**
+     * 根据 entity 条件，查询全部记录（并翻页）
+     * <p>
+     * page OrderItem 实体类字段名转数据库字段名
+     *
+     * @param page         分页查询条件（可以为 RowBounds.DEFAULT）
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     */
+    default <E extends Page<T>> E selectPagePropertyToColumn(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        if (page != null) {
+            final List<OrderItem> orderItemList = page.getOrders();
+            if (CollectionUtils.isNotEmpty(orderItemList)) {
+                final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
+                if (Objects.nonNull(tableInfo)) {
+                    final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
+                    if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
+                        orderItemList.forEach((orderItem -> {
+                            final String column = tableFieldInfoList.stream()
+                                    .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
+                                    .findFirst()
+                                    .map(TableFieldInfo::getColumn)
+                                    .orElse(null);
+
+                            orderItem.setColumn(column);
+
+                        }));
+                    }
+                }
+            }
+        }
+
+        return selectPage(page, queryWrapper);
+    }
+
+
     /**
      * 批量插入
      *
@@ -241,6 +281,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     default int updateBatchById(List<T> entityList) {
         return updateBatchById(entityList, DEFAULT_BATCH_SIZE);
     }
+
 
     /**
      * 获取当前mapper实体类
