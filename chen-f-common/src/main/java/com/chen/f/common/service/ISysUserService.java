@@ -1,11 +1,11 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
+import com.chen.f.core.page.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,15 +37,14 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 获取分页的系统用户列表
      *
-     * @param pageIndex         页数
-     * @param pageNumber        页大小
+     * @param page              分页信息
      * @param username          系统用户名称
      * @param level             系统用户级别
      * @param remark            系统用户描述
      * @param sysUserStatusEnum 系统用户状态
      * @return 分页的系统用户列表
      */
-    IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum);
+    Page<SysUser> getSysUserPage(Page<SysUser> page, String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum);
 
     /**
      * 获取系统用户

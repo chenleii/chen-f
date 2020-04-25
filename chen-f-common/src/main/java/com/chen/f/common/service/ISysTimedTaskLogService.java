@@ -1,10 +1,10 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysTimedTaskLog;
 import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
+import com.chen.f.core.page.Page;
 
 /**
  * <p>
@@ -20,8 +20,7 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
     /**
      * 获取分页的系统定时任务日志列表
      *
-     * @param pageIndex       页数
-     * @param pageNumber      页大小
+     * @param page            分页信息
      * @param code            系统定时任务日志标识
      * @param name            系统定时任务日志名称
      * @param type            系统定时任务日志类型
@@ -29,8 +28,8 @@ public interface ISysTimedTaskLogService extends IService<SysTimedTaskLog> {
      * @param remark          系统定时任务日志备注
      * @return 分页的系统定时任务日志列表
      */
-    IPage<SysTimedTaskLog> getSysTimedTaskLogPage(Long pageIndex, Long pageNumber,
-                                                  String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskExecutionStatusEnum executionStatus, String remark);
+    Page<SysTimedTaskLog> getSysTimedTaskLogPage(Page<SysTimedTaskLog> page,
+                                                 String code, String name, SysTimedTaskTypeEnum type, SysTimedTaskExecutionStatusEnum executionStatus, String remark);
 
 
     /**

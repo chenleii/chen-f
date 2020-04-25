@@ -1,7 +1,6 @@
 package com.chen.f.admin.web.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
 import com.chen.f.common.pojo.SysRole;
@@ -9,6 +8,8 @@ import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
 import com.chen.f.common.service.ISysRoleService;
 import com.chen.f.common.service.ISysUserService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,7 +50,7 @@ public class SysUserController {
     private ISysUserService sysUserService;
     @Autowired
     private ISysRoleService sysRoleService;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -59,32 +60,34 @@ public class SysUserController {
     public List<SysUser> getAllSysUserList() {
         return sysUserService.getAllSysUserList();
     }
-    
+
     @ApiOperation(value = "获取启用的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/all/enabled")
     public List<SysUser> getEnabledSysOrganizationList() {
         return sysUserService.getEnabledSysUserList();
     }
-    
+
     @ApiOperation(value = "获取分页的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "username", value = "系统用户名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统用户描述", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统用户状态", required = false, dataTypeClass = SysUserStatusEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "level", value = "系统用户级别", required = false, dataTypeClass = Integer.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysUser> getSysUserPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                         @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                         @RequestParam(name = "username", required = false) String username,
-                                         @RequestParam(name = "remark", required = false) String remark,
-                                         @RequestParam(name = "status", required = false) SysUserStatusEnum sysUserStatusEnum,
-                                         @RequestParam(name = "level", required = false) Integer level
+    public Page<SysUser> getSysUserPage(
+            Page<SysUser> page,
+            @RequestParam(name = "username", required = false) String username,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) SysUserStatusEnum sysUserStatusEnum,
+            @RequestParam(name = "level", required = false) Integer level
     ) {
-        return sysUserService.getSysUserPage(pageIndex, pageNumber, username, level, remark, sysUserStatusEnum);
+        return sysUserService.getSysUserPage(page, username, level, remark, sysUserStatusEnum);
     }
 
     /**

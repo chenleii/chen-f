@@ -1,19 +1,18 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.core.configuration.quartz.QuartzHelper;
-import com.chen.f.common.service.ISysTimedTaskService;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
+import com.chen.f.common.service.ISysTimedTaskService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.exception.ApiException;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.configuration.quartz.QuartzHelper;
+import com.chen.f.core.page.Page;
 import com.chen.f.core.util.JacksonUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,8 +46,8 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
     private SysTimedTaskMapper sysTimedTaskMapper;
 
     @Override
-    public IPage<SysTimedTask> getSysTimedTaskPage(Long pageIndex, Long pageNumber,
-                                                   String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status) {
+    public Page<SysTimedTask> getSysTimedTaskPage(Page<SysTimedTask> page,
+                                                  String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysTimedTask> queryWrapper = Wrappers.<SysTimedTask>lambdaQuery();
         queryWrapper.eq(StringUtils.isNotBlank(code), SysTimedTask::getCode, code);
         queryWrapper.eq(StringUtils.isNotBlank(name), SysTimedTask::getName, name);
@@ -56,7 +55,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         queryWrapper.eq(Objects.nonNull(type), SysTimedTask::getType, type);
         queryWrapper.like(StringUtils.isNotBlank(remark), SysTimedTask::getRemark, remark);
         queryWrapper.eq(Objects.nonNull(status), SysTimedTask::getStatus, status);
-        return sysTimedTaskMapper.selectPage(new Page<>(pageIndex, pageNumber), queryWrapper);
+        return sysTimedTaskMapper.selectPage(page, queryWrapper);
     }
 
     @Override

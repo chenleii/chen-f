@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
 import com.chen.f.common.service.ISysApiService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -59,11 +60,12 @@ public class SysApiController {
     public List<SysApi> getEnabledSysApiList() {
         return sysApiService.getEnabledSysApiList();
     }
-    
+
     @ApiOperation(value = "获取分页的系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统接口名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "url", value = "系统接口URL", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "httpMethod", value = "系统接口HTTP请求方法", required = false, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "query"),
@@ -71,16 +73,17 @@ public class SysApiController {
             @ApiImplicitParam(name = "remark", value = "系统接口备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统接口状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysApi> getSysApiPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                       @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                       @RequestParam(name = "name", required = false) String name,
-                                       @RequestParam(name = "url", required = false) String url,
-                                       @RequestParam(name = "httpMethod", required = false) SysApiHttpMethodEnum httpMethod,
-                                       @RequestParam(name = "type", required = false) SysApiTypeEnum type,
-                                       @RequestParam(name = "remark", required = false) String remark,
-                                       @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysApiService.getSysApiPage(pageIndex, pageNumber, name, url, httpMethod, type, remark, status);
+    public Page<SysApi> getSysApiPage(
+            Page<SysApi> page,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "url", required = false) String url,
+            @RequestParam(name = "httpMethod", required = false) SysApiHttpMethodEnum httpMethod,
+            @RequestParam(name = "type", required = false) SysApiTypeEnum type,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum status) {
+        return sysApiService.getSysApiPage(page, name, url, httpMethod, type, remark, status);
     }
 
     @ApiOperation(value = "获取系统接口", notes = "", produces = "application/json")

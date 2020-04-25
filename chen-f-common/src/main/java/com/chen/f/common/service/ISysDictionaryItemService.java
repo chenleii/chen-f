@@ -1,10 +1,10 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
+import com.chen.f.core.page.Page;
 
 import java.util.List;
 
@@ -20,8 +20,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
     /**
      * 获取分页的系统字典项目列表
      *
-     * @param pageIndex       页数
-     * @param pageNumber      页大小
+     * @param page            分页信息
      * @param sysDictionaryId 系统字典ID
      * @param code            系统字典项目编码
      * @param name            系统字典项目名称
@@ -33,7 +32,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      * @param statusEnum      系统字典项目状态
      * @return 分页的系统字典项目列表
      */
-    IPage<SysDictionaryItem> getSysDictionaryItemPage(Long pageIndex, Long pageNumber,
+    Page<SysDictionaryItem> getSysDictionaryItemPage(Page<SysDictionaryItem> page,
                                                       String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum valueTypeEnum, String color, String remark, StatusEnum statusEnum);
 
     /**

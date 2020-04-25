@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.common.pojo.SysDictionary;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysDictionaryTypeEnum;
 import com.chen.f.common.service.ISysDictionaryService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,24 +47,26 @@ public class SysDictionaryController {
 
     @ApiOperation(value = "获取分页的系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统字典编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统字典名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统字典类型", required = false, dataTypeClass = SysDictionaryTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统字典描述", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统字典状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysDictionary> getSysDictionaryPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                     @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                                     @RequestParam(name = "code", required = false) String code,
-                                                     @RequestParam(name = "name", required = false) String name,
-                                                     @RequestParam(name = "type", required = false) SysDictionaryTypeEnum valueTypeEnum,
-                                                     @RequestParam(name = "remark", required = false) String remark,
-                                                     @RequestParam(name = "status", required = false) StatusEnum statusEnum
+    public Page<SysDictionary> getSysDictionaryPage(
+            Page<SysDictionary> page,
+            @RequestParam(name = "code", required = false) String code,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "type", required = false) SysDictionaryTypeEnum valueTypeEnum,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum statusEnum
     ) {
-        return sysDictionaryService.getSysDictionaryPage(pageIndex, pageNumber, code, name, valueTypeEnum, remark, statusEnum);
+        return sysDictionaryService.getSysDictionaryPage(page, code, name, valueTypeEnum, remark, statusEnum);
     }
 
     @ApiOperation(value = "获取启用的系统字典", notes = "", produces = "application/json")

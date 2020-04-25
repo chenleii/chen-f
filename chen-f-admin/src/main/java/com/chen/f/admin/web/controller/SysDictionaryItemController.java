@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictionaryItemService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,8 +47,9 @@ public class SysDictionaryItemController {
 
     @ApiOperation(value = "获取分页的系统字典项目", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "sysDictionaryId", value = "系统字典ID", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统字典项目标识", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统字典项目名称", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -58,20 +60,21 @@ public class SysDictionaryItemController {
             @ApiImplicitParam(name = "type", value = "系统字典项目类型", required = false, dataTypeClass = TypeTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统字典项目状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysDictionaryItem> getSysDictionaryItemPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                             @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                                             @RequestParam(name = "sysDictionaryId", required = false) String sysDictionaryId,
-                                                             @RequestParam(name = "code", required = false) String code,
-                                                             @RequestParam(name = "name", required = false) String name,
-                                                             @RequestParam(name = "key", required = false) String key,
-                                                             @RequestParam(name = "value", required = false) String value,
-                                                             @RequestParam(name = "remark", required = false) String remark,
-                                                             @RequestParam(name = "color", required = false) String color,
-                                                             @RequestParam(name = "type", required = false) TypeTypeEnum valueTypeEnum,
-                                                             @RequestParam(name = "status", required = false) StatusEnum statusEnum
+    public Page<SysDictionaryItem> getSysDictionaryItemPage(
+            Page<SysDictionaryItem> page,
+            @RequestParam(name = "sysDictionaryId", required = false) String sysDictionaryId,
+            @RequestParam(name = "code", required = false) String code,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "key", required = false) String key,
+            @RequestParam(name = "value", required = false) String value,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "color", required = false) String color,
+            @RequestParam(name = "type", required = false) TypeTypeEnum valueTypeEnum,
+            @RequestParam(name = "status", required = false) StatusEnum statusEnum
     ) {
-        return sysDictionaryItemService.getSysDictionaryItemPage(pageIndex, pageNumber, sysDictionaryId, code, name, key, value, valueTypeEnum, color, remark, statusEnum);
+        return sysDictionaryItemService.getSysDictionaryItemPage(page, sysDictionaryId, code, name, key, value, valueTypeEnum, color, remark, statusEnum);
     }
 
     @ApiOperation(value = "获取启用的系统字典项目", notes = "", produces = "application/json")

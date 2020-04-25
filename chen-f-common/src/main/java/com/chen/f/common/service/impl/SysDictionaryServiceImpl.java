@@ -1,12 +1,8 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.mapper.SysDictionaryMapper;
 import com.chen.f.common.mapper.SysUserMapper;
@@ -16,6 +12,9 @@ import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysDictionaryTypeEnum;
 import com.chen.f.common.service.ISysDictionaryService;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,15 +47,15 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
 
 
     @Override
-    public IPage<SysDictionary> getSysDictionaryPage(Long pageIndex, Long pageNumber,
-                                                     String code, String name, SysDictionaryTypeEnum sysDictionaryTypeEnum, String remark, StatusEnum statusEnum) {
+    public Page<SysDictionary> getSysDictionaryPage(Page<SysDictionary> page,
+                                                    String code, String name, SysDictionaryTypeEnum sysDictionaryTypeEnum, String remark, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysDictionary> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StringUtils.isNotBlank(code), SysDictionary::getCode, code);
         wrapper.like(StringUtils.isNotBlank(name), SysDictionary::getName, name);
         wrapper.eq(Objects.nonNull(sysDictionaryTypeEnum), SysDictionary::getType, sysDictionaryTypeEnum);
         wrapper.like(StringUtils.isNotBlank(remark), SysDictionary::getRemark, remark);
         wrapper.eq(Objects.nonNull(statusEnum), SysDictionary::getStatus, statusEnum);
-        return sysDictionaryMapper.selectPage(new Page<>(pageIndex, pageNumber), wrapper);
+        return sysDictionaryMapper.selectPage(page, wrapper);
     }
 
     @Override

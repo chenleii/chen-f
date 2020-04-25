@@ -1,12 +1,12 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.SysMenu;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.core.page.Page;
 
 import java.util.List;
 
@@ -30,15 +30,14 @@ public interface ISysRoleService extends IService<SysRole> {
     /**
      * 获取分页的系统角色列表
      *
-     * @param pageIndex  页数
-     * @param pageNumber 页大小
-     * @param code       系统角色编码
-     * @param name       系统角色名称
-     * @param remark     系统角色描述
-     * @param status     系统角色状态
+     * @param page   分页信息
+     * @param code   系统角色编码
+     * @param name   系统角色名称
+     * @param remark 系统角色描述
+     * @param status 系统角色状态
      * @return 分页的系统角色列表
      */
-    IPage<SysRole> getSysRolePage(Long pageIndex, Long pageNumber, String code, String name, String remark, StatusEnum status);
+    Page<SysRole> getSysRolePage(Page<SysRole> page, String code, String name, String remark, StatusEnum status);
 
     /**
      * 获取系统角色
@@ -79,7 +78,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return 系统菜单列表
      */
     List<SysMenu> getSysMenuOfSysRole(List<String> sysRoleIdList);
-    
+
     /**
      * 获取系统角色的系统接口列表
      *
@@ -87,7 +86,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return 系统接口列表
      */
     List<SysApi> getSysApiOfSysRole(String sysRoleId);
-    
+
     /**
      * 获取系统角色的系统接口列表
      *

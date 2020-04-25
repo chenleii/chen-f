@@ -1,9 +1,7 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.common.mapper.SysParameterMapper;
 import com.chen.f.common.mapper.SysUserMapper;
@@ -15,6 +13,7 @@ import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysParameterService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,8 +48,8 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     }
 
     @Override
-    public IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
-                                                   String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum) {
+    public Page<SysParameter> getSysParameterPage(Page<SysParameter> page,
+                                                  String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysParameter> lambdaQueryWrapper = Wrappers.<SysParameter>lambdaQuery();
         lambdaQueryWrapper.eq(StringUtils.isNotBlank(code), SysParameter::getCode, code);
         lambdaQueryWrapper.eq(StringUtils.isNotBlank(name), SysParameter::getName, name);
@@ -59,7 +58,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         lambdaQueryWrapper.eq(Objects.nonNull(type), SysParameter::getType, type);
         lambdaQueryWrapper.like(StringUtils.isNotBlank(remark), SysParameter::getRemark, remark);
         lambdaQueryWrapper.eq(Objects.nonNull(statusEnum), SysParameter::getStatus, statusEnum);
-        return sysParameterMapper.selectPage(new Page<>(pageIndex, pageNumber), lambdaQueryWrapper);
+        return sysParameterMapper.selectPage(page, lambdaQueryWrapper);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.mapper.SysMenuMapper;
@@ -24,6 +22,7 @@ import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
 import com.chen.f.common.service.ISysPermissionService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -71,15 +70,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public IPage<SysPermission> getSysPermissionPage(Long pageIndex, Long pageNumber,
-                                                     String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status) {
+    public Page<SysPermission> getSysPermissionPage(Page<SysPermission> page,
+                                                    String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers.<SysPermission>lambdaQuery();
         queryWrapper.eq(StringUtils.isNotBlank(code), SysPermission::getCode, code);
         queryWrapper.eq(StringUtils.isNotBlank(name), SysPermission::getName, name);
         queryWrapper.eq(Objects.nonNull(type), SysPermission::getType, type);
         queryWrapper.like(StringUtils.isNotBlank(remark), SysPermission::getRemark, remark);
         queryWrapper.eq(Objects.nonNull(status), SysPermission::getStatus, status);
-        return sysPermissionMapper.selectPage(new Page<>(pageIndex, pageNumber), queryWrapper);
+        return sysPermissionMapper.selectPage(page, queryWrapper);
     }
 
     @Override
@@ -95,7 +94,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         logger.debug("获取系统权限");
         final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
-        
+
         return getSysMenuOfSysPermission(Arrays.asList(sysPermissionId));
     }
 
@@ -124,7 +123,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         logger.debug("获取系统权限");
         final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
         ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
-        
+
         return getSysApiOfSysPermission(Arrays.asList(sysPermissionId));
     }
 

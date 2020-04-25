@@ -1,10 +1,10 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
+import com.chen.f.core.page.Page;
 
 import java.util.List;
 
@@ -22,18 +22,17 @@ public interface ISysTimedTaskService extends IService<SysTimedTask> {
     /**
      * 获取分页的系统定时任务列表
      *
-     * @param pageIndex  页数
-     * @param pageNumber 页大小
-     * @param code       系统定时任务标识
-     * @param name       系统定时任务名称
-     * @param className  系统定时任务类名
-     * @param type       系统定时任务类型
-     * @param remark     系统定时任务备注
-     * @param status     系统定时任务状态
+     * @param page      分页信息
+     * @param code      系统定时任务标识
+     * @param name      系统定时任务名称
+     * @param className 系统定时任务类名
+     * @param type      系统定时任务类型
+     * @param remark    系统定时任务备注
+     * @param status    系统定时任务状态
      * @return 分页的系统定时任务列表
      */
-    IPage<SysTimedTask> getSysTimedTaskPage(Long pageIndex, Long pageNumber,
-                                            String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status);
+    Page<SysTimedTask> getSysTimedTaskPage(Page<SysTimedTask> page,
+                                           String code, String name, String className, SysTimedTaskTypeEnum type, String remark, StatusEnum status);
 
     /**
      * 获取启用的系统定时任务列表

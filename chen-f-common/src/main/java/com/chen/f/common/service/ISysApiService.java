@@ -1,11 +1,11 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
+import com.chen.f.core.page.Page;
 
 import java.util.List;
 
@@ -33,12 +33,11 @@ public interface ISysApiService extends IService<SysApi> {
      * @return 启用的系统接口列表
      */
     List<SysApi> getEnabledSysApiList();
-    
+
     /**
      * 获取分页的系统接口列表
      *
-     * @param pageIndex  页数
-     * @param pageNumber 页大小
+     * @param page       分页信息
      * @param name       系统接口名称
      * @param url        系统接口URL
      * @param httpMethod 系统接口HTTP请求方法
@@ -47,9 +46,9 @@ public interface ISysApiService extends IService<SysApi> {
      * @param status     系统接口状态
      * @return 分页的系统接口列表
      */
-    IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type,
-                                String remark, StatusEnum status);
-    
+    Page<SysApi> getSysApiPage(Page<SysApi> page, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type,
+                               String remark, StatusEnum status);
+
     /**
      * 获取系统接口
      *

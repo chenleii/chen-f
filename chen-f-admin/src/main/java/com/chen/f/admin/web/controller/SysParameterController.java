@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.common.pojo.SysParameter;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysParameterService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,8 +47,9 @@ public class SysParameterController {
 
     @ApiOperation(value = "获取分页的系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统参数编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统参数名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "value", value = "系统参数值", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -56,17 +58,18 @@ public class SysParameterController {
             @ApiImplicitParam(name = "remark", value = "系统参数备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统参数状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysParameter> getSysParameterPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                   @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                                   @RequestParam(name = "code", required = false) String code,
-                                                   @RequestParam(name = "name", required = false) String name,
-                                                   @RequestParam(name = "value", required = false) String value,
-                                                   @RequestParam(name = "valueType", required = false) TypeTypeEnum valueType,
-                                                   @RequestParam(name = "type", required = false) SysParameterTypeEnum type,
-                                                   @RequestParam(name = "remark", required = false) String remark,
-                                                   @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysParameterService.getSysParameterPage(pageIndex, pageNumber, code, name, value, valueType, type, remark, status);
+    public Page<SysParameter> getSysParameterPage(
+            Page<SysParameter> page,
+            @RequestParam(name = "code", required = false) String code,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "value", required = false) String value,
+            @RequestParam(name = "valueType", required = false) TypeTypeEnum valueType,
+            @RequestParam(name = "type", required = false) SysParameterTypeEnum type,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum status) {
+        return sysParameterService.getSysParameterPage(page, code, name, value, valueType, type, remark, status);
     }
 
 
@@ -116,7 +119,7 @@ public class SysParameterController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysRoleId = SecurityHelper.getSysUserId();
-        sysParameterService.createSysParameter(code, name, value,valueType, type, remark, status, operatedSysRoleId);
+        sysParameterService.createSysParameter(code, name, value, valueType, type, remark, status, operatedSysRoleId);
     }
 
     @ApiOperation(value = "创建系统参数", notes = "", produces = "application/json")
@@ -152,7 +155,7 @@ public class SysParameterController {
             @RequestParam(name = "remark", required = false) String remark,
             @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysParameterService.updateSysParameter(sysParameterId, code, name, value,valueType,type, remark, status, operatedSysUserId);
+        sysParameterService.updateSysParameter(sysParameterId, code, name, value, valueType, type, remark, status, operatedSysUserId);
     }
 
     @ApiOperation(value = "修改系统参数", notes = "", produces = "application/json")

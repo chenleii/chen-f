@@ -1,6 +1,5 @@
 package com.chen.f.admin.web.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
@@ -11,6 +10,8 @@ import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.service.ISysRoleService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,21 +51,23 @@ public class SysRoleController {
 
     @ApiOperation(value = "获取分页的系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统角色编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统角色名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统角色备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统角色状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysRole> getSysRolePage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                         @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
+    public Page<SysRole> getSysRolePage(
+            Page<SysRole> page,
                                          @RequestParam(name = "code", required = false) String code,
                                          @RequestParam(name = "name", required = false) String name,
                                          @RequestParam(name = "remark", required = false) String remark,
                                          @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysRoleService.getSysRolePage(pageIndex, pageNumber, code, name, remark, status);
+        return sysRoleService.getSysRolePage(page, code, name, remark, status);
     }
 
 

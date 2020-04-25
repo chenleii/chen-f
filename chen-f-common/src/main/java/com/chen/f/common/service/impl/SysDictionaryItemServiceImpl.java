@@ -1,9 +1,7 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.mapper.SysUserMapper;
@@ -14,6 +12,7 @@ import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictionaryItemService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
 
 
     @Override
-    public IPage<SysDictionaryItem> getSysDictionaryItemPage(Long pageIndex, Long pageNumber, String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum valueTypeEnum, String color, String remark, StatusEnum statusEnum) {
+    public Page<SysDictionaryItem> getSysDictionaryItemPage(Page<SysDictionaryItem> page, String sysDictionaryId, String code, String name, String key, String value, TypeTypeEnum valueTypeEnum, String color, String remark, StatusEnum statusEnum) {
         LambdaQueryWrapper<SysDictionaryItem> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(StringUtils.isNotBlank(sysDictionaryId), SysDictionaryItem::getSysDictionaryId, sysDictionaryId);
         wrapper.like(StringUtils.isNotBlank(code), SysDictionaryItem::getCode, code);
@@ -55,7 +54,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         wrapper.like(StringUtils.isNotBlank(color), SysDictionaryItem::getColor, color);
         wrapper.like(StringUtils.isNotBlank(remark), SysDictionaryItem::getRemark, remark);
         wrapper.eq(Objects.nonNull(statusEnum), SysDictionaryItem::getStatus, statusEnum);
-        return sysDictionaryItemMapper.selectPage(new Page<>(pageIndex, pageNumber), wrapper);
+        return sysDictionaryItemMapper.selectPage(page, wrapper);
     }
 
     @Override
@@ -125,7 +124,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
                 order = 1;
             }
         }
-        
+
         logger.debug("插入系统字典项目");
         SysDictionaryItem sysDictionaryItem = new SysDictionaryItem();
         sysDictionaryItem.setSysDictionaryId(sysDictionaryId);

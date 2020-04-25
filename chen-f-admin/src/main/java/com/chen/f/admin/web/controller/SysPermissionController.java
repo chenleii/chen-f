@@ -1,6 +1,5 @@
 package com.chen.f.admin.web.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.admin.web.dto.SysApisInputDTO;
 import com.chen.f.admin.web.dto.SysMenusInputDTO;
@@ -10,6 +9,8 @@ import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysPermissionTypeEnum;
 import com.chen.f.common.service.ISysPermissionService;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -49,23 +50,25 @@ public class SysPermissionController {
 
     @ApiOperation(value = "获取分页的系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "query"),
             @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysPermission> getSysPermissionPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                     @RequestParam(name = "pageNumber", defaultValue = "10") Long pageNumber,
-                                                     @RequestParam(name = "code", required = false) String code,
-                                                     @RequestParam(name = "name", required = false) String name,
-                                                     @RequestParam(name = "type", required = false) SysPermissionTypeEnum type,
-                                                     @RequestParam(name = "remark", required = false) String remark,
-                                                     @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysPermissionService.getSysPermissionPage(pageIndex, pageNumber, code, name, type, remark, status);
+    public Page<SysPermission> getSysPermissionPage(
+            Page<SysPermission> page,
+            @RequestParam(name = "code", required = false) String code,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "type", required = false) SysPermissionTypeEnum type,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum status) {
+        return sysPermissionService.getSysPermissionPage(page, code, name, type, remark, status);
     }
 
 
@@ -85,7 +88,7 @@ public class SysPermissionController {
     public SysPermission getSysPermission(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysPermissionService.getSysPermission(sysPermissionId);
     }
-    
+
     @ApiOperation(value = "获取系统权限的系统菜单列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
@@ -94,7 +97,7 @@ public class SysPermissionController {
     public List<SysMenu> getEnabledSysMenuListBySysPermissionIdList(@PathVariable("sysPermissionId") String sysPermissionId) {
         return sysPermissionService.getSysMenuOfSysPermission(sysPermissionId);
     }
-    
+
     @ApiOperation(value = "获取系统权限的系统接口列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
@@ -149,7 +152,7 @@ public class SysPermissionController {
                                     @RequestParam(name = "remark", required = false) String remark,
                                     @RequestParam(name = "status") StatusEnum status) {
         String operatedSysUserId = SecurityHelper.getSysUserId();
-        sysPermissionService.updateSysPermission(sysPermissionId,code, name, type, remark, status, operatedSysUserId);
+        sysPermissionService.updateSysPermission(sysPermissionId, code, name, type, remark, status, operatedSysUserId);
     }
 
 

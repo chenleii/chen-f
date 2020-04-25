@@ -1,12 +1,13 @@
 package com.chen.f.admin.web.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.f.admin.configuration.security.SecurityHelper;
-import com.chen.f.common.service.ISysTimedTaskService;
-import com.chen.f.core.api.response.success.R;
 import com.chen.f.common.pojo.SysTimedTask;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
+import com.chen.f.common.service.ISysTimedTaskService;
+import com.chen.f.core.api.response.success.R;
+import com.chen.f.core.page.Page;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,10 +44,11 @@ public class SysTimedTaskController {
     @Autowired
     private ISysTimedTaskService sysTimedTaskService;
 
-    @ApiOperation(value = "获取分页的系统定时任务列表", notes = "", produces = "application/json")
+    @ApiOperation(value = "获取分页的系统定时任务", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageIndex", value = "页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "pageNumber", value = "页大小", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, dataTypeClass = Long.class, paramType = "query", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", value = "排序信息(eg:name1.ascend-name2.descend)", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "系统定时任务编码", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "name", value = "系统定时任务名称", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "className", value = "系统定时任务CLASSNAME", required = false, dataTypeClass = String.class, paramType = "query"),
@@ -54,16 +56,17 @@ public class SysTimedTaskController {
             @ApiImplicitParam(name = "remark", value = "系统定时任务备注", required = false, dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "status", value = "系统定时任务状态", required = false, dataTypeClass = StatusEnum.class, paramType = "query"),
     })
+    @ApiOperationSupport(ignoreParameters = {"list", "total", "orderList", "optimizeCountSql", "isSearchCount","searchCount", "hitCount",})
     @GetMapping
-    public IPage<SysTimedTask> getSysTimedTaskPage(@RequestParam(name = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                   @RequestParam(name = "pageNumber", defaultValue = "10") long pageNumbe,
-                                                   @RequestParam(name = "code", required = false) String code,
-                                                   @RequestParam(name = "name", required = false) String name,
-                                                   @RequestParam(name = "className", required = false) String className,
-                                                   @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum type,
-                                                   @RequestParam(name = "remark", required = false) String remark,
-                                                   @RequestParam(name = "status", required = false) StatusEnum status) {
-        return sysTimedTaskService.getSysTimedTaskPage(pageIndex, pageNumbe, code, name, className, type, remark, status);
+    public Page<SysTimedTask> getSysTimedTaskPage(
+            Page<SysTimedTask> page,
+            @RequestParam(name = "code", required = false) String code,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "className", required = false) String className,
+            @RequestParam(name = "type", required = false) SysTimedTaskTypeEnum type,
+            @RequestParam(name = "remark", required = false) String remark,
+            @RequestParam(name = "status", required = false) StatusEnum status) {
+        return sysTimedTaskService.getSysTimedTaskPage(page, code, name, className, type, remark, status);
     }
 
     @ApiOperation(value = "获取系统定时任务", notes = "", produces = "application/json")

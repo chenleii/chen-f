@@ -1,11 +1,11 @@
 package com.chen.f.common.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.f.common.pojo.SysParameter;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysParameterTypeEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
+import com.chen.f.core.page.Page;
 
 import java.util.List;
 
@@ -29,8 +29,7 @@ public interface ISysParameterService extends IService<SysParameter> {
     /**
      * 获取分页的系统参数列表
      *
-     * @param pageIndex  页数
-     * @param pageNumber 页大小
+     * @param page       分页信息
      * @param code       系统参数编码
      * @param name       系统参数名称
      * @param value      系统参数值
@@ -40,8 +39,8 @@ public interface ISysParameterService extends IService<SysParameter> {
      * @param statusEnum 系统参数状态
      * @return 分页的系统参数列表
      */
-    IPage<SysParameter> getSysParameterPage(Long pageIndex, Long pageNumber,
-                                            String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum);
+    Page<SysParameter> getSysParameterPage(Page<SysParameter> page,
+                                           String code, String name, String value, TypeTypeEnum valueType, SysParameterTypeEnum type, String remark, StatusEnum statusEnum);
 
     /**
      * 获取系统参数对象

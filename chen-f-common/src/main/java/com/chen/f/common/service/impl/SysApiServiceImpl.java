@@ -1,9 +1,7 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.mapper.SysPermissionApiMapper;
@@ -19,6 +17,7 @@ import com.chen.f.common.pojo.enums.SysApiTypeEnum;
 import com.chen.f.common.service.ISysApiService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,8 +62,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
     }
 
     @Override
-    public IPage<SysApi> getSysApiPage(Long pageIndex, Long pageNumber,
-                                       String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark, StatusEnum status) {
+    public Page<SysApi> getSysApiPage(Page<SysApi> page, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark, StatusEnum status) {
         LambdaQueryWrapper<SysApi> lambdaQueryWrapper = Wrappers.<SysApi>lambdaQuery();
         lambdaQueryWrapper.eq(StringUtils.isNotBlank(name), SysApi::getName, name);
         lambdaQueryWrapper.like(StringUtils.isNotBlank(url), SysApi::getUrl, StringUtils.replace(url, "*", "%"));
@@ -72,7 +70,7 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         lambdaQueryWrapper.eq(Objects.nonNull(type), SysApi::getType, type);
         lambdaQueryWrapper.like(StringUtils.isNotBlank(remark), SysApi::getRemark, remark);
         lambdaQueryWrapper.eq(Objects.nonNull(status), SysApi::getStatus, status);
-        return sysApiMapper.selectPage(new Page<>(pageIndex, pageNumber), lambdaQueryWrapper);
+        return sysApiMapper.selectPage(page, lambdaQueryWrapper);
     }
 
     @Override

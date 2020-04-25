@@ -1,9 +1,7 @@
 package com.chen.f.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.f.common.mapper.SysOrganizationMapper;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
@@ -19,6 +17,7 @@ import com.chen.f.common.pojo.enums.SysUserStatusEnum;
 import com.chen.f.common.service.ISysUserService;
 import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
+import com.chen.f.core.page.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -68,13 +67,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public IPage<SysUser> getSysUserPage(Long pageIndex, Long pageNumber, String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum) {
+    public Page<SysUser> getSysUserPage(Page<SysUser> page,
+                                        String username, Integer level, String remark, SysUserStatusEnum sysUserStatusEnum) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StringUtils.isNotBlank(username), SysUser::getUsername, username);
         wrapper.eq(Objects.nonNull(level), SysUser::getLevel, level);
         wrapper.like(StringUtils.isNotBlank(remark), SysUser::getRemark, remark);
         wrapper.eq(Objects.nonNull(sysUserStatusEnum), SysUser::getStatus, sysUserStatusEnum);
-        return sysUserMapper.selectPage(new Page<>(pageIndex, pageNumber), wrapper);
+        return sysUserMapper.selectPage(page, wrapper);
     }
 
     @Override
