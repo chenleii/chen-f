@@ -8,7 +8,7 @@ import com.chen.f.core.configuration.i18n.EnableChenFI18n;
 import com.chen.f.core.configuration.mybatisplus.EnableChenFMybatisPlus;
 import com.chen.f.core.configuration.redis.EnableChenFRedis;
 import com.chen.f.core.configuration.session.EnableChenFSession;
-import com.chen.f.core.configuration.swagger.EnableChenFSwagger;
+import com.chen.f.core.configuration.apidoc.EnableChenFApiDoc;
 import com.chen.f.core.configuration.validator.EnableChenFValidator;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Import;
@@ -42,6 +42,6 @@ import java.lang.annotation.Target;
 @EnableChenFSession
 @EnableChenFApplicationContext
 @EnableChenFMybatisPlus
-@EnableChenFSwagger
+@EnableChenFApiDoc
 public @interface EnableChenFCommon {
 }
