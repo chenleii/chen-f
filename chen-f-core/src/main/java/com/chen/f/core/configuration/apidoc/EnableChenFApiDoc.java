@@ -1,5 +1,6 @@
-package com.chen.f.core.configuration.swagger;
+package com.chen.f.core.configuration.apidoc;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -10,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 开启chen-f swagger配置
+ * 开启chen-f 接口文档配置
  *
  * @author chen
  * @since 2019/1/15 0:13.
@@ -18,9 +19,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({EnableChenFSwaggerConfiguration.class})
+@Import({EnableChenFApiDocConfiguration.class})
 @EnableSwagger2
-public @interface EnableChenFSwagger {
+@EnableKnife4j
+public @interface EnableChenFApiDoc {
 
     String title() default "chen-f api";
 

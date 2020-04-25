@@ -72,14 +72,19 @@
         </dependency>
 
         <!--文档生成-->
+        <!--<dependency>-->
+        <!--    <groupId>io.springfox</groupId>-->
+        <!--    <artifactId>springfox-swagger2</artifactId>-->
+        <!--    <optional>true</optional>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>io.springfox</groupId>-->
+        <!--    <artifactId>springfox-swagger-ui</artifactId>-->
+        <!--    <optional>true</optional>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
             <optional>true</optional>
         </dependency>
 

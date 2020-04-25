@@ -1,5 +1,6 @@
-package com.chen.f.core.configuration.swagger;
+package com.chen.f.core.configuration.apidoc;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,16 +22,16 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * chen-f swagger 配置类
+ * chen-f 接口文档配置类
  *
  * @author chen
  * @since 2017/12/19 13:05.
  */
 @Configuration
 @Profile({"local", "beta"})
-@ConditionalOnClass({EnableSwagger2.class})
-public class EnableChenFSwaggerConfiguration implements ImportAware {
-    protected static final Logger logger = LoggerFactory.getLogger(EnableChenFSwaggerConfiguration.class);
+@ConditionalOnClass({EnableSwagger2.class, EnableKnife4j.class})
+public class EnableChenFApiDocConfiguration implements ImportAware {
+    protected static final Logger logger = LoggerFactory.getLogger(EnableChenFApiDocConfiguration.class);
 
     private String title;
     private String description;
@@ -47,7 +48,7 @@ public class EnableChenFSwaggerConfiguration implements ImportAware {
     @Override
     public void setImportMetadata(AnnotationMetadata importMetadata) {
         AnnotationAttributes annotationAttributes = AnnotationAttributes
-                .fromMap(importMetadata.getAnnotationAttributes(EnableChenFSwagger.class.getName()));
+                .fromMap(importMetadata.getAnnotationAttributes(EnableChenFApiDoc.class.getName()));
         Assert.notNull(annotationAttributes,
                 "@EnableChenFSwagger is not present on importing class " + importMetadata.getClassName());
 

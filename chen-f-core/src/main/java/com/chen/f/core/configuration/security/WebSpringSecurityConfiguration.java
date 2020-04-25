@@ -79,6 +79,7 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
 
         http.authorizeRequests()
                 .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-resources", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html").permitAll()
                 .antMatchers("/druid/**").permitAll()
 
                 .antMatchers("/login", "/logout").not().authenticated()

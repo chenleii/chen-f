@@ -76,13 +76,18 @@
         </dependency>
 
         <!--文档生成-->
+        <!--<dependency>-->
+        <!--    <groupId>io.springfox</groupId>-->
+        <!--    <artifactId>springfox-swagger2</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>io.springfox</groupId>-->
+        <!--    <artifactId>springfox-swagger-ui</artifactId>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -106,7 +111,30 @@
             <artifactId>spring-restdocs-mockmvc</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!--<dependency>-->
+        <!--    <groupId>ai.grakn</groupId>-->
+        <!--    <artifactId>redis-mock</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>com.github.jsonzou</groupId>-->
+        <!--    <artifactId>jmockdata</artifactId>-->
+        <!--</dependency>-->
+        
+        <!--<dependency>-->
+        <!--    <groupId>org.powermock</groupId>-->
+        <!--    <artifactId>powermock-core</artifactId>-->
+        <!--    <scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>org.powermock</groupId>-->
+        <!--    <artifactId>powermock-api-mockito2</artifactId>-->
+        <!--    <scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>org.powermock</groupId>-->
+        <!--    <artifactId>powermock-module-junit4</artifactId>-->
+        <!--    <scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
 
