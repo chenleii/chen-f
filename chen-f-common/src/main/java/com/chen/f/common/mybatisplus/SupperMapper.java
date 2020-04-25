@@ -188,6 +188,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
         mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
+        page.setTotal(mybatisPlusPage.getTotal());
         return page;
     }
     
@@ -225,6 +226,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
         mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
+        page.setTotal(mybatisPlusPage.getTotal());
         return page;
     }
 
