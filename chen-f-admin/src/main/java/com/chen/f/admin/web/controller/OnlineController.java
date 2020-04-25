@@ -33,7 +33,7 @@ public class OnlineController {
     protected static final Logger logger = LoggerFactory.getLogger(OnlineController.class);
 
 
-    @ApiOperation(value = "获取在线登录用户", notes = "", produces = "application/json", response = LoginUser.class)
+    @ApiOperation(value = "获取在线登录用户", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser")
     public LoginUser getLoginUser() {
@@ -41,7 +41,7 @@ public class OnlineController {
         return SecurityHelper.getAuthenticationSecurityUser();
     }
 
-    @ApiOperation(value = "获取在线登录用户的系统用户", notes = "", produces = "application/json", response = SysUser.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser/sysUser")
     public SysUser getOnlineSysUser() {
@@ -51,7 +51,7 @@ public class OnlineController {
         return loginUser.getSysUser();
     }
 
-    @ApiOperation(value = "获取在线登录用户的系统用户的角色列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户的角色列表", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser/sysRoleList")
     public List<SysRole> getOnlineSysUserRoleList() {
@@ -61,7 +61,7 @@ public class OnlineController {
         return loginUser.getSysUserRoleList();
     }
 
-    @ApiOperation(value = "获取在线登录用户的系统用户的权限列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户的权限列表", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser/sysPermissionList")
     public List<SysPermission> getOnlineSysUserPermissionList() {
@@ -72,7 +72,7 @@ public class OnlineController {
     }
 
 
-    @ApiOperation(value = "获取在线登录用户的系统用户的菜单列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户的菜单列表", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser/sysMenuList")
     public List<SysMenu> getOnlineSysUserMenuList() {
@@ -82,7 +82,7 @@ public class OnlineController {
         return loginUser.getSysUserMenuList();
     }
 
-    @ApiOperation(value = "获取在线登录用户的系统用户的接口列表", notes = "", produces = "application/json", response = List.class)
+    @ApiOperation(value = "获取在线登录用户的系统用户的接口列表", notes = "", produces = "application/json")
     @ApiImplicitParams({})
     @GetMapping("/loginUser/sysApiList")
     public List<SysApi> getOnlineSysUserApiList() {
