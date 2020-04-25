@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.chen.f.common.mybatisplus.SupperMapper;
+import com.chen.f.core.mybatisplus.SupperMapper;
 import org.junit.jupiter.api.Test;
 
 /**
