@@ -34,7 +34,7 @@ public class Page<T> implements Serializable {
      */
     private long pageIndex = 1;
     /**
-     * 每页显示条数
+     * 每页条数
      */
     private long pageSize = 10;
 
