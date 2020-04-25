@@ -27,6 +27,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -186,6 +187,43 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         }
 
         mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
+        page.setList(mybatisPlusPage.getRecords());
+        return page;
+    }
+    
+    /**
+     * 根据 Wrapper 条件，查询全部记录（并翻页）
+     * <p>
+     * page Order 实体类字段名转数据库字段名
+     *
+     * @param page         分页查询条件
+     * @param queryWrapper 实体对象封装操作类
+     */ 
+    default <E extends com.chen.f.core.page.Page<Map<String, Object>>> E selectMapsPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
+
+        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
+        if (CollectionUtils.isNotEmpty(orderItemList)) {
+            final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
+            if (Objects.nonNull(tableInfo)) {
+                final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
+                if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
+                    orderItemList.forEach((orderItem -> {
+                        final String column = tableFieldInfoList.stream()
+                                .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
+                                .findFirst()
+                                .map(TableFieldInfo::getColumn)
+                                .orElse(null);
+
+                        if (Objects.nonNull(column)) {
+                            orderItem.setColumn(column);
+                        }
+                    }));
+                }
+            }
+        }
+
+        mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
         return page;
     }
