@@ -39,7 +39,7 @@ public class LambdaUtils {
             writeReplace.setAccessible(true);
             return (SerializedLambda) writeReplace.invoke(lambda);
         } catch (NoSuchMethodException e) {
-            //类加载器问题 
+            //可能是类加载器问题 
             //例如使用了spring热部署
             throw new RuntimeException("", e);
         } catch (IllegalAccessException | InvocationTargetException e) {
