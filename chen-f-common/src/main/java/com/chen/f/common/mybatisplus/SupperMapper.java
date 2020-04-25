@@ -153,39 +153,41 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     }
 
 
-
     /**
      * 根据 entity 条件，查询全部记录（并翻页）
      * <p>
-     * page OrderItem 实体类字段名转数据库字段名
+     * page Order 实体类字段名转数据库字段名
      *
      * @param page         分页查询条件（可以为 RowBounds.DEFAULT）
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      */
-    default <E extends Page<T>> E selectPagePropertyToColumn(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
-        if (page != null) {
-            final List<OrderItem> orderItemList = page.getOrders();
-            if (CollectionUtils.isNotEmpty(orderItemList)) {
-                final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
-                if (Objects.nonNull(tableInfo)) {
-                    final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
-                    if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
-                        orderItemList.forEach((orderItem -> {
-                            final String column = tableFieldInfoList.stream()
-                                    .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
-                                    .findFirst()
-                                    .map(TableFieldInfo::getColumn)
-                                    .orElse(null);
+    default <E extends com.chen.f.core.page.Page<T>> E selectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> mybatisPlusPage = page.toMybatisPlusPage();
 
+        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
+        if (CollectionUtils.isNotEmpty(orderItemList)) {
+            final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
+            if (Objects.nonNull(tableInfo)) {
+                final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
+                if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
+                    orderItemList.forEach((orderItem -> {
+                        final String column = tableFieldInfoList.stream()
+                                .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
+                                .findFirst()
+                                .map(TableFieldInfo::getColumn)
+                                .orElse(null);
+
+                        if (Objects.nonNull(column)) {
                             orderItem.setColumn(column);
-
-                        }));
-                    }
+                        }
+                    }));
                 }
             }
         }
 
-        return selectPage(page, queryWrapper);
+        mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
+        page.setList(mybatisPlusPage.getRecords());
+        return page;
     }
 
 
