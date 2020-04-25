@@ -38,7 +38,11 @@ public class LambdaUtils {
             final Method writeReplace = lambda.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
             return (SerializedLambda) writeReplace.invoke(lambda);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException e) {
+            //类加载器问题 
+            //例如使用了spring热部署
+            throw new RuntimeException("", e);
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("This is impossible to happen", e);
         }
     }
