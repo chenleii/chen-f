@@ -2,6 +2,7 @@ package com.chen.f.core.api.response.error.basic;
 
 import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.configuration.i18n.I18nHelper;
+import com.chen.f.core.util.lambda.LambdaUtils;
 import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
@@ -70,7 +71,8 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 没有找到API
      */
     static ErrorResponse notFoundApi(String api) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".notFoundApi", new Object[]{api}, "没有找到api[{0}]");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + "." + LambdaUtils.resolve(BasicErrorResponses::notFoundApi).getImplMethodName(),
+                new Object[]{api}, "没有找到api[{0}]");
         return ErrorResponse.create(message);
     }
 }
