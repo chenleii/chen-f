@@ -1,4 +1,4 @@
-package com.chen.f.common.mybatisplus;
+package com.chen.f.core.mybatisplus;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.interfaces.Join;

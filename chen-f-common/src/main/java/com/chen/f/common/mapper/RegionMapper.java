@@ -2,7 +2,7 @@ package com.chen.f.common.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.chen.f.common.mybatisplus.SupperMapper;
+import com.chen.f.core.mybatisplus.SupperMapper;
 import com.chen.f.common.pojo.Region;
 import com.chen.f.common.pojo.SysOrganization;
 import org.apache.ibatis.annotations.Param;

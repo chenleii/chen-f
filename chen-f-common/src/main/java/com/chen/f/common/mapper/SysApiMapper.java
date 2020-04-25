@@ -1,7 +1,7 @@
 package com.chen.f.common.mapper;
 
 import com.chen.f.common.pojo.SysApi;
-import com.chen.f.common.mybatisplus.SupperMapper;
+import com.chen.f.core.mybatisplus.SupperMapper;
 
 /**
  * <p>
