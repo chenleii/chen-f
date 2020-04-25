@@ -26,7 +26,14 @@ public class Order implements Serializable {
     /**
      * 顺序类型
      */
-    private OrderTypeEnum orderType;
+    private OrderTypeEnum orderType = OrderTypeEnum.ASC;
+
+    public Order() {
+    }
+
+    public Order(String column) {
+        this.column = column;
+    }
 
     public Order(String column, OrderTypeEnum orderType) {
         this.column = column;

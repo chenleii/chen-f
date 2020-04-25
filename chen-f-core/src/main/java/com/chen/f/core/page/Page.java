@@ -137,6 +137,7 @@ public class Page<T> implements Serializable {
 
         mybatisPlusPage.setSearchCount(this.isSearchCount());
         mybatisPlusPage.setOptimizeCountSql(this.isOptimizeCountSql());
+        mybatisPlusPage.hitCount(this.isHitCount());
 
         final List<Order> orders = this.getOrderList();
         if (CollectionUtils.isNotEmpty(orders)) {
@@ -167,6 +168,7 @@ public class Page<T> implements Serializable {
         page.setTotal(mybatisPlusPage.getTotal());
         page.setPageSize(mybatisPlusPage.getSize());
         page.setPageIndex(mybatisPlusPage.getCurrent());
+        
         page.setOptimizeCountSql(mybatisPlusPage.optimizeCountSql());
         page.setSearchCount(mybatisPlusPage.isSearchCount());
         page.setHitCount(mybatisPlusPage.isHitCount());
