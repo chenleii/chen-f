@@ -32,14 +32,50 @@ public class SecuritySessionHelper {
     }
 
     /**
-     * 是否是未过期的
+     * 是否登陆的
+     * <p>
+     * 过期是未登录的
+     *
+     * @param username 用户名称
+     * @return 是/否
+     */
+    public static boolean isLogin(String username) {
+        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
+        return CollectionUtils.isNotEmpty(sessionInformationList) && sessionInformationList.stream().noneMatch(SessionInformation::isExpired);
+    }
+
+    /**
+     * 是否不是登陆的
+     *
+     * @param username 用户名称
+     * @return 是/否
+     */
+    public static boolean isNotLogin(String username) {
+        return !isNotLogin(username);
+    }
+
+
+    /**
+     * 是否过期的
+     * <p>
+     * 未登录是过期
+     *
+     * @param username 用户名称
+     * @return 是/否
+     */
+    public static boolean isExpired(String username) {
+        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
+        return CollectionUtils.isEmpty(sessionInformationList) || sessionInformationList.stream().allMatch(SessionInformation::isExpired);
+    }
+
+    /**
+     * 是否不是过期的
      *
      * @param username 用户名称
      * @return 是/否
      */
     public static boolean isNotExpired(String username) {
-        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
-        return CollectionUtils.isNotEmpty(sessionInformationList);
+        return !isExpired(username);
     }
 
     /**
@@ -49,8 +85,10 @@ public class SecuritySessionHelper {
      */
     public static void expire(String username) {
         List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
-        for (SessionInformation sessionInformation : sessionInformationList) {
-            sessionInformation.expireNow();
+        if (CollectionUtils.isNotEmpty(sessionInformationList)) {
+            for (SessionInformation sessionInformation : sessionInformationList) {
+                sessionInformation.expireNow();
+            }
         }
     }
 }
