@@ -82,7 +82,7 @@ public class SysDictionaryItemController {
     })
     @GetMapping("/enabled")
     public List<SysDictionaryItem> getEnabledSysDictionaryItemList() {
-        return sysDictionaryItemService.getEnabledSysDictionaryItemListByCode();
+        return sysDictionaryItemService.getEnabledSysDictionaryItemList();
     }
 
 

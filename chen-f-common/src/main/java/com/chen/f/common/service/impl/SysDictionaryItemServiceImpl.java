@@ -58,7 +58,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
     }
 
     @Override
-    public List<SysDictionaryItem> getEnabledSysDictionaryItemListByCode() {
+    public List<SysDictionaryItem> getEnabledSysDictionaryItemList() {
         return sysDictionaryItemMapper.selectList(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getStatus, StatusEnum.ENABLED));
     }
 
@@ -104,6 +104,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
         ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
+        //ApiAssert.isNotBlank(order, ErrorResponse.create("系统字典项目显示顺序不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统字典项目备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统字典项目状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
@@ -161,6 +162,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
         ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
         //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
+        //ApiAssert.isNotBlank(order, ErrorResponse.create("系统字典项目显示顺序不能为空"));
         //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统字典项目备注不能为空"));
         ApiAssert.isNotNull(status, ErrorResponse.create("系统字典项目状态不能为空"));
         ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
@@ -269,7 +271,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setStatus(StatusEnum.ENABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
-        int i = sysDictionaryItemMapper.update(sysDictionaryItem, Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));
+        int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统字典项目失败"));
     }
 
@@ -312,7 +314,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setStatus(StatusEnum.DISABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
-        int i = sysDictionaryItemMapper.update(sysDictionaryItem, Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));
+        int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
         ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统字典项目失败"));
     }
 }

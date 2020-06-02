@@ -17,6 +17,7 @@ import java.util.List;
  * @since 2020-04-06
  */
 public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
+    
     /**
      * 获取分页的系统字典项目列表
      *
@@ -40,7 +41,7 @@ public interface ISysDictionaryItemService extends IService<SysDictionaryItem> {
      *
      * @return 启用的系统字典项目列表
      */
-    List<SysDictionaryItem> getEnabledSysDictionaryItemListByCode();
+    List<SysDictionaryItem> getEnabledSysDictionaryItemList();
 
 
     /**
