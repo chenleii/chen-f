@@ -3,6 +3,8 @@ package com.chen.f.core.api.exception;
 
 import com.chen.f.core.api.response.error.ErrorResponse;
 
+import java.net.HttpURLConnection;
+
 /**
  * API异常
  * <p>
@@ -16,7 +18,7 @@ public class ApiException extends RuntimeException {
     /**
      * 默认http状态码
      */
-    private static final int DEFAULT_HTTP_STATUS_CODE = 400;
+    private static final int DEFAULT_HTTP_STATUS_CODE = HttpURLConnection.HTTP_BAD_REQUEST;
 
 
     /**
