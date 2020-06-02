@@ -1,23 +1,19 @@
 package com.chen.f.core.configuration.security;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.core.configuration.security.errorhandle.SpringSecurityExceptionHandle;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
@@ -81,14 +77,4 @@ public class SpringSecurityConfiguration extends GlobalMethodSecurityConfigurati
         return new SecuritySessionHelper(sessionRegistry);
     }
 
-    @Configuration
-    @ConditionalOnClass({AccessDeniedException.class, AuthenticationException.class})
-    public static class SpringSecurityExceptionHandleConfiguration {
-
-        @Bean
-        @ConditionalOnMissingBean(SpringSecurityExceptionHandle.class)
-        public SpringSecurityExceptionHandle springSecurityExceptionHandle() {
-            return new SpringSecurityExceptionHandle();
-        }
-    }
 }

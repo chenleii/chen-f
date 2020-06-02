@@ -1,4 +1,4 @@
-package com.chen.f.core.configuration.security.errorhandle;
+package com.chen.f.core.configuration.errorhandle;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

@@ -2,6 +2,7 @@ package com.chen.f.core.configuration.errorhandle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -11,6 +12,8 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 
 import java.util.List;
 
@@ -46,5 +49,16 @@ public class EnableChenFErrorHandleConfiguration {
         postExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeStacktrace.ALWAYS);
         return postExceptionHandle;
     }
-    
+
+
+    @Configuration
+    @ConditionalOnClass({AccessDeniedException.class, AuthenticationException.class})
+    public static class SpringSecurityExceptionHandleConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(SpringSecurityExceptionHandle.class)
+        public SpringSecurityExceptionHandle springSecurityExceptionHandle() {
+            return new SpringSecurityExceptionHandle();
+        }
+    }
 }
