@@ -24,4 +24,8 @@ import java.lang.annotation.Target;
 })
 public @interface EnableChenFSpringSecurity {
 
+    /**
+     * 角色的前缀
+     */
+    String rolePrefix() default "";
 }
