@@ -3,6 +3,7 @@ package com.chen.f.core.configuration.errorhandle;
 import com.chen.f.core.api.exception.ApiException;
 import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.api.response.error.basic.BasicErrorResponses;
+import com.chen.f.core.exception.NotExistException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Set;
 
@@ -49,9 +51,77 @@ public class PreExceptionHandle extends AbstractExceptionHandle {
     @ExceptionHandler(ApiException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> apiException(HttpServletRequest request, HttpServletResponse response,
-                                       ApiException apiException) {
+                                                      ApiException apiException) {
         logger.warn("apiException", apiException);
         return ResponseEntity.status(apiException.getHttpStatusCode()).body(wrap(apiException.getErrorResponse(), apiException));
+    }
+
+    /**
+     * 不存在异常
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotExistException.class)
+    @ResponseBody
+    public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
+                                   NotExistException exception) {
+        logger.warn("不存在异常", exception);
+        return wrap(ErrorResponse.create(exception.getLocalizedMessage()), exception);
+    }
+
+    /**
+     * 非法参数异常
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
+                                   IllegalArgumentException exception) {
+        logger.warn("非法参数异常", exception);
+        return wrap(ErrorResponse.create(exception.getLocalizedMessage()), exception);
+    }
+
+    /**
+     * 非法状态异常
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseBody
+    public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
+                                   IllegalStateException exception) {
+        logger.warn("非法状态异常", exception);
+        return wrap(ErrorResponse.create(exception.getLocalizedMessage()), exception);
+    }
+
+    /**
+     * 非法格式异常
+     *
+     * @param request   request
+     * @param response  response
+     * @param exception exception
+     * @return 错误响应
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalFormatException.class)
+    @ResponseBody
+    public ErrorResponse exception(HttpServletRequest request, HttpServletResponse response,
+                                   IllegalFormatException exception) {
+        logger.warn("非法格式异常", exception);
+        return wrap(ErrorResponse.create(exception.getLocalizedMessage()), exception);
     }
 
     /**
