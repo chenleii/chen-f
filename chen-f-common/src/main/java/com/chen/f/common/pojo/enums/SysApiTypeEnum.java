@@ -15,10 +15,15 @@ public enum SysApiTypeEnum {
     //系统接口
     SYSTEM("SYSTEM", "系统接口"),
 
+    //登陆接口
+    LOGIN("LOGIN", "登陆接口"),
+    //登出接口
+    LOGOUT("LOGOUT", "登出接口"),
+
     ;
 
     /**
-     * 系统接口类型(SYSTEM:系统接口;)
+     * 系统接口类型(SYSTEM:系统接口;LOGIN:登陆接口;LOGOUT:登出接口;)
      */
     @JsonValue
     @EnumValue

@@ -45,49 +45,46 @@
 
     <!--根据用户名查找用户角色权限信息-->
     <select id="selectSysApiRolePermissionList" resultMap="BaseResultMap">
-        SELECT
-            API.ID                          API_ID,
-            API.NAME                        API_NAME,
-            API.URL                         API_URL,
-            API.HTTP_METHOD                 API_HTTP_METHOD,
-            API.TYPE                        API_TYPE,
-            API.REMARK                      API_REMARK,
-            API.STATUS                      API_STATUS,
-            API.UPDATED_SYS_USER_ID          API_UPDATE_SYS_USER_ID,
-            API.CREATED_SYS_USER_ID          API_CREATE_SYS_USER_ID,
-            API.UPDATED_DATE_TIME            API_UPDATE_DATE_TIME,
-            API.CREATED_DATE_TIME            API_CREATE_DATE_TIME,
+        SELECT API.ID                         API_ID,
+               API.NAME                       API_NAME,
+               API.URL                        API_URL,
+               API.HTTP_METHOD                API_HTTP_METHOD,
+               API.TYPE                       API_TYPE,
+               API.REMARK                     API_REMARK,
+               API.STATUS                     API_STATUS,
+               API.UPDATED_SYS_USER_ID        API_UPDATE_SYS_USER_ID,
+               API.CREATED_SYS_USER_ID        API_CREATE_SYS_USER_ID,
+               API.UPDATED_DATE_TIME          API_UPDATE_DATE_TIME,
+               API.CREATED_DATE_TIME          API_CREATE_DATE_TIME,
 
-            ROLE.ID                         ROLE_ID,
-            ROLE.CODE                       ROLE_CODE,
-            ROLE.NAME                       ROLE_NAME,
-            ROLE.REMARK                     ROLE_REMARK,
-            ROLE.STATUS                     ROLE_STATUS,
-            ROLE.UPDATED_SYS_USER_ID         ROLE_UPDATE_SYS_USER_ID,
-            ROLE.CREATED_SYS_USER_ID         ROLE_CREATE_SYS_USER_ID,
-            ROLE.UPDATED_DATE_TIME           ROLE_UPDATE_DATE_TIME,
-            ROLE.CREATED_DATE_TIME           ROLE_CREATE_DATE_TIME,
+               ROLE.ID                        ROLE_ID,
+               ROLE.CODE                      ROLE_CODE,
+               ROLE.NAME                      ROLE_NAME,
+               ROLE.REMARK                    ROLE_REMARK,
+               ROLE.STATUS                    ROLE_STATUS,
+               ROLE.UPDATED_SYS_USER_ID       ROLE_UPDATE_SYS_USER_ID,
+               ROLE.CREATED_SYS_USER_ID       ROLE_CREATE_SYS_USER_ID,
+               ROLE.UPDATED_DATE_TIME         ROLE_UPDATE_DATE_TIME,
+               ROLE.CREATED_DATE_TIME         ROLE_CREATE_DATE_TIME,
 
-            PERMISSION.ID                   PERMISSION_ID,
-            PERMISSION.CODE                 PERMISSION_CODE,
-            PERMISSION.NAME                 PERMISSION_NAME,
-            PERMISSION.TYPE                 PERMISSION_TYPE,
-            PERMISSION.REMARK               PERMISSION_REMARK,
-            PERMISSION.STATUS               PERMISSION_STATUS,
-            PERMISSION.UPDATED_SYS_USER_ID   PERMISSION_UPDATE_SYS_USER_ID,
-            PERMISSION.CREATED_SYS_USER_ID   PERMISSION_CREATE_SYS_USER_ID,
-            PERMISSION.UPDATED_DATE_TIME     PERMISSION_UPDATE_DATE_TIME,
-            PERMISSION.CREATED_DATE_TIME     PERMISSION_CREATE_DATE_TIME
-        FROM
-            SYS_API API
-            LEFT JOIN SYS_ROLE_API ROLE_API ON API.ID = ROLE_API.SYS_API_ID
-            LEFT JOIN SYS_ROLE ROLE ON ROLE_API.SYS_ROLE_ID = ROLE.ID
-            LEFT JOIN SYS_PERMISSION_API PERMISSION_API ON API.ID = PERMISSION_API.SYS_API_ID
-            LEFT JOIN SYS_PERMISSION PERMISSION ON PERMISSION_API.SYS_PERMISSION_ID = PERMISSION.ID
-        WHERE
-            (API.ID IS NULL OR API.STATUS = 'ENABLED')
-            AND (ROLE.ID IS NULL OR ROLE.STATUS = 'ENABLED')
-            AND (PERMISSION.ID IS NULL OR PERMISSION.STATUS = 'ENABLED')
+               PERMISSION.ID                  PERMISSION_ID,
+               PERMISSION.CODE                PERMISSION_CODE,
+               PERMISSION.NAME                PERMISSION_NAME,
+               PERMISSION.TYPE                PERMISSION_TYPE,
+               PERMISSION.REMARK              PERMISSION_REMARK,
+               PERMISSION.STATUS              PERMISSION_STATUS,
+               PERMISSION.UPDATED_SYS_USER_ID PERMISSION_UPDATE_SYS_USER_ID,
+               PERMISSION.CREATED_SYS_USER_ID PERMISSION_CREATE_SYS_USER_ID,
+               PERMISSION.UPDATED_DATE_TIME   PERMISSION_UPDATE_DATE_TIME,
+               PERMISSION.CREATED_DATE_TIME   PERMISSION_CREATE_DATE_TIME
+        FROM SYS_API API
+                 LEFT JOIN SYS_ROLE_API ROLE_API ON API.ID = ROLE_API.SYS_API_ID
+                 LEFT JOIN SYS_ROLE ROLE ON ROLE_API.SYS_ROLE_ID = ROLE.ID
+                 LEFT JOIN SYS_PERMISSION_API PERMISSION_API ON API.ID = PERMISSION_API.SYS_API_ID
+                 LEFT JOIN SYS_PERMISSION PERMISSION ON PERMISSION_API.SYS_PERMISSION_ID = PERMISSION.ID
+        WHERE API.STATUS = 'ENABLED'
+          AND (ROLE.ID IS NULL OR ROLE.STATUS = 'ENABLED')
+          AND (PERMISSION.ID IS NULL OR PERMISSION.STATUS = 'ENABLED')
     </select>
 
 

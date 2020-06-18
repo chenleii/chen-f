@@ -1,20 +1,14 @@
 package com.chen.f.core.configuration.security;
 
 
-import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
-import com.chen.f.core.configuration.security.filter.LoginAuthenticationFilter;
 import com.chen.f.core.configuration.security.handle.SpringSecurityHandle;
 import com.chen.f.core.configuration.security.provider.LoginAuthenticationProvider;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,19 +18,14 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * web spring security配置
@@ -44,105 +33,74 @@ import java.util.List;
  * @author chen
  * @date 2018/10/22 12:04.
  */
+@Order(0)
 @Configuration
-@ConditionalOnClass(WebSecurityConfigurerAdapter.class)
-@ConditionalOnMissingBean(WebSecurityConfigurerAdapter.class)
-@AutoConfigureAfter({MybatisPlusAutoConfiguration.class, SpringSecurityConfiguration.class,})
-//@ConditionalOnBean({UserDetailsService.class, SessionRegistry.class})
 @EnableWebSecurity
+@ConditionalOnClass(WebSecurityConfigurerAdapter.class)
+@AutoConfigureAfter({SpringSecurityConfiguration.class,})
 public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final SessionRegistry sessionRegistry;
 
-    private List<HttpSecurityCustomizer> httpSecurityCustomizerList;
-
     @Autowired
-    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService, SessionRegistry sessionRegistry, ObjectProvider<List<HttpSecurityCustomizer>> httpSecurityCustomizerObjectProvider) {
+    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService,
+                                          SessionRegistry sessionRegistry) {
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
-        this.httpSecurityCustomizerList = httpSecurityCustomizerObjectProvider.getIfAvailable();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         //禁用csrf
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/login");
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         //配置cors
         http.cors().configurationSource(corsConfigurationSource());
-        // 基于token，所以不需要session
-        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 禁用缓存
         //http.headers().cacheControl();
 
-        http.headers().frameOptions().disable();
-
-        http.authorizeRequests()
-                .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-resources", "/v2/api-docs", "/v2/api-docs-ext", "/doc.html").permitAll()
-                .antMatchers("/druid/**").permitAll()
-
-                .antMatchers("/login", "/logout").not().authenticated()
-                //其它url都需要认证
-                .antMatchers("/**").authenticated()
-                .and()
-
-                //设置登陆页面相关(不使用默认登陆过滤器)
-                //.formLogin().authenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle)
-                //.loginProcessingUrl("/login").successHandler(SpringSecurityHandle::authenticationSuccessHandle).permitAll()
-                //.failureForwardUrl("/error").failureHandler(SpringSecurityHandle::authenticationFailureHandle).permitAll()
-                //.and()
-                //设置登出相关
-                .logout().logoutUrl("/logout").logoutSuccessHandler(SpringSecurityHandle::logoutSuccessHandle).permitAll();
-
-        //添加自定义登录验证
-        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter();
-        loginAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
-        loginAuthenticationFilter.setAuthenticationManager(super.authenticationManager());
-        loginAuthenticationFilter.setAuthenticationDetailsSource(SpringSecurityHandle::buildDetailsHandle);
-        loginAuthenticationFilter.setAuthenticationSuccessHandler(SpringSecurityHandle::authenticationSuccessHandle);
-        loginAuthenticationFilter.setAuthenticationFailureHandler(SpringSecurityHandle::authenticationFailureHandle);
-        http.addFilterAt(loginAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        //配置未认证（未登录）,认证失败（用户没有权限访问）处理
+        
+        //配置异常处理
+        // 未认证（未登录）,认证失败（用户没有权限访问）处理
         http.exceptionHandling()
                 .authenticationEntryPoint(SpringSecurityHandle::authenticationEntryPointHandle)
                 .accessDeniedHandler(SpringSecurityHandle::accessDeniedHandle);
 
-        //配置记住我
-        http.rememberMe().userDetailsService(userDetailsService).rememberMeServices(rememberMeServices())
-                .alwaysRemember(true).tokenValiditySeconds(86400)
-                .rememberMeParameter("rememberMe");
+        //配置记住我登陆
+        //http.rememberMe()
+        //        .userDetailsService(userDetailsService)
+        //        .rememberMeServices(rememberMeServices())
+        //        .alwaysRemember(true).tokenValiditySeconds(86400)
+        //        .rememberMeParameter("rememberMe");
 
-        http.sessionManagement()
-                .invalidSessionStrategy(SpringSecurityHandle::onInvalidSessionDetected)
-                .maximumSessions(2).maxSessionsPreventsLogin(true)
-                .sessionRegistry(this.sessionRegistry)
-                .expiredSessionStrategy(SpringSecurityHandle::onExpiredSessionDetected);
+        //配置session管理
+        //http.sessionManagement()
+        //        .maximumSessions(2)
+        //        .maxSessionsPreventsLogin(true)
+        //        .sessionRegistry(this.sessionRegistry)
+        //        .invalidSessionStrategy(SpringSecurityHandle::onInvalidSessionDetected)
+        //        .expiredSessionStrategy(SpringSecurityHandle::onExpiredSessionDetected);
 
-        http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-            @Override
-            public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-                //object.setSecurityMetadataSource(null);
-                return object;
-            }
-        });
+        //配置自定义权限
+        //http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+        //    @Override
+        //    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+        //        //object.setSecurityMetadataSource(null);
+        //        return object;
+        //    }
+        //});
 
-        http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<DefaultWebSecurityExpressionHandler>() {
-            @Override
-            public <O extends DefaultWebSecurityExpressionHandler> O postProcess(O object) {
-                //角色继承
-                //object.setRoleHierarchy(null);
-                return object;
-            }
-        });
-
-
-        if (CollectionUtils.isNotEmpty(httpSecurityCustomizerList)) {
-            for (HttpSecurityCustomizer httpSecurityCustomizer : httpSecurityCustomizerList) {
-                httpSecurityCustomizer.customize(http);
-            }
-        }
+        //配置角色继承
+        //http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<DefaultWebSecurityExpressionHandler>() {
+        //    @Override
+        //    public <O extends DefaultWebSecurityExpressionHandler> O postProcess(O object) {
+        //        //角色继承
+        //        //object.setRoleHierarchy(null);
+        //        return object;
+        //    }
+        //});
+        
     }
 
     /**

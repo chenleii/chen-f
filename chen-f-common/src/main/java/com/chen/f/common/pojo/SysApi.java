@@ -50,7 +50,7 @@ public class SysApi extends Model<SysApi> {
     @TableField("`HTTP_METHOD`")
     private SysApiHttpMethodEnum httpMethod;
 
-    @ApiModelProperty(value = "系统接口类型(SYSTEM:系统接口;)")
+    @ApiModelProperty(value = "系统接口类型(SYSTEM:系统接口;LOGIN:登陆接口;LOGOUT:登出接口;)")
     @TableField("`TYPE`")
     private SysApiTypeEnum type;
 
