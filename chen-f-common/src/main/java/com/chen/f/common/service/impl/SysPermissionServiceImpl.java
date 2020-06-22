@@ -3,6 +3,8 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.api.response.error.SysPermissionErrorResponses;
+import com.chen.f.common.api.response.error.SysUserErrorResponses;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.mapper.SysMenuMapper;
 import com.chen.f.common.mapper.SysPermissionApiMapper;
@@ -24,11 +26,13 @@ import com.chen.f.core.api.ApiAssert;
 import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.page.Page;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -83,13 +87,13 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public SysPermission getSysPermission(String sysPermissionId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
         return sysPermissionMapper.selectById(sysPermissionId);
     }
 
     @Override
     public List<SysMenu> getSysMenuOfSysPermission(String sysPermissionId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
 
         logger.debug("获取系统权限");
         final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
@@ -118,7 +122,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysApi> getSysApiOfSysPermission(String sysPermissionId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
 
         logger.debug("获取系统权限");
         final SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
@@ -146,17 +150,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void createSysPermission(String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统权限编码不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统权限名称不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统权限类型不能为空"));
-        //ApiAssert.isNotNull(remark, ErrorResponse.create("系统权限备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统权限状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(code, SysPermissionErrorResponses.sysPermissionCodeCanNotBlank());
+        ApiAssert.isNotBlank(name, SysPermissionErrorResponses.sysPermissionNameCanNotBlank());
+        ApiAssert.isNotNull(type, SysPermissionErrorResponses.sysPermissionTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysPermissionErrorResponses.sysPermissionStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
+
+        remark = ObjectUtils.defaultIfNull(remark, "");
 
         logger.debug("插入系统权限");
         SysPermission sysPermission = new SysPermission();
@@ -170,26 +176,28 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         sysPermission.setUpdatedDateTime(LocalDateTime.now());
         sysPermission.setCreatedDateTime(LocalDateTime.now());
         int i = sysPermissionMapper.insert(sysPermission);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("创建系统权限失败"));
+        ApiAssert.isEqualToOne(i, SysPermissionErrorResponses.createSysPermissionFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void updateSysPermission(String sysPermissionId, String code, String name, SysPermissionTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统权限编码不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统权限名称不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统权限类型不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统权限类型不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统权限状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
+        ApiAssert.isNotBlank(code, SysPermissionErrorResponses.sysPermissionCodeCanNotBlank());
+        ApiAssert.isNotBlank(name, SysPermissionErrorResponses.sysPermissionNameCanNotBlank());
+        ApiAssert.isNotNull(type, SysPermissionErrorResponses.sysPermissionTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysPermissionErrorResponses.sysPermissionStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
+
+        remark = ObjectUtils.defaultIfNull(remark, "");
 
         logger.debug("修改系统权限");
         sysPermission.setCode(code);
@@ -200,21 +208,21 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         sysPermission.setUpdatedSysUserId(operatedSysUserId);
         sysPermission.setUpdatedDateTime(LocalDateTime.now());
         int i = sysPermissionMapper.updateById(sysPermission);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统权限失败"));
+        ApiAssert.isEqualToOne(i, SysPermissionErrorResponses.updateSysPermissionFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void setSysApiOfSysPermission(String sysPermissionId, List<String> sysApiIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("设置的系统权限ID不能为空"));
-        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统接口ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         List<SysPermissionApi> sysPermissionApiList = Collections.emptyList();
         if (CollectionUtils.isNotEmpty(sysApiIdList)) {
@@ -236,18 +244,18 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void setSysMenuOfSysPermission(String sysPermissionId, List<String> sysMenuIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("设置的系统权限ID不能为空"));
-        //ApiAssert.isNotEmpty(sysMenuIdList, ErrorResponse.create("设置的系统菜单ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
 
         List<SysPermissionMenu> sysPermissionMenuList = Collections.emptyList();
         if (CollectionUtils.isNotEmpty(sysMenuIdList)) {
@@ -269,16 +277,17 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysPermission(String sysPermissionId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
 
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
 
         logger.debug("删除系统权限");
         int i = sysPermissionMapper.deleteById(sysPermissionId);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统权限失败"));
+        ApiAssert.isEqualToOne(i, SysPermissionErrorResponses.deleteSysPermissionFailure());
 
         //删除系统角色权限
         sysRolePermissionMapper.delete(Wrappers.<SysRolePermission>lambdaQuery().eq(SysRolePermission::getSysPermissionId, sysPermissionId));
@@ -291,44 +300,46 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void enabledSysPermission(String sysPermissionId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
 
         logger.debug("启用系统权限");
         sysPermission.setStatus(StatusEnum.ENABLED);
         sysPermission.setUpdatedSysUserId(operatedSysUserId);
         sysPermission.setUpdatedDateTime(LocalDateTime.now());
         int i = sysPermissionMapper.updateById(sysPermission);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统权限失败"));
+        ApiAssert.isEqualToOne(i, SysPermissionErrorResponses.updateSysPermissionFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void disableSysPermission(String sysPermissionId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysPermissionId, ErrorResponse.create("系统权限ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysPermissionId, SysPermissionErrorResponses.sysPermissionIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统权限是否存在");
         SysPermission sysPermission = sysPermissionMapper.selectById(sysPermissionId);
-        ApiAssert.isNotNull(sysPermission, ErrorResponse.create("修改系统权限不存在"));
+        ApiAssert.isNotNull(sysPermission, SysPermissionErrorResponses.sysPermissionNotExist());
 
         logger.debug("禁用系统权限");
         sysPermission.setStatus(StatusEnum.DISABLED);
         sysPermission.setUpdatedSysUserId(operatedSysUserId);
         sysPermission.setUpdatedDateTime(LocalDateTime.now());
         int i = sysPermissionMapper.updateById(sysPermission);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统权限失败"));
+        ApiAssert.isEqualToOne(i, SysPermissionErrorResponses.updateSysPermissionFailure());
     }
 }

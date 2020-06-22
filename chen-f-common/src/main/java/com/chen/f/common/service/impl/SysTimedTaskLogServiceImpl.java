@@ -3,19 +3,20 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.api.response.error.SysTimedTaskLogErrorResponses;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.pojo.SysTimedTaskLog;
 import com.chen.f.common.pojo.enums.SysTimedTaskExecutionStatusEnum;
 import com.chen.f.common.pojo.enums.SysTimedTaskTypeEnum;
 import com.chen.f.common.service.ISysTimedTaskLogService;
 import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -48,12 +49,14 @@ public class SysTimedTaskLogServiceImpl extends ServiceImpl<SysTimedTaskLogMappe
 
     @Override
     public SysTimedTaskLog getSysTimedTaskLog(String sysTimedTaskLogId) {
+        ApiAssert.isNotBlank(sysTimedTaskLogId, SysTimedTaskLogErrorResponses.sysTimedTaskLogIdCanNotNull());
         return sysTimedTaskLogMapper.selectById(sysTimedTaskLogId);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysTimedTaskLog(String sysTimedTaskLogId) {
-        ApiAssert.isNotBlank(sysTimedTaskLogId, ErrorResponse.create("系统定时任务日志ID"));
+        ApiAssert.isNotBlank(sysTimedTaskLogId, SysTimedTaskLogErrorResponses.sysTimedTaskLogIdCanNotNull());
         sysTimedTaskLogMapper.deleteById(sysTimedTaskLogId);
     }
 }

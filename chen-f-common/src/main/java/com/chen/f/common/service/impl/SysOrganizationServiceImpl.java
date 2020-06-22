@@ -3,6 +3,8 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.api.response.error.SysOrganizationErrorResponses;
+import com.chen.f.common.api.response.error.SysUserErrorResponses;
 import com.chen.f.common.mapper.SysOrganizationMapper;
 import com.chen.f.common.mapper.SysOrganizationRoleMapper;
 import com.chen.f.common.mapper.SysOrganizationUserMapper;
@@ -17,7 +19,6 @@ import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysOrganizationTypeEnum;
 import com.chen.f.common.service.ISysOrganizationService;
 import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -83,17 +85,18 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 
     @Override
     public SysOrganization getSysOrganization(String sysOrganizationId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+
         return sysOrganizationMapper.selectById(sysOrganizationId);
     }
 
     @Override
     public List<SysUser> getSysUserOfSysOrganization(String sysOrganizationId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
 
         logger.debug("获取系统组织");
         final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         return getSysUserOfSysOrganization(Arrays.asList(sysOrganizationId));
     }
@@ -117,11 +120,11 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 
     @Override
     public List<SysRole> getSysRoleOfSysOrganization(String sysOrganizationId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
 
         logger.debug("获取系统组织");
         final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         return getSysRoleOfSysOrganization(Arrays.asList(sysOrganizationId));
     }
@@ -144,19 +147,18 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void createSysOrganization(String parentId, String name, String fullName, SysOrganizationTypeEnum type,
                                       String remark, StatusEnum status, String operatedSysUserId) {
-        //ApiAssert.isNotNull(parentId, ErrorResponse.create("系统组织父级ID不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统组织名称不能为空"));
-        ApiAssert.isNotBlank(fullName, ErrorResponse.create("系统组织全称不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统组织类型不能为空"));
-        //ApiAssert.isNotNull(remark, ErrorResponse.create("系统组织备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统组织状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(name, SysOrganizationErrorResponses.sysOrganizationNameCanNotBlank());
+        ApiAssert.isNotBlank(fullName, SysOrganizationErrorResponses.sysOrganizationFullNameCanNotBlank());
+        ApiAssert.isNotNull(type, SysOrganizationErrorResponses.sysOrganizationTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysOrganizationErrorResponses.sysOrganizationStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         //初始化父级组织默认值
         parentId = ObjectUtils.defaultIfNull(parentId, "");
@@ -176,32 +178,33 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         sysOrganization.setCreatedDateTime(LocalDateTime.now());
         final int i = sysOrganizationMapper.insert(sysOrganization);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织插入失败"));
+        ApiAssert.isEqualToOne(i, SysOrganizationErrorResponses.createSysOrganizationFailure());
 
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void updateSysOrganization(String sysOrganizationId, String parentId, String name, String fullName,
                                       SysOrganizationTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotNull(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        //ApiAssert.isNotNull(parentId, ErrorResponse.create("系统组织父级ID不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统组织名称不能为空"));
-        ApiAssert.isNotBlank(fullName, ErrorResponse.create("系统组织全称不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统组织类型不能为空"));
-        //ApiAssert.isNotNull(remark, ErrorResponse.create("系统组织备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统组织状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+        ApiAssert.isNotBlank(name, SysOrganizationErrorResponses.sysOrganizationNameCanNotBlank());
+        ApiAssert.isNotBlank(fullName, SysOrganizationErrorResponses.sysOrganizationFullNameCanNotBlank());
+        ApiAssert.isNotNull(type, SysOrganizationErrorResponses.sysOrganizationTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysOrganizationErrorResponses.sysOrganizationStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统组织是否存在");
         final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         //初始化父级组织默认值
         parentId = ObjectUtils.defaultIfNull(parentId, "");
+
+        remark = ObjectUtils.defaultIfNull(remark, "");
 
         logger.debug("插入系统组织");
         sysOrganization.setParentId(parentId);
@@ -213,21 +216,21 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
         sysOrganization.setUpdatedSysUserId(operatedSysUserId);
         sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         final int i = sysOrganizationMapper.updateById(sysOrganization);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织修改失败"));
+        ApiAssert.isEqualToOne(i, SysOrganizationErrorResponses.updateSysOrganizationFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void setSysUserOfSysOrganization(String sysOrganizationId, List<String> sysUserIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        //ApiAssert.isNotEmpty(sysUserIdList, ErrorResponse.create("设置的系统组织用户ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         List<SysOrganizationUser> sysOrganizationUserList = Collections.emptyList();
 
@@ -250,17 +253,17 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void setSysRoleOfSysOrganization(String sysOrganizationId, List<String> sysRoleIdList, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
-        //ApiAssert.isNotEmpty(sysRoleIdList, ErrorResponse.create("设置的系统组织角色ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作系统用户ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户是否存在");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         List<SysOrganizationRole> sysOrganizationRoleList = Collections.emptyList();
 
@@ -283,14 +286,15 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysOrganization(String sysOrganizationId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织ID不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
 
         SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         int i = sysOrganizationMapper.deleteById(sysOrganizationId);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统组织失败"));
+        ApiAssert.isEqualToOne(i, SysOrganizationErrorResponses.deleteSysOrganizationFailure());
 
         //删除系统组织用户
         sysOrganizationUserMapper.delete(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysOrganizationId, sysOrganizationId));
@@ -300,41 +304,47 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void enabledSysOrganization(String sysOrganizationId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
+        
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统组织是否存在");
         final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         logger.debug("启用系统组织");
         sysOrganization.setStatus(StatusEnum.ENABLED);
         sysOrganization.setUpdatedSysUserId(operatedSysUserId);
         sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         int i = sysOrganizationMapper.updateById(sysOrganization);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织启用失败"));
+        ApiAssert.isEqualToOne(i, SysOrganizationErrorResponses.updateSysOrganizationFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void disableSysOrganization(String sysOrganizationId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysOrganizationId, ErrorResponse.create("系统组织不能为空"));
+        ApiAssert.isNotNull(sysOrganizationId, SysOrganizationErrorResponses.sysOrganizationIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
+        
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统组织是否存在");
         final SysOrganization sysOrganization = sysOrganizationMapper.selectById(sysOrganizationId);
-        ApiAssert.isNotNull(sysOrganization, ErrorResponse.create("系统组织不存在"));
+        ApiAssert.isNotNull(sysOrganization, SysOrganizationErrorResponses.sysOrganizationNotExist());
 
         logger.debug("禁用系统组织");
         sysOrganization.setStatus(StatusEnum.DISABLED);
         sysOrganization.setUpdatedSysUserId(operatedSysUserId);
         sysOrganization.setUpdatedDateTime(LocalDateTime.now());
         int i = sysOrganizationMapper.updateById(sysOrganization);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("系统组织禁用失败"));
+        ApiAssert.isEqualToOne(i, SysOrganizationErrorResponses.updateSysOrganizationFailure());
     }
 
 }

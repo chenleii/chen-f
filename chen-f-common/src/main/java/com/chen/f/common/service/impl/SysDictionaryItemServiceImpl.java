@@ -3,6 +3,9 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.api.response.error.SysDictionaryErrorResponses;
+import com.chen.f.common.api.response.error.SysDictionaryItemErrorResponses;
+import com.chen.f.common.api.response.error.SysUserErrorResponses;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysDictionaryItem;
@@ -11,13 +14,14 @@ import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
 import com.chen.f.common.service.ISysDictionaryItemService;
 import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.page.Page;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -64,7 +68,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
 
     @Override
     public SysDictionaryItem getSysDictionaryItem(String sysDictionaryItemId) {
-        ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
         return sysDictionaryItemMapper.selectById(sysDictionaryItemId);
     }
 
@@ -75,44 +79,45 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
 
     @Override
     public List<SysDictionaryItem> getSysDictionaryItemListByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
         return sysDictionaryItemMapper.selectList(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code));
     }
 
     @Override
     public List<SysDictionaryItem> getEnabledSysDictionaryItemListByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
         return sysDictionaryItemMapper.selectList(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getStatus, StatusEnum.ENABLED));
     }
 
     @Override
     public SysDictionaryItem getSysDictionaryItemByCodeAndKey(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
         return sysDictionaryItemMapper.selectOne(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void createSysDictionaryItem(String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                         StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysDictionaryId, ErrorResponse.create("系统字典ID不能为空"));
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典项目名称不能为空"));
-        ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典项目值不能为空"));
-        //ApiAssert.isNotBlank(valueI18n, ErrorResponse.create("系统字典项目值的国际化不能为空"));
-        ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
-        ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
-        //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
-        //ApiAssert.isNotBlank(order, ErrorResponse.create("系统字典项目显示顺序不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统字典项目备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统字典项目状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryId, SysDictionaryErrorResponses.sysDictionaryIdCanNotNull());
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(name, SysDictionaryItemErrorResponses.sysDictionaryItemNameCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
+        ApiAssert.isNotBlank(value, SysDictionaryItemErrorResponses.sysDictionaryItemValueCanNotBlank());
+        ApiAssert.isNotNull(keyType, SysDictionaryItemErrorResponses.sysDictionaryItemKeyTypeCanNotNull());
+        ApiAssert.isNotNull(valueType, SysDictionaryItemErrorResponses.sysDictionaryItemValueTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysDictionaryItemErrorResponses.sysDictionaryItemStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
+        color = ObjectUtils.defaultIfNull(color, "");
+        remark = ObjectUtils.defaultIfNull(remark, "");
+        valueI18n = ObjectUtils.defaultIfNull(valueI18n, "");
+        
         logger.debug("检查系统字典显示顺序");
         if (Objects.isNull(order)) {
             SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
@@ -145,36 +150,37 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         sysDictionaryItem.setCreatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.insert(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("创建系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.createSysDictionaryItemFailure());
 
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void updateSysDictionaryItem(String sysDictionaryItemId, String sysDictionaryId, String code, String name, String key, String value, String valueI18n, TypeTypeEnum keyType, TypeTypeEnum valueType, String color, Integer order, String remark,
                                         StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
-        ApiAssert.isNotBlank(sysDictionaryId, ErrorResponse.create("系统字典ID不能为空"));
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统字典项目名称不能为空"));
-        ApiAssert.isNotBlank(value, ErrorResponse.create("系统字典项目值不能为空"));
-        //ApiAssert.isNotBlank(valueI18n, ErrorResponse.create("系统字典项目值的国际化不能为空"));
-        ApiAssert.isNotNull(keyType, ErrorResponse.create("系统字典项目KEY类型不能为空"));
-        ApiAssert.isNotNull(valueType, ErrorResponse.create("系统字典项目值类型不能为空"));
-        //ApiAssert.isNotBlank(color, ErrorResponse.create("系统字典项目颜色不能为空"));
-        //ApiAssert.isNotBlank(order, ErrorResponse.create("系统字典项目显示顺序不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统字典项目备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统字典项目状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
+        ApiAssert.isNotBlank(sysDictionaryId, SysDictionaryErrorResponses.sysDictionaryIdCanNotNull());
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(name, SysDictionaryItemErrorResponses.sysDictionaryItemNameCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
+        ApiAssert.isNotBlank(value, SysDictionaryItemErrorResponses.sysDictionaryItemValueCanNotBlank());
+        ApiAssert.isNotNull(keyType, SysDictionaryItemErrorResponses.sysDictionaryItemKeyTypeCanNotNull());
+        ApiAssert.isNotNull(valueType, SysDictionaryItemErrorResponses.sysDictionaryItemValueTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysDictionaryItemErrorResponses.sysDictionaryItemStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
-        ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
-
+        ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
+        
+        color = ObjectUtils.defaultIfNull(color, "");
+        remark = ObjectUtils.defaultIfNull(remark, "");
+        valueI18n = ObjectUtils.defaultIfNull(valueI18n, "");
+        
         logger.debug("检查系统字典显示顺序");
         if (Objects.isNull(order)) {
             SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
@@ -204,66 +210,74 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.updateSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysDictionaryItem(String sysDictionaryItemId) {
-        ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
+        
         int i = sysDictionaryItemMapper.deleteById(sysDictionaryItemId);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.deleteSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysDictionaryItemByCode(String code) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+
         int i = sysDictionaryItemMapper.delete(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code));
-        ApiAssert.isGreaterThatZero(i, ErrorResponse.create("删除系统字典项目失败"));
+        ApiAssert.isGreaterThatZero(i, SysDictionaryItemErrorResponses.deleteSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysDictionaryItemByCodeAndKey(String code, String key) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
+
         int i = sysDictionaryItemMapper.delete(Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key));
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.deleteSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void enabledSysDictionaryItem(String sysDictionaryItemId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
-        ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
+        ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
 
         logger.debug("启用系统字典项目");
         sysDictionaryItem.setStatus(StatusEnum.ENABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.updateSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void enabledSysDictionaryItemByCodeAndKey(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectOne((Wrappers.<SysDictionaryItem>lambdaQuery()
                 .eq(SysDictionaryItem::getCode, code).eq(SysDictionaryItem::getKey, key)));
-        ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
+        ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
 
         logger.debug("启用系统字典项目");
         sysDictionaryItem.setCode(code);
@@ -272,41 +286,45 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("启用系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.updateSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void disableSysDictionaryItem(String sysDictionaryItemId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysDictionaryItemId, ErrorResponse.create("系统字典项目ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
+        
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
-        ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
+        ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
 
         logger.debug("禁用系统字典项目");
         sysDictionaryItem.setStatus(StatusEnum.DISABLED);
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.updateSysDictionaryItemFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void disableSysDictionaryItemByCodeAndKey(String code, String key, String operatedSysUserId) {
-        ApiAssert.isNotBlank(code, ErrorResponse.create("系统字典项目编码不能为空"));
-        ApiAssert.isNotBlank(key, ErrorResponse.create("系统字典项目KEY不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(code, SysDictionaryItemErrorResponses.sysDictionaryItemCodeCanNotBlank());
+        ApiAssert.isNotBlank(key, SysDictionaryItemErrorResponses.sysDictionaryItemKeyCanNotBlank());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
+        
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectOne((Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code)));
-        ApiAssert.isNotNull(sysDictionaryItem, ErrorResponse.create("系统字典项目不存在"));
+        ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
 
         logger.debug("禁用系统字典项目");
         sysDictionaryItem.setCode(code);
@@ -315,6 +333,6 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         sysDictionaryItem.setUpdatedSysUserId(operatedSysUserId);
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         int i = sysDictionaryItemMapper.updateById(sysDictionaryItem);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("禁用系统字典项目失败"));
+        ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.updateSysDictionaryItemFailure());
     }
 }

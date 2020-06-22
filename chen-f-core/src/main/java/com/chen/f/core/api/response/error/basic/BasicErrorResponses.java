@@ -23,7 +23,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 服务器异常
      */
     static ErrorResponse serverException() {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".serverException", "服务器异常");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".serverException", "服务器异常");
         return ErrorResponse.create(message);
     }
 
@@ -31,7 +31,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 参数错误
      */
     static ErrorResponse parameterError() {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".parameterError", "参数错误");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".parameterError", "参数错误");
         return ErrorResponse.create(message);
     }
 
@@ -39,7 +39,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 参数格式错误
      */
     static ErrorResponse parameterFormatError() {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".parameterFormatError", "参数格式错误");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".parameterFormatError", "参数格式错误");
         return ErrorResponse.create(message);
     }
 
@@ -47,7 +47,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 参数缺失错误
      */
     static ErrorResponse parameterMissingError(String parameterName) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".parameterMissingError", new Object[]{parameterName}, "参数缺失{0}");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".parameterMissingError", new Object[]{parameterName}, "参数缺失{0}");
         return ErrorResponse.create(message);
     }
 
@@ -55,7 +55,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 参数验证错误
      */
     static ErrorResponse parameterVerificationError(List<FieldError> error) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".parameterVerificationError", "参数验证错误");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".parameterVerificationError", "参数验证错误");
         return ErrorResponse.create(message, error);
     }
 
@@ -63,7 +63,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 参数验证错误
      */
     static ErrorResponse parameterVerificationError(Set<ConstraintViolation<?>> constraintViolationSet) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + ".parameterVerificationError", "参数验证错误");
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + ".parameterVerificationError", "参数验证错误");
         return ErrorResponse.create(message, constraintViolationSet);
     }
 
@@ -71,7 +71,7 @@ public interface BasicErrorResponses extends ErrorResponse {
      * 没有找到API
      */
     static ErrorResponse notFoundApi(String api) {
-        String message = I18nHelper.getMessage(BasicErrorResponses.class.getName() + "." + LambdaUtils.resolve(BasicErrorResponses::notFoundApi).getImplMethodName(),
+        String message = I18nHelper.getMessage(BasicErrorResponses.class.getSimpleName() + "." + LambdaUtils.resolve(BasicErrorResponses::notFoundApi).getImplMethodName(),
                 new Object[]{api}, "没有找到api[{0}]");
         return ErrorResponse.create(message);
     }

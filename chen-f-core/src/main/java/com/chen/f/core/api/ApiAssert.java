@@ -146,4 +146,32 @@ public class ApiAssert {
         isTrue(i1 <= i2, errorResponse);
     }
 
+    public static void isClassNameExist(String jobClassName, ErrorResponse errorResponse) {
+        boolean is = false;
+        try {
+            Class.forName(jobClassName);
+            is = true;
+        } catch (ClassNotFoundException e) {
+            is = false;
+        }
+        isTrue(is, errorResponse);
+    }
+
+    public static void isNotClassNameExist(String jobClassName, ErrorResponse errorResponse) {
+        boolean is = false;
+        try {
+            Class.forName(jobClassName);
+            is = true;
+        } catch (ClassNotFoundException e) {
+            is = false;
+        }
+        isTrue(!is, errorResponse);
+    }
+
+    public static void exception(Exception e, ErrorResponse errorResponse) {
+        if (e != null) {
+            logger.warn(errorResponse.getErrorMsg());
+            throw new ApiException(errorResponse, e);
+        }
+    }
 }

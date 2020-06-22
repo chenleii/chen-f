@@ -3,6 +3,8 @@ package com.chen.f.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.f.common.api.response.error.SysApiErrorResponses;
+import com.chen.f.common.api.response.error.SysUserErrorResponses;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.mapper.SysPermissionApiMapper;
 import com.chen.f.common.mapper.SysRoleApiMapper;
@@ -16,7 +18,6 @@ import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
 import com.chen.f.common.service.ISysApiService;
 import com.chen.f.core.api.ApiAssert;
-import com.chen.f.core.api.response.error.ErrorResponse;
 import com.chen.f.core.page.Page;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -75,27 +77,27 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
 
     @Override
     public SysApi getSysApi(String sysApiId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
+        ApiAssert.isNotBlank(sysApiId, SysApiErrorResponses.sysApiIdCanNotNull());
         return sysApiMapper.selectById(sysApiId);
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void createSysApi(String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark,
                              StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口名称不能为空"));
-        //ApiAssert.isNotBlank(url, ErrorResponse.create("系统接口URL不能为空"));
-        ApiAssert.isNotNull(httpMethod, ErrorResponse.create("系统接口HTTP请求方法不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统接口类型不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统接口备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统接口状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(name, SysApiErrorResponses.sysApiNameCanNotBlank());
+        ApiAssert.isNotBlank(url, SysApiErrorResponses.sysApiUrlCanNotBlank());
+        ApiAssert.isNotNull(httpMethod, SysApiErrorResponses.sysApiHttpMethodCanNotNull());
+        ApiAssert.isNotNull(type, SysApiErrorResponses.sysApiTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysApiErrorResponses.sysApiStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
-
-        url = ObjectUtils.defaultIfNull(url, "");
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
         
+        remark = ObjectUtils.defaultIfNull(remark, "");
+
         logger.debug("插入系统用户");
         SysApi sysApi = new SysApi();
         sysApi.setName(name);
@@ -109,27 +111,29 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         sysApi.setUpdatedSysUserId(operatedSysUserId);
         sysApi.setCreatedSysUserId(operatedSysUserId);
         int i = sysApiMapper.insert(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("插入系统接口失败"));
+        ApiAssert.isEqualToOne(i, SysApiErrorResponses.createSysApiFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void updateSysApi(String sysApiId, String name, String url, SysApiHttpMethodEnum httpMethod, SysApiTypeEnum type, String remark, StatusEnum status, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
-        ApiAssert.isNotBlank(name, ErrorResponse.create("系统接口名称不能为空"));
-        //ApiAssert.isNotBlank(url, ErrorResponse.create("系统接口URL不能为空"));
-        ApiAssert.isNotNull(httpMethod, ErrorResponse.create("系统接口HTTP请求方法不能为空"));
-        ApiAssert.isNotNull(type, ErrorResponse.create("系统接口类型不能为空"));
-        //ApiAssert.isNotBlank(remark, ErrorResponse.create("系统接口备注不能为空"));
-        ApiAssert.isNotNull(status, ErrorResponse.create("系统接口状态不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysApiId, SysApiErrorResponses.sysApiIdCanNotNull());
+        ApiAssert.isNotBlank(name, SysApiErrorResponses.sysApiNameCanNotBlank());
+        ApiAssert.isNotBlank(url, SysApiErrorResponses.sysApiUrlCanNotBlank());
+        ApiAssert.isNotNull(httpMethod, SysApiErrorResponses.sysApiHttpMethodCanNotNull());
+        ApiAssert.isNotNull(type, SysApiErrorResponses.sysApiTypeCanNotNull());
+        ApiAssert.isNotNull(status, SysApiErrorResponses.sysApiStatusCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
 
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
-        ApiAssert.isNotNull(operatedSysUser, ErrorResponse.create("操作的系统用户不存在"));
+        ApiAssert.isNotNull(operatedSysUser,  SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        ApiAssert.isNotNull(sysApi, SysApiErrorResponses.sysApiNotExist());
+        
+        remark = ObjectUtils.defaultIfNull(remark, "");
         
         logger.debug("修改系统用户");
         sysApi.setName(name);
@@ -141,18 +145,19 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
         sysApi.setCreatedDateTime(LocalDateTime.now());
         sysApi.setCreatedSysUserId(operatedSysUserId);
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
+        ApiAssert.isEqualToOne(i, SysApiErrorResponses.updateSysApiFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void deleteSysApi(String sysApiId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
+        ApiAssert.isNotBlank(sysApiId, SysApiErrorResponses.sysApiIdCanNotNull());
         
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        ApiAssert.isNotNull(sysApi, SysApiErrorResponses.sysApiNotExist());
 
         int i = sysApiMapper.deleteById(sysApiId);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("删除系统接口失败"));
+        ApiAssert.isEqualToOne(i, SysApiErrorResponses.deleteSysApiFailure());
 
         //删除系统角色接口
         sysRoleApiMapper.delete(Wrappers.<SysRoleApi>lambdaQuery().eq(SysRoleApi::getSysApiId, sysApiId));
@@ -162,36 +167,46 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> impleme
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void enabledSysApi(String sysApiId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysApiId, SysApiErrorResponses.sysApiIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserNotExist());
+
+        logger.debug("检查操作的系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
+        ApiAssert.isNotNull(operatedSysUser,  SysUserErrorResponses.operatedSysUserNotExist());
         
         logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        ApiAssert.isNotNull(sysApi, SysApiErrorResponses.sysApiNotExist());
         
         logger.debug("启用系统接口");
         sysApi.setStatus(StatusEnum.ENABLED);
         sysApi.setUpdatedSysUserId(operatedSysUserId);
         sysApi.setUpdatedDateTime(LocalDateTime.now());
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
+        ApiAssert.isEqualToOne(i,SysApiErrorResponses.updateSysApiFailure());
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void disableSysApi(String sysApiId, String operatedSysUserId) {
-        ApiAssert.isNotBlank(sysApiId, ErrorResponse.create("系统接口ID不能为空"));
-        ApiAssert.isNotBlank(operatedSysUserId, ErrorResponse.create("操作的系统用户ID不能为空"));
+        ApiAssert.isNotBlank(sysApiId, SysApiErrorResponses.sysApiIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserNotExist());
+
+        logger.debug("检查操作的系统用户");
+        SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
+        ApiAssert.isNotNull(operatedSysUser,  SysUserErrorResponses.operatedSysUserNotExist());
         
         logger.debug("检查系统接口是否存在");
         SysApi sysApi = sysApiMapper.selectById(sysApiId);
-        ApiAssert.isNotNull(sysApi, ErrorResponse.create("系统接口不存在"));
+        ApiAssert.isNotNull(sysApi, SysApiErrorResponses.sysApiNotExist());
         
         logger.debug("禁用系统接口");
         sysApi.setStatus(StatusEnum.DISABLED);
         sysApi.setUpdatedSysUserId(operatedSysUserId);
         sysApi.setUpdatedDateTime(LocalDateTime.now());
         int i = sysApiMapper.updateById(sysApi);
-        ApiAssert.isEqualToOne(i, ErrorResponse.create("修改系统接口失败"));
+        ApiAssert.isEqualToOne(i, SysApiErrorResponses.updateSysApiFailure());
     }
 }
