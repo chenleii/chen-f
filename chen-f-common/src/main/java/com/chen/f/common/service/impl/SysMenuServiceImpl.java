@@ -105,7 +105,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if (Objects.isNull(order)) {
             SysMenu maxOrderSysMenu = sysMenuMapper.selectFirstOne(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId).orderByDesc(SysMenu::getOrder));
 
-            if (Objects.nonNull(maxOrderSysMenu)) {
+            if (Objects.nonNull(maxOrderSysMenu) && Objects.nonNull(maxOrderSysMenu.getOrder())) {
                 order = maxOrderSysMenu.getOrder() + 1;
             } else {
                 //默认顺序号1
@@ -163,7 +163,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if (Objects.isNull(order)) {
             SysMenu maxOrderSysMenu = sysMenuMapper.selectFirstOne(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parentId).orderByDesc(SysMenu::getOrder));
 
-            if (Objects.nonNull(maxOrderSysMenu)) {
+            if (Objects.nonNull(maxOrderSysMenu) && Objects.nonNull(maxOrderSysMenu.getOrder())) {
                 order = maxOrderSysMenu.getOrder() + 1;
             } else {
                 //默认顺序号1

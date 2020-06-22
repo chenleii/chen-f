@@ -117,13 +117,13 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         color = ObjectUtils.defaultIfNull(color, "");
         remark = ObjectUtils.defaultIfNull(remark, "");
         valueI18n = ObjectUtils.defaultIfNull(valueI18n, "");
-        
+
         logger.debug("检查系统字典显示顺序");
         if (Objects.isNull(order)) {
             SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
                     .eq(SysDictionaryItem::getSysDictionaryId, sysDictionaryId).orderByDesc(SysDictionaryItem::getOrder));
 
-            if (Objects.nonNull(maxOrderSysDictionaryItem)) {
+            if (Objects.nonNull(maxOrderSysDictionaryItem) && Objects.nonNull(maxOrderSysDictionaryItem.getOrder())) {
                 order = maxOrderSysDictionaryItem.getOrder() + 1;
             } else {
                 //默认顺序号1
@@ -176,17 +176,17 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
         ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
-        
+
         color = ObjectUtils.defaultIfNull(color, "");
         remark = ObjectUtils.defaultIfNull(remark, "");
         valueI18n = ObjectUtils.defaultIfNull(valueI18n, "");
-        
+
         logger.debug("检查系统字典显示顺序");
         if (Objects.isNull(order)) {
             SysDictionaryItem maxOrderSysDictionaryItem = sysDictionaryItemMapper.selectFirstOne(Wrappers.<SysDictionaryItem>lambdaQuery()
                     .eq(SysDictionaryItem::getSysDictionaryId, sysDictionaryId).orderByDesc(SysDictionaryItem::getOrder));
 
-            if (Objects.nonNull(maxOrderSysDictionaryItem)) {
+            if (Objects.nonNull(maxOrderSysDictionaryItem) && Objects.nonNull(maxOrderSysDictionaryItem.getOrder())) {
                 order = maxOrderSysDictionaryItem.getOrder() + 1;
             } else {
                 //默认顺序号1
@@ -217,7 +217,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
     @Transactional(rollbackFor = Throwable.class)
     public void deleteSysDictionaryItem(String sysDictionaryItemId) {
         ApiAssert.isNotBlank(sysDictionaryItemId, SysDictionaryItemErrorResponses.sysDictionaryItemIdCanNotNull());
-        
+
         int i = sysDictionaryItemMapper.deleteById(sysDictionaryItemId);
         ApiAssert.isEqualToOne(i, SysDictionaryItemErrorResponses.deleteSysDictionaryItemFailure());
     }
@@ -298,7 +298,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
-        
+
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectById(sysDictionaryItemId);
         ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
@@ -321,7 +321,7 @@ public class SysDictionaryItemServiceImpl extends ServiceImpl<SysDictionaryItemM
         logger.debug("检查操作的系统用户");
         SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
         ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
-        
+
         logger.debug("检查系统字典项目是否存在");
         SysDictionaryItem sysDictionaryItem = sysDictionaryItemMapper.selectOne((Wrappers.<SysDictionaryItem>lambdaQuery().eq(SysDictionaryItem::getCode, code)));
         ApiAssert.isNotNull(sysDictionaryItem, SysDictionaryItemErrorResponses.sysDictionaryItemNotExist());
