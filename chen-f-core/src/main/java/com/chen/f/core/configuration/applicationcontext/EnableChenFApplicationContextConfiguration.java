@@ -24,8 +24,7 @@ public class EnableChenFApplicationContextConfiguration {
     @Bean
     @ConditionalOnMissingBean(value = ApplicationContextHelper.class, search = SearchStrategy.CURRENT)
     public ApplicationContextHelper applicationContextHelper(ApplicationContext applicationContext, BeanFactory beanFactory) {
-        ApplicationContextHelper applicationContextHelper = new ApplicationContextHelper();
-        applicationContextHelper.setApplicationContext(applicationContext);
+        ApplicationContextHelper applicationContextHelper = new ApplicationContextHelper(applicationContext);
         return applicationContextHelper;
     }
 

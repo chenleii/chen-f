@@ -31,6 +31,10 @@ public class I18nHelper {
         I18nHelper.messageSource = messageSource;
     }
 
+    public static MessageSource getMessageSource() {
+        return messageSource;
+    }
+
     public static Locale getLocale() {
         return LocaleContextHolder.getLocale();
     }

@@ -2,9 +2,7 @@ package com.chen.f.core.configuration.applicationcontext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 import org.springframework.lang.Nullable;
@@ -15,15 +13,17 @@ import org.springframework.lang.Nullable;
  * @author chen
  * @date 2018/10/28 0:11.
  */
-public class ApplicationContextHelper implements ApplicationContextAware {
+public class ApplicationContextHelper  {
     protected static final Logger logger = LoggerFactory.getLogger(ApplicationContextHelper.class);
 
     private static ApplicationContext applicationContext;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public ApplicationContextHelper(ApplicationContext applicationContext) {
         ApplicationContextHelper.applicationContext = applicationContext;
-        logger.debug("ApplicationContextHelper初始化完成");
+    }
+
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
     public static Object getBean(String name) {
