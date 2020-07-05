@@ -2,6 +2,7 @@ package com.chen.f.admin.web.controller;
 
 
 import com.chen.f.admin.configuration.security.SecurityHelper;
+import com.chen.f.admin.web.dto.SysOrganizationsInputDTO;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
@@ -189,6 +190,18 @@ public class SysUserController {
         }
         sysUserService.updateSysUser(sysUserId, sysUser.getUsername(), sysUser.getPassword(), sysUser.getLevel(), sysUser.getRemark(),
                 sysUser.getStatus(), operatedSysUserId);
+    }
+
+    @ApiOperation(value = "设置系统组织", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户id", required = true, dataTypeClass = String.class, paramType = "path"),
+            @ApiImplicitParam(name = "SysRolesInputDTO", value = "设置的系统组织", required = true, dataTypeClass = SysOrganizationsInputDTO.class, paramType = "body"),
+    })
+    @PutMapping(path = "/{sysUserId}/setSysOrganization", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public void setSysOrganizationOfSysUser(@PathVariable("sysUserId") String sysUserId,
+                                    @RequestBody() SysOrganizationsInputDTO sysOrganizationsInputDTO) {
+        String operatedSysUserId = SecurityHelper.getSysUserId();
+        sysUserService.setSysOrganizationOfSysUser(sysUserId, sysOrganizationsInputDTO.getSysOrganizationIdList(), operatedSysUserId);
     }
 
     @ApiOperation(value = "设置系统角色", notes = "", produces = "application/json")
