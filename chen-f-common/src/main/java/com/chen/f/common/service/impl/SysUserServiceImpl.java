@@ -213,6 +213,42 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
+    public void setSysOrganizationOfSysUser(String sysUserId, List<String> sysOrganizationIdList, String operatedSysUserId) {
+        ApiAssert.isNotBlank(sysUserId, SysUserErrorResponses.sysUserIdCanNotNull());
+        ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
+
+        logger.debug("检查操作的系统用户是否存在");
+        SysUser operatedSysUser = sysUserMapper.selectById(operatedSysUserId);
+        ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
+
+        SysUser sysUser = sysUserMapper.selectById(sysUserId);
+        ApiAssert.isNotNull(sysUser, SysUserErrorResponses.sysUserNotExist());
+
+        logger.debug("检查操作的系统用户级别是否小于修改用户级别");
+        ApiAssert.isGreaterThan(operatedSysUser.getLevel(), sysUser.getLevel(), SysUserErrorResponses.operatedSysUserLevelCanNotGreaterThanUpdatedSysUserLevel());
+
+        List<SysOrganizationUser> sysOrganizationUserList = Collections.emptyList();
+
+        if (CollectionUtils.isNotEmpty(sysOrganizationIdList)) {
+            //转换
+            sysOrganizationUserList = sysOrganizationIdList.stream()
+                    .map((sysOrganizationId) -> {
+                        SysOrganizationUser sysOrganizationUser = new SysOrganizationUser();
+                        sysOrganizationUser.setSysOrganizationId(sysOrganizationId);
+                        sysOrganizationUser.setSysUserId(sysUserId);
+                        sysOrganizationUser.setCreatedSysUserId(operatedSysUserId);
+                        sysOrganizationUser.setCreatedDateTime(LocalDateTime.now());
+                        return sysOrganizationUser;
+                    }).collect(Collectors.toList());
+        }
+        logger.debug("删除系统用户[{}]所有系统组织关联", sysUserId);
+        sysOrganizationUserMapper.delete(Wrappers.<SysOrganizationUser>lambdaQuery().eq(SysOrganizationUser::getSysUserId, sysUserId));
+        logger.debug("插入系统用户组织关联");
+        sysOrganizationUserMapper.insertBatch(sysOrganizationUserList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void setSysRoleOfSysUser(String sysUserId, List<String> sysRoleIdList, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysUserId, SysUserErrorResponses.sysUserIdCanNotNull());
         ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());

@@ -112,6 +112,15 @@ public interface ISysUserService extends IService<SysUser> {
     void updateSysUserLastLoginDateTime(String sysUserId, LocalDateTime lastLoginDateTime);
 
     /**
+     * 设置系统用户的系统组织
+     *
+     * @param sysUserId             设置的系统用户ID
+     * @param sysOrganizationIdList 系统组织ID列表
+     * @param operatedSysUserId     操作的系统用户
+     */
+    void setSysOrganizationOfSysUser(String sysUserId, List<String> sysOrganizationIdList, String operatedSysUserId);
+
+    /**
      * 设置系统用户的系统角色
      *
      * @param sysUserId         设置的系统用户ID
