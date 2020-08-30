@@ -18,6 +18,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,10 +33,21 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * mapper超类
+ * <p>
+ * 增加获取第一条记录方法
+ * 增加自定义分页方法（支持实体类字段名转数据库字段名）
+ * 增加排它锁、共享锁查询方法
+ * 增加批量新增、批量删除方法
+ * <p>
+ * 使用批量方法注意：
+ * 数据库实体类的泛型参数为接口的第一个泛型
+ *
  * @author chen
  * @since 2018/11/3 22:10.
  */
 public interface SupperMapper<T> extends BaseMapper<T> {
+    public static final Log LOG = LogFactory.getLog(SupperMapper.class);
 
     /**
      * 共享锁
@@ -191,7 +204,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         page.setTotal(mybatisPlusPage.getTotal());
         return page;
     }
-    
+
     /**
      * 根据 Wrapper 条件，查询全部记录（并翻页）
      * <p>
@@ -199,7 +212,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      *
      * @param page         分页查询条件
      * @param queryWrapper 实体对象封装操作类
-     */ 
+     */
     default <E extends com.chen.f.core.page.Page<Map<String, Object>>> E selectMapsPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
 
@@ -247,7 +260,8 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         int updateCounts = 0;
 
         Class<?> entryClass = getCurrentEntityClass();
-        String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.INSERT_ONE.getMethod());
+        Class<?> mapperClass = getCurrentMapperClass();
+        String sqlStatement = SqlHelper.getSqlStatement(mapperClass, SqlMethod.INSERT_ONE);
         final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
         try (
                 SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
@@ -282,7 +296,8 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         int updateCounts = 0;
 
         Class<?> entryClass = getCurrentEntityClass();
-        String sqlStatement = SqlHelper.table(entryClass).getSqlStatement(SqlMethod.UPDATE_BY_ID.getMethod());
+        Class<?> mapperClass = getCurrentMapperClass();
+        String sqlStatement = SqlHelper.getSqlStatement(mapperClass, SqlMethod.UPDATE_BY_ID);
         final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
         try (
                 SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
@@ -326,7 +341,21 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
 
     /**
+     * 获取当前mapper类
+     * <p>
+     * 获取Proxy的接口
+     *
+     * @return class
+     */
+    @SuppressWarnings("unchecked")
+    default Class<T> getCurrentMapperClass() {
+        return (Class<T>) this.getClass().getInterfaces()[0];
+    }
+
+    /**
      * 获取当前mapper实体类
+     * <p>
+     * 获取Proxy类的第一个泛型接口的第一个泛型
      *
      * @return class
      */
