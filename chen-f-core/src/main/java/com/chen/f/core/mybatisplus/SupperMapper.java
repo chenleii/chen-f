@@ -2,38 +2,19 @@ package com.chen.f.core.mybatisplus;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.interfaces.Join;
-import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
-import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.executor.BatchResult;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * mapper超类
@@ -50,7 +31,6 @@ import java.util.Objects;
  * @since 2018/11/3 22:10.
  */
 public interface SupperMapper<T> extends BaseMapper<T> {
-    public static final Log LOG = LogFactory.getLog(SupperMapper.class);
 
     /**
      * 共享锁
@@ -65,7 +45,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     /**
      * 默认批量大小
      */
-    int DEFAULT_BATCH_SIZE = 100;
+    int DEFAULT_BATCH_SIZE = 1000;
 
 
     /**
@@ -75,6 +55,15 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      */
     default List<T> selectAll() {
         return selectList(null);
+    }
+
+    /**
+     * 查删除所有记录
+     *
+     * @return 所有记录
+     */
+    default int deleteAll() {
+        return delete(null);
     }
 
 
@@ -182,25 +171,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> mybatisPlusPage = page.toMybatisPlusPage();
 
         final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        if (CollectionUtils.isNotEmpty(orderItemList)) {
-            final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
-            if (Objects.nonNull(tableInfo)) {
-                final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
-                if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
-                    orderItemList.forEach((orderItem -> {
-                        final String column = tableFieldInfoList.stream()
-                                .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
-                                .findFirst()
-                                .map(TableFieldInfo::getColumn)
-                                .orElse(null);
-
-                        if (Objects.nonNull(column)) {
-                            orderItem.setColumn(column);
-                        }
-                    }));
-                }
-            }
-        }
+        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
 
         mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
@@ -220,25 +191,7 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
 
         final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        if (CollectionUtils.isNotEmpty(orderItemList)) {
-            final TableInfo tableInfo = TableInfoHelper.getTableInfo(getCurrentEntityClass());
-            if (Objects.nonNull(tableInfo)) {
-                final List<TableFieldInfo> tableFieldInfoList = tableInfo.getFieldList();
-                if (CollectionUtils.isNotEmpty(tableFieldInfoList)) {
-                    orderItemList.forEach((orderItem -> {
-                        final String column = tableFieldInfoList.stream()
-                                .filter((tableFieldInfo -> Objects.equals(orderItem.getColumn(), tableFieldInfo.getProperty())))
-                                .findFirst()
-                                .map(TableFieldInfo::getColumn)
-                                .orElse(null);
-
-                        if (Objects.nonNull(column)) {
-                            orderItem.setColumn(column);
-                        }
-                    }));
-                }
-            }
-        }
+        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
 
         mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
@@ -256,31 +209,10 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      */
     @Transactional(rollbackFor = Exception.class)
     default int insertBatch(List<T> entityList, int batchSize) {
-        if (CollectionUtils.isEmpty(entityList)) {
-            return 0;
-        }
+        Class<?> mapperClass = Mappers.getProxyMapperClass(this.getClass());
+        Class<T> entryClass = Mappers.getMapperModelClass(mapperClass);
 
-        int updateCounts = 0;
-
-        Class<?> entryClass = getCurrentEntityClass();
-        Class<?> mapperClass = getCurrentMapperClass();
-        String sqlStatement = SqlHelper.getSqlStatement(mapperClass, SqlMethod.INSERT_ONE);
-        final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
-        try (
-                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
-        ) {
-            final int size = entityList.size();
-            int i = 1;
-            for (T entry : entityList) {
-                sqlSession.insert(sqlStatement, entry);
-                if ((i % batchSize == 0) || i == size) {
-                    List<BatchResult> batchResultList = sqlSession.flushStatements();
-                    updateCounts += calculateUpdateCounts(batchResultList);
-                }
-                i++;
-            }
-        }
-        return updateCounts;
+        return Mappers.insertBatchReturnCount(mapperClass, entryClass, entityList, batchSize);
     }
 
     /**
@@ -292,33 +224,10 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      */
     @Transactional(rollbackFor = Exception.class)
     default int updateBatchById(List<T> entityList, int batchSize) {
-        if (CollectionUtils.isEmpty(entityList)) {
-            return 0;
-        }
+        Class<?> mapperClass = Mappers.getProxyMapperClass(this.getClass());
+        Class<T> entryClass = Mappers.getMapperModelClass(mapperClass);
 
-        int updateCounts = 0;
-
-        Class<?> entryClass = getCurrentEntityClass();
-        Class<?> mapperClass = getCurrentMapperClass();
-        String sqlStatement = SqlHelper.getSqlStatement(mapperClass, SqlMethod.UPDATE_BY_ID);
-        final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
-        try (
-                SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
-        ) {
-            final int size = entityList.size();
-            int i = 1;
-            for (T entry : entityList) {
-                MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
-                param.put(Constants.ENTITY, entry);
-                sqlSession.update(sqlStatement, param);
-                if ((i % batchSize == 0) || i == size) {
-                    List<BatchResult> batchResultList = sqlSession.flushStatements();
-                    updateCounts += calculateUpdateCounts(batchResultList);
-                }
-                i++;
-            }
-        }
-        return updateCounts;
+        return Mappers.updateBatchByIdReturnCount(mapperClass, entryClass, entityList, batchSize);
     }
 
 
@@ -343,64 +252,4 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     }
 
 
-    /**
-     * 获取当前mapper类
-     * <p>
-     * 获取Proxy的接口
-     *
-     * @return class
-     */
-    @SuppressWarnings("unchecked")
-    default Class<T> getCurrentMapperClass() {
-        return (Class<T>) this.getClass().getInterfaces()[0];
-    }
-
-    /**
-     * 获取当前mapper实体类
-     * <p>
-     * 获取Proxy类的第一个泛型接口的第一个泛型
-     *
-     * @return class
-     */
-    @SuppressWarnings("unchecked")
-    default Class<T> getCurrentEntityClass() {
-        Type[] types = this.getClass().getGenericInterfaces();
-        ParameterizedType target = null;
-        for (Type type : types) {
-            if (type instanceof ParameterizedType) {
-                Type[] typeArray = ((ParameterizedType) type).getActualTypeArguments();
-                if (ArrayUtils.isNotEmpty(typeArray)) {
-                    for (Type t : typeArray) {
-                        if (t instanceof TypeVariable || t instanceof WildcardType) {
-                            break;
-                        } else {
-                            target = (ParameterizedType) type;
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        return target == null ? null : (Class<T>) target.getActualTypeArguments()[0];
-    }
-
-
-    /**
-     * 计算更新数量
-     *
-     * @param batchResultList 批量更新结果
-     * @return 受影响行数
-     */
-    default int calculateUpdateCounts(List<BatchResult> batchResultList) {
-        if (CollectionUtils.isNotEmpty(batchResultList)) {
-            return batchResultList.stream()
-                    .filter(Objects::nonNull)
-                    .map(BatchResult::getUpdateCounts)
-                    .filter(Objects::nonNull)
-                    .flatMapToInt(Arrays::stream)
-                    .sum();
-        }
-        return 0;
-    }
 }
