@@ -75,6 +75,8 @@
         <jpinyin.version>1.1.8</jpinyin.version>
         <guava.version>28.0-jre</guava.version>
 
+        <embedded-redis.version>0.7.3</embedded-redis.version>
+        <redis-server.version>0.1.0-3.0</redis-server.version>
         <redis-mock.version>0.1.6</redis-mock.version>
         <powermock.version>2.0.7</powermock.version>
         <jmockdata.version>4.2.0</jmockdata.version>
@@ -280,6 +282,16 @@
                 <version>${jpinyin.version}</version>
             </dependency>
             
+            <dependency>
+                <groupId>it.ozimov</groupId>
+                <artifactId>embedded-redis</artifactId>
+                <version>${embedded-redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.microwww</groupId>
+                <artifactId>redis-server</artifactId>
+                <version>${redis-server.version}</version>
+            </dependency>
             <dependency>
                 <groupId>ai.grakn</groupId>
                 <artifactId>redis-mock</artifactId>
