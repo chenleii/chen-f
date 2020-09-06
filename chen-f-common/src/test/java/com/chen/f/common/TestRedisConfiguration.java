@@ -46,6 +46,7 @@ public class TestRedisConfiguration {
             this.redisServer = RedisServer.builder()
                     .bind(redisProperties.getHost())
                     .port(redisProperties.getPort())
+                    .setting("maxheap 51200000")
                     .build();
         }
 
