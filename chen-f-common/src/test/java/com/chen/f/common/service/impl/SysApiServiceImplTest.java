@@ -63,7 +63,70 @@ class SysApiServiceImplTest {
     void setUp() {
 
     }
-  
+    
+    @Test
+    public void getAllSysApiList() {
+        final SysApi sysApi1 = new SysApi();
+        sysApi1.setId("1");
+        sysApi1.setName("登陆");
+        sysApi1.setUrl("/login");
+        sysApi1.setHttpMethod(SysApiHttpMethodEnum.POST);
+        sysApi1.setType(SysApiTypeEnum.LOGIN);
+        sysApi1.setRemark("登录接口哈");
+        sysApi1.setStatus(StatusEnum.ENABLED);
+        sysApi1.setUpdatedSysUserId("1");
+        sysApi1.setCreatedSysUserId("1");
+        sysApi1.setUpdatedDateTime(LocalDateTime.now());
+        sysApi1.setCreatedDateTime(LocalDateTime.now());
+        sysApiMapper.insert(sysApi1);
+
+        final List<SysApi> sysApiList = sysApiService.getAllSysApiList();
+
+        assertThat(sysApiList)
+                .isNotNull()
+                .hasSize(1)
+                .usingElementComparator(Comparator.comparing(SysApi::getId))
+                .contains(sysApi1);
+    }
+    
+    @Test
+    void getEnabledSysApiList() {
+
+        final SysApi sysApi1 = new SysApi();
+        sysApi1.setId("1");
+        sysApi1.setName("登陆");
+        sysApi1.setUrl("/login");
+        sysApi1.setHttpMethod(SysApiHttpMethodEnum.POST);
+        sysApi1.setType(SysApiTypeEnum.LOGIN);
+        sysApi1.setRemark("登录接口哈");
+        sysApi1.setStatus(StatusEnum.ENABLED);
+        sysApi1.setUpdatedSysUserId("1");
+        sysApi1.setCreatedSysUserId("1");
+        sysApi1.setUpdatedDateTime(LocalDateTime.now());
+        sysApi1.setCreatedDateTime(LocalDateTime.now());
+        final SysApi sysApi2 = new SysApi();
+        sysApi2.setId("2");
+        sysApi2.setName("登出");
+        sysApi2.setUrl("/logout");
+        sysApi2.setHttpMethod(SysApiHttpMethodEnum.POST);
+        sysApi2.setType(SysApiTypeEnum.LOGOUT);
+        sysApi2.setRemark("登出接口哈");
+        sysApi2.setStatus(StatusEnum.ENABLED);
+        sysApi2.setUpdatedSysUserId("1");
+        sysApi2.setCreatedSysUserId("1");
+        sysApi2.setUpdatedDateTime(LocalDateTime.now());
+        sysApi2.setCreatedDateTime(LocalDateTime.now());
+        sysApiMapper.insertBatch(Arrays.asList(sysApi1, sysApi2));
+
+        final List<SysApi> enabledSysApiList = sysApiService.getEnabledSysApiList();
+
+        assertThat(enabledSysApiList)
+                .isNotNull()
+                .hasSize(2)
+                .usingElementComparator(Comparator.comparing(SysApi::getId))
+                .contains(sysApi1, sysApi2);
+    }
+
     @Test
     void getSysApiPage() {
         final SysApi sysApi1 = new SysApi();
@@ -94,43 +157,7 @@ class SysApiServiceImplTest {
 
     }
 
-    @Test
-    void getEnabledSysApiList() {
-
-        final SysApi sysApi1 = new SysApi();
-        sysApi1.setId("1");
-        sysApi1.setName("登陆");
-        sysApi1.setUrl("/login");
-        sysApi1.setHttpMethod(SysApiHttpMethodEnum.POST);
-        sysApi1.setType(SysApiTypeEnum.LOGIN);
-        sysApi1.setRemark("登录接口哈");
-        sysApi1.setStatus(StatusEnum.ENABLED);
-        sysApi1.setUpdatedSysUserId("1");
-        sysApi1.setCreatedSysUserId("1");
-        sysApi1.setUpdatedDateTime(LocalDateTime.now());
-        sysApi1.setCreatedDateTime(LocalDateTime.now());
-        final SysApi sysApi2 = new SysApi();
-        sysApi2.setId("2");
-        sysApi2.setName("登出");
-        sysApi2.setUrl("/logout");
-        sysApi2.setHttpMethod(SysApiHttpMethodEnum.POST);
-        sysApi2.setType(SysApiTypeEnum.LOGOUT);
-        sysApi2.setRemark("登出接口哈");
-        sysApi2.setStatus(StatusEnum.ENABLED);
-        sysApi2.setUpdatedSysUserId("1");
-        sysApi2.setCreatedSysUserId("1");
-        sysApi2.setUpdatedDateTime(LocalDateTime.now());
-        sysApi2.setCreatedDateTime(LocalDateTime.now());
-        sysApiMapper.insertBatch(Arrays.asList(sysApi1, sysApi2));
-       
-        final List<SysApi> enabledSysApiList = sysApiService.getEnabledSysApiList();
-
-        assertThat(enabledSysApiList)
-                .isNotNull()
-                .hasSize(2)
-                .usingElementComparator(Comparator.comparing(SysApi::getId))
-                .contains(sysApi1, sysApi2);
-    }
+   
 
     @Test
     void getSysApi() {      
