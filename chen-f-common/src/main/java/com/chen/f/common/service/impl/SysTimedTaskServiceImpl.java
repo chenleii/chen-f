@@ -169,13 +169,18 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
             dataMap = JacksonUtils.parseObject(data, Map.class);
         }
 
-        logger.debug("修改系统定时任务");
-        try {
-            QuartzHelper.updateJob(code, code, code, code, (Class<? extends Job>) jobClass, cronExpression, dataMap);
-        } catch (SchedulerException e) {
-            logger.warn("添加系统定时任务失败", e);
-            ApiAssert.exception(e, SysTimedTaskErrorResponses.updateSysTimedTaskFailure());
+        //原系统定时任务是启用的 并且 修改后的系统定时任务是启用的
+        if (sysTimedTask.getStatus() == StatusEnum.ENABLED
+                && statusEnum == StatusEnum.ENABLED) {
+            logger.debug("修改系统定时任务");
+            try {
+                QuartzHelper.updateJob(code, code, code, code, (Class<? extends Job>) jobClass, cronExpression, dataMap);
+            } catch (SchedulerException e) {
+                logger.warn("添加系统定时任务失败", e);
+                ApiAssert.exception(e, SysTimedTaskErrorResponses.updateSysTimedTaskFailure());
+            }
         }
+        
         if (statusEnum == StatusEnum.DISABLED) {
             this.disableSysTimedTaskByCode(code, operatedSysUserId);
         }
