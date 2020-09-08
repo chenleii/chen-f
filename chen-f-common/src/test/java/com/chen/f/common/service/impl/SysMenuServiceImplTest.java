@@ -55,7 +55,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testGetAllSysMenuList() {
+    void getAllSysMenuList() {
         SysMenu sysMenu1 = new SysMenu();
         sysMenu1.setId("1");
         sysMenu1.setParentId("0");
@@ -84,7 +84,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysMenuList() {
+    void getEnabledSysMenuList() {
         SysMenu sysMenu1 = new SysMenu();
         sysMenu1.setId("1");
         sysMenu1.setParentId("0");
@@ -112,7 +112,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testGetSysMenuList() {
+    void getSysMenuList() {
         SysMenu sysMenu1 = new SysMenu();
         sysMenu1.setId("1");
         sysMenu1.setParentId("0");
@@ -140,7 +140,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testGetSysMenu() {
+    void getSysMenu() {
         SysMenu sysMenu1 = new SysMenu();
         sysMenu1.setId("1");
         sysMenu1.setParentId("0");
@@ -167,7 +167,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testCreateSysMenu() {
+    void createSysMenu() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -192,7 +192,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testUpdateSysMenu() {
+    void updateSysMenu() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -234,7 +234,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testDeleteSysMenu() {
+    void deleteSysMenu() {
 
         SysMenu sysMenu1 = new SysMenu();
         sysMenu1.setId("1");
@@ -262,7 +262,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testEnabledSysMenu() {
+    void enabledSysMenu() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -304,7 +304,7 @@ class SysMenuServiceImplTest {
     }
 
     @Test
-    void testDisableSysMenu() {
+    void disableSysMenu() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");

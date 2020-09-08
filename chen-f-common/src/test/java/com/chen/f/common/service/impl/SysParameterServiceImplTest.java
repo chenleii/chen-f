@@ -56,7 +56,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysParameterList() {
+    void getEnabledSysParameterList() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -82,7 +82,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testGetSysParameterPage() {
+    void getSysParameterPage() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -111,7 +111,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testGetSysParameter() {
+    void getSysParameter() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -136,7 +136,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testGetSysParameterByCode() {
+    void getSysParameterByCode() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -161,7 +161,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testCreateSysParameter() {
+    void createSysParameter() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -188,7 +188,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testUpdateSysParameter() {
+    void updateSysParameter() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -230,7 +230,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testDeleteSysParameter() {
+    void deleteSysParameter() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -254,7 +254,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testDeleteSysParameterByCode() {
+    void deleteSysParameterByCode() {
         SysParameter sysParameter1 = new SysParameter();
         sysParameter1.setId("1");
         sysParameter1.setCode("1");
@@ -279,7 +279,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testEnabledSysParameter() {
+    void enabledSysParameter() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -318,7 +318,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testEnabledSysParameterByCode() {
+    void enabledSysParameterByCode() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -358,7 +358,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testDisableSysParameter() {
+    void disableSysParameter() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -397,7 +397,7 @@ class SysParameterServiceImplTest {
     }
 
     @Test
-    void testDisableSysParameterByCode() {
+    void disableSysParameterByCode() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");

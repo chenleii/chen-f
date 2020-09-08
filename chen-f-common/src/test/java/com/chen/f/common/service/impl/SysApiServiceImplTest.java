@@ -65,7 +65,7 @@ class SysApiServiceImplTest {
     }
     
     @Test
-    public void testGetAllSysApiList() {
+    void getAllSysApiList() {
         final SysApi sysApi1 = new SysApi();
         sysApi1.setId("1");
         sysApi1.setName("登陆");
@@ -90,7 +90,7 @@ class SysApiServiceImplTest {
     }
     
     @Test
-    void testGetEnabledSysApiList() {
+    void getEnabledSysApiList() {
 
         final SysApi sysApi1 = new SysApi();
         sysApi1.setId("1");
@@ -128,7 +128,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testGetSysApiPage() {
+    void getSysApiPage() {
         final SysApi sysApi1 = new SysApi();
         sysApi1.setId("1");
         sysApi1.setName("登陆");
@@ -160,7 +160,7 @@ class SysApiServiceImplTest {
    
 
     @Test
-    void testGetSysApi() {      
+    void getSysApi() {      
         final SysApi sysApi1 = new SysApi();
         sysApi1.setId("1");
         sysApi1.setName("登陆");
@@ -184,7 +184,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testCreateSysApi() {
+    void createSysApi() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -211,7 +211,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testUpdateSysApi() {
+    void updateSysApi() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -253,7 +253,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testDeleteSysApi() {
+    void deleteSysApi() {
         final SysApi sysApi1 = new SysApi();
         sysApi1.setId("1");
         sysApi1.setName("登陆");
@@ -276,7 +276,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testEnabledSysApi() {
+    void enabledSysApi() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -314,7 +314,7 @@ class SysApiServiceImplTest {
     }
 
     @Test
-    void testDisableSysApi() {
+    void disableSysApi() {
 
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");

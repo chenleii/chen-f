@@ -58,7 +58,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetAllSysOrganizationList() {
+    void getAllSysOrganizationList() {
         SysOrganization sysOrganization1 = new SysOrganization();
         sysOrganization1.setId("1");
         sysOrganization1.setParentId("");
@@ -84,7 +84,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysOrganizationList() {
+    void getEnabledSysOrganizationList() {
         SysOrganization sysOrganization1 = new SysOrganization();
         sysOrganization1.setId("1");
         sysOrganization1.setParentId("");
@@ -109,7 +109,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetSysOrganizationList() {
+    void getSysOrganizationList() {
         SysOrganization sysOrganization1 = new SysOrganization();
         sysOrganization1.setId("1");
         sysOrganization1.setParentId("");
@@ -134,7 +134,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetSysOrganization() {
+    void getSysOrganization() {
         SysOrganization sysOrganization1 = new SysOrganization();
         sysOrganization1.setId("1");
         sysOrganization1.setParentId("");
@@ -158,7 +158,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetSysUserOfSysOrganization() {
+    void getSysUserOfSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -204,7 +204,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testTestGetSysUserOfSysOrganization() {
+    void testGetSysUserOfSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -250,7 +250,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testGetSysRoleOfSysOrganization() {
+    void getSysRoleOfSysOrganization() {
         SysRole sysRole1 = new SysRole();
         sysRole1.setId("1");
         sysRole1.setCode("1");
@@ -294,7 +294,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testTestGetSysRoleOfSysOrganization() {
+    void testGetSysRoleOfSysOrganization() {
         SysRole sysRole1 = new SysRole();
         sysRole1.setId("1");
         sysRole1.setCode("1");
@@ -338,7 +338,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testCreateSysOrganization() {
+    void createSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -363,7 +363,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testUpdateSysOrganization() {
+    void updateSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -402,7 +402,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testSetSysUserOfSysOrganization() {
+    void setSysUserOfSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -443,7 +443,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testSetSysRoleOfSysOrganization() {
+    void setSysRoleOfSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -496,7 +496,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testDeleteSysOrganization() {
+    void deleteSysOrganization() {
 
         SysOrganization sysOrganization1 = new SysOrganization();
         sysOrganization1.setId("1");
@@ -521,7 +521,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testEnabledSysOrganization() {
+    void enabledSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -559,7 +559,7 @@ class SysOrganizationServiceImplTest {
     }
 
     @Test
-    void testDisableSysOrganization() {
+    void disableSysOrganization() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");

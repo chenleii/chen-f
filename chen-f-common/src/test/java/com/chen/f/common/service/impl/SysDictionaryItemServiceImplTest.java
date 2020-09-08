@@ -57,7 +57,7 @@ class SysDictionaryItemServiceImplTest {
     
 
     @Test
-    void testGetSysDictionaryItemPage() {
+    void getSysDictionaryItemPage() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -92,7 +92,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysDictionaryItemList() {
+    void getEnabledSysDictionaryItemList() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -123,7 +123,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryItem() {
+    void getSysDictionaryItem() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -154,7 +154,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryItemListBySysDictionaryId() {
+    void getSysDictionaryItemListBySysDictionaryId() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -185,7 +185,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryItemListByCode() {
+    void getSysDictionaryItemListByCode() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -216,7 +216,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysDictionaryItemListByCode() {
+    void getEnabledSysDictionaryItemListByCode() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -247,7 +247,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryItemByCodeAndKey() {    
+    void getSysDictionaryItemByCodeAndKey() {    
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -277,7 +277,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testCreateSysDictionaryItem() {
+    void createSysDictionaryItem() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -303,7 +303,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testUpdateSysDictionaryItem() {
+    void updateSysDictionaryItem() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -350,7 +350,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testDeleteSysDictionaryItem() {
+    void deleteSysDictionaryItem() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -379,7 +379,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testDeleteSysDictionaryItemByCode() {
+    void deleteSysDictionaryItemByCode() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -409,7 +409,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testDeleteSysDictionaryItemByCodeAndKey() {
+    void deleteSysDictionaryItemByCodeAndKey() {
         final SysDictionaryItem sysDictionaryItem1 = new SysDictionaryItem();
         sysDictionaryItem1.setId("1");
         sysDictionaryItem1.setSysDictionaryId("1");
@@ -440,7 +440,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testEnabledSysDictionaryItem() {
+    void enabledSysDictionaryItem() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -483,7 +483,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testEnabledSysDictionaryItemByCodeAndKey() {
+    void enabledSysDictionaryItemByCodeAndKey() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -528,7 +528,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testDisableSysDictionaryItem() {
+    void disableSysDictionaryItem() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -571,7 +571,7 @@ class SysDictionaryItemServiceImplTest {
     }
 
     @Test
-    void testDisableSysDictionaryItemByCodeAndKey() {
+    void disableSysDictionaryItemByCodeAndKey() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");

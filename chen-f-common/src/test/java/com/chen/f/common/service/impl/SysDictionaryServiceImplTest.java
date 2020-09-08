@@ -61,7 +61,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryPage() {
+    void getSysDictionaryPage() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -88,7 +88,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testGetEnabledSysDictionaryList() {
+    void getEnabledSysDictionaryList() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -113,7 +113,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionary() {
+    void getSysDictionary() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -137,7 +137,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testGetSysDictionaryByCode() {
+    void getSysDictionaryByCode() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -160,7 +160,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testCreateSysDictionary() {
+    void createSysDictionary() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -186,7 +186,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testUpdateSysDictionary() {
+    void updateSysDictionary() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -225,7 +225,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testDeleteSysDictionary() {
+    void deleteSysDictionary() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -247,7 +247,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testDeleteSysDictionaryByCode() {
+    void deleteSysDictionaryByCode() {
         SysDictionary sysDictionary1 = new SysDictionary();
         sysDictionary1.setId("1");
         sysDictionary1.setCode("1");
@@ -270,7 +270,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testEnabledSysDictionary() {
+    void enabledSysDictionary() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
@@ -307,7 +307,7 @@ class SysDictionaryServiceImplTest {
     }
 
     @Test
-    void testDisableSysDictionary() {
+    void disableSysDictionary() {
         final SysUser sysUser1 = new SysUser();
         sysUser1.setId("1");
         sysUser1.setUsername("chen");
