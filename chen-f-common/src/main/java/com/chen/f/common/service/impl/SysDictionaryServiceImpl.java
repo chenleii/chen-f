@@ -127,7 +127,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         ApiAssert.isNotNull(operatedSysUser, SysUserErrorResponses.operatedSysUserNotExist());
 
         logger.debug("检查系统字典是否存在");
-        SysDictionary sysDictionary = sysDictionaryMapper.selectOne((Wrappers.<SysDictionary>lambdaQuery().eq(SysDictionary::getCode, code)));
+        SysDictionary sysDictionary = sysDictionaryMapper.selectById(sysDictionaryId);
         ApiAssert.isNotNull(sysDictionary, SysDictionaryErrorResponses.sysDictionaryNotExist());
 
         remark = ObjectUtils.defaultIfNull(remark, "");
