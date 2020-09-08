@@ -24,18 +24,18 @@ public interface SysUserErrorResponses extends ErrorResponse {
     }
     
     static ErrorResponse createdSysUserLevelCanNotGreaterThanOperatedSysUserLevel() {
-        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".createdSysUserLevelCanNotGreaterThanOperatedSysUserLevel", "创建的用户级别不能大于操作用户级别");
+        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".createdSysUserLevelCanNotGreaterThanOperatedSysUserLevel", "创建的用户级别不能大于操作的系统用户级别");
         return ErrorResponse.create(message);
     }
 
  
-    static ErrorResponse operatedSysUserLevelCanNotGreaterThanUpdatedSysUserLevel() {
-        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".operatedSysUserLevelCanNotGreaterThanUpdatedSysUserLevel", "操作的系统用户级别不能小于修改用户级别");
+    static ErrorResponse operatedSysUserLevelMustGreaterThanUpdatedSysUserLevel() {
+        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".operatedSysUserLevelMustGreaterThanUpdatedSysUserLevel", "操作的系统用户级别必须大于被修改的系统用户级别");
         return ErrorResponse.create(message);
     }
     
     static ErrorResponse updatedSysUserLevelCanNotGreaterThanOperatedSysUserLevel() {
-        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".updatedSysUserLevelCanNotGreaterThanOperatedSysUserLevel", "修改的系统用户级别不能大于操作用户级别");
+        String message = I18nHelper.getMessage(SysUserErrorResponses.class.getSimpleName() + ".updatedSysUserLevelCanNotGreaterThanOperatedSysUserLevel", "修改后的系统用户级别不能大于操作的系统用户级别");
         return ErrorResponse.create(message);
     }
 
