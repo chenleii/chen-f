@@ -30,6 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * @author chen
+ * @since 2020/9/8 10:33
+ */
 @SpringBootTest(classes = {SysDictionaryServiceImpl.class,})
 @Transactional
 @AutoConfigureMybatisPlus
