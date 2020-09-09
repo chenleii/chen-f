@@ -1,16 +1,15 @@
 package com.chen.f.common.web.controller;
 
-import com.chen.f.common.TestRedisConfiguration;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.TypeTypeEnum;
+import com.chen.f.core.configuration.redis.AutoConfigureTestRedis;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 2020/9/2 0:15.
  */
 @SpringBootTest
-@Import({TestRedisConfiguration.class})
 @Transactional
-@AutoConfigureTestDatabase
 @AutoConfigureMockMvc
+@AutoConfigureTestRedis
+@AutoConfigureTestDatabase
 class SysDictionaryItemControllerTest {
 
     @Autowired
@@ -62,7 +61,7 @@ class SysDictionaryItemControllerTest {
         sysDictionaryItem.setUpdatedDateTime(LocalDateTime.now());
         sysDictionaryItem.setCreatedDateTime(LocalDateTime.now());
         sysDictionaryItemMapper.insert(sysDictionaryItem);
-        
+
         mvc.perform(get("/chen/common/sys/dictionary/item/code/1").accept(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -187,7 +186,7 @@ class SysDictionaryItemControllerTest {
 
         mvc.perform(get("/chen/common/sys/dictionary/item/alain/select/1").accept(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) 
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(hasSize(1)))
                 .andExpect(jsonPath("$[*].value").value(anything("1")));
     }
