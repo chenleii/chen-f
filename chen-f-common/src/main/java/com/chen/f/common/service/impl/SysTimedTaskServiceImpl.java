@@ -88,7 +88,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         ApiAssert.isNotNull(sysTimedTaskTypeEnum, SysTimedTaskErrorResponses.sysTimedTaskTypeCanNotNull());
         ApiAssert.isNotNull(statusEnum, SysTimedTaskErrorResponses.sysTimedTaskStatusCanNotNull());
         ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
-        
+
         remark = ObjectUtils.defaultIfNull(remark, "");
         data = ObjectUtils.defaultIfNull(data, "");
 
@@ -97,12 +97,12 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         try {
             jobClass = Class.forName(jobClassName);
         } catch (ClassNotFoundException e) {
-            //忽略
+            ApiAssert.exception(e, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotExist());
         }
 
         logger.debug("检查jobClass是否是Job.class的子类");
         ApiAssert.isAssignable(Job.class, jobClass, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotImplementJob(jobClass));
-        Map dataMap = null;
+        Map<?, ?> dataMap = null;
         if (StringUtils.isNotBlank(data)) {
             dataMap = JacksonUtils.parseObject(data, Map.class);
         }
@@ -159,12 +159,12 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         try {
             jobClass = Class.forName(jobClassName);
         } catch (ClassNotFoundException e) {
-            //忽略
+            ApiAssert.exception(e, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotExist());
         }
 
         logger.debug("检查jobClass是否是Job.class的子类");
         ApiAssert.isAssignable(Job.class, jobClass, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotImplementJob(jobClass));
-        Map dataMap = null;
+        Map<?, ?> dataMap = null;
         if (StringUtils.isNotBlank(data)) {
             dataMap = JacksonUtils.parseObject(data, Map.class);
         }
@@ -180,7 +180,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
                 ApiAssert.exception(e, SysTimedTaskErrorResponses.updateSysTimedTaskFailure());
             }
         }
-        
+
         if (statusEnum == StatusEnum.DISABLED) {
             this.disableSysTimedTaskByCode(code, operatedSysUserId);
         }
@@ -245,6 +245,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
+    @SuppressWarnings("unchecked")
     public void enabledSysTimedTask(String sysTimedTaskId, String operatedSysUserId) {
         ApiAssert.isNotBlank(sysTimedTaskId, SysTimedTaskErrorResponses.sysTimedTaskIdCanNotNull());
         ApiAssert.isNotBlank(operatedSysUserId, SysUserErrorResponses.operatedSysUserIdCanNotBlank());
@@ -258,12 +259,12 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         try {
             jobClass = Class.forName(sysTimedTask.getClassName());
         } catch (ClassNotFoundException e) {
-            //忽略
+            ApiAssert.exception(e, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotExist());
         }
 
         logger.debug("检查jobClass是否是Job.class的子类");
         ApiAssert.isAssignable(Job.class, jobClass, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotImplementJob(jobClass));
-        Map dataMap = null;
+        Map<?, ?> dataMap = null;
         if (StringUtils.isNotBlank(sysTimedTask.getData())) {
             dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
         }
@@ -299,12 +300,12 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
         try {
             jobClass = Class.forName(sysTimedTask.getClassName());
         } catch (ClassNotFoundException e) {
-            //忽略
+            ApiAssert.exception(e, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotExist());
         }
 
         logger.debug("检查jobClass是否是Job.class的子类");
         ApiAssert.isAssignable(Job.class, jobClass, SysTimedTaskErrorResponses.sysTimedTaskJobClassNotImplementJob(jobClass));
-        Map dataMap = null;
+        Map<?, ?> dataMap = null;
         if (StringUtils.isNotBlank(sysTimedTask.getData())) {
             dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
         }
@@ -422,7 +423,7 @@ public class SysTimedTaskServiceImpl extends ServiceImpl<SysTimedTaskMapper, Sys
                         logger.warn("[{}]不是Job的实现类,添加定时任务失败", jobClass);
                         return;
                     }
-                    Map dataMap = null;
+                    Map<?, ?> dataMap = null;
                     if (StringUtils.isNotBlank(sysTimedTask.getData())) {
                         dataMap = JacksonUtils.parseObject(sysTimedTask.getData(), Map.class);
                     }
