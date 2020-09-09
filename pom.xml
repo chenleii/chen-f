@@ -289,7 +289,6 @@
                 <groupId>it.ozimov</groupId>
                 <artifactId>embedded-redis</artifactId>
                 <version>${embedded-redis.version}</version>
-                <scope>test</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
