@@ -56,6 +56,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!--去除HikariCP,集成druid-->
         <dependency>
@@ -78,6 +83,10 @@
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
+        </dependency>
         <!--<dependency>-->
         <!--    <groupId>org.springframework.boot</groupId>-->
         <!--    <artifactId>spring-boot-devtools</artifactId>-->
@@ -206,6 +215,7 @@
                     <include>META-INF/**</include>
                     <include>i18n/**</include>
                     <include>config/*.*</include>
+                    <include>db/*.*</include>
                     <include>*.*</include>
                 </includes>
             </resource>
