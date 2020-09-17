@@ -1,5 +1,6 @@
 package com.chen.f.admin.configuration.quartz;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;
@@ -47,7 +48,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         long jobRunTime = context.getJobRunTime();
         //获取任务编码
         JobKey jobKey = context.getJobDetail().getKey();
-        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(jobKey.getName());
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode,jobKey.getName()));
         if (sysTimedTask == null) {
             logger.warn("定时任务表[{}]记录不存在", jobKey.getName());
             return;
@@ -80,7 +81,7 @@ public class TaskLogJobListener extends JobListenerSupport {
         long jobRunTime = context.getJobRunTime();
         //获取任务编码
         JobKey jobKey = context.getJobDetail().getKey();
-        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectById(jobKey.getName());
+        SysTimedTask sysTimedTask = sysTimedTaskMapper.selectOne(Wrappers.<SysTimedTask>lambdaQuery().eq(SysTimedTask::getCode,jobKey.getName()));
         if (sysTimedTask == null) {
             logger.warn("定时任务表[{}]记录不存在", jobKey.getName());
             return;
