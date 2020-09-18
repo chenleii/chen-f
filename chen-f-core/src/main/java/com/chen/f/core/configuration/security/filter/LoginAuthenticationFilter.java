@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 处理身份认证表单提交 过滤器
@@ -44,7 +45,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
         String username = null;
         String password = null;
-        if (MediaType.APPLICATION_JSON.isCompatibleWith(MediaType.valueOf(request.getContentType()))) {
+        if (Objects.nonNull(request.getContentType()) 
+                && MediaType.APPLICATION_JSON.isCompatibleWith(MediaType.valueOf(request.getContentType()))) {
             //适配json
             ObjectMapper objectMapper = new ObjectMapper();
             try (
