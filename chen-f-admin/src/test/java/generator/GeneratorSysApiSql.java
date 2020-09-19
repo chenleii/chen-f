@@ -10,6 +10,7 @@ import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
+import com.chen.f.core.configuration.redis.AutoConfigureTestRedis;
 import com.chen.f.core.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.jsqlparser.expression.Expression;
@@ -26,12 +27,12 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -58,8 +59,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author chen
  * @date 2017/12/18
  */
-@EnableSwagger2
 @AutoConfigureMockMvc
+@AutoConfigureTestRedis
+@AutoConfigureTestDatabase
 @SpringBootTest(classes = ChenFAdminApplication.class)
 public class GeneratorSysApiSql {
 
