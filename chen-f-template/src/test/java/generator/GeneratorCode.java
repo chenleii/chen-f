@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.chen.f.core.mybatisplus.SupperMapper;
-import org.junit.jupiter.api.Test;
 
 /**
  * <p>
@@ -24,7 +23,7 @@ public class GeneratorCode {
     private static final String parentPackageName = "com.chen.f.common";
     private static final String[] tableNames = {};
 
-    @Test
+    //@Test
     public void generateCode() {
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
