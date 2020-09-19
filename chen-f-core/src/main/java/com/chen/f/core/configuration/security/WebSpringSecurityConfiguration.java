@@ -3,12 +3,14 @@ package com.chen.f.core.configuration.security;
 
 import com.chen.f.core.configuration.security.handle.SpringSecurityHandle;
 import com.chen.f.core.configuration.security.provider.LoginAuthenticationProvider;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,6 +27,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * web spring security配置
@@ -32,7 +35,6 @@ import java.util.Arrays;
  * @author chen
  * @date 2018/10/22 12:04.
  */
-@Order(0)
 @Configuration
 @EnableWebSecurity
 @ConditionalOnClass(WebSecurityConfigurerAdapter.class)
@@ -41,9 +43,13 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
 
     private final UserDetailsService userDetailsService;
 
+    private final List<ChenFHttpSecurityCustomizer> chenFHttpSecurityCustomizerList;
+
     @Autowired
-    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService) {
+    public WebSpringSecurityConfiguration(UserDetailsService userDetailsService,
+                                          ObjectProvider<List<ChenFHttpSecurityCustomizer>> chenFHttpSecurityCustomizerListObjectProvider) {
         this.userDetailsService = userDetailsService;
+        this.chenFHttpSecurityCustomizerList = chenFHttpSecurityCustomizerListObjectProvider.getIfAvailable();
     }
 
     @Override
@@ -96,6 +102,12 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         //        return object;
         //    }
         //});
+
+        if (CollectionUtils.isNotEmpty(this.chenFHttpSecurityCustomizerList)) {
+            for (ChenFHttpSecurityCustomizer customizer : chenFHttpSecurityCustomizerList) {
+                customizer.customize(http, authenticationManager());
+            }
+        }
         
     }
 
@@ -129,6 +141,12 @@ public class WebSpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         authenticationManagerBuilder
                 .authenticationProvider(loginAuthenticationProvider())
                 .eraseCredentials(true);
+    }
+    
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean
