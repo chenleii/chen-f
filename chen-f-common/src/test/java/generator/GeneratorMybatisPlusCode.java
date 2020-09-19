@@ -21,6 +21,8 @@ import com.chen.f.core.mybatisplus.SupperMapper;
  */
 public class GeneratorMybatisPlusCode {
     private static final String parentPackageName = "com.chen.f.common";
+    private static final String generatorMybatisPlusCodeDir = System.getProperty("user.dir") + "/target/mybatis-plus-code";
+    
     private static final String[] tableNames = {};
 
     //@Test
@@ -61,7 +63,7 @@ public class GeneratorMybatisPlusCode {
 
 
         GlobalConfig globalConfig = new GlobalConfig()
-                .setOutputDir("G:\\codeGen")
+                .setOutputDir(generatorMybatisPlusCodeDir)
                 .setOpen(true)
                 .setFileOverride(true)
                 // XML 二级缓存
