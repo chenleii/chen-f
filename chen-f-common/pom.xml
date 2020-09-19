@@ -132,6 +132,19 @@
             <artifactId>embedded-redis</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- mybatis-plus 生成代码使用的模板 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!--<dependency>-->
         <!--    <groupId>ai.grakn</groupId>-->
         <!--    <artifactId>redis-mock</artifactId>-->

@@ -19,12 +19,12 @@ import com.chen.f.core.mybatisplus.SupperMapper;
  * @author chen
  * @date 2017/12/18
  */
-public class GeneratorCode {
+public class GeneratorMybatisPlusCode {
     private static final String parentPackageName = "com.chen.f.common";
     private static final String[] tableNames = {};
 
     //@Test
-    public void generateCode() {
+    public void generatorMybatisPlusCode() {
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl("jdbc:mysql://127.0.0.1:3306/chen?characterEncoding=utf8&useSSL=false")
