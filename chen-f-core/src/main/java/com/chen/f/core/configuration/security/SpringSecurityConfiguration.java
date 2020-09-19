@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.SessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.util.Assert;
 
@@ -63,9 +64,9 @@ public class SpringSecurityConfiguration implements ImportAware {
     }
 
     @Bean
-    @ConditionalOnClass({SessionRegistry.class})
-    public SecuritySessionHelper springSecurityHelper(SessionRegistry sessionRegistry) {
-        return new SecuritySessionHelper(sessionRegistry);
+    @ConditionalOnClass({SessionRegistry.class, SessionRepository.class})
+    public SecuritySessionHelper springSecurityHelper(SessionRegistry sessionRegistry, SessionRepository<?> sessionRepository) {
+        return new SecuritySessionHelper(sessionRegistry, sessionRepository);
     }
 
 }

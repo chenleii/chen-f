@@ -24,24 +24,25 @@ public class SecuritySessionHelper {
     private static SessionRegistry sessionRegistry;
 
     private static SecurityContextRepository securityContextRepository;
-    private static SessionRepository sessionRepository;
+    private static SessionRepository<?> sessionRepository;
 
 
-    public SecuritySessionHelper(SessionRegistry sessionRegistry) {
+    public SecuritySessionHelper(SessionRegistry sessionRegistry, SessionRepository<?> sessionRepository) {
         SecuritySessionHelper.sessionRegistry = sessionRegistry;
+        SecuritySessionHelper.sessionRepository = sessionRepository;
     }
 
     /**
      * 是否登陆的
      * <p>
-     * 过期是未登录的
+     * 过期的也算是登陆的
      *
      * @param username 用户名称
      * @return 是/否
      */
     public static boolean isLogin(String username) {
-        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
-        return CollectionUtils.isNotEmpty(sessionInformationList) && sessionInformationList.stream().noneMatch(SessionInformation::isExpired);
+        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, true);
+        return CollectionUtils.isNotEmpty(sessionInformationList);
     }
 
     /**
@@ -51,14 +52,14 @@ public class SecuritySessionHelper {
      * @return 是/否
      */
     public static boolean isNotLogin(String username) {
-        return !isNotLogin(username);
+        return !isLogin(username);
     }
 
 
     /**
      * 是否过期的
      * <p>
-     * 未登录是过期
+     * 所有登陆的都过期了才是过期的
      *
      * @param username 用户名称
      * @return 是/否
@@ -85,9 +86,28 @@ public class SecuritySessionHelper {
      */
     public static void expire(String username) {
         List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
+
         if (CollectionUtils.isNotEmpty(sessionInformationList)) {
             for (SessionInformation sessionInformation : sessionInformationList) {
                 sessionInformation.expireNow();
+            }
+        }
+    }
+
+    /**
+     * 登出
+     *
+     * @param username 用户名称
+     */
+    public static void logout(String username) {
+        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, true);
+
+        if (CollectionUtils.isNotEmpty(sessionInformationList)) {
+            for (SessionInformation sessionInformation : sessionInformationList) {
+                sessionInformation.expireNow();
+
+                sessionRegistry.removeSessionInformation(sessionInformation.getSessionId());
+                sessionRepository.deleteById(sessionInformation.getSessionId());
             }
         }
     }
