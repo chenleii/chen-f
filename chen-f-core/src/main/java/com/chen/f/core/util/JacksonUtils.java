@@ -2,24 +2,14 @@ package com.chen.f.core.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -34,20 +24,15 @@ public class JacksonUtils {
 
     static {
         objectMapper = new ObjectMapper();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(dateTimeFormatter));
-        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(dateTimeFormatter));
-        javaTimeModule.addSerializer(ZonedDateTime.class, new ZonedDateTimeSerializer(dateTimeFormatter));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateTimeFormatter));
-        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(dateTimeFormatter));
-        objectMapper.registerModule(javaTimeModule);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModule(new Jdk8Module());
 
     }
 
+    public static ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
 
     /**
      * 对象转成json字符串
@@ -63,7 +48,23 @@ public class JacksonUtils {
             throw new RuntimeException(e);
         }
     }
-
+    
+    
+    /**
+     * json字符串转成对象
+     *
+     * @param jsonString json字符串
+     * @return JsonNode
+     */
+    public static JsonNode parse(String jsonString) {
+        try {
+            return objectMapper.readTree(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * json字符串转成对象
      *
@@ -74,6 +75,7 @@ public class JacksonUtils {
      */
     public static <T> T parseObject(String jsonString, Class<T> clazz) {
         try {
+            final JsonNode jsonNode = objectMapper.readTree("");
             return objectMapper.readValue(jsonString, clazz);
         } catch (IOException e) {
             e.printStackTrace();
