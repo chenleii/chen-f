@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.chen.f.admin.ChenFAdminApplication;
 import com.chen.f.common.mapper.SysApiMapper;
 import com.chen.f.common.pojo.SysApi;
 import com.chen.f.common.pojo.enums.StatusEnum;
 import com.chen.f.common.pojo.enums.SysApiHttpMethodEnum;
 import com.chen.f.common.pojo.enums.SysApiTypeEnum;
 import com.chen.f.core.util.JacksonUtils;
-import com.chen.f.template.ChenFTemplateApplication;
 import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.NullValue;
@@ -60,8 +60,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @EnableSwagger2
 @AutoConfigureMockMvc
-@SpringBootTest(classes = ChenFTemplateApplication.class)
-public class GeneratorSysApi {
+@SpringBootTest(classes = ChenFAdminApplication.class)
+public class GeneratorSysApiSql {
 
     @Autowired
     private MockMvc mvc;
@@ -71,7 +71,7 @@ public class GeneratorSysApi {
 
 
     //@Test
-    public void generatorSysApi() throws Exception {
+    public void generatorSysApiSql() throws Exception {
 
         //获取文档json
         final MvcResult mvcResult = mvc.perform(
