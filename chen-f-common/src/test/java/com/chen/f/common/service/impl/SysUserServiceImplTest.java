@@ -573,7 +573,8 @@ class SysUserServiceImplTest {
         sysUser1.setCreatedSysUserId("");
         sysUser1.setUpdatedDateTime(LocalDateTime.now());
         sysUser1.setCreatedDateTime(LocalDateTime.now());
-        sysUserMapper.insert(sysUser1);       final SysUser sysUser2 = new SysUser();
+        sysUserMapper.insert(sysUser1);      
+        final SysUser sysUser2 = new SysUser();
         sysUser2.setId("2");
         sysUser2.setUsername("2");
         sysUser2.setPassword("2");
