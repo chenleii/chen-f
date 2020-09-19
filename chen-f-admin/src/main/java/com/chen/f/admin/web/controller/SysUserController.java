@@ -4,10 +4,10 @@ package com.chen.f.admin.web.controller;
 import com.chen.f.admin.configuration.security.SecurityHelper;
 import com.chen.f.admin.web.dto.SysOrganizationsInputDTO;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
+import com.chen.f.common.pojo.SysOrganization;
 import com.chen.f.common.pojo.SysRole;
 import com.chen.f.common.pojo.SysUser;
 import com.chen.f.common.pojo.enums.SysUserStatusEnum;
-import com.chen.f.common.service.ISysRoleService;
 import com.chen.f.common.service.ISysUserService;
 import com.chen.f.core.page.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -49,8 +49,6 @@ public class SysUserController {
 
     @Autowired
     private ISysUserService sysUserService;
-    @Autowired
-    private ISysRoleService sysRoleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -90,11 +88,7 @@ public class SysUserController {
     ) {
         return sysUserService.getSysUserPage(page, username, level, remark, sysUserStatusEnum);
     }
-
-    /**
-     * @param sysUserId 系统用户id
-     * @return 系统用户
-     */
+    
     @ApiOperation(value = "获取系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysUserId", value = "系统用户id", required = true, dataTypeClass = String.class, paramType = "path")
@@ -103,12 +97,17 @@ public class SysUserController {
     public SysUser getSysUser(@PathVariable("sysUserId") String sysUserId) {
         return sysUserService.getSysUser(sysUserId);
     }
-
-    /**
-     * @param sysUserId 系统用户id
-     * @return 系统用户角色列表
-     */
-    @ApiOperation(value = "获取系统用户的角色", notes = "", produces = "application/json")
+    
+    @ApiOperation(value = "获取系统用户的组织列表", notes = "", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysUserId", value = "系统用户id", required = true, dataTypeClass = String.class, paramType = "path")
+    })
+    @GetMapping("/{sysUserId}/sysOrganization")
+    public List<SysOrganization> getSysOrganizationOfSysUser(@PathVariable("sysUserId") String sysUserId) {
+        return sysUserService.getSysOrganizationOfSysUser(sysUserId);
+    }
+    
+    @ApiOperation(value = "获取系统用户的角色列表", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysUserId", value = "系统用户id", required = true, dataTypeClass = String.class, paramType = "path")
     })
