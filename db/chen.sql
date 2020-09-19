@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2020-04-25 19:31:51
+Date: 2020-09-19 22:11:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `sys_api` (
                            `NAME` varchar(50) NOT NULL COMMENT '系统接口名称',
                            `URL` varchar(255) NOT NULL COMMENT '系统接口URL',
                            `HTTP_METHOD` varchar(16) NOT NULL DEFAULT 'GET' COMMENT '系统接口HTTP请求方法(GET:GET请求;HEAD:HEAD请求;POST:POST请求;PUT:PUT请求;PATCH:PATCH请求;DELETE:DELETE请求;OPTIONS:OPTIONS请求;TRACE:TRACE请求;ANY:任意的请求;)',
-                           `TYPE` varchar(16) NOT NULL COMMENT '系统接口类型(SYSTEM:系统接口;)',
+                           `TYPE` varchar(16) NOT NULL COMMENT '系统接口类型(SYSTEM:系统接口;LOGIN:登陆接口;LOGOUT:登出接口;)',
                            `REMARK` varchar(255) NOT NULL DEFAULT '' COMMENT '系统接口备注',
                            `STATUS` varchar(16) NOT NULL DEFAULT 'ENABLED' COMMENT '系统接口状态(ENABLED:启用;DISABLED:禁用;)',
                            `UPDATED_SYS_USER_ID` varchar(64) NOT NULL COMMENT '更新的系统用户ID(空白字符串为初始化创建)',
@@ -37,140 +37,142 @@ CREATE TABLE `sys_api` (
 -- ----------------------------
 -- Records of sys_api
 -- ----------------------------
-INSERT INTO `sys_api` VALUES ('1254008817209921537', '获取在线登录用户', '/chen/admin/online/loginUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817327362049', '获取在线登录用户的系统用户的接口列表', '/chen/admin/online/loginUser/sysApiList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817335750658', '获取在线登录用户的系统用户的菜单列表', '/chen/admin/online/loginUser/sysMenuList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817344139265', '获取在线登录用户的系统用户的权限列表', '/chen/admin/online/loginUser/sysPermissionList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817352527873', '获取在线登录用户的系统用户的角色列表', '/chen/admin/online/loginUser/sysRoleList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817369305089', '获取在线登录用户的系统用户', '/chen/admin/online/loginUser/sysUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817377693697', '获取分页的系统接口', '/chen/admin/sys/api', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817386082306', '创建系统接口', '/chen/admin/sys/api', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817402859522', '获取所有的系统接口', '/chen/admin/sys/api/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817402859523', '获取启用的系统接口', '/chen/admin/sys/api/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817419636738', '获取系统接口', '/chen/admin/sys/api/{sysApiId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817428025345', '修改系统接口', '/chen/admin/sys/api/{sysApiId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817428025346', '删除系统接口', '/chen/admin/sys/api/{sysApiId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817436413953', '禁用系统接口', '/chen/admin/sys/api/{sysApiId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817444802562', '启用系统接口', '/chen/admin/sys/api/{sysApiId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817453191169', '获取分页的系统字典', '/chen/admin/sys/dictionary', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817469968385', '创建系统字典', '/chen/admin/sys/dictionary', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817469968386', '获取系统字典列表', '/chen/admin/sys/dictionary/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817478356994', '删除系统字典', '/chen/admin/sys/dictionary/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817478356995', '获取启用的系统字典', '/chen/admin/sys/dictionary/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817490939906', '获取分页的系统字典项目', '/chen/admin/sys/dictionary/item', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817490939907', '创建系统字典项目', '/chen/admin/sys/dictionary/item', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817503522817', '获取系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817511911426', '删除系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817520300034', '禁用系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817520300035', '启用系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817532882945', '获取系统字典项目列表', '/chen/admin/sys/dictionary/item/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817532882946', '删除系统字典项目', '/chen/admin/sys/dictionary/item/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817541271554', '获取启用的系统字典项目', '/chen/admin/sys/dictionary/item/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817549660161', '获取系统字典项目', '/chen/admin/sys/dictionary/item/sysDictionaryId/{sysDictionaryId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817558048769', '获取系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817566437377', '修改系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817579020290', '删除系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817579020291', '禁用系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817591603201', '启用系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817591603202', '获取系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817599991809', '修改系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817608380418', '删除系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817616769025', '禁用系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817625157634', '启用系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817625157635', '创建系统菜单', '/chen/admin/sys/menu', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817633546241', '获取所有系统菜单', '/chen/admin/sys/menu/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817641934850', '获取启用的系统菜单', '/chen/admin/sys/menu/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817641934851', '获取系统菜单列表', '/chen/admin/sys/menu/list', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817650323458', '获取系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817650323459', '修改系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817658712065', '删除系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817658712066', '禁用系统菜单', '/chen/admin/sys/menu/{sysMenuId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817679683585', '启用系统菜单', '/chen/admin/sys/menu/{sysMenuId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817688072193', '创建系统组织', '/chen/admin/sys/organization', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817688072194', '获取所有系统组织', '/chen/admin/sys/organization/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817688072195', '获取启用的系统组织', '/chen/admin/sys/organization/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817700655106', '获取系统菜单列表', '/chen/admin/sys/organization/list', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817709043714', '获取系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817713238018', '修改系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817725820929', '删除系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817734209537', '禁用系统组织', '/chen/admin/sys/organization/{sysOrganizationId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817742598146', '启用系统组织', '/chen/admin/sys/organization/{sysOrganizationId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817742598147', '设置系统角色', '/chen/admin/sys/organization/{sysOrganizationId}/setSysRole', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817750986753', '设置系统用户', '/chen/admin/sys/organization/{sysOrganizationId}/setSysUser', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817759375361', '获取系统组织的系统角色', '/chen/admin/sys/organization/{sysOrganizationId}/sysRole', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817767763969', '获取系统组织的系统用户', '/chen/admin/sys/organization/{sysOrganizationId}/sysUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817767763970', '获取分页的系统参数', '/chen/admin/sys/parameter', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817776152578', '创建系统参数', '/chen/admin/sys/parameter', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817784541185', '获取系统参数', '/chen/admin/sys/parameter/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817792929794', '删除系统参数', '/chen/admin/sys/parameter/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817801318402', '禁用系统参数', '/chen/admin/sys/parameter/code/{code}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817809707009', '启用系统参数', '/chen/admin/sys/parameter/code/{code}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817822289922', '获取启用的系统参数', '/chen/admin/sys/parameter/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817826484225', '获取系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817834872834', '修改系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817834872835', '删除系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817843261441', '禁用系统参数', '/chen/admin/sys/parameter/{sysParameterId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817851650049', '启用系统参数', '/chen/admin/sys/parameter/{sysParameterId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817860038658', '获取分页的系统权限', '/chen/admin/sys/permission', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817860038659', '创建系统权限', '/chen/admin/sys/permission', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817872621569', '获取启用的系统权限', '/chen/admin/sys/permission/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817889398786', '获取系统权限的系统接口列表', '/chen/admin/sys/permission/api/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817889398787', '获取系统权限的系统菜单列表', '/chen/admin/sys/permission/menu/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817897787394', '获取系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817964896257', '修改系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817973284865', '删除系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817981673473', '禁用系统权限', '/chen/admin/sys/permission/{sysPermissionId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008817981673474', '启用系统权限', '/chen/admin/sys/permission/{sysPermissionId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818011033602', '设置系统接口', '/chen/admin/sys/permission/{sysPermissionId}/setSysApi', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818011033603', '设置系统菜单', '/chen/admin/sys/permission/{sysPermissionId}/setSysMenu', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818027810818', '获取分页的系统角色', '/chen/admin/sys/role', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818040393729', '创建系统角色', '/chen/admin/sys/role', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818048782337', '获取启用的系统角色', '/chen/admin/sys/role/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818057170946', '获取系统角色的系统接口列表', '/chen/admin/sys/role/api/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818069753858', '获取系统角色的系统菜单列表', '/chen/admin/sys/role/menu/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818069753859', '获取系统角色的系统权限', '/chen/admin/sys/role/permission/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818078142466', '获取系统角色', '/chen/admin/sys/role/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818090725378', '修改系统角色', '/chen/admin/sys/role/{sysRoleId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818099113985', '删除系统角色', '/chen/admin/sys/role/{sysRoleId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818103308289', '禁用系统角色', '/chen/admin/sys/role/{sysRoleId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818103308290', '启用系统角色', '/chen/admin/sys/role/{sysRoleId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818111696898', '设置系统接口', '/chen/admin/sys/role/{sysRoleId}/setSysApi', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818120085506', '设置系统菜单', '/chen/admin/sys/role/{sysRoleId}/setSysMenu', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818120085507', '设置系统权限', '/chen/admin/sys/role/{sysRoleId}/setSysPermission', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818132668418', '获取分页的系统定时任务', '/chen/admin/sys/timedTask', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818141057025', '创建系统定时任务', '/chen/admin/sys/timedTask', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818149445633', '获取系统定时任务', '/chen/admin/sys/timedTask/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818149445634', '删除系统定时任务', '/chen/admin/sys/timedTask/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818157834241', '禁用系统定时任务', '/chen/admin/sys/timedTask/code/{code}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818166222850', '启用系统定时任务', '/chen/admin/sys/timedTask/code/{code}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818170417153', '执行系统定时任务', '/chen/admin/sys/timedTask/code/{code}/execution', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818170417154', '获取分页的定时任务日志', '/chen/admin/sys/timedTask/log', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818170417155', '获取定时任务日志', '/chen/admin/sys/timedTask/log/{sysTimedTaskLogId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818178805762', '删除定时任务日志', '/chen/admin/sys/timedTask/log/{sysTimedTaskLogId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818187194370', '获取系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818187194371', '修改系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818195582978', '删除系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818203971585', '禁用系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818212360194', '启用系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818220748801', '执行系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/execution', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818220748802', '获取分页的系统用户', '/chen/admin/sys/user', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818233331714', '创建系统用户', '/chen/admin/sys/user', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818233331715', '获取所有的系统用户', '/chen/admin/sys/user/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818241720322', '获取启用的系统用户', '/chen/admin/sys/user/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818245914626', '获取系统用户', '/chen/admin/sys/user/{sysUserId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818254303233', '修改系统用户', '/chen/admin/sys/user/{sysUserId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818262691842', '删除系统用户', '/chen/admin/sys/user/{sysUserId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818262691843', '禁用系统用户', '/chen/admin/sys/user/{sysUserId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818275274754', '启用系统用户', '/chen/admin/sys/user/{sysUserId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818275274755', '过期系统用户', '/chen/admin/sys/user/{sysUserId}/expire', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818283663362', '锁定系统用户', '/chen/admin/sys/user/{sysUserId}/lock', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818292051969', '设置系统角色', '/chen/admin/sys/user/{sysUserId}/setSysRole', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818292051970', '获取系统用户的角色', '/chen/admin/sys/user/{sysUserId}/sysRole', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818300440578', '获取系统字典列表', '/chen/common/sys/dictionary/item/alain/select/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818308829186', '获取系统字典列表', '/chen/common/sys/dictionary/item/alain/tag/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818308829187', '获取系统字典', '/chen/common/sys/dictionary/item/code/key/{code}/{key}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818317217793', '获取系统字典列表', '/chen/common/sys/dictionary/item/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
-INSERT INTO `sys_api` VALUES ('1254008818321412097', '获取系统字典', '/chen/common/sys/dictionary/item/{sysDictionaryItemId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-04-25 19:26:14', '2020-04-25 19:26:14');
+INSERT INTO `sys_api` VALUES ('1307320531567599618', '获取在线登录用户', '/chen/admin/online/loginUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531664068609', '获取在线登录用户的系统用户的接口列表', '/chen/admin/online/loginUser/sysApiList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531672457218', '获取在线登录用户的系统用户的菜单列表', '/chen/admin/online/loginUser/sysMenuList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531685040129', '获取在线登录用户的系统用户的权限列表', '/chen/admin/online/loginUser/sysPermissionList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531693428737', '获取在线登录用户的系统用户的角色列表', '/chen/admin/online/loginUser/sysRoleList', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531718594562', '获取在线登录用户的系统用户', '/chen/admin/online/loginUser/sysUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531726983169', '获取分页的系统接口', '/chen/admin/sys/api', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531735371778', '创建系统接口', '/chen/admin/sys/api', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531756343297', '获取所有的系统接口', '/chen/admin/sys/api/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531756343298', '获取启用的系统接口', '/chen/admin/sys/api/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531781509121', '获取系统接口', '/chen/admin/sys/api/{sysApiId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531789897729', '修改系统接口', '/chen/admin/sys/api/{sysApiId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531802480641', '删除系统接口', '/chen/admin/sys/api/{sysApiId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531815063554', '禁用系统接口', '/chen/admin/sys/api/{sysApiId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531823452161', '启用系统接口', '/chen/admin/sys/api/{sysApiId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531840229377', '获取分页的系统字典', '/chen/admin/sys/dictionary', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531852812290', '创建系统字典', '/chen/admin/sys/dictionary', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531861200898', '获取系统字典列表', '/chen/admin/sys/dictionary/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531869589506', '删除系统字典', '/chen/admin/sys/dictionary/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531869589507', '获取启用的系统字典', '/chen/admin/sys/dictionary/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531877978114', '获取分页的系统字典项目', '/chen/admin/sys/dictionary/item', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531890561025', '创建系统字典项目', '/chen/admin/sys/dictionary/item', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531898949633', '获取系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531907338241', '删除系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531924115458', '禁用系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531932504065', '启用系统字典项目', '/chen/admin/sys/dictionary/item/code/key/{code}/{key}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531940892673', '获取系统字典项目列表', '/chen/admin/sys/dictionary/item/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531949281282', '删除系统字典项目', '/chen/admin/sys/dictionary/item/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531957669889', '获取启用的系统字典项目', '/chen/admin/sys/dictionary/item/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531966058498', '获取系统字典项目', '/chen/admin/sys/dictionary/item/sysDictionaryId/{sysDictionaryId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531974447105', '获取系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531978641410', '修改系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531987030018', '删除系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320531995418625', '禁用系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532008001538', '启用系统字典项目', '/chen/admin/sys/dictionary/item/{sysDictionaryItemId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532016390145', '获取系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532024778754', '修改系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532033167362', '删除系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532041555970', '禁用系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532045750274', '启用系统字典', '/chen/admin/sys/dictionary/{sysDictionaryId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532054138882', '创建系统菜单', '/chen/admin/sys/menu', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532070916098', '获取所有系统菜单', '/chen/admin/sys/menu/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532079304705', '获取启用的系统菜单', '/chen/admin/sys/menu/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532087693313', '获取系统菜单列表', '/chen/admin/sys/menu/list', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532091887618', '获取系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532100276225', '修改系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532108664834', '删除系统菜单', '/chen/admin/sys/menu/{sysMenuId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532117053441', '禁用系统菜单', '/chen/admin/sys/menu/{sysMenuId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532117053442', '启用系统菜单', '/chen/admin/sys/menu/{sysMenuId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532125442049', '创建系统组织', '/chen/admin/sys/organization', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532133830657', '获取所有系统组织', '/chen/admin/sys/organization/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532142219266', '获取启用的系统组织', '/chen/admin/sys/organization/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532142219267', '获取系统菜单列表', '/chen/admin/sys/organization/list', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532150607874', '获取系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532158996482', '修改系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532171579394', '删除系统组织', '/chen/admin/sys/organization/{sysOrganizationId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532171579395', '禁用系统组织', '/chen/admin/sys/organization/{sysOrganizationId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532179968002', '启用系统组织', '/chen/admin/sys/organization/{sysOrganizationId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532188356609', '设置系统角色', '/chen/admin/sys/organization/{sysOrganizationId}/setSysRole', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532188356610', '设置系统用户', '/chen/admin/sys/organization/{sysOrganizationId}/setSysUser', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532196745218', '获取系统组织的系统角色', '/chen/admin/sys/organization/{sysOrganizationId}/sysRole', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532209328130', '获取系统组织的系统用户', '/chen/admin/sys/organization/{sysOrganizationId}/sysUser', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532217716737', '获取分页的系统参数', '/chen/admin/sys/parameter', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532217716738', '创建系统参数', '/chen/admin/sys/parameter', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532226105346', '获取系统参数', '/chen/admin/sys/parameter/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532230299649', '删除系统参数', '/chen/admin/sys/parameter/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532230299650', '禁用系统参数', '/chen/admin/sys/parameter/code/{code}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532238688257', '启用系统参数', '/chen/admin/sys/parameter/code/{code}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532251271169', '获取启用的系统参数', '/chen/admin/sys/parameter/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532251271170', '获取系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532259659777', '修改系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532268048385', '删除系统参数', '/chen/admin/sys/parameter/{sysParameterId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532268048386', '禁用系统参数', '/chen/admin/sys/parameter/{sysParameterId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532280631298', '启用系统参数', '/chen/admin/sys/parameter/{sysParameterId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532280631299', '获取分页的系统权限', '/chen/admin/sys/permission', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532289019906', '创建系统权限', '/chen/admin/sys/permission', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532297408513', '获取启用的系统权限', '/chen/admin/sys/permission/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532301602818', '获取系统权限的系统接口列表', '/chen/admin/sys/permission/api/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532301602819', '获取系统权限的系统菜单列表', '/chen/admin/sys/permission/menu/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532309991426', '获取系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532309991427', '修改系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532318380034', '删除系统权限', '/chen/admin/sys/permission/{sysPermissionId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532318380035', '禁用系统权限', '/chen/admin/sys/permission/{sysPermissionId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532326768641', '启用系统权限', '/chen/admin/sys/permission/{sysPermissionId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532335157250', '设置系统接口', '/chen/admin/sys/permission/{sysPermissionId}/setSysApi', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532343545857', '设置系统菜单', '/chen/admin/sys/permission/{sysPermissionId}/setSysMenu', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532356128769', '获取分页的系统角色', '/chen/admin/sys/role', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532364517378', '创建系统角色', '/chen/admin/sys/role', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532368711681', '获取启用的系统角色', '/chen/admin/sys/role/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532377100289', '获取系统角色的系统接口列表', '/chen/admin/sys/role/api/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532385488898', '获取系统角色的系统菜单列表', '/chen/admin/sys/role/menu/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532385488899', '获取系统角色的系统权限', '/chen/admin/sys/role/permission/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532393877505', '获取系统角色', '/chen/admin/sys/role/{sysRoleId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532410654722', '修改系统角色', '/chen/admin/sys/role/{sysRoleId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532419043330', '删除系统角色', '/chen/admin/sys/role/{sysRoleId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532419043331', '禁用系统角色', '/chen/admin/sys/role/{sysRoleId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532431626242', '启用系统角色', '/chen/admin/sys/role/{sysRoleId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532431626243', '设置系统接口', '/chen/admin/sys/role/{sysRoleId}/setSysApi', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532440014850', '设置系统菜单', '/chen/admin/sys/role/{sysRoleId}/setSysMenu', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532440014851', '设置系统权限', '/chen/admin/sys/role/{sysRoleId}/setSysPermission', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532440014852', '获取分页的系统定时任务', '/chen/admin/sys/timedTask', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532448403457', '创建系统定时任务', '/chen/admin/sys/timedTask', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532456792066', '获取系统定时任务', '/chen/admin/sys/timedTask/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532465180673', '删除系统定时任务', '/chen/admin/sys/timedTask/code/{code}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532481957890', '禁用系统定时任务', '/chen/admin/sys/timedTask/code/{code}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532481957891', '启用系统定时任务', '/chen/admin/sys/timedTask/code/{code}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532490346498', '执行系统定时任务', '/chen/admin/sys/timedTask/code/{code}/execution', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532490346499', '获取分页的定时任务日志', '/chen/admin/sys/timedTask/log', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532502929410', '获取定时任务日志', '/chen/admin/sys/timedTask/log/{sysTimedTaskLogId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532511318018', '删除定时任务日志', '/chen/admin/sys/timedTask/log/{sysTimedTaskLogId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532511318019', '获取系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532519706626', '修改系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532528095234', '删除系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532528095235', '禁用系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532536483842', '启用系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532536483843', '执行系统定时任务', '/chen/admin/sys/timedTask/{sysTimedTaskId}/execution', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532544872450', '获取分页的系统用户', '/chen/admin/sys/user', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532544872451', '创建系统用户', '/chen/admin/sys/user', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532553261058', '获取所有的系统用户', '/chen/admin/sys/user/all', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532553261059', '获取启用的系统用户', '/chen/admin/sys/user/all/enabled', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532561649665', '获取系统用户', '/chen/admin/sys/user/{sysUserId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532570038273', '修改系统用户', '/chen/admin/sys/user/{sysUserId}', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532570038274', '删除系统用户', '/chen/admin/sys/user/{sysUserId}', 'DELETE', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532578426881', '禁用系统用户', '/chen/admin/sys/user/{sysUserId}/disable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532591009793', '启用系统用户', '/chen/admin/sys/user/{sysUserId}/enable', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532591009794', '过期系统用户', '/chen/admin/sys/user/{sysUserId}/expire', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532599398402', '锁定系统用户', '/chen/admin/sys/user/{sysUserId}/lock', 'POST', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532607787010', '设置系统组织', '/chen/admin/sys/user/{sysUserId}/setSysOrganization', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532616175618', '设置系统角色', '/chen/admin/sys/user/{sysUserId}/setSysRole', 'PUT', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532628758529', '获取系统用户的组织列表', '/chen/admin/sys/user/{sysUserId}/sysOrganization', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532628758530', '获取系统用户的角色列表', '/chen/admin/sys/user/{sysUserId}/sysRole', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532637147138', '获取系统字典列表', '/chen/common/sys/dictionary/item/alain/select/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532645535745', '获取系统字典列表', '/chen/common/sys/dictionary/item/alain/tag/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532658118657', '获取系统字典', '/chen/common/sys/dictionary/item/code/key/{code}/{key}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532666507266', '获取系统字典列表', '/chen/common/sys/dictionary/item/code/{code}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
+INSERT INTO `sys_api` VALUES ('1307320532674895873', '获取系统字典', '/chen/common/sys/dictionary/item/{sysDictionaryItemId}', 'GET', 'SYSTEM', '', 'ENABLED', '', '', '2020-09-19 22:07:58', '2020-09-19 22:07:58');
 
 -- ----------------------------
 -- Table structure for sys_dictionary
@@ -677,7 +679,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'chen', '$2a$10$ovFUzQgle5M/OO3OYroTE.1qM2Jq97ufTHyi4ZLqmZynRRuoATnmq', '0', '2020-04-25 16:08:55', '系统默认用户', 'ENABLED', '', '', '2020-04-08 21:40:51', '2018-08-27 19:19:16');
+INSERT INTO `sys_user` VALUES ('1', 'chen', '$2a$10$ovFUzQgle5M/OO3OYroTE.1qM2Jq97ufTHyi4ZLqmZynRRuoATnmq', '0', '2020-09-19 17:18:28', '系统默认用户', 'ENABLED', '', '', '2020-04-08 21:40:51', '2018-08-27 19:19:16');
 INSERT INTO `sys_user` VALUES ('1248847896044904450', 'cehn11', '$2a$10$svX.ZIjOUh26mH7EgDW1FOTjSe4cyScRZGbTXMnbdyfutUUbuXdYS', '1', '1000-01-01 00:00:00', '', 'DISABLED', '1', '1', '2020-04-17 11:25:14', '2020-04-11 13:38:36');
 
 -- ----------------------------
