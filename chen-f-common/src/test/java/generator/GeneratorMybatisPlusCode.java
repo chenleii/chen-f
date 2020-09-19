@@ -13,7 +13,7 @@ import com.chen.f.core.mybatisplus.SupperMapper;
 
 /**
  * <p>
- * 生成代码
+ * 生成 mybatis-plus 代码
  * </p>
  *
  * @author chen
