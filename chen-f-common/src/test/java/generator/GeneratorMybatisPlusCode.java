@@ -1,6 +1,5 @@
 package generator;
 
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
@@ -10,6 +9,14 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.chen.f.core.mybatisplus.SupperMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.sql.DataSource;
 
 /**
  * <p>
@@ -19,20 +26,25 @@ import com.chen.f.core.mybatisplus.SupperMapper;
  * @author chen
  * @date 2017/12/18
  */
+@SpringBootTest(classes = DataSource.class)
+@AutoConfigureTestDatabase
+@ImportAutoConfiguration(classes = DataSourceAutoConfiguration.class)
 public class GeneratorMybatisPlusCode {
     private static final String parentPackageName = "com.chen.f.common";
     private static final String generatorMybatisPlusCodeDir = System.getProperty("user.dir") + "/target/mybatis-plus-code";
-    
+
     private static final String[] tableNames = {};
+
+    @Autowired
+    private DataSourceProperties dataSourceProperties;
 
     //@Test
     public void generatorMybatisPlusCode() {
-        DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDbType(DbType.MYSQL)
-                .setUrl("jdbc:mysql://127.0.0.1:3306/chen?characterEncoding=utf8&useSSL=false")
-                .setUsername("root")
-                .setPassword("123456")
-                .setDriverName("com.mysql.jdbc.Driver");
+        DataSourceConfig dataSourceConfig = new DataSourceConfig()
+                .setUrl(dataSourceProperties.determineUrl())
+                .setUsername(dataSourceProperties.determineUsername())
+                .setPassword(dataSourceProperties.determinePassword())
+                .setDriverName(dataSourceProperties.determineDriverClassName());
 
         StrategyConfig strategyConfig = new StrategyConfig()
                 .setCapitalMode(true)
@@ -78,10 +90,10 @@ public class GeneratorMybatisPlusCode {
                 .setIdType(IdType.ASSIGN_ID);
 
         new AutoGenerator()
-                .setGlobalConfig(globalConfig)
                 .setDataSource(dataSourceConfig)
                 .setStrategy(strategyConfig)
                 .setPackageInfo(packageConfig)
+                .setGlobalConfig(globalConfig)
                 .execute();
     }
 }
