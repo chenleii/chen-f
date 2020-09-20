@@ -5,7 +5,7 @@
 
     <groupId>com.chen</groupId>
     <artifactId>chen-f</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
     <name>chen-f</name>
     <description>chen-f 前后端分离框架</description>

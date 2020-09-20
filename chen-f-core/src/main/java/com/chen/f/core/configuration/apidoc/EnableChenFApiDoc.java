@@ -28,7 +28,7 @@ public @interface EnableChenFApiDoc {
 
     String description() default "chen-f api";
 
-    String version() default "v0.0.1";
+    String version() default "v0.0.2";
 
     String licenseUrl() default "";
 
