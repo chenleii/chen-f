@@ -15,8 +15,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 
 /**
  * <p>
@@ -37,14 +40,41 @@ public class GeneratorMybatisPlusCode {
 
     @Autowired
     private DataSourceProperties dataSourceProperties;
-
+    @Autowired
+    private DataSource dataSource;
+    
+    
     //@Test
-    public void generatorMybatisPlusCode() {
+    public void generatorMybatisPlusCode() throws Exception {
+        String url = dataSourceProperties.determineUrl();
+        String username = dataSourceProperties.determineUsername();
+        String password = dataSourceProperties.determinePassword();
+        String driverName = dataSourceProperties.determineDriverClassName();
+        
+        if (dataSource instanceof EmbeddedDatabase){
+            final Field dataSourceField = this.dataSource.getClass().getDeclaredField("dataSource");
+            dataSourceField.setAccessible(true);
+            
+            final Object o = dataSourceField.get(dataSource);
+            if (o instanceof SimpleDriverDataSource) {
+                final SimpleDriverDataSource simpleDriverDataSource = (SimpleDriverDataSource) o;
+                url = simpleDriverDataSource.getUrl();
+                username = simpleDriverDataSource.getUsername();
+                password = simpleDriverDataSource.getPassword();
+                driverName = simpleDriverDataSource.getDriver().getClass().getName();
+            }
+        }
+
+        //driverName = "com.mysql.cj.jdbc.Driver";
+        //url = "jdbc:mysql://127.0.0.1:3306/chen?characterEncoding=utf8&useSSL=false";
+        //username = "root";
+        //password = "123456";
+
         DataSourceConfig dataSourceConfig = new DataSourceConfig()
-                .setUrl(dataSourceProperties.determineUrl())
-                .setUsername(dataSourceProperties.determineUsername())
-                .setPassword(dataSourceProperties.determinePassword())
-                .setDriverName(dataSourceProperties.determineDriverClassName());
+                .setDriverName(driverName)
+                .setUrl(url)
+                .setUsername(username)
+                .setPassword(password);
 
         StrategyConfig strategyConfig = new StrategyConfig()
                 .setCapitalMode(true)
