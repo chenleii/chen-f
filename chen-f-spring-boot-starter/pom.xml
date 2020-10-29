@@ -20,17 +20,14 @@
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-core</artifactId>
-            <version>${chen-f.version}</version>
         </dependency>
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-common</artifactId>
-            <version>${chen-f.version}</version>
         </dependency>
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-admin</artifactId>
-            <version>${chen-f.version}</version>
         </dependency>
 
         <dependency>

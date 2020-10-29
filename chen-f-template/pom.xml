@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>chen-f-spring-boot-starter</artifactId>
-            <version>${chen-f.version}</version>
             <exclusions>
                 <!--<exclusion>-->
                 <!--    <groupId>com.chen</groupId>-->
