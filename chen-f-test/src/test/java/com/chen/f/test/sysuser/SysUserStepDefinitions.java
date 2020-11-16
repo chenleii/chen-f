@@ -38,6 +38,15 @@ public class SysUserStepDefinitions {
     @Autowired
     private ISysUserService sysUserService;
 
+
+    // @DataTableType(replaceWithEmptyString = "[blank]")
+    // public SysUser defaultSysUser(Map<String, String> map){
+    //     return new SysUser();
+    // }
+    @DataTableType(replaceWithEmptyString = "[blank]")
+    public String defaultString(String cell){
+        return "default";
+    }
     @DataTableType
     public SysUser defineSysUser(Map<String, String> map) {
         final SysUser sysUser = new SysUser();
