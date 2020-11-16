@@ -39,12 +39,12 @@ public class SysUserStepDefinitions {
     private ISysUserService sysUserService;
 
 
+    //@DataTableType(replaceWithEmptyString = "[blank]")
+    //public SysUser defaultSysUser(Map<String, String> map){
+    //    return new SysUser();
+    //}
     @DataTableType(replaceWithEmptyString = "[blank]")
-    public SysUser convert(Map<String, String> map){
-        return new SysUser();
-    }
-    @DataTableType(replaceWithEmptyString = "[blank]")
-    public String convert(String cell){
+    public String defaultString(String cell){
         return "default";
     }
     @DataTableType
