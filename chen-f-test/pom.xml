@@ -70,5 +70,30 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>chen-f</projectName>
+                            <!--没有用-->
+                            <outputDirectory>${project.build.directory}/cucumber/reports</outputDirectory>
+                            <!--没有用-->
+                            <cucumberOutput>${project.build.directory}/cucumber/cucumber.json</cucumberOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
