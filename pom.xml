@@ -403,6 +403,7 @@
 
         <pluginManagement>
             <plugins>
+                
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -448,6 +449,12 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>maven-cucumber-reporting</artifactId>
+                    <!--新版本有问题，没能解决，先用这个版本。-->
+                    <version>3.10.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
