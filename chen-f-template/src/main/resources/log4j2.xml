@@ -3,7 +3,7 @@
 
     <Properties>
         <!-- 日志文件输出目录 -->
-        <Property name="log_file_output_directory" value="/logs/chen"/>
+        <Property name="log_file_output_directory" value="${sys:user.home}/logs/chen"/>
         <!-- 有颜色样式的,有本地类位置的模式 -->
         <Property name="style_location_pattern"
                   value="%date{yyyy-MM-dd HH:mm:ss} %highlight{%-5level}{ERROR=Red} %style{%-5pid}{Magenta} -- [%15.15thread] %style{%-70.70location}{Cyan} : %message%n%xThrowable"/>
