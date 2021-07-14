@@ -178,6 +178,47 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         return selectList(queryWrapper);
     }
 
+    /**
+     * 根据 entity 条件，查询全部记录（并翻页）
+     * <p>
+     * page Order 实体类字段名转数据库字段名
+     *
+     * @param page         分页查询条件（可以为 RowBounds.DEFAULT）
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     */
+    default <E extends com.chen.f.core.page.Page<T>> E selectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> mybatisPlusPage = page.toMybatisPlusPage();
+
+        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
+        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
+
+        mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
+        page.setList(mybatisPlusPage.getRecords());
+        page.setTotal(mybatisPlusPage.getTotal());
+        return page;
+    }
+
+    /**
+     * 根据 Wrapper 条件，查询全部记录（并翻页）
+     * <p>
+     * page Order 实体类字段名转数据库字段名
+     *
+     * @param page         分页查询条件
+     * @param queryWrapper 实体对象封装操作类
+     */
+    default <E extends com.chen.f.core.page.Page<Map<String, Object>>> E selectMapsPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
+
+        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
+        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
+
+        mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
+        page.setList(mybatisPlusPage.getRecords());
+        page.setTotal(mybatisPlusPage.getTotal());
+        return page;
+    }
+
+
 
     /**
      * 批量插入
