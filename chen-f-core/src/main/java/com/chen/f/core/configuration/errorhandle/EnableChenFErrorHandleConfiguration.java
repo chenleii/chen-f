@@ -38,7 +38,7 @@ public class EnableChenFErrorHandleConfiguration {
     @ConditionalOnMissingBean(PreExceptionHandle.class)
     public PreExceptionHandle preExceptionHandle(ServerProperties serverProperties) {
         PreExceptionHandle preExceptionHandle = new PreExceptionHandle();
-        preExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeStacktrace.ALWAYS);
+        preExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeAttribute.ALWAYS);
         return preExceptionHandle;
     }
 
@@ -46,7 +46,7 @@ public class EnableChenFErrorHandleConfiguration {
     @ConditionalOnMissingBean(PostExceptionHandle.class)
     public PostExceptionHandle postExceptionHandle(ServerProperties serverProperties) {
         PostExceptionHandle postExceptionHandle = new PostExceptionHandle();
-        postExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeStacktrace.ALWAYS);
+        postExceptionHandle.setEnableStackTrace(serverProperties.getError().getIncludeStacktrace() == ErrorProperties.IncludeAttribute.ALWAYS);
         return postExceptionHandle;
     }
 

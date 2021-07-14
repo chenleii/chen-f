@@ -29,7 +29,7 @@
 
         <chen-f.version>${project.version}</chen-f.version>
 
-        <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.2</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 
         <p6spy.version>3.8.0</p6spy.version>
