@@ -70,7 +70,7 @@
 
         <pinyin4j.version>2.5.1</pinyin4j.version>
         <jpinyin.version>1.1.8</jpinyin.version>
-        <guava.version>28.0-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
 
         <embedded-redis.version>0.7.3</embedded-redis.version>
         <redis-server.version>0.1.0-3.0</redis-server.version>
