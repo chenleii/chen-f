@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.chen.f.core.mybatisplus.sqlinjector.ChenSqlInjector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -58,6 +59,14 @@ public class EnableChenFMybatisPlusConfiguration {
             }
         };
     }
+
+
+
+    @Bean
+    public ChenSqlInjector rrcSqlInjector() {
+        return new ChenSqlInjector();
+    }
+
 
 }
 

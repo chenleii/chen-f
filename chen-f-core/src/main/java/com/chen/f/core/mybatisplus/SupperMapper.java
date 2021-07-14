@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,25 @@ public interface SupperMapper<T> extends BaseMapper<T> {
      */
     int DEFAULT_BATCH_SIZE = 1000;
 
+    /**
+     * 查询是否存在记录
+     *
+     * @param queryWrapper 条件
+     * @return 是/否
+     */
+    default boolean exist(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
+        return selectCount(queryWrapper) > 0;
+    }
+
+    /**
+     * 查询是否存在记录
+     *
+     * @param id id
+     * @return 是/否
+     */
+    default boolean existById(Serializable id) {
+        return selectById(id) != null;
+    }
 
     /**
      * 查询所有记录
@@ -160,47 +180,6 @@ public interface SupperMapper<T> extends BaseMapper<T> {
 
 
     /**
-     * 根据 entity 条件，查询全部记录（并翻页）
-     * <p>
-     * page Order 实体类字段名转数据库字段名
-     *
-     * @param page         分页查询条件（可以为 RowBounds.DEFAULT）
-     * @param queryWrapper 实体对象封装操作类（可以为 null）
-     */
-    default <E extends com.chen.f.core.page.Page<T>> E selectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
-        com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> mybatisPlusPage = page.toMybatisPlusPage();
-
-        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
-
-        mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
-        page.setList(mybatisPlusPage.getRecords());
-        page.setTotal(mybatisPlusPage.getTotal());
-        return page;
-    }
-
-    /**
-     * 根据 Wrapper 条件，查询全部记录（并翻页）
-     * <p>
-     * page Order 实体类字段名转数据库字段名
-     *
-     * @param page         分页查询条件
-     * @param queryWrapper 实体对象封装操作类
-     */
-    default <E extends com.chen.f.core.page.Page<Map<String, Object>>> E selectMapsPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
-        com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
-
-        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
-
-        mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
-        page.setList(mybatisPlusPage.getRecords());
-        page.setTotal(mybatisPlusPage.getTotal());
-        return page;
-    }
-
-
-    /**
      * 批量插入
      *
      * @param entityList 实体列表
@@ -213,6 +192,23 @@ public interface SupperMapper<T> extends BaseMapper<T> {
         Class<T> entryClass = Mappers.getMapperModelClass(mapperClass);
 
         return Mappers.insertBatchReturnCount(mapperClass, entryClass, entityList, batchSize);
+    }
+
+    /**
+     * 批量插入
+     * <p>
+     * 冲突忽略
+     *
+     * @param entityList 实体列表
+     * @param batchSize  插入批次数量
+     * @return 受影响行数
+     */
+    @Transactional(rollbackFor = Exception.class)
+    default int insertIgnoreBatch(List<T> entityList, int batchSize) {
+        Class<?> mapperClass = Mappers.getProxyMapperClass(this.getClass());
+        Class<T> entryClass = Mappers.getMapperModelClass(mapperClass);
+
+        return Mappers.insertIgnoreBatchReturnCount(mapperClass, entryClass, entityList, batchSize);
     }
 
     /**
@@ -240,6 +236,15 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     default int insertBatch(List<T> entityList) {
         return insertBatch(entityList, DEFAULT_BATCH_SIZE);
     }
+    /**
+     * 批量插入
+     *
+     * @param entityList 实体列表
+     * @return 受影响行数
+     */
+    default int insertIgnoreBatch(List<T> entityList) {
+        return insertIgnoreBatch(entityList, DEFAULT_BATCH_SIZE);
+    }
 
     /**
      * 批量修改
@@ -252,4 +257,13 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     }
 
 
+    /**
+     * 插入一条记录
+     * <p>
+     * 冲突忽略
+     *
+     * @param entity entity
+     * @return 行数
+     */
+    int insertIgnore(T entity);
 }

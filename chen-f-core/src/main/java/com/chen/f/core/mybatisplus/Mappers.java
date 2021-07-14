@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.chen.f.core.mybatisplus.sqlinjector.InsertIgnore;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.ibatis.binding.MapperMethod;
@@ -96,13 +97,11 @@ public class Mappers {
         }
         return 0;
     }
-    
-    
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-    
+
+
     protected static Log log = LogFactory.getLog(Mappers.class);
 
     /**
@@ -130,13 +129,27 @@ public class Mappers {
      * 批量插入
      */
     public static <T> int insertBatchReturnCount(Class<?> mapperClass, Class<T> entryClass, Collection<T> entityList, int batchSize) {
+        return insertBatchReturnCount(SqlHelper.getSqlStatement(mapperClass, SqlMethod.INSERT_ONE),
+                mapperClass, entryClass, entityList, batchSize);
+    }
+    /**
+     * 批量插入
+     */
+    public static <T> int insertIgnoreBatchReturnCount(Class<?> mapperClass, Class<T> entryClass, Collection<T> entityList, int batchSize) {
+        return insertBatchReturnCount(mapperClass.getName() + "." + InsertIgnore.METHOD_NAME,
+                mapperClass, entryClass, entityList, batchSize);
+    }
+
+    /**
+     * 批量插入
+     */
+    public static <T> int insertBatchReturnCount(String sqlStatement,Class<?> mapperClass, Class<T> entryClass, Collection<T> entityList, int batchSize) {
         if (CollectionUtils.isEmpty(entityList)) {
             return 0;
         }
 
         int updateCounts = 0;
 
-        String sqlStatement = SqlHelper.getSqlStatement(mapperClass, SqlMethod.INSERT_ONE);
         final SqlSessionFactory sqlSessionFactory = SqlHelper.sqlSessionFactory(entryClass);
         try (
                 SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
@@ -186,13 +199,10 @@ public class Mappers {
         return updateCounts;
     }
 
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-    
-    
+
+
     private static final Map<Class<?>, Map<String, String>> MAP_CACHE = new ConcurrentHashMap<>();
 
     public static void entryPropertyConvertDbColumn(Class<?> entryClass, List<OrderItem> orderItemList) {
@@ -211,7 +221,7 @@ public class Mappers {
         if (MapUtils.isEmpty(map)) {
             return;
         }
-        
+
         if (CollectionUtils.isEmpty(orderItemList)) {
             return;
         }
