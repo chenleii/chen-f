@@ -19,10 +19,11 @@ spring:
         max-wait: 5s
         # 连接池中的最小空闲连接
         min-idle: 1
-  datasource:
-    schema:
-      - classpath:db/chen_tables_h2.sql
-      - classpath:db/quartz_tables_h2.sql
+  sql:
+    init:
+      schema-locations:
+        - classpath:db/chen_tables_h2.sql
+        - classpath:db/quartz_tables_h2.sql
 
   shardingsphere:
     enabled: true

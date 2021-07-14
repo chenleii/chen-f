@@ -2,12 +2,18 @@ package com.chen.f.admin.configuration.quartz;
 
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
+import com.chen.f.common.pojo.SysTimedTask;
+import com.chen.f.common.service.ISysTimedTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author chen
@@ -28,6 +34,13 @@ public class EnableChenFAdminQuartzConfiguration {
 
         };
     }
-    
+
+    @Bean
+    @DependsOnDatabaseInitialization
+    CommandLineRunner initSysTimedTask(ISysTimedTaskService sysTimedTaskService) {
+        return (args) -> {
+            sysTimedTaskService.initSysTimedTask();
+        };
+    }
 
 }

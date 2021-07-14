@@ -24,10 +24,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -73,6 +77,7 @@ public class EnableChenFAdminSpringSecurityConfiguration {
 
 
     @Bean
+    @DependsOnDatabaseInitialization
     public ChenFHttpSecurityCustomizer chenFAdminHttpSecurityCustomizer(GrantedAuthorityDefaults grantedAuthorityDefaults,
                                                                         SysApiMapper sysApiMapper, SysApiRolePermissionMapper sysApiRolePermissionMapper) {
         
