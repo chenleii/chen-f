@@ -49,14 +49,16 @@ public class EnableChenFEmbeddedRedisConfiguration {
             this.redisServer = RedisServer.builder()
                     .bind(redisProperties.getHost())
                     .port(redisProperties.getPort())
-                    .setting("maxheap 51200000")
+                    // .setting("maxheap 51200000")
                     .build();
         }
 
+        @Override
         public void afterPropertiesSet() throws Exception {
             redisServer.start();
         }
 
+        @Override
         public void destroy() throws Exception {
             if (Objects.nonNull(redisServer)) {
                 redisServer.stop();
