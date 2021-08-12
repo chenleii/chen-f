@@ -21,7 +21,7 @@ import org.apache.ibatis.mapping.SqlSource;
 public class InsertIgnore extends Insert {
 
     public static final String METHOD_NAME = "insertIgnore";
-    public static final String SQL = "<script>\nINSERT IGNORE %s %s VALUES %s\n</script>";
+    public static final String SQL = "<script>\nINSERT IGNORE INTO %s %s VALUES %s\n</script>";
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
