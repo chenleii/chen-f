@@ -75,7 +75,7 @@ public class SysDictionary extends Model<SysDictionary> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

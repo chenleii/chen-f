@@ -189,8 +189,8 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     default <E extends com.chen.f.core.page.Page<T>> E selectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> mybatisPlusPage = page.toMybatisPlusPage();
 
-        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
+        final List<OrderItem> orderItemList = mybatisPlusPage.orders();
+        Mappers.entryPropertyConvertDbColumn(Mappers.getMapperModelClass(this.getClass()), orderItemList);
 
         mybatisPlusPage = selectPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());
@@ -209,8 +209,8 @@ public interface SupperMapper<T> extends BaseMapper<T> {
     default <E extends com.chen.f.core.page.Page<Map<String, Object>>> E selectMapsPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> mybatisPlusPage = page.toMybatisPlusPage();
 
-        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
-        Mappers.entryPropertyConvertDbColumn(Mappers.getProxyModelClass(this.getClass()), orderItemList);
+        final List<OrderItem> orderItemList = mybatisPlusPage.orders();
+        Mappers.entryPropertyConvertDbColumn(Mappers.getMapperModelClass(this.getClass()), orderItemList);
 
         mybatisPlusPage = selectMapsPage(mybatisPlusPage, queryWrapper);
         page.setList(mybatisPlusPage.getRecords());

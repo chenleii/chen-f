@@ -80,7 +80,7 @@ public class SysApi extends Model<SysApi> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

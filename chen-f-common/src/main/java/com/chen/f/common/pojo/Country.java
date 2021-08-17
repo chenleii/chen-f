@@ -60,7 +60,7 @@ public class Country extends Model<Country> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

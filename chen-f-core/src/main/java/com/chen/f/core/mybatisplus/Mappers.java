@@ -1,13 +1,13 @@
 package com.chen.f.core.mybatisplus;
 
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
-import com.baomidou.mybatisplus.core.injector.AbstractMethod;
-import com.baomidou.mybatisplus.core.injector.AbstractSqlInjector;
+import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.chen.f.core.mybatisplus.sqlinjector.InsertIgnore;
 import org.apache.commons.collections4.CollectionUtils;
@@ -20,14 +20,8 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -35,29 +29,6 @@ import java.util.stream.Collectors;
  * @since 2020/9/4 0:22.
  */
 public class Mappers {
-
-    private static final Function<Class<?>, Class<?>> getModelClassFunction = (mapperClass) -> new AbstractSqlInjector() {
-        @Override
-        public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-            // 忽略
-            return null;
-        }
-
-        public Class<?> getModelClass(Class<?> mapperClass) {
-            return super.extractModelClass(mapperClass);
-        }
-    }.getModelClass(mapperClass);
-
-    /**
-     * 获取mapper代理类型的实体类型
-     *
-     * @param proxyClass mapper代理类型
-     * @return 实体类型
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> Class<T> getProxyModelClass(Class<?> proxyClass) {
-        return (Class<T>) getModelClassFunction.apply(getProxyMapperClass(proxyClass));
-    }
 
     /**
      * 获取mapper代理类型的mapper类型
@@ -77,7 +48,7 @@ public class Mappers {
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getMapperModelClass(Class<?> mapperClass) {
-        return (Class<T>) getModelClassFunction.apply(mapperClass);
+        return(Class<T>) ReflectionKit.getSuperClassGenericType(mapperClass, Mapper.class, 0);
     }
 
     /**

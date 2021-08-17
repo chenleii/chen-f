@@ -87,7 +87,7 @@ public class SysTimedTask extends Model<SysTimedTask> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

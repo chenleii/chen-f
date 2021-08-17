@@ -42,19 +42,19 @@ public class GeneratorMybatisPlusCode {
     private DataSourceProperties dataSourceProperties;
     @Autowired
     private DataSource dataSource;
-    
-    
+
+
     //@Test
     public void generatorMybatisPlusCode() throws Exception {
         String url = dataSourceProperties.determineUrl();
         String username = dataSourceProperties.determineUsername();
         String password = dataSourceProperties.determinePassword();
         String driverName = dataSourceProperties.determineDriverClassName();
-        
-        if (dataSource instanceof EmbeddedDatabase){
+
+        if (dataSource instanceof EmbeddedDatabase) {
             final Field dataSourceField = this.dataSource.getClass().getDeclaredField("dataSource");
             dataSourceField.setAccessible(true);
-            
+
             final Object o = dataSourceField.get(dataSource);
             if (o instanceof SimpleDriverDataSource) {
                 final SimpleDriverDataSource simpleDriverDataSource = (SimpleDriverDataSource) o;
@@ -70,60 +70,66 @@ public class GeneratorMybatisPlusCode {
         //username = "root";
         //password = "123456";
 
-        DataSourceConfig dataSourceConfig = new DataSourceConfig()
-                .setDriverName(driverName)
-                .setUrl(url)
-                .setUsername(username)
-                .setPassword(password);
 
-        StrategyConfig strategyConfig = new StrategyConfig()
-                .setCapitalMode(true)
-                .setSkipView(true)
-                .setNaming(NamingStrategy.underline_to_camel)
-                .setTablePrefix("")
-                .setFieldPrefix("")
-                .setSuperEntityColumns("")
-                //.setSuperEntityClass(Object.class.getName())
-                .setSuperMapperClass(SupperMapper.class.getName())
-                .setEntityLombokModel(true)
-                .setRestControllerStyle(true)
-                .setEntityTableFieldAnnotationEnable(true)
-                .setEntityBooleanColumnRemoveIsPrefix(true)
-                .setVersionFieldName("version")
-                .setLogicDeleteFieldName("is_deleted")
-                .setInclude(tableNames);
+        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(url, username, password)
+                .build();
 
-        PackageConfig packageConfig = new PackageConfig()
-                .setParent(parentPackageName)
-                .setModuleName("")
-                .setEntity("pojo")
-                .setService("service")
-                .setServiceImpl("service.impl")
-                .setMapper("mapper")
-                .setXml("mapper.xml")
-                .setController("web.controller");
+        StrategyConfig strategyConfig = new StrategyConfig.Builder()
+                .addInclude(tableNames)
+                .enableCapitalMode()
+                .enableSkipView()
+                .addTablePrefix("")
+                .addFieldPrefix("")
 
+                .mapperBuilder()
+                .superClass(SupperMapper.class)
+                .enableBaseResultMap()
+                .enableBaseColumnList()
 
-        GlobalConfig globalConfig = new GlobalConfig()
-                .setOutputDir(generatorMybatisPlusCodeDir)
-                .setOpen(true)
-                .setFileOverride(true)
-                // XML 二级缓存
-                .setEnableCache(false)
-                .setAuthor("chen")
-                .setSwagger2(true)
-                .setActiveRecord(true)
-                // XML ResultMap
-                .setBaseResultMap(true)
-                .setBaseColumnList(true)
-                .setDateType(DateType.TIME_PACK)
-                .setIdType(IdType.ASSIGN_ID);
+                .entityBuilder()
+                .naming(NamingStrategy.underline_to_camel)
+                .addSuperEntityColumns("")
+                // .superClass(Object.class)
+                .enableLombok()
+                .enableTableFieldAnnotation()
+                // .enableRemoveIsPrefix()
+                .enableActiveRecord()
+                .idType(IdType.ASSIGN_ID)
+                .versionColumnName("version")
+                .versionPropertyName("version")
+                .logicDeleteColumnName("is_deleted")
+                .logicDeletePropertyName("isDeleted")
 
-        new AutoGenerator()
-                .setDataSource(dataSourceConfig)
-                .setStrategy(strategyConfig)
-                .setPackageInfo(packageConfig)
-                .setGlobalConfig(globalConfig)
+                .controllerBuilder()
+                .enableRestStyle()
+
+                .build();
+
+        PackageConfig packageConfig = new PackageConfig.Builder()
+                .parent(parentPackageName)
+                .moduleName("")
+                .entity("pojo")
+                .service("service")
+                .serviceImpl("service.impl")
+                .mapper("mapper")
+                .xml("mapper.xml")
+                .controller("web.controller")
+                .build();
+
+        GlobalConfig globalConfig = new GlobalConfig.Builder()
+                .outputDir(generatorMybatisPlusCodeDir)
+                .openDir(true)
+                .fileOverride()
+                .author("chen")
+                .enableSwagger()
+                .dateType(DateType.TIME_PACK)
+                .build();
+
+        new AutoGenerator(dataSourceConfig)
+                .strategy(strategyConfig)
+                .packageInfo(packageConfig)
+                .global(globalConfig)
                 .execute();
+
     }
 }

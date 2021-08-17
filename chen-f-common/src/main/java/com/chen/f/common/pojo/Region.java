@@ -68,7 +68,7 @@ public class Region extends Model<Region> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

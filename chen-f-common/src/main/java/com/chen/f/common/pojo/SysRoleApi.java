@@ -53,7 +53,7 @@ public class SysRoleApi extends Model<SysRoleApi> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

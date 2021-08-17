@@ -39,7 +39,9 @@
 
         <sharding-jdbc-spring-boot-starter.version>4.0.1</sharding-jdbc-spring-boot-starter.version>
 
-        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <!-- todo 3.4.4.1 版本有问题，暂用快照版。-->
+        <mybatis-plus.version>3.4.4.3-SNAPSHOT</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.0</mybatis-plus-generator.version>
         <mybatis-plus-boot-starter.version>${mybatis-plus.version}</mybatis-plus-boot-starter.version>
 
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
@@ -165,7 +167,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
+                <version>${mybatis-plus-generator.version}</version>
             </dependency>
             <!-- mybatis-plus 生成代码使用的模板 -->
             <dependency>
@@ -403,7 +405,7 @@
 
         <pluginManagement>
             <plugins>
-                
+
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -459,5 +461,12 @@
         </pluginManagement>
     </build>
 
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

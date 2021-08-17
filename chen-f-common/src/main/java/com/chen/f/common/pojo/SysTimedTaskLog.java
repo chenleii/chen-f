@@ -99,7 +99,7 @@ public class SysTimedTaskLog extends Model<SysTimedTaskLog> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

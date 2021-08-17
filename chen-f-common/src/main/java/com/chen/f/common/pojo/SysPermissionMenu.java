@@ -53,7 +53,7 @@ public class SysPermissionMenu extends Model<SysPermissionMenu> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

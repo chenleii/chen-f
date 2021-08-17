@@ -61,10 +61,6 @@ public class Page<T> implements Serializable {
      * 是否进行 count 查询
      */
     private boolean isSearchCount = true;
-    /**
-     * 是否命中count缓存
-     */
-    private boolean hitCount = false;
 
     public Page<T> addOrder(Order... items) {
         orderList.addAll(Arrays.asList(items));
@@ -137,7 +133,6 @@ public class Page<T> implements Serializable {
 
         mybatisPlusPage.setSearchCount(this.isSearchCount());
         mybatisPlusPage.setOptimizeCountSql(this.isOptimizeCountSql());
-        mybatisPlusPage.hitCount(this.isHitCount());
 
         final List<Order> orders = this.getOrderList();
         if (CollectionUtils.isNotEmpty(orders)) {
@@ -170,10 +165,9 @@ public class Page<T> implements Serializable {
         page.setPageIndex(mybatisPlusPage.getCurrent());
         
         page.setOptimizeCountSql(mybatisPlusPage.optimizeCountSql());
-        page.setSearchCount(mybatisPlusPage.isSearchCount());
-        page.setHitCount(mybatisPlusPage.isHitCount());
+        page.setSearchCount(mybatisPlusPage.searchCount());
         
-        final List<OrderItem> orderItemList = mybatisPlusPage.getOrders();
+        final List<OrderItem> orderItemList = mybatisPlusPage.orders();
         if (CollectionUtils.isNotEmpty(orderItemList)) {
             final List<Order> orderList = orderItemList.stream()
                     .map((orderItem -> Order.create(orderItem.getColumn(), orderItem.isAsc() ? OrderTypeEnum.ASC : OrderTypeEnum.DESC)))

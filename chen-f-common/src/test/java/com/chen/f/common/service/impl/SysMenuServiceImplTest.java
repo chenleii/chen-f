@@ -1,19 +1,15 @@
 package com.chen.f.common.service.impl;
-import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.chen.f.common.pojo.SysApi;
-import com.chen.f.common.pojo.SysUser;
-import com.chen.f.common.pojo.enums.*;
-
 import com.baomidou.mybatisplus.test.autoconfigure.AutoConfigureMybatisPlus;
 import com.chen.f.common.configuration.EnableChenFCommonConfiguration;
-import com.chen.f.common.mapper.SysDictionaryMapper;
 import com.chen.f.common.mapper.SysMenuMapper;
 import com.chen.f.common.mapper.SysUserMapper;
 import com.chen.f.common.pojo.SysMenu;
+import com.chen.f.common.pojo.SysUser;
+import com.chen.f.common.pojo.enums.StatusEnum;
+import com.chen.f.common.pojo.enums.SysMenuTypeEnum;
+import com.chen.f.common.pojo.enums.SysUserStatusEnum;
 import com.chen.f.core.configuration.mybatisplus.EnableChenFMybatisPlusConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +19,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author chen

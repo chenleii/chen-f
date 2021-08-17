@@ -84,7 +84,7 @@ public class SysParameter extends Model<SysParameter> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 

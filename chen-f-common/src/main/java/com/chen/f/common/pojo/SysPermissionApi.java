@@ -53,7 +53,7 @@ public class SysPermissionApi extends Model<SysPermissionApi> {
 
 
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.id;
     }
 
