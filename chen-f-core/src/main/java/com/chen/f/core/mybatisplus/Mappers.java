@@ -1,6 +1,7 @@
 package com.chen.f.core.mybatisplus;
 
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
+import com.baomidou.mybatisplus.core.injector.methods.Insert;
 import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.chen.f.core.mybatisplus.sqlinjector.InsertIgnore;
+import com.chen.f.core.mybatisplus.sqlinjector.InsertOnDuplicateKeyUpdate;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.ibatis.binding.MapperMethod;
@@ -108,6 +110,13 @@ public class Mappers {
      */
     public static <T> int insertIgnoreBatchReturnCount(Class<?> mapperClass, Class<T> entryClass, Collection<T> entityList, int batchSize) {
         return insertBatchReturnCount(mapperClass.getName() + "." + InsertIgnore.METHOD_NAME,
+                mapperClass, entryClass, entityList, batchSize);
+    }
+    /**
+     * 批量插入
+     */
+    public static <T> int insertOnDuplicateKeyUpdateBatchReturnCount(Class<?> mapperClass, Class<T> entryClass, Collection<T> entityList, int batchSize) {
+        return insertBatchReturnCount(mapperClass.getName() + "." + InsertOnDuplicateKeyUpdate.METHOD_NAME,
                 mapperClass, entryClass, entityList, batchSize);
     }
 

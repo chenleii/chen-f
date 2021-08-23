@@ -17,6 +17,7 @@ public class ChenSqlInjector extends DefaultSqlInjector {
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass);
         methodList.add(new InsertIgnore());
+        methodList.add(new InsertOnDuplicateKeyUpdate());
         return methodList;
     }
 }
