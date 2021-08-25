@@ -46,13 +46,13 @@ public class EnableChenFCommonConfiguration {
                 logger.debug("add chen-f-common mapper locations [{}]", (Object[]) chenFCoreMapperLocations);
                 properties.setMapperLocations(ArrayUtils.addAll(properties.getMapperLocations(), chenFCoreMapperLocations));
 
-                String chenFCoreTypeEnumsPackage = "com.chen.f.common.pojo.enums";
-                logger.debug("add chen-f-common type enums package [{}]", chenFCoreTypeEnumsPackage);
-                if (StringUtils.isNotBlank(properties.getTypeEnumsPackage())) {
-                    properties.setTypeEnumsPackage(properties.getTypeEnumsPackage() + "," + chenFCoreTypeEnumsPackage);
-                } else {
-                    properties.setTypeEnumsPackage(chenFCoreTypeEnumsPackage);
-                }
+//                String chenFCoreTypeEnumsPackage = "com.chen.f.common.pojo.enums";
+//                logger.debug("add chen-f-common type enums package [{}]", chenFCoreTypeEnumsPackage);
+//                if (StringUtils.isNotBlank(properties.getTypeEnumsPackage())) {
+//                    properties.setTypeEnumsPackage(properties.getTypeEnumsPackage() + "," + chenFCoreTypeEnumsPackage);
+//                } else {
+//                    properties.setTypeEnumsPackage(chenFCoreTypeEnumsPackage);
+//                }
             }
         };
     }

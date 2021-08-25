@@ -1,14 +1,18 @@
 package com.chen.f.core.configuration.mybatisplus;
 
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.chen.f.core.mybatisplus.sqlinjector.ChenSqlInjector;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Set;
 
 /**
  * chen-f mybatis-plus配置类
@@ -60,6 +66,23 @@ public class EnableChenFMybatisPlusConfiguration {
         };
     }
 
+    @Bean
+    @SuppressWarnings("unchecked")
+    public ConfigurationCustomizer chenConfigurationCustomizer() {
+        return (configuration) -> {
+            try {
+                String enumClassPackage = "com.chen.f.*.pojo.enums";
+                Set<Class<?>> classes = (Set<Class<?>>) MethodUtils.invokeMethod(new MybatisSqlSessionFactoryBean(), true, "scanClasses", enumClassPackage, null);
+                TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+                classes.stream().filter(Class::isEnum).filter(ChenMybatisEnumTypeHandler::isMpEnums).forEach((cls) -> {
+                    typeHandlerRegistry.register(cls, ChenMybatisEnumTypeHandler.class);
+                });
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
 
 
     @Bean

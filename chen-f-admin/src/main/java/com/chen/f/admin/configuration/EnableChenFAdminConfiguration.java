@@ -38,13 +38,13 @@ public class EnableChenFAdminConfiguration {
                 logger.debug("add chen-f-admin mapper locations [{}]", (Object[]) chenFAdminMapperLocations);
                 properties.setMapperLocations(ArrayUtils.addAll(properties.getMapperLocations(), chenFAdminMapperLocations));
 
-                String chenFAdminTypeEnumsPackage = "com.chen.f.admin.pojo.enums";
-                logger.debug("add chen-f-admin type enums package [{}]", chenFAdminTypeEnumsPackage);
-                if (StringUtils.isNotBlank(properties.getTypeEnumsPackage())) {
-                    properties.setTypeEnumsPackage(properties.getTypeEnumsPackage() + "," + chenFAdminTypeEnumsPackage);
-                } else {
-                    properties.setTypeEnumsPackage(chenFAdminTypeEnumsPackage);
-                }
+//                String chenFAdminTypeEnumsPackage = "com.chen.f.admin.pojo.enums";
+//                logger.debug("add chen-f-admin type enums package [{}]", chenFAdminTypeEnumsPackage);
+//                if (StringUtils.isNotBlank(properties.getTypeEnumsPackage())) {
+//                    properties.setTypeEnumsPackage(properties.getTypeEnumsPackage() + "," + chenFAdminTypeEnumsPackage);
+//                } else {
+//                    properties.setTypeEnumsPackage(chenFAdminTypeEnumsPackage);
+//                }
 
             }
         };
