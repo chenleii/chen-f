@@ -14,11 +14,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author chen
  * @since 2021/3/2 21:33.
  */
-@EnableChenFEmbeddedDataBase
 @EnableChenFEmbeddedRedis
 @EnableChenFCommon
 @EnableChenFAdmin
-@SpringBootApplication(exclude = {SpringBootConfiguration.class})
+@SpringBootApplication
 public class TestApplication extends SpringBootServletInitializer {
 
     @Override

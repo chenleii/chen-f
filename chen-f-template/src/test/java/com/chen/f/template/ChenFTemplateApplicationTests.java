@@ -9,9 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @AutoConfigureTestRedis
-@ImportAutoConfiguration(exclude = {SpringBootConfiguration.class})
+@ImportAutoConfiguration
 public class ChenFTemplateApplicationTests {
 
     @Test
