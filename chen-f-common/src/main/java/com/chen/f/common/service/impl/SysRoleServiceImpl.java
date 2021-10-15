@@ -348,7 +348,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         ApiAssert.isNotBlank(sysRoleId, SysRoleErrorResponses.sysRoleIdCanNotNull());
 
         logger.debug("检查系统角色是否存在");
-        ApiAssert.isEqualToOne(sysRoleMapper.selectCount(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getId, sysRoleId)),
+        ApiAssert.isEqualToOne(Math.toIntExact(sysRoleMapper.selectCount(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getId, sysRoleId))),
                 SysRoleErrorResponses.sysRoleNotExist());
 
         logger.debug("删除系统角色[{}]", sysRoleId);

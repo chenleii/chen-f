@@ -39,8 +39,7 @@
 
         <sharding-jdbc-spring-boot-starter.version>4.1.1</sharding-jdbc-spring-boot-starter.version>
 
-        <!-- todo 3.4.4.1 版本有问题，暂用快照版。-->
-        <mybatis-plus.version>3.4.4.3-SNAPSHOT</mybatis-plus.version>
+        <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.0</mybatis-plus-generator.version>
         <mybatis-plus-boot-starter.version>${mybatis-plus.version}</mybatis-plus-boot-starter.version>
 
