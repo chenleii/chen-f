@@ -3,10 +3,15 @@ package com.chen.f.core.configuration.security;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
+import org.springframework.session.data.redis.RedisIndexedSessionRepository;
+import org.springframework.session.data.redis.RedisSessionRepository;
 
 import java.util.List;
 
@@ -21,13 +26,18 @@ import java.util.List;
 public class SecuritySessionHelper {
     protected static final Logger logger = LoggerFactory.getLogger(SecuritySessionHelper.class);
 
+    /**
+     * 同{@link org.springframework.session.data.redis.RedisIndexedSessionRepository#SPRING_SECURITY_CONTEXT }
+     */
+    public static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+
     private static SessionRegistry sessionRegistry;
 
     private static SecurityContextRepository securityContextRepository;
-    private static SessionRepository<?> sessionRepository;
+    private static SessionRepository<? extends Session> sessionRepository;
 
 
-    public SecuritySessionHelper(SessionRegistry sessionRegistry, SessionRepository<?> sessionRepository) {
+    public SecuritySessionHelper(SessionRegistry sessionRegistry, SessionRepository<? extends Session> sessionRepository) {
         SecuritySessionHelper.sessionRegistry = sessionRegistry;
         SecuritySessionHelper.sessionRepository = sessionRepository;
     }
@@ -110,5 +120,40 @@ public class SecuritySessionHelper {
                 sessionRepository.deleteById(sessionInformation.getSessionId());
             }
         }
+    }
+
+    /**
+     * 更新登录的认证信息
+     *
+     * @param username       用户名
+     * @param authentication 认证信息
+     */
+    public static void updateLoginAuthentication(String username, Authentication authentication) {
+        if (isNotLogin(username)) {
+            return;
+        }
+
+        List<SessionInformation> sessionInformationList = sessionRegistry.getAllSessions(username, false);
+        if (CollectionUtils.isEmpty(sessionInformationList)) {
+            return;
+        }
+
+        for (SessionInformation sessionInformation : sessionInformationList) {
+            Session session = sessionRepository.findById(sessionInformation.getSessionId());
+
+            SecurityContext securityContext = session.getAttribute(SPRING_SECURITY_CONTEXT);
+            securityContext.setAuthentication(authentication);
+            session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
+            save(sessionRepository, session);
+        }
+    }
+
+    /**
+     * 抑制泛型错误
+     */
+    @SuppressWarnings("all")
+    public static <S extends Session> void save(SessionRepository sessionRepository, S session) {
+        sessionRepository.save(session);
+
     }
 }
