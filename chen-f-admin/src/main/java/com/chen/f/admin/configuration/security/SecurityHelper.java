@@ -1,15 +1,15 @@
 package com.chen.f.admin.configuration.security;
 
-import com.chen.f.core.api.response.error.security.SecurityErrorResponses;
-import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
 import com.chen.f.admin.configuration.security.service.LoginUser;
-import com.chen.f.core.api.ApiAssert;
 import com.chen.f.common.pojo.SysPermission;
 import com.chen.f.common.pojo.SysRole;
+import com.chen.f.core.api.ApiAssert;
+import com.chen.f.core.api.response.error.security.SecurityErrorResponses;
+import com.chen.f.core.configuration.security.details.LoginWebAuthenticationDetails;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -25,6 +25,8 @@ import java.util.Objects;
  * @since 2018/12/24 23:34.
  */
 public class SecurityHelper {
+
+    private static final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 
     /**
      * 获取认证对象
@@ -92,7 +94,7 @@ public class SecurityHelper {
         if (authentication == null) {
             return false;
         }
-        return AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass());
+        return authenticationTrustResolver.isAnonymous(authentication);
     }
 
     /**
@@ -105,7 +107,7 @@ public class SecurityHelper {
         if (authentication == null) {
             return false;
         }
-        return RememberMeAuthenticationToken.class.isAssignableFrom(authentication.getClass());
+        return authenticationTrustResolver.isRememberMe(authentication);
     }
 
     /**
