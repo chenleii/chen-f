@@ -15,6 +15,8 @@ import org.springframework.session.data.redis.RedisSessionRepository;
 
 import java.util.List;
 
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
+
 /**
  * SecuritySession帮助类
  * <p>
@@ -26,10 +28,6 @@ import java.util.List;
 public class SecuritySessionHelper {
     protected static final Logger logger = LoggerFactory.getLogger(SecuritySessionHelper.class);
 
-    /**
-     * 同{@link org.springframework.session.data.redis.RedisIndexedSessionRepository#SPRING_SECURITY_CONTEXT }
-     */
-    public static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     private static SessionRegistry sessionRegistry;
 
@@ -141,9 +139,9 @@ public class SecuritySessionHelper {
         for (SessionInformation sessionInformation : sessionInformationList) {
             Session session = sessionRepository.findById(sessionInformation.getSessionId());
 
-            SecurityContext securityContext = session.getAttribute(SPRING_SECURITY_CONTEXT);
+            SecurityContext securityContext = session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
             securityContext.setAuthentication(authentication);
-            session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
+            session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
             save(sessionRepository, session);
         }
     }
