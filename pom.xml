@@ -32,7 +32,7 @@
         <spring-boot.version>2.5.2</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 
-        <log4j2.version>2.17.0</log4j2.version>
+        <log4j2.version>2.17.1</log4j2.version>
 
         <p6spy.version>3.8.0</p6spy.version>
 
