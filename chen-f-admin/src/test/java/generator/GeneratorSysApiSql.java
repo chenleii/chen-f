@@ -26,6 +26,7 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,10 +60,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author chen
  * @date 2017/12/18
  */
+@SpringBootTest(classes = ChenFAdminApplication.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestRedis
 @AutoConfigureTestDatabase
-@SpringBootTest(classes = ChenFAdminApplication.class)
 public class GeneratorSysApiSql {
 
     @Autowired
@@ -72,7 +73,7 @@ public class GeneratorSysApiSql {
     private SysApiMapper sysApiMapper;
 
 
-    //@Test
+    @Test
     public void generatorSysApiSql() throws Exception {
 
         //获取文档json

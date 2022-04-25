@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.chen.f.core.mybatisplus.SupperMapper;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -44,7 +45,7 @@ public class GeneratorMybatisPlusCode {
     private DataSource dataSource;
 
 
-    //@Test
+    @Test
     public void generatorMybatisPlusCode() throws Exception {
         String url = dataSourceProperties.determineUrl();
         String username = dataSourceProperties.determineUsername();
@@ -118,8 +119,7 @@ public class GeneratorMybatisPlusCode {
 
         GlobalConfig globalConfig = new GlobalConfig.Builder()
                 .outputDir(generatorMybatisPlusCodeDir)
-                .openDir(true)
-                .fileOverride()
+                .disableOpenDir()
                 .author("chen")
                 .enableSwagger()
                 .dateType(DateType.TIME_PACK)

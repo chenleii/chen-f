@@ -1,5 +1,6 @@
 package com.chen.f.admin.web.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.chen.f.admin.ChenFAdminApplication;
 import com.chen.f.admin.test.ChenFWithMockUser;
 import com.chen.f.admin.web.dto.SysOrganizationsInputDTO;
 import com.chen.f.admin.web.dto.SysRolesInputDTO;
@@ -43,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author chen
  * @since 2020/9/19 19:23.
  */
-@SpringBootTest
+@SpringBootTest(classes = ChenFAdminApplication.class)
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestRedis

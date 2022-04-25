@@ -1,5 +1,6 @@
 package com.chen.f.core;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -8,4 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(scanBasePackages = "xxx")
 public class ChenFCoreApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ChenFCoreApplication.class, args);
+    }
 }

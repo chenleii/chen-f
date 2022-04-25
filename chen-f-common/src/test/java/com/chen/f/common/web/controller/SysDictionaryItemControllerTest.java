@@ -1,5 +1,6 @@
 package com.chen.f.common.web.controller;
 
+import com.chen.f.common.ChenFCommonApplication;
 import com.chen.f.common.mapper.SysDictionaryItemMapper;
 import com.chen.f.common.pojo.SysDictionaryItem;
 import com.chen.f.common.pojo.enums.StatusEnum;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author chen
  * @since 2020/9/2 0:15.
  */
-@SpringBootTest
+@SpringBootTest(classes = ChenFCommonApplication.class)
 @Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestRedis

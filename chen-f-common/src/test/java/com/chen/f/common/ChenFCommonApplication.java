@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2020/3/5 11:05.
  */
 @EnableChenFCommon
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "xxx")
 public class ChenFCommonApplication {
 
     public static void main(String[] args) {

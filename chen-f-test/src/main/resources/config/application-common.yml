@@ -15,15 +15,20 @@ spring:
   main:
     banner-mode: console
 
+  web:
+    locale: zh_CN
+    resources:
+      #是否使用默认资源映射
+      add-mappings: true
+
   mvc:
-    date-format: yyyyMMddhhmmss
+    format:
+      date-time: yyyyMMddhhmmss
     #抛出404异常,默认不抛出404异常,会转发到/error
     throw-exception-if-no-handler-found: false
-    locale: zh_CN
 
-  resources:
-    #是否使用默认资源映射
-    add-mappings: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   messages:
     basename: org/springframework/security/messages,i18n/messages
@@ -71,7 +76,7 @@ spring:
       org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread: true
       #Cluster开启集群
       org.quartz.jobStore.isClustered: true
-      org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      org.quartz.jobStore.class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
       #数据库方言
       org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
       org.quartz.jobStore.tablePrefix: QRTZ_

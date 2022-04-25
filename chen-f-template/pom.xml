@@ -61,7 +61,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--去除HikariCP,集成druid-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
