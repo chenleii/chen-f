@@ -1,5 +1,6 @@
 package com.chen.f.admin.configuration.quartz;
 
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.chen.f.common.mapper.SysTimedTaskLogMapper;
 import com.chen.f.common.mapper.SysTimedTaskMapper;
 import com.chen.f.common.pojo.SysTimedTask;
@@ -7,6 +8,7 @@ import com.chen.f.common.service.ISysTimedTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
@@ -20,6 +22,7 @@ import javax.annotation.PostConstruct;
  * @since 2019/1/14 17:00.
  */
 @Configuration
+@AutoConfigureAfter({MybatisPlusAutoConfiguration.class})
 public class EnableChenFAdminQuartzConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(EnableChenFAdminQuartzConfiguration.class);
 
