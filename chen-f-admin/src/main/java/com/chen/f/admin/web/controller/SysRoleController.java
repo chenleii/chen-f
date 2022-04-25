@@ -117,10 +117,10 @@ public class SysRoleController {
 
     @ApiOperation(value = "创建系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysRole(@RequestParam("code") String code,
@@ -144,10 +144,10 @@ public class SysRoleController {
     @ApiOperation(value = "修改系统角色", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysRoleId", value = "修改的系统角色ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统角色编码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统角色名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统角色备注", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统角色状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysRoleId}")
     public void updateSysRole(@PathVariable("sysRoleId") String sysRoleId,

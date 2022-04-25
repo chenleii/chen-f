@@ -100,11 +100,11 @@ public class SysDictionaryController {
 
     @ApiOperation(value = "创建系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统字典名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统字典类型", required = true, dataTypeClass = SysDictionaryTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统字典备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统字典状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统字典名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统字典类型", required = true, dataTypeClass = SysDictionaryTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统字典备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统字典状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysDictionary(
@@ -131,11 +131,11 @@ public class SysDictionaryController {
     @ApiOperation(value = "修改系统字典", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysDictionaryId", value = "系统字典ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统字典名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统字典类型", required = true, dataTypeClass = SysDictionaryTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统字典备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统字典状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统字典标识", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统字典名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统字典类型", required = true, dataTypeClass = SysDictionaryTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统字典备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统字典状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysDictionaryId}")
     public void updateSysDictionary(

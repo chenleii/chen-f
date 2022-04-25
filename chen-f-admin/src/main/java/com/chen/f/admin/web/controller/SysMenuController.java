@@ -88,15 +88,15 @@ public class SysMenuController {
 
     @ApiOperation(value = "创建系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysMenu(
@@ -127,15 +127,15 @@ public class SysMenuController {
     @ApiOperation(value = "修改系统菜单", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysMenuId", value = "修改的系统菜单ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "parentId", value = "父级系统菜单ID", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统菜单名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "nameI18n", value = "系统菜单名称的国际化", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "url", value = "系统菜单URL", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "icon", value = "系统菜单图标", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统菜单类型", required = true, dataTypeClass = SysMenuTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "order", value = "系统菜单顺序", required = false, dataTypeClass = Integer.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统菜单备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统菜单状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysMenuId}")
     public void updateSysMenu(@PathVariable("sysMenuId") String sysMenuId,

@@ -119,11 +119,11 @@ public class SysUserController {
 
     @ApiOperation(value = "创建系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "系统用户名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "username", value = "系统用户名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "form"),
     })
     @PostMapping
     public void createSysUser(@RequestParam("username") String username,
@@ -155,11 +155,11 @@ public class SysUserController {
     @ApiOperation(value = "修改系统用户", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysUserId", value = "修改的系统用户ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "username", value = "系统用户用户名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "from"),
+            @ApiImplicitParam(name = "username", value = "系统用户用户名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "password", value = "系统用户密码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "level", value = "系统用户等级", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统用户备注", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统用户状态", required = true, dataTypeClass = String.class, paramType = "form"),
     })
     @PutMapping("/{sysUserId}")
     public void updateSysUser(@PathVariable("sysUserId") String sysUserId,

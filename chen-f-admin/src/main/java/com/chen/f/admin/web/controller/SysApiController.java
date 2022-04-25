@@ -97,12 +97,12 @@ public class SysApiController {
 
     @ApiOperation(value = "创建系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "系统接口名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "url", value = "系统接口URL", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "httpMethod", value = "系统接口HTTP请求方法", required = true, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统接口类型", required = true, dataTypeClass = SysApiTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统接口备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统接口状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统接口名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "url", value = "系统接口URL", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "httpMethod", value = "系统接口HTTP请求方法", required = true, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统接口类型", required = true, dataTypeClass = SysApiTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统接口备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统接口状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysApi(
@@ -130,12 +130,12 @@ public class SysApiController {
     @ApiOperation(value = "修改系统接口", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysApiId", value = "修改的系统接口ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "name", value = "系统接口名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "url", value = "系统接口URL", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "httpMethod", value = "系统接口HTTP请求方法", required = true, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统接口类型", required = true, dataTypeClass = SysApiTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统接口备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统接口状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "name", value = "系统接口名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "url", value = "系统接口URL", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "httpMethod", value = "系统接口HTTP请求方法", required = true, dataTypeClass = SysApiHttpMethodEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统接口类型", required = true, dataTypeClass = SysApiTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统接口备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统接口状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysApiId}")
     public void updateSysApi(@PathVariable("sysApiId") String sysApiId,

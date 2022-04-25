@@ -109,11 +109,11 @@ public class SysPermissionController {
 
     @ApiOperation(value = "创建系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysPermission(@RequestParam(name = "code") String code,
@@ -138,11 +138,11 @@ public class SysPermissionController {
     @ApiOperation(value = "修改系统权限", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysPermissionId", value = "修改的系统权限ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统权限编码", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统权限名称", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统权限类型", required = false, dataTypeClass = SysPermissionTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统权限备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统权限状态", required = false, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysPermissionId}")
     public void updateSysPermission(@PathVariable("sysPermissionId") String sysPermissionId,

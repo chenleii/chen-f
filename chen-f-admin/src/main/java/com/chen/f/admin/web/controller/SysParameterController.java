@@ -101,13 +101,13 @@ public class SysParameterController {
 
     @ApiOperation(value = "创建系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统参数名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "value", value = "系统参数值", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "valueType", value = "系统参数值类型", required = false, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统参数类型", required = true, dataTypeClass = SysParameterTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统参数备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统参数状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统参数名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "value", value = "系统参数值", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "valueType", value = "系统参数值类型", required = false, dataTypeClass = TypeTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统参数类型", required = true, dataTypeClass = SysParameterTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统参数备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统参数状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PostMapping
     public void createSysParameter(
@@ -136,13 +136,13 @@ public class SysParameterController {
     @ApiOperation(value = "修改系统参数", notes = "", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sysParameterId", value = "系统参数ID", required = true, dataTypeClass = String.class, paramType = "path"),
-            @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "name", value = "系统参数名称", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "value", value = "系统参数值", required = true, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "valueType", value = "系统参数值类型", required = false, dataTypeClass = TypeTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "type", value = "系统参数类型", required = true, dataTypeClass = SysParameterTypeEnum.class, paramType = "from"),
-            @ApiImplicitParam(name = "remark", value = "系统参数备注", required = false, dataTypeClass = String.class, paramType = "from"),
-            @ApiImplicitParam(name = "status", value = "系统参数状态", required = true, dataTypeClass = StatusEnum.class, paramType = "from"),
+            @ApiImplicitParam(name = "code", value = "系统参数编码", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "name", value = "系统参数名称", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "value", value = "系统参数值", required = true, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "valueType", value = "系统参数值类型", required = false, dataTypeClass = TypeTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "type", value = "系统参数类型", required = true, dataTypeClass = SysParameterTypeEnum.class, paramType = "form"),
+            @ApiImplicitParam(name = "remark", value = "系统参数备注", required = false, dataTypeClass = String.class, paramType = "form"),
+            @ApiImplicitParam(name = "status", value = "系统参数状态", required = true, dataTypeClass = StatusEnum.class, paramType = "form"),
     })
     @PutMapping("/{sysParameterId}")
     public void updateSysParameter(
