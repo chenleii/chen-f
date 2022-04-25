@@ -1,5 +1,5 @@
 # chen-f
-基于SpringBoot2的简单后台管理系统框架
+基于SpringBoot2的简单后台管理系统框架。
 
 ## 功能列表
 * 基于 `Spring Security` 的用户角色权限菜单管理。
@@ -13,12 +13,17 @@
 * 基于 `Swagger2` 的统一API文档管理。
 
 ## 快速开始
-* 克隆项目到本地 将项目安装到`maven`本地仓库
+* git克隆项目到本地，并使用`maven`正常加载项目。
+* 打开项目中 `chen-f-template` 模块，运行类`com.chen.f.template.ChenFTemplateApplication`启动模板项目（默认使用嵌入式数据库）。
+* 访问链接: `http://localhost:8080/doc.html`。
+
+## 将本项目作为三方依赖引入自己的项目
+* git克隆项目到本地，将项目安装到`maven`本地仓库。
 ```
 mvnw clean install
 ```
 
-* 新建一个SpringBoot项目 添加依赖
+* 新建一个`SpringBoot`项目，并添加该依赖。
 ```
 <dependency>
     <groupId>com.chen</groupId>
@@ -27,7 +32,7 @@ mvnw clean install
  </dependency>
 ```
 
-* 项目启动类添加注解 `@EnableChenFAdmin`
+* 项目启动类添加注解`@EnableChenFAdmin`，即可拥有该项目提供的功能。
 ```java
 @EnableChenFAdmin
 @SpringBootApplication
@@ -38,4 +43,4 @@ public class ChenFTemplateApplication {
     }
 }
 ```
-* 参考 `chen-f-template` 项目 配置数据库和Redis并启动项目 
+
