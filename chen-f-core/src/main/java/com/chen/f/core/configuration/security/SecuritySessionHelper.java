@@ -149,7 +149,7 @@ public class SecuritySessionHelper {
     /**
      * 抑制泛型错误
      */
-    @SuppressWarnings("all")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <S extends Session> void save(SessionRepository sessionRepository, S session) {
         sessionRepository.save(session);
 
