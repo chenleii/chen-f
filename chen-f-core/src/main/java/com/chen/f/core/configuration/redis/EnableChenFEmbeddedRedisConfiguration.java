@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.SocketUtils;
 import redis.embedded.RedisServer;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.Objects;
 
 /**
@@ -29,12 +31,27 @@ public class EnableChenFEmbeddedRedisConfiguration {
                 if (bean instanceof RedisProperties) {
                     RedisProperties redisProperties = (RedisProperties) bean;
                     redisProperties.setHost("localhost");
-                    redisProperties.setPort(SocketUtils.findAvailableTcpPort());
+                    redisProperties.setPort(findAvailableTcpPort());
                     redisProperties.setPassword(null);
                 }
                 return bean;
             }
         };
+    }
+
+    /**
+     * 获取一个可用的tcp端口
+     *
+     * @return tcp端口
+     */
+    public int findAvailableTcpPort() {
+        try (
+                ServerSocket serverSocket = new ServerSocket(0);
+        ) {
+            return serverSocket.getLocalPort();
+        } catch (IOException e) {
+            throw new RuntimeException("findAvailableTcpPort exception.", e);
+        }
     }
 
     @Bean
