@@ -57,5 +57,5 @@ spring:
 
     props:
       sql:
-        show: true
+        show: false
 
