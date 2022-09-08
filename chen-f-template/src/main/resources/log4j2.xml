@@ -77,9 +77,9 @@
     </Appenders>
 
     <Loggers>
-        <Root level="DEBUG" includeLocation="false">
-            <AppenderRef ref="console" level="DEBUG"/>
-            <AppenderRef ref="root-file" level="DEBUG"/>
+        <Root level="INFO" includeLocation="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="root-file"/>
             <AppenderRef ref="error-file" level="ERROR"/>
             <AppenderRef ref="mail" level="ERROR"/>
         </Root>
